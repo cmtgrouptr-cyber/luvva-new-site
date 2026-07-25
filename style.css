@@ -141,7 +141,7 @@ img { display: block; max-width: 100%; }
 .technology-section img {
   width: 100%;
   height: calc(100svh - 78px);
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
 }
 
