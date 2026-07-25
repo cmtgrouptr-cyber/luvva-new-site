@@ -377,11 +377,30 @@ footer {
 #home {
   display: grid;
 }
+main > section {
+  display: none;
+}
 
-.image-section:target {
+main > #home {
   display: grid;
 }
 
-body:has(.image-section:target) #home:not(:target) {
+main > section:target {
+  display: grid;
+}
+
+main > section {
+  display: none;
+}
+
+main > #home {
+  display: grid;
+}
+
+main > section:target {
+  display: grid;
+}
+
+body:has(main > section:target) main > #home:not(:target) {
   display: none;
 }
