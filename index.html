@@ -99,6 +99,23 @@ src="cmt-logo.png"
     <span>Human-Centered AI</span>
   </footer>
 
+<script>
+  function showCurrentSection() {
+    const sectionId = location.hash || "#home";
 
+    document.querySelectorAll("main > section").forEach(section => {
+      section.style.display = "none";
+    });
+
+    const activeSection = document.querySelector(sectionId);
+
+    if (activeSection) {
+      activeSection.style.display = "grid";
+    }
+  }
+
+  window.addEventListener("load", showCurrentSection);
+  window.addEventListener("hashchange", showCurrentSection);
+</script>
 </body>
 </html>
