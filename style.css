@@ -369,3 +369,19 @@ footer {
     text-align: center;
   }
 }
+/* Show only the selected image page */
+.image-section {
+  display: none;
+}
+
+#home {
+  display: grid;
+}
+
+.image-section:target {
+  display: grid;
+}
+
+body:has(.image-section:target) #home:not(:target) {
+  display: none;
+}
