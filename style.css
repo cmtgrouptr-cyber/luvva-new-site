@@ -397,10 +397,15 @@ main > #home {
   display: grid;
 }
 
+main > section {
+  display: none;
+}
+main > section {
+  display: none;
+}
+
 main > section:target {
   display: grid;
 }
 
-body:has(main > section:target) main > #home:not(:target) {
-  display: none;
-}
+
