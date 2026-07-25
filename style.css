@@ -49,8 +49,8 @@ img { display: block; max-width: 100%; }
 
 .brand {
   display: inline-flex;
-  width: 135px;
-  height: 58px;
+  width: 95px;
+  height: 42px;
   align-items: center;
   overflow: hidden;
 }
