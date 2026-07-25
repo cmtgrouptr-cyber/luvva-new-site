@@ -139,10 +139,13 @@ img { display: block; max-width: 100%; }
 
 .image-section img,
 .technology-section img {
-  width: 100%;
-  height: calc(100svh - 78px);
-  object-fit: contain;
-  object-position: center;
+
+    width: 100%;
+    height: auto;
+    max-height: calc(100svh - 78px);
+    object-fit: contain;
+    object-position: center;
+
 }
 
 .hero { position: relative; }
