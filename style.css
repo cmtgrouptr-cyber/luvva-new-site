@@ -46,7 +46,14 @@ img { display: block; max-width: 100%; }
   background: rgba(246,234,216,.95);
   box-shadow: 0 10px 35px rgba(77,45,3,.12);
 }
+.brand {
+  display: inline-flex;
+  width: 120px;
+  height: 50px;
+  align-items: center;
+}
 
+}
 
 .main-nav {
   display: flex;
