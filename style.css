@@ -766,15 +766,21 @@ footer {
 
   left: 20%;
   right: 20%;
-  bottom: -7px;
+  bottom: -3px;
 
-  height: 3px;
+  height: 2px;
 
   border-radius: 999px;
 
-  background: #7a1f2a;
+ background: linear-gradient(
+    90deg,
+    #FFD86A,
+    #F5C84C,
+    #FFD86A
+);
 
   box-shadow:
-    0 0 8px rgba(122, 31, 42, 0.55),
-    0 0 14px rgba(122, 31, 42, 0.25);
+    0 0 8px rgba(255,215,90,.65),
+    0 0 18px rgba(245,200,76,.45),
+    0 0 28px rgba(255,225,120,.25);
 }
