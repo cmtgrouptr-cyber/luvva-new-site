@@ -54,7 +54,7 @@ img {
 }
 
 .brand {
-  display: inline-flex;
+  display: none;
   width: 120px;
   height: 50px;
   align-items: center;
