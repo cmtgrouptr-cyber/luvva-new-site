@@ -525,7 +525,7 @@ footer {
 main > section {
   display: none;
 }
-
-main > section.active-section {
-  display: block;
+main > section:not(.active-section) {
+  display: none !important;
 }
+
