@@ -758,7 +758,7 @@ footer {
 }
 
 
-/* Burgundy glow under active button */
+/* golden glow under active button */
 .main-nav > a.active::after {
   content: "";
 
