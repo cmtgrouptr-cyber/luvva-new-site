@@ -281,7 +281,7 @@ img { display: block; max-width: 100%; }
   width: 100%;
   height: calc(100svh - 78px);
   object-fit: cover;
-  object-position: center;
+  object-position: top center;
 }
 
 .hero { position: relative; }
