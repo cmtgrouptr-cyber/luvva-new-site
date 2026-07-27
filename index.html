@@ -33,82 +33,68 @@
 
   <header class="site-header" id="siteHeader">
 
-    <a class="brand" href="#home" aria-label="LUVVA home">
-      <img src="luvva-logo.png" alt="LUVVA logo" />
-    </a>
+    <div class="language-menu">
+      <button
+        class="language-button"
+        id="languageButton"
+        type="button"
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-controls="languageOptions"
+        aria-label="Choose language"
+      >
+        <svg class="language-globe" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"></path>
+        </svg>
+        <span class="language-code" id="languageCode">EN</span>
+        <span class="language-arrow" aria-hidden="true">▾</span>
+      </button>
+
+      <div class="language-options" id="languageOptions" role="menu">
+        <button type="button" data-language="English" data-code="EN" role="menuitem">
+          <span class="flag flag-us" aria-hidden="true"></span>
+          <span>English</span>
+        </button>
+        <button type="button" data-language="Arabic" data-code="AR" role="menuitem">
+          <span class="flag flag-ar" aria-hidden="true"></span>
+          <span>العربية</span>
+        </button>
+        <button type="button" data-language="Turkish" data-code="TR" role="menuitem">
+          <span class="flag flag-tr" aria-hidden="true"></span>
+          <span>Türkçe</span>
+        </button>
+        <button type="button" data-language="Chinese" data-code="ZH" role="menuitem">
+          <span class="flag flag-cn" aria-hidden="true"></span>
+          <span>中文</span>
+        </button>
+      </div>
+    </div>
 
     <button
       class="menu-toggle"
       id="menuToggle"
       aria-label="Open menu"
       aria-expanded="false"
+      aria-controls="mainNav"
     >
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
 
     <nav class="main-nav" id="mainNav" aria-label="Main navigation">
-
       <a href="#home">Home</a>
-
       <a href="#vision">Vision</a>
-
       <a href="#ecosystem">Ecosystem</a>
-
       <a href="#human-centered">Who We Serve</a>
-
       <a href="#legacy">Core Values</a>
-
       <a href="#partnership">Partnership</a>
-
       <a href="#about-cmt">About CMT</a>
-
       <a href="#contact">Contact</a>
-
-      <div class="language-menu">
-
-        <button
-          class="language-button"
-          id="languageButton"
-          type="button"
-          aria-expanded="false"
-          aria-label="Choose language"
-        >
-          EN
-          <span>▾</span>
-        </button>
-
-        <div class="language-options" id="languageOptions">
-
-          <button type="button" data-language="English">
-            English
-          </button>
-
-          <button type="button" data-language="Arabic">
-            العربية
-          </button>
-
-          <button type="button" data-language="Turkish">
-            Türkçe
-          </button>
-
-          <button type="button" data-language="Chinese">
-            中文
-          </button>
-
-        </div>
-
-      </div>
-
     </nav>
 
-    <a class="investor-button" href="#partnership">
-      Investor Brief
-    </a>
+    <a class="investor-button" href="#partnership">Investor Brief</a>
 
   </header>
-
 
   <main>
 
@@ -320,6 +306,9 @@
     const languageOptions =
       document.getElementById("languageOptions");
 
+    const languageCode =
+      document.getElementById("languageCode");
+
     const year = document.getElementById("year");
 
 
@@ -411,8 +400,7 @@
 
           if (selectedLanguage === "English") {
 
-            languageButton.firstChild.textContent =
-              "EN ";
+            languageCode.textContent = button.dataset.code;
 
           } else {
 
