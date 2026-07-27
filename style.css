@@ -522,3 +522,10 @@ footer {
     text-align: center;
   }
 }
+main > section {
+  display: none;
+}
+
+main > section.active-section {
+  display: block;
+}
