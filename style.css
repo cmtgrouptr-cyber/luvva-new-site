@@ -434,3 +434,169 @@ footer { display:flex; justify-content:space-between; gap:24px; padding:24px cla
     .image-section img { height: calc(100vh - var(--header-height)); }
   }
 }
+
+/* =========================================================
+   LUVVA polish update — 2026-07-28
+   Shared metallic wave, reliable section switching, and
+   responsive image sizing without cropping.
+   ========================================================= */
+
+/* The same elegant moving reflection used by Investor Brief,
+   now shared by every header key. */
+.main-nav a,
+.investor-button,
+.language-button,
+.cmt-button,
+.menu-toggle {
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.main-nav a::before,
+.investor-button::before,
+.language-button::before,
+.cmt-button::before,
+.menu-toggle::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: -45%;
+  bottom: -45%;
+  left: -75%;
+  width: 42%;
+  pointer-events: none;
+  opacity: 0;
+  transform: skewX(-22deg);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,.10) 18%,
+    rgba(255,255,255,.88) 50%,
+    rgba(255,255,255,.18) 82%,
+    transparent 100%
+  );
+  filter: blur(.2px);
+  animation: luvvaKeyShine 4.6s ease-in-out infinite;
+}
+
+/* Small timing offsets make the reflection travel naturally
+   across the keyboard instead of flashing all keys at once. */
+.language-button::before { animation-delay: 0s; }
+.cmt-button::before { animation-delay: .14s; }
+.main-nav a:nth-child(1)::before { animation-delay: .28s; }
+.main-nav a:nth-child(2)::before { animation-delay: .42s; }
+.main-nav a:nth-child(3)::before { animation-delay: .56s; }
+.main-nav a:nth-child(4)::before { animation-delay: .70s; }
+.main-nav a:nth-child(5)::before { animation-delay: .84s; }
+.main-nav a:nth-child(6)::before { animation-delay: .98s; }
+.main-nav a:nth-child(7)::before { animation-delay: 1.12s; }
+.investor-button::before { animation-delay: 1.26s; }
+.menu-toggle::before { animation-delay: .30s; }
+
+@keyframes luvvaKeyShine {
+  0%, 68% {
+    left: -75%;
+    opacity: 0;
+  }
+  72% { opacity: .88; }
+  87% {
+    left: 138%;
+    opacity: .72;
+  }
+  91%, 100% {
+    left: 138%;
+    opacity: 0;
+  }
+}
+
+/* Investor Brief keeps its richer gold body; the shared
+   reflection above replaces the old background-position sweep. */
+.investor-button { animation: none; }
+
+/* Keep text and icons crisp above the moving reflection. */
+.main-nav a > *,
+.investor-button > *,
+.language-button > *,
+.cmt-button > *,
+.menu-toggle > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* About CMT stays beside the language key on desktop and mobile. */
+.cmt-button { justify-self: start; }
+
+/* Definitive section visibility rule. This is deliberately last
+   so Android browsers cannot reveal every image section. */
+main > section,
+main > section:not(.active-section) {
+  display: none !important;
+}
+
+main > section.active-section {
+  display: grid !important;
+}
+
+/* Windows / larger screens: use every available pixel while
+   retaining the full image with no top, bottom, or side crop. */
+@media (min-width: 931px) {
+  .image-section.active-section {
+    width: 100vw;
+    height: calc(100dvh - var(--header-height));
+    min-height: calc(100dvh - var(--header-height));
+  }
+
+  .image-section.active-section img {
+    width: 100vw;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
+/* Phones and tablets: only the chosen section is laid out, the
+   image begins directly beneath the fixed header, and no artificial
+   full-screen spacer is added below it. */
+@media (max-width: 930px) {
+  main { padding-top: var(--header-height); }
+
+  main > section.active-section.image-section {
+    display: block !important;
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  main > section.active-section.image-section img {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    margin: 0;
+    object-fit: contain;
+    object-position: top center;
+  }
+
+  main > section.active-section.partnership-section,
+  main > section.active-section.about-cmt-section,
+  main > section.active-section.contact-section {
+    display: grid !important;
+  }
+}
+
+/* Respect accessibility settings and save battery on mobile. */
+@media (prefers-reduced-motion: reduce) {
+  .main-nav a::before,
+  .investor-button::before,
+  .language-button::before,
+  .cmt-button::before,
+  .menu-toggle::before {
+    animation: none;
+  }
+}
