@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="The CMT Story — a curated historical archive documenting more than three decades of invention, engineering and international business.">
-  <meta name="theme-color" content="#d7c29d">
+  <meta name="theme-color" content="#5e3b28">
   <title>The CMT Story | CMT Historical Archive</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,23 +12,39 @@
   <link rel="stylesheet" href="about-cmt.css">
 </head>
 <body>
-  <div class="paper-noise" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="entry-curtain" id="entryCurtain">
+    <div class="entry-folder">
+      <span class="entry-kicker">CMT HISTORICAL ARCHIVE</span>
+      <div class="entry-seal"><b>CMT</b><small>EST. 1993</small></div>
+      <h1>The CMT Story</h1>
+      <p>The Journey Behind the Vision</p>
+      <div class="entry-actions">
+        <button id="enterSound" class="entry-primary" type="button">Open archive with sound</button>
+        <button id="enterSilent" class="entry-secondary" type="button">Enter quietly</button>
+      </div>
+      <small class="entry-note">Sound is gentle, optional and can be muted at any time.</small>
+    </div>
+  </div>
 
   <header class="archive-topbar">
-    <a class="back-button" href="index.html#home" aria-label="Return to LUVVA">
-      <span class="back-arrow" aria-hidden="true">←</span>
-      <span>Return to LUVVA</span>
-    </a>
+    <a class="back-button" href="index.html#home" aria-label="Return to LUVVA"><span>←</span> Return to LUVVA</a>
     <span class="topbar-title">CMT HISTORICAL ARCHIVE</span>
-    <span class="topbar-year">1992—TODAY</span>
+    <div class="sound-panel">
+      <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="false" title="Turn archive sound on or off">
+        <span class="sound-icon">♪</span><span id="soundLabel">Sound off</span>
+      </button>
+      <input id="volumeControl" type="range" min="0" max="100" value="22" aria-label="Archive sound volume">
+    </div>
   </header>
 
   <main class="archive-book">
-    <section class="archive-page cover-page" id="cover">
+    <section class="archive-page cover-page chapter-warm-1" id="cover" data-sound="memory">
       <div class="leather-spine" aria-hidden="true"></div>
       <div class="archive-corner corner-left">ARCHIVE FILE</div>
       <div class="archive-corner corner-right">SELECTED RECORDS</div>
-      <div class="cover-content">
+      <div class="cover-content reveal">
         <p class="archive-label">CALL MIND TECHNOLOGY · EST. 1993</p>
         <div class="archive-stamp"><strong>CMT</strong><small>HISTORICAL ARCHIVE</small></div>
         <h1>The CMT Story</h1>
@@ -40,161 +56,173 @@
     </section>
 
     <nav class="chapter-nav" aria-label="Archive chapters">
-      <a href="#archive-001"><span>001</span>1992</a>
-      <a href="#archive-002"><span>002</span>1993</a>
-      <a href="#archive-003"><span>003</span>Experience</a>
-      <a href="#archive-004"><span>004</span>Operations</a>
-      <a href="#archive-007"><span>007</span>LUVVA</a>
+      <a href="#archive-001"><span>001</span>1992</a><a href="#archive-002"><span>002</span>1993</a><a href="#archive-003"><span>003</span>Experience</a><a href="#archive-004"><span>004</span>Operations</a><a href="#archive-007"><span>007</span>LUVVA</a>
     </nav>
 
-    <section class="archive-page story-page newspaper-section" id="archive-001">
-      <header class="section-heading">
-        <p class="file-number">ARCHIVE 001 · OFFICIAL PRESS RECORD</p>
-        <p class="year">1992</p>
-        <h2>The First Official Record</h2>
-        <p class="section-subtitle">The earliest documented public recognition of an inventive journey.</p>
-      </header>
-
+    <section class="archive-page story-page newspaper-section chapter-warm-2" id="archive-001" data-sound="paper">
+      <header class="section-heading reveal"><p class="file-number">ARCHIVE 001 · OFFICIAL PRESS RECORD</p><p class="year">1992</p><h2>The First Official Record</h2><p class="section-subtitle">The earliest documented public recognition of an inventive journey.</p></header>
       <div class="two-column newspaper-layout">
-        <figure class="media-frame document-frame">
+        <figure class="media-frame document-frame reveal">
           <button class="document-open" id="openNewspaper" type="button" aria-label="Open the 1992 newspaper article in full size">
             <img src="cmt-newspaper-1992.jpg" alt="Original Arabic newspaper article from September 1992 documenting the protective electrical outlet invention">
-            <span class="document-shine" aria-hidden="true"></span>
-            <span class="zoom-badge">View original document</span>
+            <span class="document-shine" aria-hidden="true"></span><span class="zoom-badge">View original document</span>
           </button>
           <div class="watermark-stamp document-watermark">CMT HISTORICAL ARCHIVE</div>
           <figcaption>Original newspaper record · September 1992 · click to enlarge.</figcaption>
         </figure>
-
-        <article class="story-copy archival-note">
+        <article class="story-copy archival-note reveal">
           <p class="record-label">DOCUMENTED INVENTION</p>
           <h3>A protective electrical outlet designed around human safety</h3>
           <p class="lead drop-cap">The 1992 article documented an electrical outlet designed to help protect children and others from electric shock if the outlet was damaged or if a metal object was inserted into one of its openings.</p>
           <p>This was not the first invention in the journey, but it was the first to receive official press coverage and public documentation.</p>
-          <div class="human-purpose">
-            <span class="pulse-dot" aria-hidden="true"></span>
-            <p><strong>From the beginning, the purpose was clear:</strong><br>technology should protect people and serve human life.</p>
-          </div>
+          <div class="human-purpose"><span class="pulse-dot" aria-hidden="true"></span><p><strong>From the beginning, the purpose was clear:</strong><br>technology should protect people and serve human life.</p></div>
           <blockquote>Innovation matters most when it responds to a real human need.</blockquote>
         </article>
       </div>
     </section>
 
-    <section class="archive-page story-page" id="archive-002">
-      <header class="section-heading">
-        <p class="file-number">ARCHIVE 002</p>
-        <p class="year">1993</p>
-        <h2>Building the Foundation</h2>
-        <p class="section-subtitle">From practical work to CALL MIND TECHNOLOGY.</p>
-      </header>
-      <div class="wide-copy framed-copy">
-        <p class="lead">In 1993, <strong>CALL MIND TECHNOLOGY</strong> began from a small electronics and electrical repair workshop.</p>
-        <p>The beginning was modest, but the approach was clear: listen carefully, understand the actual problem and build a solution that works in everyday life. Repair work became a direct study of how technology fails, how people use it and how it can be improved.</p>
-        <p>These early years formed values that remained central to the company: practical engineering, responsibility toward the user and respect for every useful idea.</p>
-      </div>
-      <div class="timeline" aria-label="Timeline from 1992 to today"><span>1992</span><i></i><span>1993</span><i></i><span>Today</span></div>
+    <section class="archive-page story-page chapter-warm-3" id="archive-002" data-sound="foundation">
+      <header class="section-heading reveal"><p class="file-number">ARCHIVE 002</p><p class="year">1993</p><h2>Building the Foundation</h2><p class="section-subtitle">From practical work to CALL MIND TECHNOLOGY.</p></header>
+      <div class="wide-copy framed-copy reveal"><p class="lead">In 1993, <strong>CALL MIND TECHNOLOGY</strong> began from a small electronics and electrical repair workshop.</p><p>The beginning was modest, but the approach was clear: listen carefully, understand the actual problem and build a solution that works in everyday life. Repair work became a direct study of how technology fails, how people use it and how it can be improved.</p><p>These early years formed values that remained central to the company: practical engineering, responsibility toward the user and respect for every useful idea.</p></div>
+      <div class="timeline reveal" aria-label="Timeline from 1992 to today"><span>1992</span><i></i><span>1993</span><i></i><span>Today</span></div>
     </section>
 
-    <section class="archive-page story-page" id="archive-003">
-      <header class="section-heading">
-        <p class="file-number">ARCHIVE 003</p>
-        <h2>More Than Three Decades of Building</h2>
-        <p class="section-subtitle">Experience accumulated through real work, not slogans.</p>
-      </header>
+    <section class="archive-page story-page chapter-warm-4" id="archive-003" data-sound="craft">
+      <header class="section-heading reveal"><p class="file-number">ARCHIVE 003</p><h2>More Than Three Decades of Building</h2><p class="section-subtitle">Experience accumulated through real work, not slogans.</p></header>
       <div class="archive-grid">
-        <article class="archive-card"><span>01</span><h3>Practical Engineering</h3><p>Observing, testing, repairing, improving and building with purpose.</p></article>
-        <article class="archive-card"><span>02</span><h3>Industrial Experience</h3><p>Solutions shaped by direct technical and commercial experience.</p></article>
-        <article class="archive-card"><span>03</span><h3>International Trade</h3><p>Markets, partnerships, logistics and real cross-border operations.</p></article>
-        <article class="archive-card"><span>04</span><h3>CMT GROUP</h3><p>The original values expanded into a wider international organization.</p></article>
-      </div>
-      <p class="quiet-line">The scale of the work changed. The values did not.</p>
+        <article class="archive-card reveal"><span>01</span><h3>Practical Engineering</h3><p>Observing, testing, repairing, improving and building with purpose.</p></article>
+        <article class="archive-card reveal"><span>02</span><h3>Industrial Experience</h3><p>Solutions shaped by direct technical and commercial experience.</p></article>
+        <article class="archive-card reveal"><span>03</span><h3>International Trade</h3><p>Markets, partnerships, logistics and real cross-border operations.</p></article>
+        <article class="archive-card reveal"><span>04</span><h3>CMT GROUP</h3><p>The original values expanded into a wider international organization.</p></article>
+      </div><p class="quiet-line reveal">The scale of the work changed. The values did not.</p>
     </section>
 
-    <section class="archive-page story-page operations-page" id="archive-004">
-      <header class="section-heading">
-        <p class="file-number">ARCHIVE 004</p>
-        <h2>Global Operations</h2>
-        <p class="section-subtitle">Real operations. Real shipments. Real experience.</p>
-      </header>
+    <section class="archive-page story-page operations-page chapter-warm-5" id="archive-004" data-sound="motion">
+      <header class="section-heading reveal"><p class="file-number">ARCHIVE 004</p><h2>Global Operations</h2><p class="section-subtitle">Real operations. Real shipments. Real experience.</p></header>
       <div class="two-column operation-layout">
-        <figure class="media-frame photo-frame">
-          <img src="cmt-archive-shipment-haifa.jpg" alt="CMT Group during a 40-foot container loading operation for Haifa">
-          <div class="watermark-stamp">CMT ARCHIVE</div>
-          <figcaption>40-foot container loading operation · Turkey to Haifa.</figcaption>
-        </figure>
-        <div class="media-index">
-          <p class="media-kicker">REAL OPERATIONS ARCHIVE</p>
-          <h3>Selected shipment records</h3>
-          <p>This section is prepared for authentic photographs and short videos documenting container loading, unloading, warehousing, export preparation and international shipments.</p>
-          <div class="media-placeholders">
-            <div><b>01</b><span>Container Loading</span></div>
-            <div><b>02</b><span>Export Operations</span></div>
-            <div><b>03</b><span>Logistics & Warehousing</span></div>
-            <div><b>04</b><span>International Shipments</span></div>
-          </div>
-        </div>
+        <figure class="media-frame photo-frame reveal"><img src="cmt-archive-shipment-haifa.jpg" alt="CMT Group during a 40-foot container loading operation for Haifa"><div class="watermark-stamp">CMT ARCHIVE</div><figcaption>40-foot container loading operation · Turkey to Haifa.</figcaption></figure>
+        <div class="media-index reveal"><p class="media-kicker">REAL OPERATIONS ARCHIVE</p><h3>Selected shipment records</h3><p>This section is prepared for authentic photographs and short videos documenting container loading, unloading, warehousing, export preparation and international shipments.</p><div class="media-placeholders"><div><b>01</b><span>Container Loading</span></div><div><b>02</b><span>Export Operations</span></div><div><b>03</b><span>Logistics & Warehousing</span></div><div><b>04</b><span>International Shipments</span></div></div></div>
       </div>
     </section>
 
-    <section class="archive-page story-page company-record" id="archive-005">
-      <header class="section-heading">
-        <p class="file-number">ARCHIVE 005</p>
-        <h2>A Company in Motion</h2>
-        <p class="section-subtitle">Products, teams, warehouses and daily operations behind the name.</p>
-      </header>
-      <figure class="wide-photo media-frame">
-        <img src="cmt-company-operations.jpg" alt="CMT Group company operations and shipment preparation">
-        <div class="watermark-stamp">CMT ARCHIVE</div>
-        <figcaption>Selected company operations record.</figcaption>
-      </figure>
+    <section class="archive-page story-page company-record chapter-warm-6" id="archive-005" data-sound="motion">
+      <header class="section-heading reveal"><p class="file-number">ARCHIVE 005</p><h2>A Company in Motion</h2><p class="section-subtitle">Products, teams, warehouses and daily operations behind the name.</p></header>
+      <figure class="wide-photo media-frame reveal"><img src="cmt-company-operations.jpg" alt="CMT Group company operations and shipment preparation"><div class="watermark-stamp">CMT ARCHIVE</div><figcaption>Selected company operations record.</figcaption></figure>
     </section>
 
-    <section class="archive-page story-page" id="archive-006">
-      <header class="section-heading">
-        <p class="file-number">ARCHIVE 006</p>
-        <h2>International Reach</h2>
-        <p class="section-subtitle">A growing record of work across markets and borders.</p>
-      </header>
-      <div class="world-placeholder">
-        <div class="world-copy"><p>INTERACTIVE ARCHIVE MAP</p><h3>Countries, shipments and selected records</h3><span>Future photos and videos can be connected to each market without changing the page structure.</span></div>
-      </div>
+    <section class="archive-page story-page chapter-warm-7" id="archive-006" data-sound="horizon">
+      <header class="section-heading reveal"><p class="file-number">ARCHIVE 006</p><h2>International Reach</h2><p class="section-subtitle">A growing record of work across markets and borders.</p></header>
+      <div class="world-placeholder reveal"><div class="world-copy"><p>INTERACTIVE ARCHIVE MAP</p><h3>Countries, shipments and selected records</h3><span>Future photos and videos can be connected to each market without changing the page structure.</span></div></div>
     </section>
 
-    <section class="archive-page final-page" id="archive-007">
+    <section class="archive-page final-page" id="archive-007" data-sound="future">
       <div class="future-grid"></div>
-      <div class="final-content">
-        <p class="file-number">ARCHIVE 007 · THE JOURNEY CONTINUES</p>
-        <h2>Preserving the past.<br>Building the future.</h2>
-        <div class="gold-rule"></div>
-        <p>Every archive tells the story of what has been built. Every vision begins with what comes next.</p>
-        <p class="final-question">What if technology could become more present, more caring and more human?</p>
-        <p>LUVVA is the next chapter of this journey — a continuation of the belief that innovation matters most when it brings genuine value to human life.</p>
-        <p class="closing-line">The technology changed. The human purpose remained.</p>
-        <a class="home-button" href="index.html#home"><span class="back-arrow">←</span><span>Return to LUVVA</span></a>
-      </div>
+      <div class="final-content reveal"><p class="file-number">ARCHIVE 007 · THE JOURNEY CONTINUES</p><h2>Preserving the past.<br>Building the future.</h2><div class="gold-rule"></div><p>Every archive tells the story of what has been built. Every vision begins with what comes next.</p><p class="final-question">What if technology could become more present, more caring and more human?</p><p>LUVVA is the next chapter of this journey — a continuation of the belief that innovation should remain connected to real human life.</p><p class="closing-line">The archive remains open. The vision moves forward.</p><a class="home-button" href="index.html#home">Enter the world of LUVVA →</a></div>
     </section>
   </main>
 
-  <div class="document-modal" id="newspaperModal" role="dialog" aria-modal="true" aria-label="1992 original newspaper document" aria-hidden="true">
-    <button class="modal-close" id="closeNewspaper" type="button" aria-label="Close document">×</button>
-    <img src="cmt-newspaper-1992.jpg" alt="Full-size original Arabic newspaper article from September 1992">
-    <p>Original newspaper record · September 1992</p>
-  </div>
+  <div class="document-modal" id="documentModal" role="dialog" aria-modal="true" aria-label="1992 newspaper document" aria-hidden="true"><button class="modal-close" id="closeModal" type="button" aria-label="Close document">×</button><img src="cmt-newspaper-1992.jpg" alt="Enlarged original Arabic newspaper article from September 1992"><p>Original newspaper record · September 1992</p></div>
+  <button class="to-top" id="toTop" type="button" aria-label="Back to top">↑</button>
 
-  <button class="to-top" id="toTop" type="button" aria-label="Return to the top">↑</button>
-  <script>
-    const toTop = document.getElementById('toTop');
-    const modal = document.getElementById('newspaperModal');
-    const openBtn = document.getElementById('openNewspaper');
-    const closeBtn = document.getElementById('closeNewspaper');
-    window.addEventListener('scroll', () => toTop.classList.toggle('visible', window.scrollY > 700), { passive: true });
-    toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    function openModal(){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); closeBtn.focus(); }
-    function closeModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); openBtn.focus(); }
-    openBtn.addEventListener('click', openModal);
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
-    document.addEventListener('keydown', e => { if(e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
-  </script>
+<script>
+(() => {
+  const curtain = document.getElementById('entryCurtain');
+  const soundToggle = document.getElementById('soundToggle');
+  const soundLabel = document.getElementById('soundLabel');
+  const volumeControl = document.getElementById('volumeControl');
+  const openNewspaper = document.getElementById('openNewspaper');
+  const modal = document.getElementById('documentModal');
+  const closeModal = document.getElementById('closeModal');
+  const toTop = document.getElementById('toTop');
+  let ctx, master, ambience, active = false, noiseSource;
+
+  function createAudio() {
+    if (ctx) return;
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    master = ctx.createGain();
+    ambience = ctx.createGain();
+    master.gain.value = Number(volumeControl.value) / 100;
+    ambience.gain.value = .16;
+    ambience.connect(master).connect(ctx.destination);
+
+    const notes = [110, 164.81, 220];
+    notes.forEach((f, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = i === 0 ? 'sine' : 'triangle';
+      osc.frequency.value = f;
+      gain.gain.value = i === 0 ? .045 : .018;
+      osc.connect(gain).connect(ambience); osc.start();
+    });
+
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i=0;i<data.length;i++) data[i] = (Math.random()*2-1) * .15;
+    noiseSource = ctx.createBufferSource(); noiseSource.buffer = buffer; noiseSource.loop = true;
+    const filter = ctx.createBiquadFilter(); filter.type='lowpass'; filter.frequency.value=430;
+    const ng = ctx.createGain(); ng.gain.value=.012;
+    noiseSource.connect(filter).connect(ng).connect(ambience); noiseSource.start();
+  }
+
+  function softChime(freq=440, duration=.55, volume=.04) {
+    if (!ctx || !active) return;
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.type='sine'; o.frequency.value=freq;
+    g.gain.setValueAtTime(0,ctx.currentTime); g.gain.linearRampToValueAtTime(volume,ctx.currentTime+.02); g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+duration);
+    o.connect(g).connect(master); o.start(); o.stop(ctx.currentTime+duration+.05);
+  }
+
+  function paperSound() {
+    if (!ctx || !active) return;
+    const b=ctx.createBuffer(1,ctx.sampleRate*.45,ctx.sampleRate), d=b.getChannelData(0);
+    for(let i=0;i<d.length;i++){const e=1-i/d.length; d[i]=(Math.random()*2-1)*e*.35;}
+    const s=ctx.createBufferSource(), f=ctx.createBiquadFilter(), g=ctx.createGain();
+    s.buffer=b; f.type='bandpass'; f.frequency.value=1200; f.Q.value=.6; g.gain.value=.07;
+    s.connect(f).connect(g).connect(master); s.start();
+  }
+
+  async function setSound(on) {
+    createAudio();
+    if (ctx.state === 'suspended') await ctx.resume();
+    active = on;
+    master.gain.cancelScheduledValues(ctx.currentTime);
+    master.gain.linearRampToValueAtTime(on ? Number(volumeControl.value)/100 : 0, ctx.currentTime+.5);
+    soundToggle.setAttribute('aria-pressed', String(on));
+    soundToggle.classList.toggle('active', on);
+    soundLabel.textContent = on ? 'Sound on' : 'Sound off';
+    if (on) softChime(523.25,.8,.035);
+  }
+
+  function enter(withSound) {
+    curtain.classList.add('opened');
+    document.body.classList.add('archive-open');
+    setTimeout(()=>curtain.hidden=true,1100);
+    if(withSound){ setSound(true); setTimeout(()=>paperSound(),500); }
+  }
+
+  document.getElementById('enterSound').addEventListener('click',()=>enter(true));
+  document.getElementById('enterSilent').addEventListener('click',()=>enter(false));
+  soundToggle.addEventListener('click',()=>setSound(!active));
+  volumeControl.addEventListener('input',()=>{ if(ctx && active) master.gain.setTargetAtTime(Number(volumeControl.value)/100,ctx.currentTime,.08); });
+
+  openNewspaper.addEventListener('click',()=>{ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; paperSound(); });
+  function hideModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  closeModal.addEventListener('click',hideModal); modal.addEventListener('click',e=>{if(e.target===modal)hideModal();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')hideModal();});
+
+  const revealObserver = new IntersectionObserver(entries => entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+
+  const sections=[...document.querySelectorAll('[data-sound]')];
+  const sectionObserver=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting && active){
+    const modes={memory:329.63,paper:392,foundation:440,craft:493.88,motion:523.25,horizon:587.33,future:659.25};
+    softChime(modes[e.target.dataset.sound]||440,.9,.018);
+  }}),{threshold:.58});
+  sections.forEach(s=>sectionObserver.observe(s));
+
+  window.addEventListener('scroll',()=>toTop.classList.toggle('visible',scrollY>700),{passive:true});
+  toTop.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+})();
+</script>
 </body>
 </html>
