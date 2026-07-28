@@ -271,3 +271,18 @@ blockquote{
   html{scroll-behavior:auto}
   .scroll-link b,.attention-flash{animation:none}
 }
+
+
+/* V2 refinements */
+.story-copy p + p{margin-top:18px}
+.document-frame .placeholder{position:relative;overflow:hidden}
+.document-frame .placeholder:after{
+  content:"CMT HISTORICAL ARCHIVE";position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%) rotate(-28deg);white-space:nowrap;
+  color:rgba(118,80,31,.10);font-family:"Cormorant Garamond",Georgia,serif;
+  font-size:clamp(24px,4vw,44px);font-weight:700;letter-spacing:.12em;
+}
+@media(max-width:780px){
+  .story-copy p,.wide-copy p,.final-content p,.media-index p{font-size:16px;line-height:1.82}
+  blockquote{padding-left:20px}
+}

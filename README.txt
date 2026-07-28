@@ -1,24 +1,18 @@
-CMT STORY ARCHIVE — VERSION 1
+CMT Story Archive V2
 
-Upload these files to the same GitHub folder:
-1. about-cmt.html
-2. about-cmt.css
-3. cmt-archive-shipment-haifa.jpg
+Files:
+- about-cmt.html
+- about-cmt.css
+- cmt-archive-shipment-haifa.jpg
 
-Do not rename them.
+V2 updates:
+- Corrected Archive 001 so it is described as the first officially documented press record, not the first invention.
+- Added the accurate description of the child-protection electrical outlet.
+- Strengthened the human-protection thread connecting the early invention to the wider CMT journey and LUVVA.
+- Preserved the personal family story outside the website, as requested.
+- Improved archive-document styling and mobile readability.
 
-The page already contains:
-- Historical archive concept
-- Parchment / leather visual identity
-- Founder-led documentary narrative
-- Archives 001–007
-- Real Global Operations section
-- Placeholder areas for future photos and videos
-- Luxurious Return to LUVVA button with clear arrow and a subtle periodic flash
-- Responsive design for Windows, Android and iPhone
-
-Later additions:
-- Replace the 1992 placeholder with the original newspaper image
-- Add selected archive photographs
-- Add short archive videos
-- Expand the international archive map
+Next archive assets to add later:
+- Original September 1992 newspaper image
+- Additional authentic photos and videos
+- Country and shipment records
