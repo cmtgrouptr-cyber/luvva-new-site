@@ -1,17 +1,18 @@
-CMT STORY ARCHIVE — V6 DOCUMENTARY FOUNDER EDITION
+CMT STORY ARCHIVE — DOCUMENTARY FOUNDER EDITION
 
-Main files:
-- about-cmt.html
-- about-cmt.css
+Main page: about-cmt.html
+Style: about-cmt.css
 
-Music:
-The archive player is prepared for:
-  Ascension — Keys of Moon
-Place the licensed MP3 in this folder with this exact filename:
-  ascension-keys-of-moon.mp3
+IMPORTANT MUSIC FILE
+Place the licensed track in this folder using the exact filename:
+ascension-keys-of-moon.mp3
 
-The player starts at 58% volume and gives the reader full play/pause and volume control.
-The music is not embedded in this ZIP because the audio file itself was not supplied with the project files.
+Track: Ascension
+Artist: Keys of Moon
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+Required credit:
+Ascension by Keys of Moon | https://soundcloud.com/keysofmoon
+Creative Commons / Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
 
-Founder narrative:
-The documentary text identifies Mishrif Abu Mishrif naturally within the existing historical story, connecting the 1992 press record, CALL MIND TECHNOLOGY, CMT GROUP and the LUVVA vision without turning the archive into a personal biography.
+The archive player is fully prepared with play/pause, a clearly audible default volume (58%), fade-in, looping, and reader volume control.

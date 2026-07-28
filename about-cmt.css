@@ -44,52 +44,67 @@ body{background:linear-gradient(145deg,#e8dcc7 0%,#f5eee2 48%,#ddd0ba 100%);colo
 .world-placeholder{border-color:rgba(145,111,67,.42);background:radial-gradient(circle at center,rgba(205,174,125,.15),transparent 45%),linear-gradient(30deg,transparent 48%,rgba(108,80,47,.07) 49%,transparent 51%),linear-gradient(-30deg,transparent 48%,rgba(108,80,47,.07) 49%,transparent 51%);background-size:auto,45px 45px,45px 45px}
 .to-top{border-color:#b99a63;background:#f1e6d3;color:#5d4631;box-shadow:0 8px 22px rgba(76,57,34,.15)}
 
-/* ===== V6 FINAL DOCUMENTARY FOUNDER EDITION ===== */
+
+/* ===== V6 — DOCUMENTARY FOUNDER EDITION / PREMIUM CARAMEL LEATHER ===== */
 :root{
-  --luxury-gold:#c5a15a;
-  --luxury-gold-light:#f0d99b;
-  --luxury-gold-deep:#866020;
-  --caramel:#b87948;
-  --caramel-deep:#81502f;
+  --ink:#463326;
+  --cream:#f7edda;
+  --gold:#c7a15a;
+  --gold2:#f0d79a;
+  --caramel:#b77a46;
+  --deep-caramel:#8f572f;
 }
 body{
   background:
-    radial-gradient(ellipse at 7% 35%,rgba(129,80,47,.36),transparent 31%),
-    radial-gradient(ellipse at 94% 55%,rgba(184,121,72,.42),transparent 28%),
-    linear-gradient(105deg,#c59a72 0%,#ead8bd 13%,#f8f1e4 43%,#f7efe1 74%,#d5ae87 100%);
+    radial-gradient(ellipse at 8% 40%,rgba(137,82,42,.22),transparent 36%),
+    linear-gradient(105deg,#c99a6d 0%,#e8cfad 14%,#f5ead8 42%,#ead6b9 78%,#b87843 100%);
 }
-.grain{opacity:.16;mix-blend-mode:multiply}
+.grain{opacity:.14;mix-blend-mode:multiply}
+.entry-curtain{
+  background:
+    radial-gradient(circle at 48% 34%,rgba(255,250,237,.92),transparent 34%),
+    linear-gradient(110deg,#a86838 0%,#ddbc91 16%,#f5ead8 53%,#d7a873 84%,#92542e 100%);
+}
+.entry-folder{
+  background:
+    repeating-radial-gradient(ellipse at 15% 25%,rgba(96,58,29,.075) 0 1px,transparent 2px 8px),
+    repeating-linear-gradient(101deg,rgba(255,255,255,.20) 0 1px,transparent 1px 7px),
+    linear-gradient(100deg,#d6a875 0%,#f7ecd8 18%,#fbf4e7 65%,#d49b61 100%);
+  border-color:#c9a153;
+  box-shadow:0 30px 90px rgba(76,40,17,.33),inset 22px 0 40px rgba(124,72,34,.16),inset -26px 0 48px rgba(125,70,31,.20);
+}
+.entry-seal,.archive-stamp{
+  border-color:#cfae68!important;
+  color:#7f542c!important;
+  box-shadow:0 0 0 5px rgba(230,202,139,.28),inset 0 0 22px rgba(255,232,177,.24);
+  background:linear-gradient(145deg,rgba(255,246,218,.48),rgba(188,131,62,.10));
+}
 .archive-page{
-  background-color:#f6eddd;
-  border-color:rgba(155,111,51,.72);
-  box-shadow:
-    -22px 0 42px rgba(126,76,43,.16),
-    28px 0 52px rgba(126,76,43,.30),
-    0 28px 68px rgba(80,55,32,.22),
-    inset -48px 0 62px rgba(176,112,67,.16),
-    inset 0 0 0 8px rgba(255,255,255,.22),
-    inset 0 0 88px rgba(116,77,42,.10);
+  background-color:#f5ead7;
+  border-color:#c9a05b;
+  box-shadow:0 28px 68px rgba(79,44,20,.28),inset 34px 0 48px rgba(133,78,39,.13),inset -52px 0 70px rgba(151,87,42,.22),inset 0 0 0 8px rgba(255,250,237,.22);
 }
 .archive-page:before{
   background:
-    repeating-radial-gradient(ellipse at 18% 21%,rgba(92,59,31,.075) 0 1px,transparent 2px 8px),
-    repeating-linear-gradient(97deg,rgba(102,66,33,.036) 0 1px,transparent 1px 5px),
-    repeating-linear-gradient(7deg,rgba(255,255,255,.12) 0 1px,transparent 1px 11px),
-    radial-gradient(ellipse at 28% 16%,rgba(255,255,255,.34),transparent 31%);
+    repeating-radial-gradient(ellipse at 13% 23%,rgba(90,54,28,.070) 0 1px,transparent 2px 8px),
+    repeating-linear-gradient(98deg,rgba(255,255,255,.18) 0 1px,transparent 1px 7px),
+    linear-gradient(90deg,rgba(171,103,52,.19) 0%,rgba(255,255,255,.03) 20%,transparent 57%,rgba(154,88,43,.26) 100%);
   opacity:1;
 }
-.archive-page:after{border-color:rgba(176,132,62,.46);box-shadow:inset -28px 0 42px rgba(154,91,52,.13),inset 0 0 52px rgba(107,72,36,.08)}
+.archive-page:after{border-color:rgba(190,143,75,.48);box-shadow:inset 0 0 62px rgba(115,65,30,.12)}
 .chapter-warm-1,.chapter-warm-2,.chapter-warm-3,.chapter-warm-4,.chapter-warm-5,.chapter-warm-6,.chapter-warm-7{
   background:
-    linear-gradient(90deg,rgba(240,219,192,.74) 0%,rgba(251,246,235,.96) 29%,rgba(249,241,226,.96) 72%,rgba(181,117,72,.34) 100%);
+    radial-gradient(circle at 28% 17%,rgba(255,255,255,.74),transparent 34%),
+    linear-gradient(100deg,#d7ad82 0%,#f4e6d0 17%,#fbf4e7 62%,#ddb083 86%,#b87843 100%);
 }
-.gold-rule{background:linear-gradient(90deg,var(--luxury-gold-deep),var(--luxury-gold-light),var(--luxury-gold),var(--luxury-gold-deep));box-shadow:0 1px 0 rgba(255,255,255,.6),0 3px 10px rgba(141,96,34,.23)}
-.archive-stamp,.entry-seal{border-color:var(--luxury-gold);box-shadow:inset 0 0 0 4px rgba(240,217,155,.20),0 10px 30px rgba(123,79,27,.18)}
-.archive-label,.file-number,.record-label,.media-kicker,.chapter-nav span{color:#8c652c}
-.section-heading h2,.cover-page h1{color:#4c3422;text-shadow:0 1px 0 rgba(255,255,255,.6)}
-.founder-bridge{max-width:900px;margin:0 auto 34px;padding:24px 28px;border-left:4px solid var(--luxury-gold);background:linear-gradient(90deg,rgba(255,250,238,.75),rgba(190,125,77,.11));box-shadow:0 14px 32px rgba(98,63,35,.10)}
-.founder-bridge p{margin:0;font:500 1.15rem/1.85 Cormorant Garamond,serif;color:#503b2c}
-.entry-primary{background:linear-gradient(135deg,#8b632c,#d0ab63 48%,#7b551d);border-color:#b58b43;box-shadow:0 10px 24px rgba(112,73,25,.22)}
-.sound-panel input{accent-color:var(--luxury-gold)}
-.sound-toggle.active{background:linear-gradient(135deg,#ead4a1,#c79d52);color:#3e2a18}
-@media(max-width:600px){.founder-bridge{padding:20px;margin-bottom:26px}.founder-bridge p{font-size:1.05rem}.archive-page{box-shadow:inset -24px 0 38px rgba(176,112,67,.13),0 18px 44px rgba(80,55,32,.16)}}
+.gold-rule{background:linear-gradient(90deg,#80512b,#d9b86d 38%,#f4dea0 55%,#af733b)}
+.archive-label,.file-number,.record-label,.media-kicker,.chapter-nav span{color:#8d5d31}
+.section-heading h2,.story-copy h3,.archive-card h3{color:#493226}
+blockquote{border-left-color:#c69a50!important;color:#6d4528!important}
+.human-purpose{background:linear-gradient(90deg,rgba(183,122,70,.14),rgba(255,250,239,.35));border-color:rgba(174,111,58,.32)!important}
+.sound-panel input{accent-color:#b77a46}
+.sound-toggle.active{background:linear-gradient(145deg,#f3dfb7,#c89653);color:#4d321f}
+.music-credit{font-size:.68rem;opacity:.72}
+@media(max-width:600px){
+  .archive-page{box-shadow:inset 16px 0 25px rgba(133,78,39,.11),inset -25px 0 36px rgba(151,87,42,.17)}
+}
