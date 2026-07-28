@@ -24,10 +24,10 @@
 <button class="entry-primary" id="enterSound" type="button">Open archive with sound</button>
 <button class="entry-secondary" id="enterSilent" type="button">Enter quietly</button>
 </div>
-<small class="entry-note">Ascension by Keys of Moon accompanies the archive and can be adjusted or muted at any time.</small>
+<small class="entry-note">Cylinder Five by Chris Zabriskie accompanies the archive and can be adjusted or muted at any time.</small>
 </div>
 </div>
-<audio aria-label="Ascension by Keys of Moon" id="archiveAudio" loop="True" preload="auto"><source src="ascension-keys-of-moon.mp3" type="audio/mpeg"/></audio><header class="archive-topbar">
+<audio aria-label="Cylinder Five by Chris Zabriskie" id="archiveAudio" loop preload="auto"><source src="background-music.mp3" type="audio/mpeg"/></audio><header class="archive-topbar">
 <a aria-label="Return to LUVVA" class="back-button" href="index.html#home"><span>←</span> Return to LUVVA</a>
 <span class="topbar-title">CMT HISTORICAL ARCHIVE</span>
 <div class="sound-panel">
@@ -156,7 +156,7 @@
         fadeTo(target, 1800);
       } catch (error) {
         updateSoundUI(false);
-        soundLabel.textContent = 'Add music file';
+        soundLabel.textContent = 'Audio unavailable'; console.error('Audio playback failed:', error);
       }
     } else {
       fadeTo(0, 550);

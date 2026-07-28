@@ -5,7 +5,7 @@ Style: about-cmt.css
 
 IMPORTANT MUSIC FILE
 Place the licensed track in this folder using the exact filename:
-ascension-keys-of-moon.mp3
+background-music.mp3
 
 Track: Ascension
 Artist: Keys of Moon
