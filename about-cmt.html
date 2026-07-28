@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="The CMT Story — a curated historical archive documenting more than three decades of invention, engineering and international business.">
-  <meta name="theme-color" content="#5e3b28">
+  <meta name="theme-color" content="#efe2c8">
   <title>The CMT Story | CMT Historical Archive</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +24,7 @@
         <button id="enterSound" class="entry-primary" type="button">Open archive with sound</button>
         <button id="enterSilent" class="entry-secondary" type="button">Enter quietly</button>
       </div>
-      <small class="entry-note">Sound is gentle, optional and can be muted at any time.</small>
+      <small class="entry-note">A calm continuous CMT composition is optional and can be muted at any time.</small>
     </div>
   </div>
 
@@ -32,8 +32,8 @@
     <a class="back-button" href="index.html#home" aria-label="Return to LUVVA"><span>←</span> Return to LUVVA</a>
     <span class="topbar-title">CMT HISTORICAL ARCHIVE</span>
     <div class="sound-panel">
-      <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="false" title="Turn archive sound on or off">
-        <span class="sound-icon">♪</span><span id="soundLabel">Sound off</span>
+      <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="false" title="Turn the continuous CMT archive music on or off">
+        <span class="sound-icon">♫</span><span id="soundLabel">Music off</span>
       </button>
       <input id="volumeControl" type="range" min="0" max="100" value="22" aria-label="Archive sound volume">
     </div>
@@ -134,76 +134,123 @@
   const modal = document.getElementById('documentModal');
   const closeModal = document.getElementById('closeModal');
   const toTop = document.getElementById('toTop');
-  let ctx, master, ambience, active = false, noiseSource;
+
+  let ctx, master, musicBus, ambienceBus, active = false;
+  let timer = null, step = 0, nextNoteTime = 0;
+  const tempo = 62;
+  const beat = 60 / tempo;
+  const progression = [
+    [261.63,329.63,392.00,493.88],
+    [220.00,261.63,329.63,440.00],
+    [174.61,220.00,261.63,349.23],
+    [196.00,246.94,293.66,392.00]
+  ];
+  const melody = [0,2,1,3,2,1,0,1, 0,1,2,1,3,2,1,0];
 
   function createAudio() {
     if (ctx) return;
     ctx = new (window.AudioContext || window.webkitAudioContext)();
     master = ctx.createGain();
-    ambience = ctx.createGain();
-    master.gain.value = Number(volumeControl.value) / 100;
-    ambience.gain.value = .16;
-    ambience.connect(master).connect(ctx.destination);
+    musicBus = ctx.createGain();
+    ambienceBus = ctx.createGain();
+    master.gain.value = 0;
+    musicBus.gain.value = .68;
+    ambienceBus.gain.value = .18;
 
-    const notes = [110, 164.81, 220];
-    notes.forEach((f, i) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = i === 0 ? 'sine' : 'triangle';
-      osc.frequency.value = f;
-      gain.gain.value = i === 0 ? .045 : .018;
-      osc.connect(gain).connect(ambience); osc.start();
-    });
+    const compressor = ctx.createDynamicsCompressor();
+    compressor.threshold.value = -28;
+    compressor.knee.value = 24;
+    compressor.ratio.value = 3;
+    compressor.attack.value = .05;
+    compressor.release.value = .7;
+    musicBus.connect(compressor);
+    ambienceBus.connect(compressor);
+    compressor.connect(master).connect(ctx.destination);
 
-    const buffer = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * 3, ctx.sampleRate);
     const data = buffer.getChannelData(0);
-    for (let i=0;i<data.length;i++) data[i] = (Math.random()*2-1) * .15;
-    noiseSource = ctx.createBufferSource(); noiseSource.buffer = buffer; noiseSource.loop = true;
-    const filter = ctx.createBiquadFilter(); filter.type='lowpass'; filter.frequency.value=430;
-    const ng = ctx.createGain(); ng.gain.value=.012;
-    noiseSource.connect(filter).connect(ng).connect(ambience); noiseSource.start();
+    for (let i=0;i<data.length;i++) data[i]=(Math.random()*2-1)*.05;
+    const source=ctx.createBufferSource(); source.buffer=buffer; source.loop=true;
+    const filter=ctx.createBiquadFilter(); filter.type='lowpass'; filter.frequency.value=260;
+    const gain=ctx.createGain(); gain.gain.value=.028;
+    source.connect(filter).connect(gain).connect(ambienceBus); source.start();
   }
 
-  function softChime(freq=440, duration=.55, volume=.04) {
+  function voice(freq, when, duration, volume, type='sine', detune=0) {
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    const filter=ctx.createBiquadFilter();
+    osc.type=type; osc.frequency.value=freq; osc.detune.value=detune;
+    filter.type='lowpass'; filter.frequency.value=type==='triangle'?1500:1100;
+    gain.gain.setValueAtTime(.0001,when);
+    gain.gain.exponentialRampToValueAtTime(volume,when+.08);
+    gain.gain.exponentialRampToValueAtTime(.0001,when+duration);
+    osc.connect(filter).connect(gain).connect(musicBus);
+    osc.start(when); osc.stop(when+duration+.1);
+  }
+
+  function scheduleBar() {
+    while(nextNoteTime < ctx.currentTime + .35) {
+      const bar=Math.floor(step/8);
+      const chord=progression[bar%progression.length];
+      const pos=step%8;
+      if(pos===0){
+        voice(chord[0]/2,nextNoteTime,beat*3.6,.035,'sine');
+        voice(chord[2]/2,nextNoteTime,beat*3.4,.018,'triangle',4);
+      }
+      const note=chord[melody[step%melody.length]%chord.length];
+      voice(note,nextNoteTime,beat*.88,.020,'sine');
+      if(step%4===2) voice(note*2,nextNoteTime,beat*.62,.006,'triangle',-3);
+      nextNoteTime += beat/2;
+      step++;
+    }
+  }
+
+  function startMusic() {
+    if(timer) return;
+    nextNoteTime=ctx.currentTime+.08;
+    timer=setInterval(scheduleBar,90);
+    scheduleBar();
+  }
+
+  function softChime(freq=440, duration=.55, volume=.018) {
     if (!ctx || !active) return;
-    const o=ctx.createOscillator(), g=ctx.createGain();
-    o.type='sine'; o.frequency.value=freq;
-    g.gain.setValueAtTime(0,ctx.currentTime); g.gain.linearRampToValueAtTime(volume,ctx.currentTime+.02); g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+duration);
-    o.connect(g).connect(master); o.start(); o.stop(ctx.currentTime+duration+.05);
+    voice(freq,ctx.currentTime,duration,volume,'sine');
   }
 
   function paperSound() {
     if (!ctx || !active) return;
-    const b=ctx.createBuffer(1,ctx.sampleRate*.45,ctx.sampleRate), d=b.getChannelData(0);
-    for(let i=0;i<d.length;i++){const e=1-i/d.length; d[i]=(Math.random()*2-1)*e*.35;}
-    const s=ctx.createBufferSource(), f=ctx.createBiquadFilter(), g=ctx.createGain();
-    s.buffer=b; f.type='bandpass'; f.frequency.value=1200; f.Q.value=.6; g.gain.value=.07;
-    s.connect(f).connect(g).connect(master); s.start();
+    const b=ctx.createBuffer(1,ctx.sampleRate*.4,ctx.sampleRate), d=b.getChannelData(0);
+    for(let i=0;i<d.length;i++){const e=1-i/d.length; d[i]=(Math.random()*2-1)*e*.16;}
+    const source=ctx.createBufferSource(), filter=ctx.createBiquadFilter(), gain=ctx.createGain();
+    source.buffer=b; filter.type='bandpass'; filter.frequency.value=1050; filter.Q.value=.55; gain.gain.value=.045;
+    source.connect(filter).connect(gain).connect(master); source.start();
   }
 
   async function setSound(on) {
     createAudio();
     if (ctx.state === 'suspended') await ctx.resume();
     active = on;
+    if(on) startMusic();
     master.gain.cancelScheduledValues(ctx.currentTime);
-    master.gain.linearRampToValueAtTime(on ? Number(volumeControl.value)/100 : 0, ctx.currentTime+.5);
+    master.gain.setValueAtTime(master.gain.value,ctx.currentTime);
+    master.gain.linearRampToValueAtTime(on ? Number(volumeControl.value)/100 * .52 : 0, ctx.currentTime+1.4);
     soundToggle.setAttribute('aria-pressed', String(on));
     soundToggle.classList.toggle('active', on);
-    soundLabel.textContent = on ? 'Sound on' : 'Sound off';
-    if (on) softChime(523.25,.8,.035);
+    soundLabel.textContent = on ? 'Music on' : 'Music off';
   }
 
   function enter(withSound) {
     curtain.classList.add('opened');
     document.body.classList.add('archive-open');
     setTimeout(()=>curtain.hidden=true,1100);
-    if(withSound){ setSound(true); setTimeout(()=>paperSound(),500); }
+    if(withSound){ setSound(true); setTimeout(()=>paperSound(),650); }
   }
 
   document.getElementById('enterSound').addEventListener('click',()=>enter(true));
   document.getElementById('enterSilent').addEventListener('click',()=>enter(false));
   soundToggle.addEventListener('click',()=>setSound(!active));
-  volumeControl.addEventListener('input',()=>{ if(ctx && active) master.gain.setTargetAtTime(Number(volumeControl.value)/100,ctx.currentTime,.08); });
+  volumeControl.addEventListener('input',()=>{ if(ctx && active) master.gain.setTargetAtTime(Number(volumeControl.value)/100*.52,ctx.currentTime,.16); });
 
   openNewspaper.addEventListener('click',()=>{ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; paperSound(); });
   function hideModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
@@ -216,9 +263,9 @@
   const sections=[...document.querySelectorAll('[data-sound]')];
   const sectionObserver=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting && active){
     const modes={memory:329.63,paper:392,foundation:440,craft:493.88,motion:523.25,horizon:587.33,future:659.25};
-    softChime(modes[e.target.dataset.sound]||440,.9,.018);
-  }}),{threshold:.58});
-  sections.forEach(s=>sectionObserver.observe(s));
+    softChime(modes[e.target.dataset.sound]||440,.8,.009);
+  }}),{threshold:.6});
+  sections.forEach(section=>sectionObserver.observe(section));
 
   window.addEventListener('scroll',()=>toTop.classList.toggle('visible',scrollY>700),{passive:true});
   toTop.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));

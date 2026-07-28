@@ -7,3 +7,39 @@
 @media(max-width:900px){.archive-topbar{grid-template-columns:1fr auto}.topbar-title{display:none}.two-column{grid-template-columns:1fr}.archive-grid{grid-template-columns:repeat(2,1fr)}.chapter-nav{top:68px}.archive-page{min-height:auto;padding:68px 28px}.cover-page{min-height:84vh}.document-frame{transform:none}}
 @media(max-width:600px){.archive-book{width:100%;margin:0}.archive-topbar{position:relative;grid-template-columns:1fr auto;padding:9px 11px}.sound-panel input{display:none}.sound-toggle{padding:8px}.sound-toggle span:last-child{display:none}.chapter-nav{position:relative;top:0;border-left:0;border-right:0}.chapter-nav a{padding:7px 8px;font-size:.62rem}.archive-page{border-left:0;border-right:0;padding:58px 20px}.archive-page+.archive-page{margin-top:10px}.archive-page:after{inset:7px}.cover-page h1{font-size:3.8rem}.archive-stamp{width:122px;height:122px}.archive-corner{font-size:.53rem}.corner-left{left:36px}.section-heading{margin-bottom:34px}.section-heading h2{font-size:2.75rem}.archive-grid{grid-template-columns:1fr}.archive-card{min-height:auto}.media-frame{padding:9px}.document-frame{padding:11px}.story-copy h3{font-size:1.7rem}.framed-copy{padding:23px}.timeline{gap:8px;font-size:1.05rem}.timeline i{width:45px}.wide-photo img{max-height:none}.entry-folder{padding:48px 24px}.entry-actions{display:grid}.modal-close{right:12px}.document-modal{padding-left:8px;padding-right:8px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+
+/* ===== CMT STORY ARCHIVE V5 — CALM IVORY MUSEUM EDITION ===== */
+:root{--ink:#49392d;--cream:#f6eedf;--gold:#b99a63;--gold2:#ddc79c;--red:#9a4b42;--shadow:rgba(91,71,48,.16)}
+body{background:linear-gradient(145deg,#e8dcc7 0%,#f5eee2 48%,#ddd0ba 100%);color:var(--ink)}
+.grain{opacity:.085;mix-blend-mode:multiply}
+.entry-curtain{background:radial-gradient(circle at 50% 35%,rgba(255,252,244,.92),transparent 38%),linear-gradient(145deg,#dfd1bb,#f5ecdc 52%,#d8c6aa)}
+.entry-folder{color:#4c3b2e;background:
+ radial-gradient(ellipse at 18% 18%,rgba(255,255,255,.66),transparent 30%),
+ repeating-radial-gradient(ellipse at 20% 25%,rgba(112,82,48,.045) 0 1px,transparent 2px 13px),
+ linear-gradient(135deg,#f7efdf,#eadbc1 55%,#dfc9a8);border-color:#b99a63;box-shadow:0 26px 80px rgba(91,66,36,.20),inset 0 0 55px rgba(255,255,255,.36)}
+.entry-folder:before{border-color:rgba(150,116,67,.36)}
+.entry-primary{background:#8b714c;color:#fffaf1;border-color:#8b714c}.entry-secondary{color:#5c4735;border-color:#b49a72}.entry-note,.entry-folder>p{color:#6d5b49}
+.archive-topbar{color:#544131;background:rgba(246,238,223,.94);border-bottom-color:#c6ad82;box-shadow:0 8px 25px rgba(83,62,38,.12);backdrop-filter:blur(15px)}
+.back-button,.topbar-title,.sound-toggle{color:#584533}.sound-toggle{border-color:rgba(140,108,65,.38);background:rgba(255,255,255,.42)}.sound-toggle.active{background:#eadcc4}.sound-panel input{accent-color:#9d7d4f}
+.archive-page{border-color:#c2aa82;box-shadow:0 24px 62px rgba(80,59,34,.17),inset 0 0 0 8px rgba(255,255,255,.24),inset 0 0 85px rgba(120,91,52,.08)}
+.archive-page:before{background:
+ repeating-radial-gradient(ellipse at 16% 22%,rgba(103,74,40,.038) 0 1px,transparent 2px 12px),
+ repeating-linear-gradient(101deg,rgba(255,255,255,.16) 0 1px,transparent 1px 9px),
+ radial-gradient(ellipse at 70% 20%,rgba(255,255,255,.28),transparent 34%);opacity:.95}
+.archive-page:after{border-color:rgba(150,118,72,.32);box-shadow:inset 0 0 48px rgba(120,88,47,.07)}
+.chapter-warm-1{background:radial-gradient(circle at 22% 16%,rgba(255,255,255,.78),transparent 35%),linear-gradient(135deg,#eee1c9,#fbf5e9 48%,#e3d0af)}
+.chapter-warm-2{background:radial-gradient(circle at 78% 15%,rgba(255,255,255,.70),transparent 30%),linear-gradient(135deg,#eadbc2,#f8efdf 50%,#dfc8a7)}
+.chapter-warm-3{background:radial-gradient(circle at 18% 20%,rgba(255,255,255,.68),transparent 31%),linear-gradient(140deg,#e6d4b8,#f5ead7 52%,#dac19e)}
+.chapter-warm-4{background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.65),transparent 31%),linear-gradient(140deg,#e8d9c0,#f7eddd 50%,#dcc6a5)}
+.chapter-warm-5{background:radial-gradient(circle at 22% 16%,rgba(255,255,255,.64),transparent 30%),linear-gradient(140deg,#e1ceb1,#f3e7d2 50%,#d5bb94)}
+.chapter-warm-6{background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.62),transparent 32%),linear-gradient(140deg,#e5d4bb,#f4ead9 52%,#d9c3a0)}
+.chapter-warm-7{background:radial-gradient(circle at 50% 18%,rgba(255,255,255,.64),transparent 31%),linear-gradient(140deg,#e2d2bb,#f2e8d7 50%,#d7c09e)}
+.chapter-nav{background:rgba(240,230,213,.95);border-color:#c5aa7d;box-shadow:0 7px 20px rgba(86,65,39,.12)}.chapter-nav a{color:#5d4938}.chapter-nav a:hover{background:rgba(164,130,80,.11)}.chapter-nav span{color:#9b7745}
+.archive-label,.file-number,.record-label,.media-kicker{color:#7b6040}.section-heading .year{color:rgba(105,79,48,.13)}.section-heading h2{color:#49372a}.section-subtitle{color:#725d49}
+.media-frame{background:#d8c2a0;border-color:#b09368;box-shadow:0 14px 28px rgba(92,69,40,.16),inset 0 0 0 5px #eee1c9}.document-frame{background:linear-gradient(135deg,#bea27d,#e2cfb2 48%,#a98a62)}
+.zoom-badge{background:rgba(75,58,40,.82);color:#fff8e9}.media-frame figcaption{color:#594534}.watermark-stamp{border-color:rgba(122,91,55,.45);color:rgba(111,81,47,.62);background:rgba(249,241,225,.62)}
+.human-purpose{background:rgba(161,125,79,.09)}.framed-copy,.archive-card,.media-placeholders div{background:rgba(255,251,242,.38)}
+.archive-card{border-color:rgba(145,111,67,.40);box-shadow:0 10px 22px rgba(93,70,41,.10)}.archive-card:hover{box-shadow:0 17px 30px rgba(93,70,41,.16)}
+.world-placeholder{border-color:rgba(145,111,67,.42);background:radial-gradient(circle at center,rgba(205,174,125,.15),transparent 45%),linear-gradient(30deg,transparent 48%,rgba(108,80,47,.07) 49%,transparent 51%),linear-gradient(-30deg,transparent 48%,rgba(108,80,47,.07) 49%,transparent 51%);background-size:auto,45px 45px,45px 45px}
+.to-top{border-color:#b99a63;background:#f1e6d3;color:#5d4631;box-shadow:0 8px 22px rgba(76,57,34,.15)}
