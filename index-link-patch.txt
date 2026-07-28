@@ -1,0 +1,5 @@
+FIND:
+<a class="cmt-button" href="#about-cmt">About CMT</a>
+
+REPLACE WITH:
+<a class="cmt-button" href="about-cmt.html">About CMT</a>
