@@ -26,7 +26,7 @@
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=20260728-2" />
 </head>
 
 <body>
@@ -71,6 +71,8 @@
       </div>
     </div>
 
+    <a class="cmt-button" href="#about-cmt">About CMT</a>
+
     <button
       class="menu-toggle"
       id="menuToggle"
@@ -82,8 +84,6 @@
     </button>
 
     <nav class="main-nav" id="mainNav" aria-label="Main navigation">
-      <a href="#about-cmt">About CMT</a>
-
       <a href="#home">Home</a>
       <a href="#vision">Vision</a>
       <a href="#ecosystem">Ecosystem</a>
@@ -299,7 +299,7 @@
 
     const menuToggle = document.getElementById("menuToggle");
     const mainNav = document.getElementById("mainNav");
-    const navLinks = document.querySelectorAll(".main-nav a");
+    const navLinks = document.querySelectorAll(".main-nav a, .cmt-button");
 
     const languageButton =
       document.getElementById("languageButton");
