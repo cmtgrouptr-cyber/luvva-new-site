@@ -537,26 +537,32 @@ main > section.active-section {
   display: grid !important;
 }
 
-/* Windows / larger screens: use every available pixel while
-   retaining the full image with no top, bottom, or side crop. */
+/* Windows / larger screens: keep the artwork large at its natural
+   full-width ratio. The section may be taller than the viewport, so a
+   small mouse-wheel scroll reveals the complete lower part instead of
+   cropping it inside a fixed-height frame. */
 @media (min-width: 931px) {
-  .image-section.active-section {
+  main > section.active-section.image-section {
+    display: block !important;
     width: 100%;
-    height: calc(100dvh - var(--header-height));
-    min-height: calc(100dvh - var(--header-height));
+    height: auto;
+    min-height: 0;
     padding: 0;
-    overflow: hidden;
+    margin: 0;
+    overflow: visible;
+    background: var(--cream-light);
   }
 
-  .image-section.active-section img {
+  main > section.active-section.image-section img {
     display: block;
-    width: auto;
+    width: 100%;
     height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    margin: auto;
+    min-height: 0;
+    max-width: none;
+    max-height: none;
+    margin: 0;
     object-fit: contain;
-    object-position: center center;
+    object-position: top center;
   }
 }
 
