@@ -1,0 +1,315 @@
+/* =========================================================
+   LUVVA Secure Gateway Integration V1
+   Independent overlay: does not alter the site's own layout.
+   ========================================================= */
+
+body.luvva-gateway-locked {
+  overflow: hidden !important;
+}
+
+body.luvva-gateway-locked > .site-header,
+body.luvva-gateway-locked > main,
+body.luvva-gateway-locked > footer {
+  visibility: hidden;
+}
+
+.luvva-gateway {
+  --gw-cream: #f3e5cf;
+  --gw-cream-light: #fffaf1;
+  --gw-gold: #b77a1f;
+  --gw-deep-gold: #74450b;
+  --gw-ink: #2b1b0c;
+
+  position: fixed;
+  z-index: 99999;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  min-width: 320px;
+  padding: 28px 16px;
+  overflow: auto;
+  color: var(--gw-ink);
+  font-family: "Montserrat", Arial, sans-serif;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(255,255,255,.96), transparent 35%),
+    radial-gradient(circle at 15% 85%, rgba(225,183,105,.34), transparent 34%),
+    linear-gradient(145deg, #fffaf1 0%, #f1dfc2 56%, #dfbc83 100%);
+}
+
+.luvva-gateway[hidden] {
+  display: none !important;
+}
+
+.luvva-gateway-card {
+  width: min(100%, 590px);
+  padding: clamp(30px, 6vw, 58px);
+  text-align: center;
+  border: 1px solid rgba(144,88,15,.28);
+  border-radius: 34px;
+  background: rgba(255,250,241,.86);
+  box-shadow:
+    0 35px 100px rgba(90,52,5,.22),
+    inset 0 1px 0 rgba(255,255,255,.95);
+  backdrop-filter: blur(18px) saturate(120%);
+}
+
+.luvva-gateway-heart {
+  width: 120px;
+  margin: 0 auto 18px;
+}
+
+.luvva-gateway-heart svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 15px 18px rgba(111,63,4,.23));
+}
+
+.luvva-gateway-heart-outline {
+  fill: rgba(255,255,255,.22);
+  stroke: url(#luvvaGatewayGold);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.luvva-gateway-pulse-line {
+  fill: none;
+  stroke: #bd1622;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 7px rgba(189,22,34,.45));
+}
+
+.luvva-gateway-eyebrow {
+  margin: 0 0 12px;
+  color: var(--gw-gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .19em;
+}
+
+.luvva-gateway h1 {
+  margin: 0;
+  color: var(--gw-deep-gold);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(42px, 8vw, 67px);
+  line-height: .98;
+}
+
+.luvva-gateway-intro {
+  max-width: 490px;
+  margin: 22px auto 28px;
+  color: rgba(43,27,12,.78);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.luvva-gateway-providers {
+  display: grid;
+  gap: 13px;
+}
+
+.luvva-gateway-providers button {
+  display: grid;
+  grid-template-columns: 42px 1fr 42px;
+  align-items: center;
+  min-height: 58px;
+  padding: 0 14px;
+  border: 1px solid rgba(116,69,11,.24);
+  border-radius: 16px;
+  color: var(--gw-ink);
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(235,211,174,.82));
+  box-shadow:
+    0 3px 0 rgba(255,255,255,1),
+    0 8px 0 rgba(205,211,220,.92),
+    0 13px 23px rgba(77,83,94,.23),
+    inset 0 1px 0 #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.luvva-gateway-providers button b {
+  color: rgba(74,45,11,.55);
+  font-size: 23px;
+}
+
+.luvva-gateway-providers button:hover {
+  transform: translateY(-4px);
+  border-color: rgba(183,122,31,.62);
+  box-shadow:
+    0 4px 0 #fff,
+    0 12px 0 rgba(210,216,225,.95),
+    0 20px 32px rgba(77,83,94,.30),
+    inset 0 1px 0 #fff;
+}
+
+.luvva-gateway-providers button:active {
+  transform: translateY(1px);
+}
+
+.luvva-gateway-providers button:disabled {
+  opacity: .62;
+  cursor: wait;
+  transform: none;
+}
+
+.luvva-provider-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 5px 12px rgba(0,0,0,.13);
+}
+
+.luvva-provider-google {
+  background: linear-gradient(135deg, #4285f4, #34a853);
+}
+
+.luvva-provider-whatsapp {
+  background: #25d366;
+}
+
+.luvva-provider-facebook {
+  background: #1877f2;
+  font-family: Arial, sans-serif;
+  font-size: 22px;
+}
+
+.luvva-gateway-privacy {
+  margin: 25px auto 0;
+  color: rgba(43,27,12,.58);
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.luvva-gateway-status {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border: 1px solid rgba(183,122,31,.3);
+  border-radius: 12px;
+  background: rgba(255,247,227,.85);
+  color: var(--gw-deep-gold);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.luvva-gateway-intro-screen {
+  position: fixed;
+  z-index: 2;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 20px;
+  color: var(--gw-deep-gold);
+  background: radial-gradient(circle, #fffaf2 0%, #efddbf 60%, #d9b376 100%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .35s ease, visibility .35s ease;
+}
+
+.luvva-gateway-intro-screen.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.luvva-intro-heart {
+  width: 170px;
+}
+
+.luvva-intro-heart svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.luvva-intro-outline {
+  fill: rgba(255,255,255,.22);
+  stroke: #c88b27;
+  stroke-width: 5;
+  stroke-dasharray: 310;
+  stroke-dashoffset: 310;
+  filter: drop-shadow(0 0 15px rgba(217,157,50,.45));
+}
+
+.luvva-intro-pulse {
+  fill: none;
+  stroke: #bd1622;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transform-origin: center;
+}
+
+.luvva-gateway-intro-screen.show .luvva-intro-outline {
+  animation: luvvaGatewayDrawHeart 1.05s ease forwards;
+}
+
+.luvva-gateway-intro-screen.show .luvva-intro-pulse {
+  animation:
+    luvvaGatewayPulseReveal .2s .92s forwards,
+    luvvaGatewayBeat .55s 1.15s 3 ease-in-out;
+}
+
+.luvva-gateway-intro-screen p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+@keyframes luvvaGatewayDrawHeart {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes luvvaGatewayPulseReveal {
+  to { opacity: 1; }
+}
+
+@keyframes luvvaGatewayBeat {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 4px rgba(189,22,34,.2));
+  }
+  45% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 13px rgba(189,22,34,.65));
+  }
+}
+
+@media (max-width: 520px) {
+  .luvva-gateway-card {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .luvva-gateway-heart {
+    width: 96px;
+  }
+
+  .luvva-gateway-providers button {
+    grid-template-columns: 38px 1fr 26px;
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .luvva-gateway *,
+  .luvva-gateway *::before,
+  .luvva-gateway *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
