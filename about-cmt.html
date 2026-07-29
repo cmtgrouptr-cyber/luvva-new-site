@@ -21,20 +21,21 @@
 <h1>The CMT Story</h1>
 <p>The Journey Behind the Vision</p>
 <div class="entry-actions">
-<button class="entry-primary" id="enterSound" type="button">Open archive with sound</button>
-<button class="entry-secondary" id="enterSilent" type="button">Enter quietly</button>
+<button class="entry-primary luvva-action" id="enterSound" type="button">Open archive with sound</button>
+<button class="entry-secondary luvva-action" id="enterSilent" type="button">Enter quietly</button>
 </div>
-<small class="entry-note">Cylinder Five by Chris Zabriskie accompanies the archive and can be adjusted or muted at any time.</small>
+<a aria-label="Return to LUVVA" class="entry-back luvva-action" href="index.html#home"><span aria-hidden="true">←</span> Return to LUVVA</a>
+<small class="entry-note">A calm bamboo-flute meditation accompanies the archive and can be adjusted or muted at any time.</small>
 </div>
 </div>
-<audio aria-label="Cylinder Five by Chris Zabriskie" id="archiveAudio" loop preload="auto"><source src="background-music.mp3" type="audio/mpeg"/></audio><header class="archive-topbar">
-<a aria-label="Return to LUVVA" class="back-button" href="index.html#home"><span>←</span> Return to LUVVA</a>
+<audio aria-label="Calm bamboo flute meditation" id="archiveAudio" loop preload="auto"><source src="background-music.mp3" type="audio/mpeg"/></audio><header class="archive-topbar">
+<a aria-label="Return to LUVVA" class="back-button luvva-action" href="index.html#home"><span>←</span> Return to LUVVA</a>
 <span class="topbar-title">CMT HISTORICAL ARCHIVE</span>
 <div class="sound-panel">
 <button aria-pressed="false" class="sound-toggle" id="soundToggle" title="Turn the continuous CMT archive music on or off" type="button">
 <span class="sound-icon">♫</span><span id="soundLabel">Music off</span>
 </button>
-<input aria-label="Archive sound volume" id="volumeControl" max="100" min="0" type="range" value="58"/>
+<input aria-label="Archive sound volume" id="volumeControl" max="100" min="0" type="range" value="18"/>
 </div>
 </header>
 <main class="archive-book">
