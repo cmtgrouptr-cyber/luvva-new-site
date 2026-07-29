@@ -479,3 +479,72 @@ blockquote,
 @media(max-width:760px){
   .entry-actions .entry-primary,.entry-actions .entry-secondary{width:min(100%,290px);margin-inline:auto}
 }
+
+
+/* ===== V13.1 — REAL GLOBE + FINAL BUTTON TUNING ===== */
+.entry-actions .entry-primary{
+  min-width:154px;
+  color:#fffdf4!important;
+  border:1px solid #a9782e!important;
+  background:linear-gradient(180deg,#f2d992 0%,#d3a746 46%,#a87525 100%)!important;
+  box-shadow:
+    0 5px 0 #9e9992,
+    0 9px 0 rgba(216,212,207,.74),
+    0 14px 22px rgba(71,55,39,.23),
+    inset 0 2px 0 rgba(255,255,255,.75),
+    inset 0 -3px 6px rgba(94,56,15,.22)!important;
+  text-shadow:0 1px 1px rgba(80,48,12,.38);
+}
+.entry-actions .entry-secondary{
+  min-width:174px;
+  color:#6f3040!important;
+  border:1.5px solid #c89d45!important;
+  background:linear-gradient(180deg,#fffdf8 0%,#fff8ea 58%,#eee8df 100%)!important;
+  box-shadow:
+    0 5px 0 #aaa59f,
+    0 9px 0 rgba(218,214,209,.76),
+    0 14px 22px rgba(71,55,39,.18),
+    inset 0 2px 0 #fff,
+    inset 0 -2px 5px rgba(121,99,70,.12)!important;
+}
+.entry-actions .entry-primary:hover,
+.entry-actions .entry-secondary:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.04);
+}
+.entry-actions .entry-primary:active,
+.entry-actions .entry-secondary:active{
+  transform:translateY(4px);
+  box-shadow:
+    0 1px 0 #aaa59f,
+    0 3px 0 rgba(218,214,209,.68),
+    0 6px 10px rgba(71,55,39,.16),
+    inset 0 2px 5px rgba(121,99,70,.14)!important;
+}
+.global-hero img{
+  animation:globePresence 8s ease-in-out infinite;
+  transform-origin:center center;
+}
+@keyframes globePresence{
+  0%,100%{filter:saturate(.98) contrast(1.03) drop-shadow(0 10px 10px rgba(85,51,28,.11));}
+  50%{filter:saturate(1.05) contrast(1.06) drop-shadow(0 18px 18px rgba(85,51,28,.19));}
+}
+.final-page .home-button{
+  border:1px solid #b78a35!important;
+  box-shadow:
+    0 5px 0 #9f9a94,
+    0 9px 0 rgba(217,213,208,.76),
+    0 15px 24px rgba(73,52,34,.23),
+    inset 0 2px 0 rgba(255,255,255,.72),
+    inset 0 -3px 6px rgba(83,49,16,.20)!important;
+}
+.final-page .home-button:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 7px 0 #9f9a94,
+    0 11px 0 rgba(217,213,208,.78),
+    0 19px 28px rgba(73,52,34,.26),
+    inset 0 2px 0 rgba(255,255,255,.82),
+    inset 0 -3px 6px rgba(83,49,16,.17)!important;
+}
+@media(prefers-reduced-motion:reduce){.global-hero img{animation:none}}

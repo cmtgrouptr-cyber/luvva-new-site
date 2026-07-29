@@ -22,8 +22,8 @@
 <h1>The CMT Story</h1>
 <p>The Journey Behind the Vision</p>
 <div class="entry-actions">
-<button class="entry-primary luvva-action" id="enterSound" type="button">Open Story</button>
-<button class="entry-secondary luvva-action" id="enterSilent" type="button">Open Without Music</button>
+<button class="entry-primary luvva-action" id="enterSound" type="button">Story with Music</button>
+<button class="entry-secondary luvva-action" id="enterSilent" type="button">Story without Music</button>
 </div>
 <small class="entry-note">A calm bamboo-flute meditation accompanies the archive and can be adjusted or muted at any time.</small>
 </div>
@@ -152,9 +152,9 @@
 
   audio.volume = Number(volumeControl.value) / 100;
 
-  // Keep the musical atmosphere continuous: restart just before the encoded tail gap.
+  // Keep the musical atmosphere continuous: restart before the quiet ending so the music returns smoothly without a long pause.
   audio.addEventListener('timeupdate', () => {
-    if (active && Number.isFinite(audio.duration) && audio.duration - audio.currentTime < 0.35) {
+    if (active && Number.isFinite(audio.duration) && audio.duration - audio.currentTime < 9.5) {
       audio.currentTime = 0;
       audio.play().catch(() => {});
     }
