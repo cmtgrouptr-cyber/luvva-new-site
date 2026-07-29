@@ -27,9 +27,390 @@
   >
 
   <link rel="stylesheet" href="style.css?v=20260728-5" />
+  <!-- LUVVA_SECURE_GATEWAY_V2_SINGLE_FILE -->
+  <style id="luvva-secure-gateway-v2-styles">
+/* =========================================================
+   LUVVA Secure Gateway Integration V1
+   Independent overlay: does not alter the site's own layout.
+   ========================================================= */
+
+body.luvva-gateway-locked {
+  overflow: hidden !important;
+}
+
+body.luvva-gateway-locked > .site-header,
+body.luvva-gateway-locked > main,
+body.luvva-gateway-locked > footer {
+  visibility: hidden;
+}
+
+.luvva-gateway {
+  --gw-cream: #f3e5cf;
+  --gw-cream-light: #fffaf1;
+  --gw-gold: #b77a1f;
+  --gw-deep-gold: #74450b;
+  --gw-ink: #2b1b0c;
+
+  position: fixed;
+  z-index: 99999;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  min-width: 320px;
+  padding: 28px 16px;
+  overflow: auto;
+  color: var(--gw-ink);
+  font-family: "Montserrat", Arial, sans-serif;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(255,255,255,.96), transparent 35%),
+    radial-gradient(circle at 15% 85%, rgba(225,183,105,.34), transparent 34%),
+    linear-gradient(145deg, #fffaf1 0%, #f1dfc2 56%, #dfbc83 100%);
+}
+
+.luvva-gateway[hidden] {
+  display: none !important;
+}
+
+.luvva-gateway-card {
+  width: min(100%, 590px);
+  padding: clamp(30px, 6vw, 58px);
+  text-align: center;
+  border: 1px solid rgba(144,88,15,.28);
+  border-radius: 34px;
+  background: rgba(255,250,241,.86);
+  box-shadow:
+    0 35px 100px rgba(90,52,5,.22),
+    inset 0 1px 0 rgba(255,255,255,.95);
+  backdrop-filter: blur(18px) saturate(120%);
+}
+
+.luvva-gateway-heart {
+  width: 120px;
+  margin: 0 auto 18px;
+}
+
+.luvva-gateway-heart svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 15px 18px rgba(111,63,4,.23));
+}
+
+.luvva-gateway-heart-outline {
+  fill: rgba(255,255,255,.22);
+  stroke: url(#luvvaGatewayGold);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.luvva-gateway-pulse-line {
+  fill: none;
+  stroke: #bd1622;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 7px rgba(189,22,34,.45));
+}
+
+.luvva-gateway-eyebrow {
+  margin: 0 0 12px;
+  color: var(--gw-gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .19em;
+}
+
+.luvva-gateway h1 {
+  margin: 0;
+  color: var(--gw-deep-gold);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(42px, 8vw, 67px);
+  line-height: .98;
+}
+
+.luvva-gateway-intro {
+  max-width: 490px;
+  margin: 22px auto 28px;
+  color: rgba(43,27,12,.78);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.luvva-gateway-providers {
+  display: grid;
+  gap: 13px;
+}
+
+.luvva-gateway-providers button {
+  display: grid;
+  grid-template-columns: 42px 1fr 42px;
+  align-items: center;
+  min-height: 58px;
+  padding: 0 14px;
+  border: 1px solid rgba(116,69,11,.24);
+  border-radius: 16px;
+  color: var(--gw-ink);
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(235,211,174,.82));
+  box-shadow:
+    0 3px 0 rgba(255,255,255,1),
+    0 8px 0 rgba(205,211,220,.92),
+    0 13px 23px rgba(77,83,94,.23),
+    inset 0 1px 0 #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.luvva-gateway-providers button b {
+  color: rgba(74,45,11,.55);
+  font-size: 23px;
+}
+
+.luvva-gateway-providers button:hover {
+  transform: translateY(-4px);
+  border-color: rgba(183,122,31,.62);
+  box-shadow:
+    0 4px 0 #fff,
+    0 12px 0 rgba(210,216,225,.95),
+    0 20px 32px rgba(77,83,94,.30),
+    inset 0 1px 0 #fff;
+}
+
+.luvva-gateway-providers button:active {
+  transform: translateY(1px);
+}
+
+.luvva-gateway-providers button:disabled {
+  opacity: .62;
+  cursor: wait;
+  transform: none;
+}
+
+.luvva-provider-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 5px 12px rgba(0,0,0,.13);
+}
+
+.luvva-provider-google {
+  background: linear-gradient(135deg, #4285f4, #34a853);
+}
+
+.luvva-provider-whatsapp {
+  background: #25d366;
+}
+
+.luvva-provider-facebook {
+  background: #1877f2;
+  font-family: Arial, sans-serif;
+  font-size: 22px;
+}
+
+.luvva-gateway-privacy {
+  margin: 25px auto 0;
+  color: rgba(43,27,12,.58);
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.luvva-gateway-status {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border: 1px solid rgba(183,122,31,.3);
+  border-radius: 12px;
+  background: rgba(255,247,227,.85);
+  color: var(--gw-deep-gold);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.luvva-gateway-intro-screen {
+  position: fixed;
+  z-index: 2;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 20px;
+  color: var(--gw-deep-gold);
+  background: radial-gradient(circle, #fffaf2 0%, #efddbf 60%, #d9b376 100%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .35s ease, visibility .35s ease;
+}
+
+.luvva-gateway-intro-screen.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.luvva-intro-heart {
+  width: 170px;
+}
+
+.luvva-intro-heart svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.luvva-intro-outline {
+  fill: rgba(255,255,255,.22);
+  stroke: #c88b27;
+  stroke-width: 5;
+  stroke-dasharray: 310;
+  stroke-dashoffset: 310;
+  filter: drop-shadow(0 0 15px rgba(217,157,50,.45));
+}
+
+.luvva-intro-pulse {
+  fill: none;
+  stroke: #bd1622;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transform-origin: center;
+}
+
+.luvva-gateway-intro-screen.show .luvva-intro-outline {
+  animation: luvvaGatewayDrawHeart 1.05s ease forwards;
+}
+
+.luvva-gateway-intro-screen.show .luvva-intro-pulse {
+  animation:
+    luvvaGatewayPulseReveal .2s .92s forwards,
+    luvvaGatewayBeat .55s 1.15s 3 ease-in-out;
+}
+
+.luvva-gateway-intro-screen p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+@keyframes luvvaGatewayDrawHeart {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes luvvaGatewayPulseReveal {
+  to { opacity: 1; }
+}
+
+@keyframes luvvaGatewayBeat {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 4px rgba(189,22,34,.2));
+  }
+  45% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 13px rgba(189,22,34,.65));
+  }
+}
+
+@media (max-width: 520px) {
+  .luvva-gateway-card {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .luvva-gateway-heart {
+    width: 96px;
+  }
+
+  .luvva-gateway-providers button {
+    grid-template-columns: 38px 1fr 26px;
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .luvva-gateway *,
+  .luvva-gateway *::before,
+  .luvva-gateway *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+  </style>
 </head>
 
-<body>
+<body class="luvva-gateway-locked">
+
+  <!-- LUVVA Secure Gateway V2 — single-file integration -->
+  <section class="luvva-gateway" id="luvvaGateway" aria-labelledby="luvvaGatewayTitle">
+    <div class="luvva-gateway-card">
+      <div class="luvva-gateway-heart" aria-hidden="true">
+        <svg viewBox="0 0 120 108">
+          <defs>
+            <linearGradient id="luvvaGatewayGold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#fff4bf"></stop>
+              <stop offset=".36" stop-color="#e4b14b"></stop>
+              <stop offset=".72" stop-color="#9a5b0b"></stop>
+              <stop offset="1" stop-color="#f0ca72"></stop>
+            </linearGradient>
+          </defs>
+          <path class="luvva-gateway-heart-outline"
+            d="M60 96C45 81 15 62 15 34C15 15 38 8 51 22L60 32L69 22C82 8 105 15 105 34C105 62 75 81 60 96Z"></path>
+          <path class="luvva-gateway-pulse-line"
+            d="M33 56H48L54 44L62 70L70 51L76 56H89"></path>
+        </svg>
+      </div>
+
+      <p class="luvva-gateway-eyebrow">LUVVA SECURE ACCESS · V2</p>
+      <h1 id="luvvaGatewayTitle">Welcome to a more human future.</h1>
+      <p class="luvva-gateway-intro">
+        Sign in to protect your identity, communication and access to LUVVA content.
+      </p>
+
+      <div class="luvva-gateway-providers" aria-label="Sign-in options">
+        <button type="button" data-luvva-provider="Google">
+          <span class="luvva-provider-icon luvva-provider-google" aria-hidden="true">G</span>
+          <span>Continue with Google</span><b aria-hidden="true">›</b>
+        </button>
+        <button type="button" data-luvva-provider="WhatsApp">
+          <span class="luvva-provider-icon luvva-provider-whatsapp" aria-hidden="true">W</span>
+          <span>Continue with WhatsApp</span><b aria-hidden="true">›</b>
+        </button>
+        <button type="button" data-luvva-provider="Facebook">
+          <span class="luvva-provider-icon luvva-provider-facebook" aria-hidden="true">f</span>
+          <span>Continue with Facebook</span><b aria-hidden="true">›</b>
+        </button>
+      </div>
+
+      <p class="luvva-gateway-privacy">
+        Prototype access only. No password is stored by LUVVA.
+      </p>
+      <div class="luvva-gateway-status" id="luvvaGatewayStatus"
+           role="status" aria-live="polite" hidden></div>
+    </div>
+
+    <div class="luvva-gateway-intro-screen" id="luvvaGatewayIntro" aria-hidden="true">
+      <div class="luvva-intro-heart">
+        <svg viewBox="0 0 120 108" aria-hidden="true">
+          <path class="luvva-intro-outline"
+            d="M60 96C45 81 15 62 15 34C15 15 38 8 51 22L60 32L69 22C82 8 105 15 105 34C105 62 75 81 60 96Z"></path>
+          <path class="luvva-intro-pulse"
+            d="M33 56H48L54 44L62 70L70 51L76 56H89"></path>
+        </svg>
+      </div>
+      <p>Identity verified</p>
+    </div>
+  </section>
+
 
   <header class="site-header" id="siteHeader">
 
@@ -455,5 +836,108 @@
 
   </script>
 
+  <script id="luvva-secure-gateway-v2-script">
+(() => {
+  "use strict";
+
+  const SESSION_KEY = "luvva_gateway_session_v1";
+  const SESSION_DURATION_MS = 90 * 60 * 1000;
+
+  const gateway = document.getElementById("luvvaGateway");
+  const introScreen = document.getElementById("luvvaGatewayIntro");
+  const statusBox = document.getElementById("luvvaGatewayStatus");
+  const providerButtons = document.querySelectorAll("[data-luvva-provider]");
+
+  if (!gateway || !introScreen || !statusBox) {
+    console.error("LUVVA Gateway: required elements are missing.");
+    document.body.classList.remove("luvva-gateway-locked");
+    return;
+  }
+
+  function readSession() {
+    try {
+      const raw = localStorage.getItem(SESSION_KEY);
+      if (!raw) return null;
+
+      const session = JSON.parse(raw);
+
+      if (!session.expiresAt || Date.now() >= session.expiresAt) {
+        localStorage.removeItem(SESSION_KEY);
+        return null;
+      }
+
+      return session;
+    } catch (error) {
+      console.warn("LUVVA Gateway: invalid session cleared.", error);
+      localStorage.removeItem(SESSION_KEY);
+      return null;
+    }
+  }
+
+  function savePrototypeSession(provider) {
+    const now = Date.now();
+    const session = {
+      provider,
+      createdAt: now,
+      expiresAt: now + SESSION_DURATION_MS,
+      mode: "prototype"
+    };
+
+    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    return session;
+  }
+
+  function unlockSite() {
+    gateway.hidden = true;
+    document.body.classList.remove("luvva-gateway-locked");
+    document.body.style.removeProperty("overflow");
+  }
+
+  function setBusy(busy) {
+    providerButtons.forEach((button) => {
+      button.disabled = busy;
+    });
+  }
+
+  function showStatus(message) {
+    statusBox.hidden = false;
+    statusBox.textContent = message;
+  }
+
+  function playIntroAndUnlock() {
+    introScreen.classList.add("show");
+    introScreen.setAttribute("aria-hidden", "false");
+
+    window.setTimeout(() => {
+      unlockSite();
+    }, 3000);
+  }
+
+  function handleProvider(provider) {
+    setBusy(true);
+
+    showStatus(
+      `${provider} is running in prototype mode. Real provider authentication will be connected in the next implementation stage.`
+    );
+
+    savePrototypeSession(provider);
+
+    window.setTimeout(playIntroAndUnlock, 700);
+  }
+
+  providerButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      handleProvider(button.dataset.luvvaProvider || "Provider");
+    });
+  });
+
+  const activeSession = readSession();
+
+  if (activeSession) {
+    unlockSite();
+  }
+})();
+
+  </script>
 </body>
 </html>
