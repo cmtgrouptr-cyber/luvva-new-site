@@ -93,9 +93,28 @@
 </section>
 <section class="archive-page story-page operations-page chapter-warm-5" data-sound="motion" id="archive-004">
 <header class="section-heading reveal"><p class="file-number">ARCHIVE 004</p><h2>Global Operations</h2><p class="section-subtitle">Real operations. Real shipments. Real experience.</p></header>
-<div class="two-column operation-layout">
-<figure class="media-frame photo-frame reveal"><img alt="CMT Group during a 40-foot container loading operation for Haifa" src="cmt-archive-shipment-haifa.jpg"/><div class="watermark-stamp">CMT ARCHIVE</div><figcaption>40-foot container loading operation · Turkey to Haifa.</figcaption></figure>
-<div class="media-index reveal"><p class="media-kicker">REAL OPERATIONS ARCHIVE</p><h3>Selected shipment records</h3><p>These records document the practical commercial experience built under Mishrif Abu Mishrif’s leadership — experience that now supports the credibility, discipline and negotiating strength behind CMT’s future projects.</p><div class="media-placeholders"><div><b>01</b><span>Container Loading</span></div><div><b>02</b><span>Export Operations</span></div><div><b>03</b><span>Logistics &amp; Warehousing</span></div><div><b>04</b><span>International Shipments</span></div></div></div>
+<div class="global-operations-layout">
+<figure class="media-frame global-hero reveal">
+<img alt="A stylized world network showing CMT international logistics connections" src="cmt-global-network.svg"/>
+<div class="watermark-stamp">CMT GLOBAL NETWORK</div>
+<figcaption>Global reach supported by practical logistics, export and shipment experience.</figcaption>
+</figure>
+<div class="media-index global-media-index reveal">
+<p class="media-kicker">REAL OPERATIONS ARCHIVE</p><h3>Selected shipment records</h3>
+<p>Choose a record to open its video inside this page. The four video files can be added later without changing the design.</p>
+<div class="operation-video-buttons" role="tablist" aria-label="CMT operations videos">
+<button class="operation-video-button active" type="button" role="tab" aria-selected="true" data-title="Container Loading" data-video="video-container-loading.mp4"><b>01</b><span>Container Loading</span><i aria-hidden="true">▶</i></button>
+<button class="operation-video-button" type="button" role="tab" aria-selected="false" data-title="Export Operations" data-video="video-export-operations.mp4"><b>02</b><span>Export Operations</span><i aria-hidden="true">▶</i></button>
+<button class="operation-video-button" type="button" role="tab" aria-selected="false" data-title="Logistics &amp; Warehousing" data-video="video-logistics-warehousing.mp4"><b>03</b><span>Logistics &amp; Warehousing</span><i aria-hidden="true">▶</i></button>
+<button class="operation-video-button" type="button" role="tab" aria-selected="false" data-title="International Shipments" data-video="video-international-shipments.mp4"><b>04</b><span>International Shipments</span><i aria-hidden="true">▶</i></button>
+</div>
+</div>
+</div>
+<div class="operations-player reveal" id="operationsPlayer">
+<div class="operations-player-placeholder" id="operationsPlaceholder">
+<span class="player-icon">▶</span><p class="media-kicker">VIDEO ARCHIVE</p><h3 id="operationsTitle">Container Loading</h3><p>Video space is ready. Add the matching MP4 file to this folder to activate playback.</p>
+</div>
+<video id="operationsVideo" controls preload="metadata" playsinline hidden></video>
 </div>
 </section>
 <section class="archive-page story-page company-record chapter-warm-6" data-sound="motion" id="archive-005">
@@ -124,6 +143,10 @@
   const modal = document.getElementById('documentModal');
   const closeModal = document.getElementById('closeModal');
   const toTop = document.getElementById('toTop');
+  const operationButtons = [...document.querySelectorAll('.operation-video-button')];
+  const operationsVideo = document.getElementById('operationsVideo');
+  const operationsPlaceholder = document.getElementById('operationsPlaceholder');
+  const operationsTitle = document.getElementById('operationsTitle');
   let active = false;
   let fadeTimer = null;
 
@@ -190,6 +213,33 @@
   closeModal.addEventListener('click',hideModal);
   modal.addEventListener('click',e=>{if(e.target===modal)hideModal();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')hideModal();});
+
+  operationButtons.forEach(button => button.addEventListener('click', () => {
+    operationButtons.forEach(item => {
+      item.classList.remove('active');
+      item.setAttribute('aria-selected','false');
+    });
+    button.classList.add('active');
+    button.setAttribute('aria-selected','true');
+    const title = button.dataset.title;
+    const source = button.dataset.video;
+    operationsTitle.textContent = title;
+    operationsVideo.pause();
+    operationsVideo.removeAttribute('src');
+    operationsVideo.load();
+    operationsVideo.hidden = true;
+    operationsPlaceholder.hidden = false;
+    fetch(source, {method:'HEAD'}).then(response => {
+      if (!response.ok) throw new Error('Video not found');
+      operationsVideo.src = source;
+      operationsVideo.hidden = false;
+      operationsPlaceholder.hidden = true;
+      operationsVideo.play().catch(() => {});
+    }).catch(() => {
+      operationsPlaceholder.querySelector('p:last-child').textContent = 'This video has not been added yet. Upload ' + source + ' to activate it.';
+    });
+    document.getElementById('operationsPlayer').scrollIntoView({behavior:'smooth',block:'center'});
+  }));
 
   const revealObserver = new IntersectionObserver(entries => entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
