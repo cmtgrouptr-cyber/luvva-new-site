@@ -280,3 +280,106 @@ blockquote,
   .back-button{width:auto;font-size:.64rem;padding:9px 11px}
 }
 @media(prefers-reduced-motion:reduce){.luvva-action::after{animation:none}}
+
+/* ===== V10 — REFINED ENTRY + UNIFIED IVORY RETURN BUTTONS ===== */
+.entry-folder{
+  padding-top:clamp(82px,9vw,108px);
+}
+
+/* The entry-page return control now sits clearly at the top. */
+.entry-back,
+.back-button{
+  color:#7b2438!important;
+  border:1px solid rgba(174,166,157,.98)!important;
+  border-radius:18px!important;
+  background:
+    linear-gradient(180deg,#fffefa 0%,#fff8eb 34%,#eee9e2 68%,#d8d4cf 100%)!important;
+  box-shadow:
+    0 4px 0 #aaa59f,
+    0 8px 0 rgba(218,214,209,.72),
+    0 13px 24px rgba(74,57,46,.22),
+    inset 0 2px 0 rgba(255,255,255,1),
+    inset 0 -3px 6px rgba(128,119,108,.18)!important;
+  text-shadow:0 1px 0 #fff,0 2px 5px rgba(123,36,56,.13);
+}
+.entry-back:hover,
+.back-button:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 6px 0 #aaa59f,
+    0 10px 0 rgba(218,214,209,.76),
+    0 17px 28px rgba(74,57,46,.24),
+    inset 0 2px 0 #fff,
+    inset 0 -3px 6px rgba(128,119,108,.15)!important;
+}
+.entry-back:active,
+.back-button:active{
+  transform:translateY(4px);
+  box-shadow:
+    0 1px 0 #aaa59f,
+    0 3px 0 rgba(218,214,209,.7),
+    0 6px 11px rgba(74,57,46,.18),
+    inset 0 2px 5px rgba(128,119,108,.16)!important;
+}
+.entry-back{
+  position:absolute;
+  top:24px;
+  left:28px;
+  z-index:4;
+  width:auto;
+  min-height:42px;
+  margin:0;
+  padding:10px 17px;
+  font-size:.66rem;
+}
+.back-button{
+  min-height:42px;
+  padding:10px 16px;
+}
+
+/* Smaller, calmer entry controls with a richer warm-gold primary button. */
+.entry-actions{
+  gap:14px;
+  margin-top:28px;
+}
+.entry-actions .luvva-action{
+  min-height:43px;
+  padding:11px 17px;
+  border-radius:16px;
+  font-size:.66rem;
+  letter-spacing:.075em;
+}
+.entry-primary{
+  color:#fffdf5;
+  border-color:#9a6a2e;
+  background:linear-gradient(180deg,#d7b46e 0%,#b9853e 52%,#815326 100%);
+  box-shadow:
+    0 6px 0 #67401d,
+    0 11px 18px rgba(93,55,22,.27),
+    inset 0 1px 0 rgba(255,255,255,.55),
+    inset 0 -2px 5px rgba(54,29,9,.24);
+}
+.entry-secondary{
+  color:#6f2a3d;
+  border-color:#c9bca9;
+  background:linear-gradient(180deg,#fffdf8 0%,#f3eadc 56%,#ddd2c2 100%);
+  box-shadow:
+    0 6px 0 #b7aa99,
+    0 11px 18px rgba(77,57,43,.18),
+    inset 0 1px 0 #fff,
+    inset 0 -2px 5px rgba(93,73,55,.13);
+}
+
+@media(max-width:760px){
+  .entry-folder{padding-top:88px}
+  .entry-back{
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    width:max-content;
+    max-width:calc(100% - 40px);
+  }
+  .entry-back:hover{transform:translateX(-50%) translateY(-2px)}
+  .entry-back:active{transform:translateX(-50%) translateY(4px)}
+  .entry-actions .luvva-action{width:100%}
+}
