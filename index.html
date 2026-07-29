@@ -30,7 +30,7 @@
   <!-- LUVVA V3 single-file styles -->
   <style id="luvva-v3-styles">
 /* ==========================================================
-   LUVVA SECURE GATEWAY V4 — HEART-ROUTED SIGNAL
+   LUVVA SECURE GATEWAY V4 FINAL — EXACT LED ROUTE
    Single-file integration; isolated from the website layout.
    ========================================================== */
 
@@ -101,8 +101,8 @@ body.luvva-v3-locked > footer {
 .luvva-v3-shell {
   position: relative;
   z-index: 1;
-  width: min(100%, 670px);
-  padding: clamp(24px, 4.3vw, 44px);
+  width: min(100%, 536px);
+  padding: clamp(19px, 3.45vw, 35px);
   text-align: center;
   border: 1px solid rgba(226,184,96,.31);
   border-radius: 34px;
@@ -140,7 +140,7 @@ body.luvva-v3-locked > footer {
 
 .luvva-v3-logo-stage {
   position: relative;
-  width: min(100%, 520px);
+  width: min(100%, 416px);
   margin: 0 auto 10px;
   filter: drop-shadow(0 28px 44px rgba(0,0,0,.92));
 }
@@ -161,10 +161,10 @@ body.luvva-v3-locked > footer {
 
 .luvva-v3-ecg {
   position: absolute;
-  left: 13.5%;
-  top: 1.5%;
-  width: 73%;
-  height: 54%;
+  left: 12.2%;
+  top: 0.8%;
+  width: 75.6%;
+  height: 55.5%;
   overflow: visible;
   pointer-events: none;
   filter: drop-shadow(0 0 7px rgba(255,206,102,.6));
@@ -181,11 +181,11 @@ body.luvva-v3-locked > footer {
 .luvva-v4-route-trail {
   fill: none;
   stroke: url(#luvvaV4SignalGold);
-  stroke-width: 3.1;
+  stroke-width: 2.65;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 48 952;
-  animation: luvvaV4RouteRun 3.25s linear infinite;
+  stroke-dasharray: 62 938;
+  animation: luvvaV4RouteRun 3.6s linear infinite;
   filter:
     drop-shadow(0 0 3px rgba(255,241,178,.95))
     drop-shadow(0 0 10px rgba(226,154,33,.72));
@@ -199,10 +199,18 @@ body.luvva-v3-locked > footer {
     drop-shadow(0 0 18px rgba(220,137,18,.8));
 }
 
+.luvva-v4-led-follower {
+  fill: #e7ad43;
+  opacity: .68;
+  filter:
+    drop-shadow(0 0 3px rgba(255,239,176,.92))
+    drop-shadow(0 0 8px rgba(224,151,29,.7));
+}
+
 .luvva-v4-end-flare {
   fill: #fff1a8;
-  transform-origin: 232px 148px;
-  animation: luvvaV4EndFlare 3.25s ease-out infinite;
+  transform-origin: 252px 137px;
+  animation: luvvaV4EndFlare 3.6s ease-out infinite;
   filter:
     drop-shadow(0 0 5px #fff6d0)
     drop-shadow(0 0 14px rgba(236,171,49,.95));
@@ -212,8 +220,8 @@ body.luvva-v3-locked > footer {
   fill: none;
   stroke: rgba(255,226,149,.92);
   stroke-width: 1.4;
-  transform-origin: 232px 148px;
-  animation: luvvaV4EndRing 3.25s ease-out infinite;
+  transform-origin: 252px 137px;
+  animation: luvvaV4EndRing 3.6s ease-out infinite;
 }
 
 .luvva-v3-kicker {
@@ -228,7 +236,7 @@ body.luvva-v3-locked > footer {
 .luvva-v3-title {
   margin: 0;
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(33px, 7vw, 58px);
+  font-size: clamp(29px, 5.6vw, 46px);
   font-weight: 600;
   line-height: 1;
   letter-spacing: .012em;
@@ -461,7 +469,7 @@ body.luvva-v3-locked > footer {
   }
 
   .luvva-v3-logo-stage {
-    width: min(100%, 430px);
+    width: min(100%, 344px);
   }
 
   .luvva-v3-title {
@@ -492,7 +500,7 @@ body.luvva-v3-locked > footer {
 
 <body class="luvva-v3-locked">
 
-  <!-- LUVVA_SECURE_GATEWAY_V4_HEART_SIGNAL -->
+  <!-- LUVVA_SECURE_GATEWAY_V4_FINAL_LED -->
   <section id="luvvaGatewayV3" aria-labelledby="luvvaV3Title">
     <div class="luvva-v3-aura" aria-hidden="true"></div>
 
@@ -513,34 +521,55 @@ body.luvva-v3-locked > footer {
               <stop offset="1" stop-color="#c77b0b"></stop>
             </linearGradient>
             <path id="luvvaV4MotionPath" pathLength="1000"
-              d="M58 188
-                 C48 153 55 111 84 82
-                 C109 57 143 64 165 93
-                 C175 78 190 68 210 67
-                 C244 67 270 95 270 127
-                 C270 155 251 176 225 191
-                 C205 203 188 211 178 218
-                 C165 206 153 194 144 181
-                 C136 169 130 158 124 148
-                 L110 148
-                 L120 137 L130 148
-                 L142 118 L153 159
-                 L166 92 L181 166
-                 L194 137 L206 148
-                 L232 148" />
+              d="M51 190
+                 C40 161 42 121 64 89
+                 C83 61 111 55 136 68
+                 C147 74 156 83 165 95
+                 C174 83 184 74 195 68
+                 C220 55 248 61 267 89
+                 C289 121 290 158 276 184
+                 C261 207 229 220 180 228
+                 C161 219 143 207 128 193
+                 C115 181 104 168 95 156
+                 C88 147 82 141 76 137
+                 L103 137
+                 L116 126
+                 L128 137
+                 L141 106
+                 L154 158
+                 L168 82
+                 L184 166
+                 L198 126
+                 L211 137
+                 L252 137" />
           </defs>
 
           <use href="#luvvaV4MotionPath" class="luvva-v4-route-base"></use>
           <use href="#luvvaV4MotionPath" class="luvva-v4-route-trail"></use>
 
-          <circle class="luvva-v4-energy-dot" r="4.1">
-            <animateMotion dur="3.25s" repeatCount="indefinite" rotate="auto">
+          <circle class="luvva-v4-led-follower" r="2.15">
+            <animateMotion dur="3.6s" begin="-0.14s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#luvvaV4MotionPath"></mpath>
+            </animateMotion>
+          </circle>
+          <circle class="luvva-v4-led-follower" r="2.55">
+            <animateMotion dur="3.6s" begin="-0.09s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#luvvaV4MotionPath"></mpath>
+            </animateMotion>
+          </circle>
+          <circle class="luvva-v4-led-follower" r="3.0">
+            <animateMotion dur="3.6s" begin="-0.045s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#luvvaV4MotionPath"></mpath>
+            </animateMotion>
+          </circle>
+          <circle class="luvva-v4-energy-dot" r="3.75">
+            <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto">
               <mpath href="#luvvaV4MotionPath"></mpath>
             </animateMotion>
           </circle>
 
-          <circle class="luvva-v4-end-ring" cx="232" cy="148" r="7"></circle>
-          <circle class="luvva-v4-end-flare" cx="232" cy="148" r="4.2"></circle>
+          <circle class="luvva-v4-end-ring" cx="252" cy="137" r="6.4"></circle>
+          <circle class="luvva-v4-end-flare" cx="252" cy="137" r="3.8"></circle>
         </svg>
       </div>
 
