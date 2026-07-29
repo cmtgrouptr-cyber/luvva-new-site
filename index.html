@@ -30,7 +30,7 @@
   <!-- LUVVA V3 single-file styles -->
   <style id="luvva-v3-styles">
 /* ==========================================================
-   LUVVA SECURE GATEWAY V3.1 — LUXURY HEART EXPERIENCE
+   LUVVA SECURE GATEWAY V4 — HEART-ROUTED SIGNAL
    Single-file integration; isolated from the website layout.
    ========================================================== */
 
@@ -158,42 +158,62 @@ body.luvva-v3-locked > footer {
   animation: luvvaV3LogoBreath 2.8s ease-in-out infinite;
 }
 
+
 .luvva-v3-ecg {
   position: absolute;
-  left: 14%;
-  right: 14%;
-  top: 34%;
-  width: 72%;
-  height: 35%;
+  left: 13.5%;
+  top: 1.5%;
+  width: 73%;
+  height: 54%;
   overflow: visible;
   pointer-events: none;
-  filter: drop-shadow(0 0 6px rgba(255,206,102,.72));
+  filter: drop-shadow(0 0 7px rgba(255,206,102,.6));
 }
 
-.luvva-v3-ecg-base {
+.luvva-v4-route-base {
   fill: none;
-  stroke: rgba(255,218,139,.13);
-  stroke-width: 2;
+  stroke: rgba(255,218,139,.07);
+  stroke-width: 1.65;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.luvva-v3-ecg-runner {
+.luvva-v4-route-trail {
   fill: none;
-  stroke: url(#luvvaV3SignalGold);
-  stroke-width: 3.4;
+  stroke: url(#luvvaV4SignalGold);
+  stroke-width: 3.1;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 34 310;
-  animation: luvvaV3SignalRun 2.85s linear infinite;
-}
-
-.luvva-v3-signal-dot {
-  fill: #fff0af;
+  stroke-dasharray: 48 952;
+  animation: luvvaV4RouteRun 3.25s linear infinite;
   filter:
-    drop-shadow(0 0 4px #fff3c3)
-    drop-shadow(0 0 12px rgba(231,165,44,.92));
-  animation: luvvaV3DotGlow 2.85s ease-in-out infinite;
+    drop-shadow(0 0 3px rgba(255,241,178,.95))
+    drop-shadow(0 0 10px rgba(226,154,33,.72));
+}
+
+.luvva-v4-energy-dot {
+  fill: #fff5c8;
+  filter:
+    drop-shadow(0 0 3px #fff8d9)
+    drop-shadow(0 0 9px rgba(255,208,99,.98))
+    drop-shadow(0 0 18px rgba(220,137,18,.8));
+}
+
+.luvva-v4-end-flare {
+  fill: #fff1a8;
+  transform-origin: 232px 148px;
+  animation: luvvaV4EndFlare 3.25s ease-out infinite;
+  filter:
+    drop-shadow(0 0 5px #fff6d0)
+    drop-shadow(0 0 14px rgba(236,171,49,.95));
+}
+
+.luvva-v4-end-ring {
+  fill: none;
+  stroke: rgba(255,226,149,.92);
+  stroke-width: 1.4;
+  transform-origin: 232px 148px;
+  animation: luvvaV4EndRing 3.25s ease-out infinite;
 }
 
 .luvva-v3-kicker {
@@ -408,14 +428,21 @@ body.luvva-v3-locked > footer {
   }
 }
 
-@keyframes luvvaV3SignalRun {
-  from { stroke-dashoffset: 344; }
+@keyframes luvvaV4RouteRun {
+  from { stroke-dashoffset: 1000; }
   to { stroke-dashoffset: 0; }
 }
 
-@keyframes luvvaV3DotGlow {
-  0%, 78%, 100% { opacity: .12; transform: scale(.55); }
-  88% { opacity: 1; transform: scale(1.45); }
+@keyframes luvvaV4EndFlare {
+  0%, 88%, 100% { opacity: 0; transform: scale(.35); }
+  92% { opacity: 1; transform: scale(1.45); }
+  96% { opacity: .42; transform: scale(.8); }
+}
+
+@keyframes luvvaV4EndRing {
+  0%, 89%, 100% { opacity: 0; transform: scale(.4); }
+  92% { opacity: .9; transform: scale(.7); }
+  97% { opacity: 0; transform: scale(2.2); }
 }
 
 @keyframes luvvaV3SuccessPulse {
@@ -465,7 +492,7 @@ body.luvva-v3-locked > footer {
 
 <body class="luvva-v3-locked">
 
-  <!-- LUVVA_SECURE_GATEWAY_V3_1_LUXURY -->
+  <!-- LUVVA_SECURE_GATEWAY_V4_HEART_SIGNAL -->
   <section id="luvvaGatewayV3" aria-labelledby="luvvaV3Title">
     <div class="luvva-v3-aura" aria-hidden="true"></div>
 
@@ -477,25 +504,43 @@ body.luvva-v3-locked > footer {
           alt=""
         />
 
-        <svg class="luvva-v3-ecg" viewBox="0 0 360 120" preserveAspectRatio="none">
+        <svg class="luvva-v3-ecg" viewBox="0 0 330 230" preserveAspectRatio="xMidYMid meet">
           <defs>
-            <linearGradient id="luvvaV3SignalGold" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stop-color="#7a4300"></stop>
-              <stop offset=".35" stop-color="#d99c2d"></stop>
-              <stop offset=".72" stop-color="#fff0ad"></stop>
-              <stop offset="1" stop-color="#c98012"></stop>
+            <linearGradient id="luvvaV4SignalGold" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#8a4b00"></stop>
+              <stop offset=".42" stop-color="#e1a638"></stop>
+              <stop offset=".72" stop-color="#fff4bd"></stop>
+              <stop offset="1" stop-color="#c77b0b"></stop>
             </linearGradient>
+            <path id="luvvaV4MotionPath" pathLength="1000"
+              d="M58 188
+                 C48 153 55 111 84 82
+                 C109 57 143 64 165 93
+                 C175 78 190 68 210 67
+                 C244 67 270 95 270 127
+                 C270 155 251 176 225 191
+                 C205 203 188 211 178 218
+                 C165 206 153 194 144 181
+                 C136 169 130 158 124 148
+                 L110 148
+                 L120 137 L130 148
+                 L142 118 L153 159
+                 L166 92 L181 166
+                 L194 137 L206 148
+                 L232 148" />
           </defs>
-          <path
-            class="luvva-v3-ecg-base"
-            d="M6 91 H54 L70 72 L89 89 L109 45 L129 96 L151 12 L177 105 L197 72 L213 91 H352"
-          ></path>
-          <path
-            class="luvva-v3-ecg-runner"
-            pathLength="344"
-            d="M6 91 H54 L70 72 L89 89 L109 45 L129 96 L151 12 L177 105 L197 72 L213 91 H352"
-          ></path>
-          <circle class="luvva-v3-signal-dot" cx="350" cy="91" r="3.5"></circle>
+
+          <use href="#luvvaV4MotionPath" class="luvva-v4-route-base"></use>
+          <use href="#luvvaV4MotionPath" class="luvva-v4-route-trail"></use>
+
+          <circle class="luvva-v4-energy-dot" r="4.1">
+            <animateMotion dur="3.25s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#luvvaV4MotionPath"></mpath>
+            </animateMotion>
+          </circle>
+
+          <circle class="luvva-v4-end-ring" cx="232" cy="148" r="7"></circle>
+          <circle class="luvva-v4-end-flare" cx="232" cy="148" r="4.2"></circle>
         </svg>
       </div>
 
