@@ -1,9 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
-<defs><radialGradient id="bg" cx="50%" cy="45%" r="70%"><stop offset="0" stop-color="#fff9ee"/><stop offset=".55" stop-color="#ead8bb"/><stop offset="1" stop-color="#b98556"/></radialGradient><radialGradient id="earth" cx="45%" cy="35%" r="70%"><stop offset="0" stop-color="#f8edda"/><stop offset=".55" stop-color="#b88b58"/><stop offset="1" stop-color="#6f4b2d"/></radialGradient><filter id="glow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-<rect width="1600" height="900" fill="url(#bg)"/><g opacity=".24" stroke="#8c633e" stroke-width="2"><path d="M0 170H1600M0 340H1600M0 510H1600M0 680H1600"/><path d="M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/></g>
-<circle cx="770" cy="450" r="310" fill="url(#earth)" stroke="#e3c98f" stroke-width="8"/>
-<g fill="#f4e7cc" opacity=".92"><path d="M540 280c90-80 190-87 260-50l-35 70-80 30-45 75-78-34-42-54z"/><path d="M720 390l95-45 100 20 75 86-42 75-98-13-56 86-84-25-38-92z"/><path d="M1010 340l105-32 102 52 40 95-61 74-91-16-55-85z"/><path d="M555 530l92 28 66 98-30 110-94-35-55-93z"/></g>
-<g fill="none" stroke="#d6a74e" stroke-width="7" stroke-linecap="round" filter="url(#glow)"><path d="M150 210Q530 60 770 450"/><path d="M770 450Q1050 120 1460 210"/><path d="M770 450Q1110 520 1480 690"/><path d="M770 450Q480 730 130 690"/><path d="M770 450Q450 260 240 390"/></g>
-<g fill="#7b2438" stroke="#fff2d7" stroke-width="5" filter="url(#glow)"><circle cx="150" cy="210" r="14"/><circle cx="1460" cy="210" r="14"/><circle cx="1480" cy="690" r="14"/><circle cx="130" cy="690" r="14"/><circle cx="240" cy="390" r="14"/><circle cx="770" cy="450" r="18"/></g>
-<g fill="#fff7e7" font-family="Montserrat,Arial" text-anchor="middle"><text x="800" y="820" font-size="42" font-weight="600" letter-spacing="8">GLOBAL OPERATIONS</text><text x="800" y="860" font-size="20" letter-spacing="4" fill="#6f4b2d">ONE NETWORK · REAL EXPERIENCE · TRUST ACROSS BORDERS</text></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Elegant CMT global operations network">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f9f0df"/><stop offset=".52" stop-color="#ead6b7"/><stop offset="1" stop-color="#bd8452"/></linearGradient>
+  <radialGradient id="orb" cx="42%" cy="32%" r="72%"><stop stop-color="#fffaf0"/><stop offset=".42" stop-color="#d9b77c"/><stop offset=".78" stop-color="#9b673d"/><stop offset="1" stop-color="#5f3e28"/></radialGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#9a672d"/><stop offset=".48" stop-color="#f1d58d"/><stop offset="1" stop-color="#a46c30"/></linearGradient>
+  <filter id="shadow"><feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#4b2d1a" flood-opacity=".28"/></filter>
+  <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <clipPath id="sphere"><circle cx="800" cy="432" r="286"/></clipPath>
+</defs>
+<rect width="1600" height="900" fill="url(#bg)"/>
+<g opacity=".12" stroke="#765035" stroke-width="1.5"><path d="M0 155H1600M0 315H1600M0 475H1600M0 635H1600M0 795H1600"/><path d="M150 0V900M350 0V900M550 0V900M750 0V900M950 0V900M1150 0V900M1350 0V900M1550 0V900"/></g>
+<circle cx="800" cy="432" r="302" fill="none" stroke="#f6e3ad" stroke-width="8" opacity=".75" filter="url(#shadow)"/>
+<circle cx="800" cy="432" r="286" fill="url(#orb)"/>
+<g clip-path="url(#sphere)" fill="none" stroke="#f6e7c3" opacity=".38">
+  <ellipse cx="800" cy="432" rx="286" ry="105" stroke-width="3"/><ellipse cx="800" cy="432" rx="286" ry="205" stroke-width="2"/>
+  <ellipse cx="800" cy="432" rx="105" ry="286" stroke-width="3"/><ellipse cx="800" cy="432" rx="205" ry="286" stroke-width="2"/>
+  <path d="M514 432H1086" stroke-width="3"/><path d="M800 146V718" stroke-width="3"/>
+</g>
+<g clip-path="url(#sphere)" fill="#f4e6c7" opacity=".94">
+  <path d="M612 257l82-46 111 9 39 50-32 43-69 9-30 58-70-9-36-50z"/>
+  <path d="M760 355l87-35 98 27 73 74-34 67-84 9-41 83-76-14-54-85 13-72z"/>
+  <path d="M1001 283l72-29 83 34 37 69-35 56-74-2-48-55z"/>
+  <path d="M597 495l75 25 47 83-27 86-76-31-46-78z"/>
+</g>
+<g fill="none" stroke="url(#gold)" stroke-width="6" stroke-linecap="round" filter="url(#glow)">
+  <path d="M220 245C430 80 615 145 736 350"/>
+  <path d="M864 350C995 123 1180 110 1392 245"/>
+  <path d="M980 460C1198 438 1355 552 1450 690"/>
+  <path d="M676 500C510 663 360 724 170 660"/>
+</g>
+<g fill="#7b2438" stroke="#fff0cd" stroke-width="5" filter="url(#glow)">
+  <circle cx="220" cy="245" r="12"/><circle cx="1392" cy="245" r="12"/><circle cx="1450" cy="690" r="12"/><circle cx="170" cy="660" r="12"/><circle cx="800" cy="432" r="17"/>
+</g>
+<g text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" fill="#5c3926"><text x="800" y="808" font-size="54" font-weight="700" letter-spacing="3">Global Operations</text></g>
+<g text-anchor="middle" font-family="Montserrat, Arial, sans-serif" fill="#7a5234"><text x="800" y="850" font-size="18" font-weight="600" letter-spacing="5">REAL EXPERIENCE · TRUST ACROSS BORDERS</text></g>
 </svg>
