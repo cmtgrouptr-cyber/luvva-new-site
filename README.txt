@@ -23,3 +23,10 @@ V5 final welcome refinements:
 - Heartbeat continues at the same rhythm during the welcome screen.
 - Removed the duplicated IDENTITY VERIFIED / WELCOME TO LUVVA lines.
 - Kept only the main Welcome to LUVVA title and the human-heart tagline.
+
+V6 refinement:
+- Welcome screen duration: 8 seconds.
+- Preserved the original black premium square and gold heart animation.
+- Hidden only the embedded LUVVA word below the heart on the welcome screen.
+- Restored and spaced the ornate “Welcome to LUVVA” message.
+- Added a restrained burgundy halo outside the black square.

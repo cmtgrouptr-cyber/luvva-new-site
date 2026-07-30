@@ -668,21 +668,58 @@ body.luvva-v3-locked > footer {
   position:relative; z-index:1; width:min(100%,620px); text-align:center;
   display:grid; justify-items:center;
 }
-.luvva-welcome-logo-mount { width:min(88vw,455px); min-height:220px; display:grid; place-items:center; }
-.luvva-welcome-logo-mount .luvva-v3-logo-stage { width:100%; margin:0 auto 2px; }
+.luvva-welcome-logo-mount {
+  width:min(86vw,455px);
+  display:grid;
+  place-items:center;
+  margin-bottom:34px;
+}
+/* Keep the original premium square intact while hiding only the embedded LUVVA word. */
+.luvva-welcome-logo-mount .luvva-v3-logo-stage {
+  width:100%;
+  aspect-ratio:860 / 897;
+  margin:0;
+  overflow:hidden;
+  border:1px solid rgba(232,178,74,.24);
+  border-radius:2px;
+  background:#020100;
+  box-shadow:
+    0 0 0 1px rgba(255,224,153,.035) inset,
+    0 18px 48px rgba(0,0,0,.78),
+    0 0 30px rgba(102,12,35,.23),
+    0 0 72px rgba(83,8,28,.14);
+  filter:none;
+}
+.luvva-welcome-logo-mount .luvva-v3-logo,
+.luvva-welcome-logo-mount .luvva-v3-ecg {
+  position:absolute;
+  width:92%;
+  height:auto;
+  left:4%;
+  top:2%;
+}
 .luvva-welcome-logo-mount .luvva-v3-logo { animation:luvvaV3LogoBreath 2.8s ease-in-out infinite; }
+.luvva-welcome-logo-mount .luvva-v3-logo-stage::after {
+  content:"";
+  position:absolute;
+  z-index:3;
+  left:0; right:0; bottom:0;
+  height:17.7%;
+  background:linear-gradient(180deg,rgba(2,1,0,.94) 0%,#020100 22%,#020100 100%);
+  pointer-events:none;
+}
 .luvva-v3-success.show .luvva-welcome-logo-mount { animation:luvvaWelcomeHeartIn .9s cubic-bezier(.2,.8,.2,1) both; }
 .luvva-welcome-title {
-  margin:0; font:600 clamp(36px,6vw,58px)/1 "Cormorant Garamond",Georgia,serif;
+  margin:0; font:600 clamp(38px,6vw,60px)/1.05 "Cormorant Garamond",Georgia,serif; letter-spacing:.012em;
   color:transparent; background:linear-gradient(180deg,#fff3bf 0%,#e9bd62 48%,#9a5b08 100%);
   -webkit-background-clip:text; background-clip:text;
   text-shadow:0 12px 28px rgba(0,0,0,.68);
 }
 .luvva-welcome-message {
-  margin:14px 0 0; color:rgba(255,245,224,.66); font:500 13px/1.7 "Montserrat",sans-serif;
+  margin:13px 0 0; color:rgba(255,245,224,.72); font:500 13px/1.7 "Montserrat",sans-serif;
   letter-spacing:.035em;
 }
-.luvva-welcome-pulse-line { width:min(240px,60vw); height:1px; margin-top:25px; background:linear-gradient(90deg,transparent,rgba(224,166,54,.46),transparent); overflow:visible; }
+.luvva-welcome-pulse-line { width:min(240px,60vw); height:1px; margin-top:22px; background:linear-gradient(90deg,transparent,rgba(224,166,54,.46),transparent); overflow:visible; }
 .luvva-welcome-pulse-line span { display:block; width:9px; height:9px; margin:-4px auto 0; border-radius:50%; background:#fff0b0; box-shadow:0 0 8px #fff3c1,0 0 22px rgba(225,151,31,.9); animation:luvvaWelcomeBeat 1.45s ease-in-out infinite; }
 .luvva-v3-success.show .luvva-welcome-title,
 .luvva-v3-success.show .luvva-welcome-message,
@@ -694,7 +731,7 @@ body.luvva-v3-locked > footer {
 @keyframes luvvaWelcomeTextIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
 @keyframes luvvaWelcomeBeat { 0%,100%{transform:scale(.72);opacity:.55} 18%{transform:scale(1.35);opacity:1} 30%{transform:scale(.9);opacity:.75} }
 @media (max-width:520px){
-  .luvva-welcome-logo-mount{width:min(96vw,390px);min-height:190px}
+  .luvva-welcome-logo-mount{width:min(91vw,390px);margin-bottom:28px}
   .luvva-welcome-title{font-size:38px}
   .luvva-welcome-message{font-size:12px;padding:0 12px}
 }
@@ -702,7 +739,7 @@ body.luvva-v3-locked > footer {
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V11_WELCOME_CLEAN_6_SECONDS_2026-07-30 -->
+<!-- LUVVA_SECURE_GATEWAY_V12_WELCOME_REFINED_8_SECONDS_2026-07-30 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -804,6 +841,7 @@ body.luvva-v3-locked > footer {
 <div aria-hidden="true" class="luvva-v3-success-aura"></div>
 <div class="luvva-v3-success-inner">
 <div aria-label="LUVVA heart" class="luvva-welcome-logo-mount" id="luvvaWelcomeLogoMount"></div>
+<h2 class="luvva-welcome-title">Welcome to LUVVA</h2>
 <p class="luvva-welcome-message">Where technology begins with the human heart.</p>
 <div aria-hidden="true" class="luvva-welcome-pulse-line"><span></span></div>
 </div>
@@ -1278,18 +1316,19 @@ body.luvva-v3-locked > footer {
     const beat3 = setTimeout(playLowHeartbeatPair, 2900);
     const beat4 = setTimeout(playLowHeartbeatPair, 4350);
     const beat5 = setTimeout(playLowHeartbeatPair, 5800);
+    const beat6 = setTimeout(playLowHeartbeatPair, 7250);
 
-    // Keep the welcome screen fully visible for six seconds, then fade out.
-    setTimeout(() => success.classList.add("is-leaving"), 6000);
+    // Keep the welcome screen fully visible for eight seconds, then fade out.
+    setTimeout(() => success.classList.add("is-leaving"), 8000);
     setTimeout(() => {
-      clearTimeout(beat2); clearTimeout(beat3); clearTimeout(beat4); clearTimeout(beat5);
+      clearTimeout(beat2); clearTimeout(beat3); clearTimeout(beat4); clearTimeout(beat5); clearTimeout(beat6);
       success.classList.remove("show", "is-leaving");
       success.setAttribute("aria-hidden", "true");
       gateway.hidden = true;
       document.body.classList.remove("luvva-v3-locked");
       document.body.style.removeProperty("overflow");
       window.scrollTo({ top: 0, behavior: "auto" });
-    }, 6600);
+    }, 8600);
   }
 
   providerButtons.forEach(button => button.addEventListener("click", async () => {
