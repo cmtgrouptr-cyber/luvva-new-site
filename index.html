@@ -767,7 +767,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V16_NO_GATEWAY_FLASH_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V17_INSTANT_WELCOME_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -1325,8 +1325,12 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   async function showWelcome() {
     await enableAudio();
+
+    // Remove the visitor-data window instantly before the welcome screen is shown.
+    // No opacity transition is allowed here, preventing any ghost image or flash.
     backdrop.classList.remove("is-open");
     backdrop.setAttribute("aria-hidden", "true");
+    backdrop.hidden = true;
     status.hidden = true;
 
     // Move the original gateway heart into the welcome screen so its gold
@@ -1386,7 +1390,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     await enableAudio();
     submit.disabled = true;
     submit.textContent = "Opening…";
-    setTimeout(showWelcome, 350);
+    showWelcome();
   });
 })();
   </script>
