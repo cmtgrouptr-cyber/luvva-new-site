@@ -647,7 +647,7 @@ body.luvva-v3-locked > footer {
     radial-gradient(ellipse at 50% 43%, rgba(83,16,38,.20) 0%, rgba(50,8,24,.08) 30%, transparent 60%),
     radial-gradient(circle at 50% 36%, rgba(215,151,39,.12), transparent 31%),
     linear-gradient(155deg,#020101 0%,#080403 49%,#010100 100%);
-  transition:opacity .55s ease,visibility .55s ease;
+  transition:opacity 1.15s cubic-bezier(.22,.72,.2,1),visibility 1.15s ease;
 }
 .luvva-v3-success.show{opacity:1;visibility:visible;pointer-events:auto}
 .luvva-v3-success.is-leaving{opacity:0}
@@ -682,44 +682,22 @@ body.luvva-page-revealing.luvva-page-visible > footer {
               transform 4.6s cubic-bezier(.18,.72,.18,1);
 }
 
-/* First the identity dissolves; the living pulse remains above the opening page. */
+/* The page opens behind the complete identity. The logo never dissolves separately. */
 .luvva-v3-success.is-opening {
   background: transparent;
   transition: background 4.5s ease;
 }
 .luvva-v3-success.is-opening .luvva-v3-success-aura {
-  opacity: 0;
+  opacity: .34;
   transition: opacity 3.2s ease;
 }
+.luvva-v3-success.is-opening .luvva-welcome-logo-mount,
 .luvva-v3-success.is-opening .luvva-welcome-title,
 .luvva-v3-success.is-opening .luvva-welcome-message,
-.luvva-v3-success.is-opening .luvva-welcome-pulse-line {
-  opacity: 0;
-  transform: translateY(-7px);
-  transition: opacity 2.15s ease, transform 2.15s ease;
-}
-.luvva-v3-success.is-opening .luvva-welcome-logo-mount {
-  box-shadow: none;
-  transition: box-shadow 2.2s ease;
-}
+.luvva-v3-success.is-opening .luvva-welcome-pulse-line,
 .luvva-v3-success.is-opening .luvva-welcome-logo-mount .luvva-v3-logo,
-.luvva-v3-success.is-opening .luvva-welcome-logo-mount .luvva-v3-logo-stage::before,
-.luvva-v3-success.is-opening .luvva-welcome-logo-mount .luvva-v3-logo-stage::after {
-  opacity: 0;
-  transition: opacity 2.2s ease;
-}
-.luvva-v3-success.is-opening .luvva-welcome-logo-mount .luvva-v3-logo-stage {
-  border-color: transparent;
-  background: transparent;
-  box-shadow: none;
-  transition: border-color 2.2s ease, background 2.2s ease, box-shadow 2.2s ease;
-}
 .luvva-v3-success.is-opening .luvva-welcome-logo-mount .luvva-v3-ecg {
   opacity: 1;
-  transition: opacity 1.25s ease;
-}
-.luvva-v3-success.pulse-fading .luvva-welcome-logo-mount .luvva-v3-ecg {
-  opacity: 0;
 }
 
 .luvva-v3-success-aura{
@@ -1379,14 +1357,12 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       success.classList.add("is-opening");
     }, 6000);
 
-    // Let the golden pulse live alone over the emerging page, then dissolve softly.
-    setTimeout(() => success.classList.add("pulse-fading"), 9700);
-
-    // Finish exactly five seconds after the reveal begins; never cut the last pulse abruptly.
+    // Keep the complete logo and wording visible while the page opens behind them.
+    // Fade the complete welcome composition only at the very end, as one unified layer.
     setTimeout(() => {
       clearInterval(heartbeatTimer);
       success.classList.add("is-leaving");
-    }, 10800);
+    }, 9850);
 
     setTimeout(() => {
       success.classList.remove("show", "is-leaving", "is-opening", "pulse-fading");
