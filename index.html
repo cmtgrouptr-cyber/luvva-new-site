@@ -161,10 +161,9 @@ body.luvva-v3-locked > footer {
 
 .luvva-v3-ecg {
   position: absolute;
-  left: 12.2%;
-  top: 0.8%;
-  width: 75.6%;
-  height: 55.5%;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: visible;
   pointer-events: none;
   filter: drop-shadow(0 0 7px rgba(255,206,102,.6));
@@ -174,11 +173,12 @@ body.luvva-v3-locked > footer {
 .luvva-v4-route-trail {
   fill: none;
   stroke: url(#luvvaV4SignalGold);
-  stroke-width: 2.65;
+  stroke-width: 0;
+  opacity: 0;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 54 946;
-  animation: luvvaV4RouteRun 4.2s linear infinite;
+  stroke-dasharray: none;
+  animation: none;
   filter:
     drop-shadow(0 0 3px rgba(255,241,178,.95))
     drop-shadow(0 0 10px rgba(226,154,33,.72));
@@ -201,6 +201,7 @@ body.luvva-v3-locked > footer {
 }
 
 .luvva-v4-end-flare {
+  display: none;
   fill: #fff1a8;
   transform-origin: 252px 137px;
   animation: luvvaV4EndFlare 4.2s ease-out infinite;
@@ -210,6 +211,7 @@ body.luvva-v3-locked > footer {
 }
 
 .luvva-v4-end-ring {
+  display: none;
   fill: none;
   stroke: rgba(255,226,149,.92);
   stroke-width: 1.4;
@@ -356,8 +358,8 @@ body.luvva-v3-locked > footer {
 .luvva-v5-business-stars {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
-  margin-left: 8px;
+  gap: 4px;
+  margin-left: 15px;
   white-space: nowrap;
 }
 .luvva-v5-business-stars i {
@@ -366,30 +368,35 @@ body.luvva-v3-locked > footer {
   color: #d89a29;
   font-style: normal;
   line-height: 1;
-  text-shadow: 0 0 7px rgba(231,171,58,.5);
-  overflow: hidden;
+  opacity: .42;
+  transform: scale(.9);
+  text-shadow: 0 0 5px rgba(231,171,58,.28);
+  animation: luvvaV7StarPulse 3.2s ease-in-out infinite;
 }
-.luvva-v5-business-stars i:nth-child(1){font-size:8px}
-.luvva-v5-business-stars i:nth-child(2){font-size:10px}
-.luvva-v5-business-stars i:nth-child(3){font-size:12px}
-.luvva-v5-business-stars i:nth-child(4){font-size:14px}
+.luvva-v5-business-stars i:nth-child(1){font-size:8px;animation-delay:0s}
+.luvva-v5-business-stars i:nth-child(2){font-size:10px;animation-delay:.18s}
+.luvva-v5-business-stars i:nth-child(3){font-size:12px;animation-delay:.36s}
+.luvva-v5-business-stars i:nth-child(4){font-size:14px;animation-delay:.54s}
 
-/* A slim gold glint crosses the entire Business Email button. */
+/* Soft gold mist only — no hard signal-like stripe. */
 .luvva-v3-providers button[data-luvva-v3-provider="Business Email"]::after {
   content: "";
   position: absolute;
   z-index: 1;
-  top: 4px;
-  bottom: 4px;
-  left: -24px;
-  width: 14px;
+  top: -16%;
+  bottom: -16%;
+  left: -76px;
+  width: 56px;
   opacity: 0;
-  transform: skewX(-18deg);
-  background: linear-gradient(90deg, transparent, rgba(255,249,213,.92), transparent);
-  filter: blur(.35px) drop-shadow(0 0 5px rgba(235,174,61,.58));
+  transform: skewX(-14deg);
+  background: radial-gradient(ellipse at center,
+    rgba(255,239,176,.32) 0%,
+    rgba(231,174,67,.14) 38%,
+    rgba(231,174,67,0) 74%);
+  filter: blur(8px);
   mix-blend-mode: screen;
   pointer-events: none;
-  animation: luvvaV6BusinessSweep 3.4s ease-in-out infinite;
+  animation: luvvaV7BusinessMist 4.1s ease-in-out infinite;
 }
 .luvva-v3-providers button[data-luvva-v3-provider="Business Email"] > * {
   position: relative;
@@ -408,26 +415,35 @@ body.luvva-v3-locked > footer {
   color:#ffe7a7;
 }
 .luvva-v3-provider-icon svg { width: 18px; height: 18px; display:block; }
+
+/* Refined scroll cue: visible, compact, not oversized. */
 .luvva-v5-scroll-hint {
   display: grid;
   place-items: center;
-  width: 48px;
-  height: 42px;
-  margin: -2px auto 5px;
-  color: #f2cb73;
-  filter: drop-shadow(0 0 7px rgba(255,222,139,.85)) drop-shadow(0 0 15px rgba(225,150,33,.62));
-  animation: luvvaV5ArrowFloat 1.55s ease-in-out infinite;
+  width: 34px;
+  height: 30px;
+  margin: 0 auto 7px;
+  color: #efc66c;
+  opacity: .86;
+  filter: drop-shadow(0 0 4px rgba(255,222,139,.62));
+  animation: luvvaV7ArrowFloat 1.7s ease-in-out infinite;
 }
-.luvva-v5-scroll-hint svg { width: 38px; height:38px; stroke-width:2.15; }
-@keyframes luvvaV6BusinessSweep {
-  0%, 16% { left: -24px; opacity: 0; }
-  22% { opacity: .8; }
-  50% { left: calc(100% + 10px); opacity: 1; }
-  56%, 100% { left: calc(100% + 10px); opacity: 0; }
+.luvva-v5-scroll-hint svg { width: 22px; height:22px; stroke-width:1.65; }
+
+@keyframes luvvaV7StarPulse {
+  0%, 13%, 100% { opacity:.42; transform:scale(.9); text-shadow:0 0 4px rgba(231,171,58,.22); }
+  19% { opacity:1; transform:scale(1.09); text-shadow:0 0 7px rgba(255,220,128,.78), 0 0 13px rgba(218,154,41,.46); }
+  29% { opacity:.62; transform:scale(1); }
 }
-@keyframes luvvaV5ArrowFloat {
-  0%,100% { transform: translateY(-2px); opacity:.6; }
-  50% { transform: translateY(7px); opacity:1; }
+@keyframes luvvaV7BusinessMist {
+  0%, 14% { left:-76px; opacity:0; }
+  21% { opacity:.32; }
+  53% { left:calc(100% + 18px); opacity:.22; }
+  61%, 100% { left:calc(100% + 18px); opacity:0; }
+}
+@keyframes luvvaV7ArrowFloat {
+  0%,100% { transform:translateY(-1px); opacity:.66; }
+  50% { transform:translateY(4px); opacity:1; }
 }
 
 .luvva-v3-note {
@@ -571,7 +587,7 @@ body.luvva-v3-locked > footer {
 
 <body class="luvva-v3-locked">
 
-  <!-- LUVVA_SECURE_GATEWAY_V5_ALIGNED -->
+  <!-- LUVVA_SECURE_GATEWAY_V7_REFINED -->
   <section id="luvvaGatewayV3" aria-labelledby="luvvaV3Title">
     <div class="luvva-v3-aura" aria-hidden="true"></div>
 
@@ -583,61 +599,40 @@ body.luvva-v3-locked > footer {
           alt=""
         />
 
-        <svg class="luvva-v3-ecg" viewBox="0 0 330 230" preserveAspectRatio="xMidYMid meet">
+        <svg class="luvva-v3-ecg" viewBox="0 0 860 897" preserveAspectRatio="xMidYMid meet">
           <defs>
-            <linearGradient id="luvvaV4SignalGold" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stop-color="#8a4b00"></stop>
-              <stop offset=".42" stop-color="#e1a638"></stop>
-              <stop offset=".72" stop-color="#fff4bd"></stop>
-              <stop offset="1" stop-color="#c77b0b"></stop>
-            </linearGradient>
-            <path id="luvvaV4MotionPath" pathLength="1000"
-              d="M50 137
-                 L96 137
-                 L111 137
-                 L122 127
-                 L134 137
-                 L146 108
-                 L158 157
-                 L171 84
-                 L186 165
-                 L200 126
-                 L213 137
-                 L252 137
-                 C277 126 286 101 273 81
-                 C258 58 226 54 202 66
-                 C188 73 176 84 165 97
-                 C154 84 142 73 128 66
-                 C104 54 72 58 57 81
-                 C44 101 46 123 67 137
-                 L50 137" />
+            <!-- Centerline traced directly over the ECG artwork embedded in the logo image. -->
+            <path id="luvvaV7MotionPath" pathLength="1000"
+              d="M275 471
+                 C315 487 365 489 408 470
+                 C452 450 470 407 482 348
+                 C490 307 493 282 498 278
+                 C506 284 511 330 516 382
+                 C521 438 524 509 531 532
+                 C538 549 548 511 558 467
+                 C568 423 574 386 581 382
+                 C590 386 597 421 604 442
+                 C611 462 620 467 628 449
+                 C637 428 647 420 657 425
+                 C669 432 672 452 667 472
+                 C661 498 647 520 631 538" />
           </defs>
 
-          <use href="#luvvaV4MotionPath" class="luvva-v4-route-trail"></use>
-
-          <circle class="luvva-v4-led-follower" r="2.15">
-            <animateMotion dur="4.2s" begin="-0.14s" repeatCount="indefinite" rotate="auto">
-              <mpath href="#luvvaV4MotionPath"></mpath>
+          <circle class="luvva-v4-led-follower" r="2.0">
+            <animateMotion dur="3.35s" begin="-0.11s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#luvvaV7MotionPath"></mpath>
             </animateMotion>
           </circle>
-          <circle class="luvva-v4-led-follower" r="2.55">
-            <animateMotion dur="4.2s" begin="-0.09s" repeatCount="indefinite" rotate="auto">
-              <mpath href="#luvvaV4MotionPath"></mpath>
+          <circle class="luvva-v4-led-follower" r="2.45">
+            <animateMotion dur="3.35s" begin="-0.055s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#luvvaV7MotionPath"></mpath>
             </animateMotion>
           </circle>
-          <circle class="luvva-v4-led-follower" r="3.0">
-            <animateMotion dur="4.2s" begin="-0.045s" repeatCount="indefinite" rotate="auto">
-              <mpath href="#luvvaV4MotionPath"></mpath>
+          <circle class="luvva-v4-energy-dot" r="3.2">
+            <animateMotion dur="3.35s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#luvvaV7MotionPath"></mpath>
             </animateMotion>
           </circle>
-          <circle class="luvva-v4-energy-dot" r="3.75">
-            <animateMotion dur="4.2s" repeatCount="indefinite" rotate="auto">
-              <mpath href="#luvvaV4MotionPath"></mpath>
-            </animateMotion>
-          </circle>
-
-          <circle class="luvva-v4-end-ring" cx="252" cy="137" r="6.4"></circle>
-          <circle class="luvva-v4-end-flare" cx="252" cy="137" r="3.8"></circle>
         </svg>
       </div>
 
