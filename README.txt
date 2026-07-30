@@ -30,3 +30,5 @@ V6 refinement:
 - Hidden only the embedded LUVVA word below the heart on the welcome screen.
 - Restored and spaced the ornate “Welcome to LUVVA” message.
 - Added a restrained burgundy halo outside the black square.
+
+V9 final welcome: complete original LUVVA logo restored, seven-second duration, velvet burgundy rear glow, Welcome title, humanity line, and fine gold ornament.
