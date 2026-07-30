@@ -589,7 +589,7 @@ body.luvva-v3-locked > footer {
 
 <body class="luvva-v3-locked">
 
-  <!-- LUVVA_SECURE_GATEWAY_V8_HEART_LIFE_FINAL_PATH_FIX_2026-07-30 -->
+  <!-- LUVVA_SECURE_GATEWAY_V8_HEART_LIFE_FINAL_START_SPEED_FIX_2026-07-30 -->
   <section id="luvvaGatewayV3" aria-labelledby="luvvaV3Title">
     <div class="luvva-v3-aura" aria-hidden="true"></div>
 
@@ -605,7 +605,9 @@ body.luvva-v3-locked > footer {
           <defs>
             <!-- One continuous life path: outer heart from the left, then the ECG from its right junction to its inner end. -->
             <path id="luvvaV8HeartLifePath" pathLength="1000"
-              d="M42 267
+              d="M430 748
+                 C388 710 318 651 234 580
+                 C134 494 49 397 42 267
                  C37 143 123 57 242 52
                  C324 48 386 88 430 166
                  C474 88 536 48 619 52
@@ -628,23 +630,23 @@ body.luvva-v3-locked > footer {
           </defs>
 
           <circle class="luvva-v4-led-follower" r="3.7">
-            <animateMotion dur="5.8s" begin="-0.18s" repeatCount="indefinite" rotate="auto">
+            <animateMotion dur="7.2s" begin="-0.18s" repeatCount="indefinite" rotate="auto">
               <mpath href="#luvvaV8HeartLifePath"></mpath>
             </animateMotion>
           </circle>
           <circle class="luvva-v4-led-follower" r="4.8">
-            <animateMotion dur="5.8s" begin="-0.09s" repeatCount="indefinite" rotate="auto">
+            <animateMotion dur="7.2s" begin="-0.09s" repeatCount="indefinite" rotate="auto">
               <mpath href="#luvvaV8HeartLifePath"></mpath>
             </animateMotion>
           </circle>
           <circle class="luvva-v4-energy-dot" r="5.8">
-            <animateMotion dur="5.8s" repeatCount="indefinite" rotate="auto">
+            <animateMotion dur="7.2s" repeatCount="indefinite" rotate="auto">
               <mpath href="#luvvaV8HeartLifePath"></mpath>
             </animateMotion>
           </circle>
           <circle cx="275" cy="471" r="5.4" fill="#fff8d6" opacity="0">
-            <animate attributeName="opacity" values="0;0;1;.35;0" keyTimes="0;.91;.955;.975;1" dur="5.8s" repeatCount="indefinite"/>
-            <animate attributeName="r" values="5.4;5.4;9.5;15;5.4" keyTimes="0;.91;.955;.985;1" dur="5.8s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0;0;1;.35;0" keyTimes="0;.91;.955;.975;1" dur="7.2s" repeatCount="indefinite"/>
+            <animate attributeName="r" values="5.4;5.4;9.5;15;5.4" keyTimes="0;.91;.955;.985;1" dur="7.2s" repeatCount="indefinite"/>
           </circle>
         </svg>
       </div>
