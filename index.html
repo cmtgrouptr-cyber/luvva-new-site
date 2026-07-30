@@ -639,7 +639,7 @@ body.luvva-v3-locked > footer {
 
   
 
-/* ===== LUVVA V13 — final seven-second welcome screen ===== */
+/* ===== LUVVA V14 — cinematic welcome-to-site transition ===== */
 .luvva-v3-success {
   position:absolute; z-index:8; inset:0; display:grid; place-items:center;
   padding:24px 14px; overflow:hidden; opacity:0; visibility:hidden; pointer-events:none;
@@ -651,6 +651,77 @@ body.luvva-v3-locked > footer {
 }
 .luvva-v3-success.show{opacity:1;visibility:visible;pointer-events:auto}
 .luvva-v3-success.is-leaving{opacity:0}
+
+/* Cinematic reveal: the page rises gently behind a dissolving curtain. */
+#luvvaGatewayV3.is-revealing {
+  background: transparent;
+  transition: background 4.5s ease;
+}
+#luvvaGatewayV3.is-revealing::before,
+#luvvaGatewayV3.is-revealing > .luvva-v3-aura,
+#luvvaGatewayV3.is-revealing > .luvva-v3-shell {
+  opacity: 0;
+  transition: opacity 2.25s ease;
+}
+body.luvva-page-revealing > .site-header,
+body.luvva-page-revealing > main,
+body.luvva-page-revealing > footer {
+  visibility: visible !important;
+  opacity: 0;
+  filter: blur(10px) brightness(1.22);
+  transform: scale(1.018);
+}
+body.luvva-page-revealing.luvva-page-visible > .site-header,
+body.luvva-page-revealing.luvva-page-visible > main,
+body.luvva-page-revealing.luvva-page-visible > footer {
+  opacity: 1;
+  filter: blur(0) brightness(1);
+  transform: scale(1);
+  transition: opacity 4.6s cubic-bezier(.18,.72,.18,1),
+              filter 4.6s cubic-bezier(.18,.72,.18,1),
+              transform 4.6s cubic-bezier(.18,.72,.18,1);
+}
+
+/* First the identity dissolves; the living pulse remains above the opening page. */
+.luvva-v3-success.is-opening {
+  background: transparent;
+  transition: background 4.5s ease;
+}
+.luvva-v3-success.is-opening .luvva-v3-success-aura {
+  opacity: 0;
+  transition: opacity 3.2s ease;
+}
+.luvva-v3-success.is-opening .luvva-welcome-title,
+.luvva-v3-success.is-opening .luvva-welcome-message,
+.luvva-v3-success.is-opening .luvva-welcome-pulse-line {
+  opacity: 0;
+  transform: translateY(-7px);
+  transition: opacity 2.15s ease, transform 2.15s ease;
+}
+.luvva-v3-success.is-opening .luvva-welcome-logo-mount {
+  box-shadow: none;
+  transition: box-shadow 2.2s ease;
+}
+.luvva-v3-success.is-opening .luvva-welcome-logo-mount .luvva-v3-logo,
+.luvva-v3-success.is-opening .luvva-welcome-logo-mount .luvva-v3-logo-stage::before,
+.luvva-v3-success.is-opening .luvva-welcome-logo-mount .luvva-v3-logo-stage::after {
+  opacity: 0;
+  transition: opacity 2.2s ease;
+}
+.luvva-v3-success.is-opening .luvva-welcome-logo-mount .luvva-v3-logo-stage {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  transition: border-color 2.2s ease, background 2.2s ease, box-shadow 2.2s ease;
+}
+.luvva-v3-success.is-opening .luvva-welcome-logo-mount .luvva-v3-ecg {
+  opacity: 1;
+  transition: opacity 1.25s ease;
+}
+.luvva-v3-success.pulse-fading .luvva-welcome-logo-mount .luvva-v3-ecg {
+  opacity: 0;
+}
+
 .luvva-v3-success-aura{
   position:absolute;width:min(88vw,900px);aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle,rgba(104,19,45,.18),rgba(71,10,30,.08) 38%,transparent 68%);
@@ -685,8 +756,10 @@ body.luvva-v3-locked > footer {
   text-shadow:0 12px 30px rgba(0,0,0,.68);
 }
 .luvva-welcome-message{
-  margin:16px 0 0;color:rgba(255,239,203,.76);
-  font:500 13px/1.7 "Montserrat",sans-serif;letter-spacing:.15em;text-transform:uppercase;
+  margin:17px 0 0;color:rgba(255,236,194,.84);
+  font:500 clamp(11px,1.45vw,14px)/1.65 "Montserrat",sans-serif;
+  letter-spacing:.19em;text-transform:uppercase;
+  text-shadow:0 0 18px rgba(218,161,58,.18);
 }
 .luvva-welcome-pulse-line{
   position:relative;width:min(270px,64vw);height:18px;margin-top:15px;background:none;overflow:visible;
@@ -716,7 +789,7 @@ body.luvva-v3-locked > footer {
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V13_FINAL_WELCOME_7_SECONDS_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V14_CINEMATIC_REVEAL_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -1284,28 +1357,44 @@ body.luvva-v3-locked > footer {
       welcomeLogoMount.appendChild(gatewayLogoStage);
     }
 
-    success.classList.remove("is-leaving");
+    success.classList.remove("is-leaving", "is-opening", "pulse-fading");
     success.classList.add("show");
     success.setAttribute("aria-hidden", "false");
 
+    // One calm, strictly even heartbeat pair every 1.45 seconds.
+    // The rhythm continues through the full cinematic reveal without a rushed final beat.
     playLowHeartbeatPair();
-    const beat2 = setTimeout(playLowHeartbeatPair, 1450);
-    const beat3 = setTimeout(playLowHeartbeatPair, 2900);
-    const beat4 = setTimeout(playLowHeartbeatPair, 4350);
-    const beat5 = setTimeout(playLowHeartbeatPair, 5800);
-    const beat6 = setTimeout(playLowHeartbeatPair, 6500);
+    const heartbeatTimer = setInterval(playLowHeartbeatPair, 1450);
 
-    // Keep the welcome screen fully visible for seven seconds, then fade out.
-    setTimeout(() => success.classList.add("is-leaving"), 7000);
+    // 0–6 s: full welcome. 6–11 s: page opens behind it like a curtain of light.
     setTimeout(() => {
-      clearTimeout(beat2); clearTimeout(beat3); clearTimeout(beat4); clearTimeout(beat5); clearTimeout(beat6);
-      success.classList.remove("show", "is-leaving");
-      success.setAttribute("aria-hidden", "true");
-      gateway.hidden = true;
+      document.body.classList.add("luvva-page-revealing");
       document.body.classList.remove("luvva-v3-locked");
       document.body.style.removeProperty("overflow");
       window.scrollTo({ top: 0, behavior: "auto" });
-    }, 7700);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => document.body.classList.add("luvva-page-visible"));
+      });
+      gateway.classList.add("is-revealing");
+      success.classList.add("is-opening");
+    }, 6000);
+
+    // Let the golden pulse live alone over the emerging page, then dissolve softly.
+    setTimeout(() => success.classList.add("pulse-fading"), 9700);
+
+    // Finish exactly five seconds after the reveal begins; never cut the last pulse abruptly.
+    setTimeout(() => {
+      clearInterval(heartbeatTimer);
+      success.classList.add("is-leaving");
+    }, 10800);
+
+    setTimeout(() => {
+      success.classList.remove("show", "is-leaving", "is-opening", "pulse-fading");
+      success.setAttribute("aria-hidden", "true");
+      gateway.hidden = true;
+      gateway.classList.remove("is-revealing");
+      document.body.classList.remove("luvva-page-revealing", "luvva-page-visible");
+    }, 11000);
   }
 
   providerButtons.forEach(button => button.addEventListener("click", async () => {

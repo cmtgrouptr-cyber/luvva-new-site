@@ -1,34 +1,10 @@
-LUVVA Gateway Login Windows V4 — Welcome Screen Test
+LUVVA Gateway Welcome — Final V10 Cinematic Reveal
 
-What changed:
-- Added a dedicated welcome screen after submitting any login window.
-- The exact original gateway heart/head element is moved into the welcome screen, preserving the same golden path animation and timing.
-- Added low heartbeat pairs synchronized through the welcome sequence.
-- Welcome screen fades into the website automatically after about 5.6 seconds.
-- Authentication validation is intentionally bypassed in this prototype so every provider window can be tested quickly.
-- No passwords or verification codes are stored.
-
-Test flow:
-1. Open index.html.
-2. Choose Business Email, Google, WhatsApp, or LinkedIn.
-3. Press the window's Continue/Send button; test data is not required.
-4. Confirm the welcome screen, golden animation, heartbeat sound, and automatic website transition.
-
-Important:
-Real provider authentication will be connected later after the welcome experience is approved.
-
-
-V5 final welcome refinements:
-- Welcome screen remains fully visible for 6 seconds before fading.
-- Heartbeat continues at the same rhythm during the welcome screen.
-- Removed the duplicated IDENTITY VERIFIED / WELCOME TO LUVVA lines.
-- Kept only the main Welcome to LUVVA title and the human-heart tagline.
-
-V6 refinement:
-- Welcome screen duration: 8 seconds.
-- Preserved the original black premium square and gold heart animation.
-- Hidden only the embedded LUVVA word below the heart on the welcome screen.
-- Restored and spaced the ornate “Welcome to LUVVA” message.
-- Added a restrained burgundy halo outside the black square.
-
-V9 final welcome: complete original LUVVA logo restored, seven-second duration, velvet burgundy rear glow, Welcome title, humanity line, and fine gold ornament.
+Changes in this version:
+- Full welcome remains visible for 6 seconds.
+- The LUVVA page then appears gradually behind the welcome screen.
+- Logo, Welcome title, message, frame and ambient background dissolve first.
+- The golden ECG pulse remains visible alone over the opening page.
+- Pulse fades softly near the end; total reveal completes at 11 seconds.
+- Heartbeat audio keeps one fixed 1.45-second rhythm throughout, with no rushed final beat.
+- Welcome phrase spacing, visibility and gold tone refined.
