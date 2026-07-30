@@ -584,6 +584,76 @@ body.luvva-v3-locked > footer {
     animation-iteration-count: 1 !important;
   }
 }
+
+
+/* ===== LUVVA V9 — four provider sign-in windows ===== */
+.luvva-auth-backdrop {
+  position: fixed; inset: 0; z-index: 2147483600; display: grid; place-items: center;
+  padding: 18px; background: rgba(2,1,0,.78); backdrop-filter: blur(13px) saturate(115%);
+  opacity: 0; visibility: hidden; transition: opacity .24s ease, visibility .24s ease;
+}
+.luvva-auth-backdrop.is-open { opacity: 1; visibility: visible; }
+.luvva-auth-dialog {
+  position: relative; width: min(100%, 430px); max-height: min(92vh, 680px); overflow: auto;
+  padding: 28px 25px 24px; border: 1px solid rgba(229,185,94,.42); border-radius: 27px;
+  background: linear-gradient(145deg, rgba(29,20,10,.98), rgba(7,5,3,.99));
+  box-shadow: 0 34px 100px rgba(0,0,0,.82), 0 0 50px rgba(185,111,8,.12), inset 0 1px rgba(255,244,204,.19);
+  transform: translateY(14px) scale(.985); transition: transform .25s ease;
+}
+.luvva-auth-backdrop.is-open .luvva-auth-dialog { transform: translateY(0) scale(1); }
+.luvva-auth-close {
+  position: absolute; top: 13px; right: 13px; width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(229,185,94,.26); color: #f5d995; background: rgba(255,255,255,.035);
+  font: 300 24px/1 Arial; cursor: pointer;
+}
+.luvva-auth-brand { display: grid; place-items: center; gap: 10px; margin: 4px 0 20px; }
+.luvva-auth-brandmark {
+  width: 62px; height: 62px; display: grid; place-items: center; border-radius: 18px;
+  background: rgba(255,255,255,.055); border: 1px solid rgba(255,222,150,.2);
+  box-shadow: inset 0 1px rgba(255,255,255,.12), 0 12px 28px rgba(0,0,0,.35);
+}
+.luvva-auth-brandmark svg { width: 35px; height: 35px; display: block; }
+.luvva-auth-brandmark.business { color:#e5bd69; }
+.luvva-auth-brandmark.whatsapp { color:#25D366; }
+.luvva-auth-brandmark.linkedin { color:#fff; background:#0A66C2; font:700 30px Arial; }
+.luvva-auth-title { margin: 0; color: #fff0c3; font: 600 29px/1.15 "Cormorant Garamond", Georgia, serif; }
+.luvva-auth-subtitle { margin: 0; color: rgba(255,245,224,.58); font-size: 12px; line-height: 1.55; text-align:center; }
+.luvva-auth-form { display: grid; gap: 14px; }
+.luvva-auth-field { display: grid; gap: 7px; text-align: left; }
+.luvva-auth-field label { color: rgba(255,238,202,.78); font-size: 11px; font-weight: 700; letter-spacing: .04em; }
+.luvva-auth-input-wrap { position: relative; }
+.luvva-auth-input {
+  width: 100%; min-height: 50px; padding: 0 44px 0 14px; box-sizing: border-box;
+  border: 1px solid rgba(229,185,94,.3); border-radius: 13px; outline: none;
+  color: #fff7e8; background: rgba(255,255,255,.045); font: 500 14px "Montserrat", sans-serif;
+  transition: border-color .18s, box-shadow .18s, background .18s;
+}
+.luvva-auth-input:focus { border-color: rgba(255,214,126,.78); box-shadow: 0 0 0 3px rgba(221,160,42,.1); background: rgba(255,255,255,.065); }
+.luvva-auth-input::placeholder { color: rgba(255,245,224,.32); }
+.luvva-auth-eye {
+  position:absolute; right:8px; top:50%; transform:translateY(-50%); width:34px; height:34px;
+  border:0; border-radius:9px; color:#dcb15a; background:transparent; cursor:pointer; font-size:16px;
+}
+.luvva-auth-row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.luvva-auth-link { color:#e2b85f; font-size:11px; text-decoration:none; }
+.luvva-auth-submit {
+  min-height: 52px; margin-top: 3px; border: 1px solid rgba(255,220,143,.55); border-radius: 14px;
+  color: #241302; background: linear-gradient(180deg,#f8dda0,#c98c27); font: 800 13px "Montserrat",sans-serif;
+  letter-spacing:.02em; cursor:pointer; box-shadow: 0 13px 28px rgba(0,0,0,.35), inset 0 1px rgba(255,255,255,.5);
+}
+.luvva-auth-submit:disabled { opacity:.55; cursor:wait; }
+.luvva-auth-error { min-height: 18px; margin:0; color:#ffb0a1; font-size:11px; line-height:1.5; text-align:center; }
+.luvva-auth-hint { margin:2px 0 0; color:rgba(255,245,224,.42); font-size:10px; line-height:1.55; text-align:center; }
+.luvva-phone-grid { display:grid; grid-template-columns: 105px 1fr; gap:9px; }
+.luvva-auth-select { padding-right:8px; }
+.luvva-code-row { display:none; }
+.luvva-code-row.is-visible { display:grid; }
+.luvva-v3-success { background: radial-gradient(circle at 50% 42%, rgba(190,126,22,.18), transparent 34%), rgba(3,2,1,.96); }
+.luvva-v3-success.show .luvva-v3-success-inner { animation: luvvaWelcomeIn .75s ease both; }
+.luvva-v3-success p::after { content:"Welcome to LUVVA"; display:block; margin-top:9px; color:rgba(255,236,194,.62); font:500 12px "Montserrat",sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+@keyframes luvvaWelcomeIn { from{opacity:0;transform:scale(.94)} to{opacity:1;transform:scale(1)} }
+@media (max-width:520px){ .luvva-auth-dialog{padding:25px 18px 21px;border-radius:23px}.luvva-auth-title{font-size:26px} }
+
   </style>
 </head>
 
@@ -717,6 +787,57 @@ body.luvva-v3-locked > footer {
       </div>
     </div>
   </section>
+
+
+  <!-- Four independent provider windows. Prototype only: no credentials are stored. -->
+  <div class="luvva-auth-backdrop" id="luvvaAuthBackdrop" aria-hidden="true">
+    <section class="luvva-auth-dialog" role="dialog" aria-modal="true" aria-labelledby="luvvaAuthTitle">
+      <button class="luvva-auth-close" id="luvvaAuthClose" type="button" aria-label="Close">×</button>
+      <div class="luvva-auth-brand">
+        <div class="luvva-auth-brandmark" id="luvvaAuthBrandmark" aria-hidden="true"></div>
+        <h2 class="luvva-auth-title" id="luvvaAuthTitle">Secure sign in</h2>
+        <p class="luvva-auth-subtitle" id="luvvaAuthSubtitle">Enter your details to continue securely.</p>
+      </div>
+      <form class="luvva-auth-form" id="luvvaAuthForm" novalidate>
+        <div id="luvvaStandardFields">
+          <div class="luvva-auth-field">
+            <label for="luvvaAuthIdentity" id="luvvaIdentityLabel">Email address</label>
+            <div class="luvva-auth-input-wrap">
+              <input class="luvva-auth-input" id="luvvaAuthIdentity" name="identity" autocomplete="username" placeholder="name@company.com" />
+            </div>
+          </div>
+          <div class="luvva-auth-field" style="margin-top:14px">
+            <label for="luvvaAuthPassword">Password</label>
+            <div class="luvva-auth-input-wrap">
+              <input class="luvva-auth-input" id="luvvaAuthPassword" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" />
+              <button class="luvva-auth-eye" id="luvvaPasswordToggle" type="button" aria-label="Show password">◉</button>
+            </div>
+          </div>
+          <div class="luvva-auth-row" style="margin-top:9px"><span></span><a class="luvva-auth-link" href="#" id="luvvaForgotLink">Forgot password?</a></div>
+        </div>
+
+        <div id="luvvaWhatsappFields" hidden>
+          <div class="luvva-auth-field">
+            <label for="luvvaWhatsappPhone">WhatsApp number</label>
+            <div class="luvva-phone-grid">
+              <select class="luvva-auth-input luvva-auth-select" id="luvvaCountryCode" aria-label="Country code">
+                <option value="+90">+90</option><option value="+970">+970</option><option value="+972">+972</option><option value="+966">+966</option><option value="+971">+971</option><option value="+962">+962</option><option value="+20">+20</option><option value="+44">+44</option><option value="+1">+1</option>
+              </select>
+              <input class="luvva-auth-input" id="luvvaWhatsappPhone" inputmode="tel" autocomplete="tel" placeholder="5XX XXX XXXX" />
+            </div>
+          </div>
+          <div class="luvva-auth-field luvva-code-row" id="luvvaCodeRow">
+            <label for="luvvaWhatsappCode">Verification code</label>
+            <input class="luvva-auth-input" id="luvvaWhatsappCode" inputmode="numeric" maxlength="6" placeholder="6-digit code" />
+          </div>
+        </div>
+
+        <p class="luvva-auth-error" id="luvvaAuthError" role="alert"></p>
+        <button class="luvva-auth-submit" id="luvvaAuthSubmit" type="submit">Continue securely</button>
+        <p class="luvva-auth-hint">Secure prototype interface. LUVVA does not save passwords or verification codes.</p>
+      </form>
+    </section>
+  </div>
 
 
   <header class="site-header" id="siteHeader">
@@ -1147,147 +1268,156 @@ body.luvva-v3-locked > footer {
 (() => {
   "use strict";
 
-  // Prototype gateway: keep the gateway visible until the real visitor
-  // verification and administrator approval workflow is connected.
-  const SESSION_KEY = "luvva_gateway_session_v3";
   const gateway = document.getElementById("luvvaGatewayV3");
   const success = document.getElementById("luvvaV3Success");
   const status = document.getElementById("luvvaV3Status");
-  const buttons = document.querySelectorAll("[data-luvva-v3-provider]");
+  const providerButtons = [...document.querySelectorAll("[data-luvva-v3-provider]")];
+  const backdrop = document.getElementById("luvvaAuthBackdrop");
+  const form = document.getElementById("luvvaAuthForm");
+  const closeButton = document.getElementById("luvvaAuthClose");
+  const title = document.getElementById("luvvaAuthTitle");
+  const subtitle = document.getElementById("luvvaAuthSubtitle");
+  const brandmark = document.getElementById("luvvaAuthBrandmark");
+  const identity = document.getElementById("luvvaAuthIdentity");
+  const identityLabel = document.getElementById("luvvaIdentityLabel");
+  const password = document.getElementById("luvvaAuthPassword");
+  const passwordToggle = document.getElementById("luvvaPasswordToggle");
+  const standardFields = document.getElementById("luvvaStandardFields");
+  const whatsappFields = document.getElementById("luvvaWhatsappFields");
+  const phone = document.getElementById("luvvaWhatsappPhone");
+  const code = document.getElementById("luvvaWhatsappCode");
+  const codeRow = document.getElementById("luvvaCodeRow");
+  const submit = document.getElementById("luvvaAuthSubmit");
+  const errorBox = document.getElementById("luvvaAuthError");
 
-  if (!gateway || !success || !status) {
-    document.body.classList.remove("luvva-v3-locked");
-    return;
-  }
+  if (!gateway || !success || !backdrop || !form) return;
 
+  const icons = {
+    "Business Email": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>`,
+    Google: `<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3Z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.5L15.4 17c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22Z"/><path fill="#FBBC05" d="M6.4 13.9a6 6 0 0 1 0-3.8V7.5H3.1a10 10 0 0 0 0 9l3.3-2.6Z"/><path fill="#EA4335" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.8A9.7 9.7 0 0 0 3.1 7.5l3.3 2.6C7.2 7.8 9.4 6 12 6Z"/></svg>`,
+    WhatsApp: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a8.7 8.7 0 0 0-7.5 13.1L3.4 21l5-1.3A8.7 8.7 0 1 0 12 3Zm0 15.8c-1.2 0-2.4-.3-3.5-.9l-.3-.2-3 .8.8-2.9-.2-.3a7 7 0 1 1 6.2 3.5Z"/></svg>`,
+    LinkedIn: `in`
+  };
+
+  let activeProvider = "";
+  let whatsappCodeSent = false;
   let audioContext = null;
-  let heartbeatTimer = null;
 
-  function createAudioContext() {
+  function audio() {
     if (audioContext) return audioContext;
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return null;
-    audioContext = new AudioCtx();
+    audioContext = AudioCtx ? new AudioCtx() : null;
     return audioContext;
   }
 
-  function heartbeatThump(offset = 0, gainValue = 0.055, frequency = 56) {
-    const ctx = createAudioContext();
-    if (!ctx || ctx.state !== "running") return;
+  async function enableAudio() {
+    const ctx = audio();
+    if (ctx && ctx.state === "suspended") { try { await ctx.resume(); } catch (_) {} }
+  }
 
+  function thump(offset, gainValue, frequency) {
+    const ctx = audio();
+    if (!ctx || ctx.state !== "running") return;
     const now = ctx.currentTime + offset;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     const filter = ctx.createBiquadFilter();
-
     osc.type = "sine";
     osc.frequency.setValueAtTime(frequency, now);
-    osc.frequency.exponentialRampToValueAtTime(38, now + 0.16);
-
-    filter.type = "lowpass";
-    filter.frequency.setValueAtTime(130, now);
-
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(gainValue, now + 0.012);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.21);
-
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-
-    osc.start(now);
-    osc.stop(now + 0.23);
+    osc.frequency.exponentialRampToValueAtTime(36, now + .18);
+    filter.type = "lowpass"; filter.frequency.value = 125;
+    gain.gain.setValueAtTime(.0001, now);
+    gain.gain.exponentialRampToValueAtTime(gainValue, now + .014);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + .23);
+    osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+    osc.start(now); osc.stop(now + .25);
   }
 
-  function playHeartbeat() {
-    heartbeatThump(0, 0.052, 58);
-    heartbeatThump(0.23, 0.038, 51);
+  function playLowHeartbeatPair() { thump(0, .034, 56); thump(.23, .024, 49); }
+
+  function resetForm() {
+    form.reset(); errorBox.textContent = ""; whatsappCodeSent = false;
+    codeRow.classList.remove("is-visible"); password.type = "password";
+    submit.disabled = false;
   }
 
-  function startHeartbeatLoop() {
-    if (heartbeatTimer) return;
-    playHeartbeat();
-    heartbeatTimer = window.setInterval(playHeartbeat, 2850);
+  function openProvider(provider) {
+    activeProvider = provider; resetForm();
+    const isWhatsApp = provider === "WhatsApp";
+    standardFields.hidden = isWhatsApp;
+    whatsappFields.hidden = !isWhatsApp;
+    brandmark.className = "luvva-auth-brandmark " + (provider === "Business Email" ? "business" : provider.toLowerCase());
+    brandmark.innerHTML = icons[provider] || "";
+    title.textContent = provider === "Business Email" ? "Business Email Sign In" : `Continue with ${provider}`;
+    subtitle.textContent = isWhatsApp ? "Enter your WhatsApp number to receive a verification code." : "Enter your details to continue securely.";
+    identityLabel.textContent = provider === "LinkedIn" ? "Email or phone" : "Email address";
+    identity.placeholder = provider === "Business Email" ? "name@company.com" : provider === "LinkedIn" ? "Email or phone" : "name@example.com";
+    submit.textContent = isWhatsApp ? "Send verification code" : `Continue with ${provider}`;
+    backdrop.classList.add("is-open"); backdrop.setAttribute("aria-hidden", "false");
+    setTimeout(() => (isWhatsApp ? phone : identity).focus(), 120);
   }
 
-  async function enableHeartbeat() {
-    const ctx = createAudioContext();
-    if (!ctx) return;
-
-    try {
-      if (ctx.state === "suspended") await ctx.resume();
-      if (ctx.state === "running") startHeartbeatLoop();
-    } catch (error) {
-      console.warn("LUVVA V3 audio could not start.", error);
-    }
+  function closeProvider() {
+    backdrop.classList.remove("is-open"); backdrop.setAttribute("aria-hidden", "true");
+    activeProvider = ""; resetForm();
   }
 
-  // Browsers usually require one visitor gesture before audible playback.
-  // The sound starts on the first click, touch or key press, with no mute control.
-  ["pointerdown", "keydown", "touchstart"].forEach((eventName) => {
-    window.addEventListener(eventName, enableHeartbeat, { once: true, passive: true });
+  function validEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
+
+  async function showWelcome() {
+    await enableAudio();
+    backdrop.classList.remove("is-open"); backdrop.setAttribute("aria-hidden", "true");
+    status.hidden = true;
+    success.classList.add("show"); success.setAttribute("aria-hidden", "false");
+    playLowHeartbeatPair();
+    setTimeout(playLowHeartbeatPair, 1450);
+    setTimeout(() => {
+      success.classList.remove("show"); success.setAttribute("aria-hidden", "true");
+      gateway.hidden = true;
+      document.body.classList.remove("luvva-v3-locked");
+      document.body.style.removeProperty("overflow");
+    }, 3600);
+  }
+
+  providerButtons.forEach(button => button.addEventListener("click", async () => {
+    await enableAudio();
+    openProvider(button.dataset.luvvaV3Provider || "Business Email");
+  }));
+
+  closeButton.addEventListener("click", closeProvider);
+  backdrop.addEventListener("click", e => { if (e.target === backdrop) closeProvider(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && backdrop.classList.contains("is-open")) closeProvider(); });
+  passwordToggle.addEventListener("click", () => {
+    password.type = password.type === "password" ? "text" : "password";
+    passwordToggle.setAttribute("aria-label", password.type === "password" ? "Show password" : "Hide password");
+  });
+  document.getElementById("luvvaForgotLink").addEventListener("click", e => {
+    e.preventDefault(); errorBox.textContent = "Password recovery will be connected to the official provider in the live version.";
   });
 
-  function clearPrototypeSession() {
-    try {
-      localStorage.removeItem(SESSION_KEY);
-    } catch (error) {
-      console.warn("LUVVA prototype session could not be cleared.", error);
+  form.addEventListener("submit", async e => {
+    e.preventDefault(); errorBox.textContent = ""; await enableAudio();
+    if (activeProvider === "WhatsApp") {
+      const digits = phone.value.replace(/\D/g, "");
+      if (!whatsappCodeSent) {
+        if (digits.length < 7) { errorBox.textContent = "Please enter a valid WhatsApp number."; return; }
+        whatsappCodeSent = true; codeRow.classList.add("is-visible");
+        submit.textContent = "Verify and continue"; code.focus();
+        errorBox.style.color = "#9ee7b1"; errorBox.textContent = "Verification code sent. For this prototype, enter any 6 digits.";
+        return;
+      }
+      errorBox.style.color = "#ffb0a1";
+      if (!/^\d{6}$/.test(code.value.trim())) { errorBox.textContent = "Enter the 6-digit verification code."; return; }
+    } else {
+      const login = identity.value.trim();
+      if (activeProvider === "LinkedIn") {
+        if (login.length < 4) { errorBox.textContent = "Please enter your email address or phone number."; return; }
+      } else if (!validEmail(login)) { errorBox.textContent = "Please enter a valid email address."; return; }
+      if (password.value.length < 6) { errorBox.textContent = "Password must contain at least 6 characters."; return; }
     }
-  }
-
-  function stopHeartbeat() {
-    if (heartbeatTimer) {
-      clearInterval(heartbeatTimer);
-      heartbeatTimer = null;
-    }
-  }
-
-  function unlockSite() {
-    stopHeartbeat();
-    gateway.hidden = true;
-    document.body.classList.remove("luvva-v3-locked");
-    document.body.style.removeProperty("overflow");
-  }
-
-  function setBusy(value) {
-    buttons.forEach((button) => {
-      button.disabled = value;
-    });
-  }
-
-  function finishPrototypeLogin(provider) {
-    setBusy(true);
-    status.hidden = false;
-    status.textContent =
-      `${provider} selected. Visitor verification and administrator approval will be connected in the next stage.`;
-
-    playHeartbeat();
-
-    window.setTimeout(() => {
-      success.classList.add("show");
-      success.setAttribute("aria-hidden", "false");
-    }, 650);
-
-    // Do not open the dashboard automatically. The gateway must remain visible
-    // until the visitor submits data and an administrator approves access.
-    window.setTimeout(() => {
-      success.classList.remove("show");
-      success.setAttribute("aria-hidden", "true");
-      setBusy(false);
-    }, 3100);
-  }
-
-  buttons.forEach((button) => {
-    button.addEventListener("click", async () => {
-      await enableHeartbeat();
-      finishPrototypeLogin(button.dataset.luvvaV3Provider || "Provider");
-    });
+    submit.disabled = true; submit.textContent = "Verifying…";
+    setTimeout(showWelcome, 650);
   });
-
-  // Remove any session saved by the earlier prototype version so the
-  // gateway never disappears or redirects by itself during development.
-  clearPrototypeSession();
 })();
   </script>
 </body>
