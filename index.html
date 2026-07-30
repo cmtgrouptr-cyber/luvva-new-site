@@ -1319,7 +1319,7 @@ body.luvva-v3-locked > footer {
     const beat6 = setTimeout(playLowHeartbeatPair, 7250);
 
     // Keep the welcome screen fully visible for eight seconds, then fade out.
-    setTimeout(() => success.classList.add("is-leaving"), 8000);
+    setTimeout(() => success.classList.add("is-leaving"), 7000);
     setTimeout(() => {
       clearTimeout(beat2); clearTimeout(beat3); clearTimeout(beat4); clearTimeout(beat5); clearTimeout(beat6);
       success.classList.remove("show", "is-leaving");
