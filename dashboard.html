@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LUVVA Dashboard V1</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#111;color:#eee}
+.top{height:60px;background:#1a1a1a;border-bottom:1px solid #333;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.wrap{display:flex;height:calc(100vh - 60px)}
+.side{width:230px;background:#181818;border-right:1px solid #333;padding:20px;box-sizing:border-box}
+.side a{display:block;color:#ddd;text-decoration:none;padding:10px 0}
+.main{flex:1;padding:24px}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(220px,1fr));gap:18px}
+.card{background:#1d1d1d;border:1px solid #383838;border-radius:12px;padding:18px;min-height:120px}
+.status{margin-top:22px;background:#1d1d1d;border:1px solid #383838;border-radius:12px;padding:18px}
+</style>
+</head>
+<body>
+<div class="top"><strong>LUVVA Dashboard V1</strong><div>🔔 ⚙️ 👤</div></div>
+<div class="wrap">
+<div class="side">
+<h3>Navigation</h3>
+<a href="#">Home</a>
+<a href="#">Projects</a>
+<a href="#">AI Assistant</a>
+<a href="#">Security</a>
+<a href="#">Reports</a>
+<a href="#">Settings</a>
+</div>
+<div class="main">
+<h2>Overview</h2>
+<div class="cards">
+<div class="card">Security Center</div>
+<div class="card">AI Assistant</div>
+<div class="card">Projects</div>
+<div class="card">Analytics</div>
+</div>
+<div class="status">
+<h3>Activity & System Status</h3>
+<p>This is the first dashboard prototype.</p>
+</div>
+</div>
+</div>
+</body></html>
