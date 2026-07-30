@@ -1,26 +1,11 @@
-CMT STORY ARCHIVE — DOCUMENTARY FOUNDER EDITION
+LUVVA Gateway Static Fix V2
 
-Main page: about-cmt.html
-Style: about-cmt.css
+Changes:
+- Removed the automatic redirect from index.html to dashboard.html.
+- Removed the 90-minute prototype login session.
+- Clears any old saved prototype session in the browser.
+- Provider buttons no longer grant access or open the dashboard automatically.
+- Gateway design and heartbeat animation remain unchanged.
+- dashboard.html remains available manually at /dashboard.html.
 
-IMPORTANT MUSIC FILE
-Place the licensed track in this folder using the exact filename:
-background-music.mp3
-
-Track: Ascension
-Artist: Keys of Moon
-License: Creative Commons Attribution 4.0 International (CC BY 4.0)
-Required credit:
-Ascension by Keys of Moon | https://soundcloud.com/keysofmoon
-Creative Commons / Attribution 4.0 International (CC BY 4.0)
-https://creativecommons.org/licenses/by/4.0/
-
-The archive player is fully prepared with play/pause, a clearly audible default volume (58%), fade-in, looping, and reader volume control.
-
-
-GLOBAL OPERATIONS VIDEO FILE NAMES
-Place MP4 files in this folder using these exact names:
-- video-container-loading.mp4
-- video-export-operations.mp4
-- video-logistics-warehousing.mp4
-- video-international-shipments.mp4
+Upload index.html and dashboard.html to the same location as the existing website files.

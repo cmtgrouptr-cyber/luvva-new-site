@@ -1147,8 +1147,9 @@ body.luvva-v3-locked > footer {
 (() => {
   "use strict";
 
+  // Prototype gateway: keep the gateway visible until the real visitor
+  // verification and administrator approval workflow is connected.
   const SESSION_KEY = "luvva_gateway_session_v3";
-  const SESSION_DURATION_MS = 90 * 60 * 1000;
   const gateway = document.getElementById("luvvaGatewayV3");
   const success = document.getElementById("luvvaV3Success");
   const status = document.getElementById("luvvaV3Status");
@@ -1227,34 +1228,12 @@ body.luvva-v3-locked > footer {
     window.addEventListener(eventName, enableHeartbeat, { once: true, passive: true });
   });
 
-  function readSession() {
+  function clearPrototypeSession() {
     try {
-      const raw = localStorage.getItem(SESSION_KEY);
-      if (!raw) return null;
-      const session = JSON.parse(raw);
-
-      if (!session.expiresAt || Date.now() >= session.expiresAt) {
-        localStorage.removeItem(SESSION_KEY);
-        return null;
-      }
-      return session;
-    } catch {
       localStorage.removeItem(SESSION_KEY);
-      return null;
+    } catch (error) {
+      console.warn("LUVVA prototype session could not be cleared.", error);
     }
-  }
-
-  function saveSession(provider) {
-    const now = Date.now();
-    localStorage.setItem(
-      SESSION_KEY,
-      JSON.stringify({
-        provider,
-        createdAt: now,
-        expiresAt: now + SESSION_DURATION_MS,
-        mode: "prototype"
-      })
-    );
   }
 
   function stopHeartbeat() {
@@ -1281,9 +1260,8 @@ body.luvva-v3-locked > footer {
     setBusy(true);
     status.hidden = false;
     status.textContent =
-      `${provider} is currently connected in prototype mode. Secure provider authentication comes in the backend stage.`;
+      `${provider} selected. Visitor verification and administrator approval will be connected in the next stage.`;
 
-    saveSession(provider);
     playHeartbeat();
 
     window.setTimeout(() => {
@@ -1291,7 +1269,13 @@ body.luvva-v3-locked > footer {
       success.setAttribute("aria-hidden", "false");
     }, 650);
 
-    window.setTimeout(unlockSite, 3100);
+    // Do not open the dashboard automatically. The gateway must remain visible
+    // until the visitor submits data and an administrator approves access.
+    window.setTimeout(() => {
+      success.classList.remove("show");
+      success.setAttribute("aria-hidden", "true");
+      setBusy(false);
+    }, 3100);
   }
 
   buttons.forEach((button) => {
@@ -1301,9 +1285,9 @@ body.luvva-v3-locked > footer {
     });
   });
 
-  if (readSession()) {
-    unlockSite();
-  }
+  // Remove any session saved by the earlier prototype version so the
+  // gateway never disappears or redirects by itself during development.
+  clearPrototypeSession();
 })();
   </script>
 </body>
