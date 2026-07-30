@@ -767,7 +767,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V14_CINEMATIC_REVEAL_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V15_CLEAN_8S_WELCOME_AUDIO_BRIDGE_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -1339,38 +1339,34 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     success.classList.add("show");
     success.setAttribute("aria-hidden", "false");
 
-    // One calm, strictly even heartbeat pair every 1.45 seconds.
-    // The rhythm continues through the full cinematic reveal without a rushed final beat.
+    // Calm, evenly spaced heartbeat pairs. The sound continues for five seconds
+    // after the main page appears, while no visual pulse or flash is shown there.
     playLowHeartbeatPair();
     const heartbeatTimer = setInterval(playLowHeartbeatPair, 1450);
 
-    // 0–6 s: full welcome. 6–11 s: page opens behind it like a curtain of light.
+    // Keep the welcome composition intact for exactly eight seconds.
+    // Then reveal the main page with a simple, clean transition.
     setTimeout(() => {
-      document.body.classList.add("luvva-page-revealing");
       document.body.classList.remove("luvva-v3-locked");
       document.body.style.removeProperty("overflow");
       window.scrollTo({ top: 0, behavior: "auto" });
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => document.body.classList.add("luvva-page-visible"));
-      });
-      gateway.classList.add("is-revealing");
-      success.classList.add("is-opening");
-    }, 6000);
-
-    // Keep the complete logo and wording visible while the page opens behind them.
-    // Fade the complete welcome composition only at the very end, as one unified layer.
-    setTimeout(() => {
-      clearInterval(heartbeatTimer);
       success.classList.add("is-leaving");
-    }, 9850);
+    }, 8000);
 
+    // Remove the welcome overlay shortly after the standard fade completes.
+    // From this moment onward, only the heartbeat sound continues.
     setTimeout(() => {
       success.classList.remove("show", "is-leaving", "is-opening", "pulse-fading");
       success.setAttribute("aria-hidden", "true");
       gateway.hidden = true;
       gateway.classList.remove("is-revealing");
       document.body.classList.remove("luvva-page-revealing", "luvva-page-visible");
-    }, 11000);
+    }, 9100);
+
+    // Stop the heartbeat five seconds after the page begins to appear.
+    setTimeout(() => {
+      clearInterval(heartbeatTimer);
+    }, 13000);
   }
 
   providerButtons.forEach(button => button.addEventListener("click", async () => {
