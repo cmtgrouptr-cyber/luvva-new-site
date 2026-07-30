@@ -30,7 +30,7 @@
   <!-- LUVVA V3 single-file styles -->
   <style id="luvva-v3-styles">
 /* ==========================================================
-   LUVVA SECURE GATEWAY V5 — ALIGNED HEART SIGNAL
+   LUVVA SECURE GATEWAY V8 — HEART LIFE PATH
    Single-file integration; isolated from the website layout.
    ========================================================== */
 
@@ -185,19 +185,21 @@ body.luvva-v3-locked > footer {
 }
 
 .luvva-v4-energy-dot {
-  fill: #fff5c8;
+  fill: #fff9df;
+  stroke: rgba(255,219,116,.95);
+  stroke-width: 1.15;
   filter:
-    drop-shadow(0 0 3px #fff8d9)
-    drop-shadow(0 0 9px rgba(255,208,99,.98))
-    drop-shadow(0 0 18px rgba(220,137,18,.8));
+    drop-shadow(0 0 4px #fffbe8)
+    drop-shadow(0 0 11px rgba(255,211,103,1))
+    drop-shadow(0 0 24px rgba(222,139,18,.92));
 }
 
 .luvva-v4-led-follower {
-  fill: #e7ad43;
-  opacity: .68;
+  fill: #f0bd56;
+  opacity: .55;
   filter:
-    drop-shadow(0 0 3px rgba(255,239,176,.92))
-    drop-shadow(0 0 8px rgba(224,151,29,.7));
+    drop-shadow(0 0 4px rgba(255,244,199,.95))
+    drop-shadow(0 0 11px rgba(226,156,31,.78));
 }
 
 .luvva-v4-end-flare {
@@ -587,7 +589,7 @@ body.luvva-v3-locked > footer {
 
 <body class="luvva-v3-locked">
 
-  <!-- LUVVA_SECURE_GATEWAY_V7_REFINED -->
+  <!-- LUVVA_SECURE_GATEWAY_V8_HEART_LIFE -->
   <section id="luvvaGatewayV3" aria-labelledby="luvvaV3Title">
     <div class="luvva-v3-aura" aria-hidden="true"></div>
 
@@ -601,37 +603,52 @@ body.luvva-v3-locked > footer {
 
         <svg class="luvva-v3-ecg" viewBox="0 0 860 897" preserveAspectRatio="xMidYMid meet">
           <defs>
-            <!-- Centerline traced directly over the ECG artwork embedded in the logo image. -->
-            <path id="luvvaV7MotionPath" pathLength="1000"
-              d="M275 471
-                 C315 487 365 489 408 470
-                 C452 450 470 407 482 348
-                 C490 307 493 282 498 278
-                 C506 284 511 330 516 382
-                 C521 438 524 509 531 532
-                 C538 549 548 511 558 467
-                 C568 423 574 386 581 382
-                 C590 386 597 421 604 442
-                 C611 462 620 467 628 449
-                 C637 428 647 420 657 425
-                 C669 432 672 452 667 472
-                 C661 498 647 520 631 538" />
+            <!-- One continuous life path: outer heart from the left, then the ECG from its right junction to its inner end. -->
+            <path id="luvvaV8HeartLifePath" pathLength="1000"
+              d="M42 267
+                 C37 143 123 57 242 52
+                 C324 48 386 88 430 166
+                 C474 88 536 48 619 52
+                 C739 57 823 145 817 271
+                 C811 397 726 494 626 580
+                 C540 653 468 713 430 748
+                 C401 713 356 668 298 622
+                 C246 580 196 544 153 503
+                 C90 442 48 363 42 267
+                 M430 748
+                 C455 701 505 658 555 617
+                 C606 576 644 542 663 503
+                 C676 478 678 452 667 438
+                 C656 423 642 424 629 443
+                 C620 458 612 459 604 440
+                 C596 420 589 384 580 380
+                 C571 385 564 424 556 465
+                 C547 510 538 548 530 531
+                 C523 508 520 438 515 382
+                 C510 329 505 284 497 278
+                 C491 283 487 309 479 350
+                 C468 409 451 450 407 470
+                 C365 489 315 487 275 471" />
           </defs>
 
-          <circle class="luvva-v4-led-follower" r="2.0">
-            <animateMotion dur="3.35s" begin="-0.11s" repeatCount="indefinite" rotate="auto">
-              <mpath href="#luvvaV7MotionPath"></mpath>
+          <circle class="luvva-v4-led-follower" r="3.1">
+            <animateMotion dur="5.8s" begin="-0.18s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#luvvaV8HeartLifePath"></mpath>
             </animateMotion>
           </circle>
-          <circle class="luvva-v4-led-follower" r="2.45">
-            <animateMotion dur="3.35s" begin="-0.055s" repeatCount="indefinite" rotate="auto">
-              <mpath href="#luvvaV7MotionPath"></mpath>
+          <circle class="luvva-v4-led-follower" r="4.0">
+            <animateMotion dur="5.8s" begin="-0.09s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#luvvaV8HeartLifePath"></mpath>
             </animateMotion>
           </circle>
-          <circle class="luvva-v4-energy-dot" r="3.2">
-            <animateMotion dur="3.35s" repeatCount="indefinite" rotate="auto">
-              <mpath href="#luvvaV7MotionPath"></mpath>
+          <circle class="luvva-v4-energy-dot" r="4.8">
+            <animateMotion dur="5.8s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#luvvaV8HeartLifePath"></mpath>
             </animateMotion>
+          </circle>
+          <circle cx="275" cy="471" r="4.5" fill="#fff8d6" opacity="0">
+            <animate attributeName="opacity" values="0;0;1;.35;0" keyTimes="0;.91;.955;.975;1" dur="5.8s" repeatCount="indefinite"/>
+            <animate attributeName="r" values="4.5;4.5;8;13;4.5" keyTimes="0;.91;.955;.985;1" dur="5.8s" repeatCount="indefinite"/>
           </circle>
         </svg>
       </div>
