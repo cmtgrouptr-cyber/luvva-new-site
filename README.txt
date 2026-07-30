@@ -1,10 +1,7 @@
-LUVVA Gateway Welcome — Final V10 Cinematic Reveal
+LUVVA Gateway Welcome V13 — Final transition fix
 
-Changes in this version:
-- Full welcome remains visible for 6 seconds.
-- The LUVVA page then appears gradually behind the welcome screen.
-- Logo, Welcome title, message, frame and ambient background dissolve first.
-- The golden ECG pulse remains visible alone over the opening page.
-- Pulse fades softly near the end; total reveal completes at 11 seconds.
-- Heartbeat audio keeps one fixed 1.45-second rhythm throughout, with no rushed final beat.
-- Welcome phrase spacing, visibility and gold tone refined.
+- Welcome screen remains visible for 8 seconds.
+- The whole gateway is removed in one step at transition time.
+- The sign-in menu cannot reappear or flash before the home page.
+- No visual heartbeat or flashing appears on the main page.
+- Heartbeat audio continues for 5 seconds after the main page opens.

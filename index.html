@@ -767,7 +767,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V15_CLEAN_8S_WELCOME_AUDIO_BRIDGE_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V16_NO_GATEWAY_FLASH_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -1345,23 +1345,18 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     const heartbeatTimer = setInterval(playLowHeartbeatPair, 1450);
 
     // Keep the welcome composition intact for exactly eight seconds.
-    // Then reveal the main page with a simple, clean transition.
-    setTimeout(() => {
-      document.body.classList.remove("luvva-v3-locked");
-      document.body.style.removeProperty("overflow");
-      window.scrollTo({ top: 0, behavior: "auto" });
-      success.classList.add("is-leaving");
-    }, 8000);
-
-    // Remove the welcome overlay shortly after the standard fade completes.
-    // From this moment onward, only the heartbeat sound continues.
+    // At the end, remove the entire gateway in one step so the sign-in menu
+    // can never flash beneath the welcome screen.
     setTimeout(() => {
       success.classList.remove("show", "is-leaving", "is-opening", "pulse-fading");
       success.setAttribute("aria-hidden", "true");
       gateway.hidden = true;
+      gateway.setAttribute("aria-hidden", "true");
       gateway.classList.remove("is-revealing");
-      document.body.classList.remove("luvva-page-revealing", "luvva-page-visible");
-    }, 9100);
+      document.body.classList.remove("luvva-v3-locked", "luvva-page-revealing", "luvva-page-visible");
+      document.body.style.removeProperty("overflow");
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }, 8000);
 
     // Stop the heartbeat five seconds after the page begins to appear.
     setTimeout(() => {
