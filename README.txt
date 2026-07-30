@@ -16,3 +16,10 @@ Test flow:
 
 Important:
 Real provider authentication will be connected later after the welcome experience is approved.
+
+
+V5 final welcome refinements:
+- Welcome screen remains fully visible for 6 seconds before fading.
+- Heartbeat continues at the same rhythm during the welcome screen.
+- Removed the duplicated IDENTITY VERIFIED / WELCOME TO LUVVA lines.
+- Kept only the main Welcome to LUVVA title and the human-heart tagline.

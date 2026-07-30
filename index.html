@@ -634,7 +634,6 @@ body.luvva-v3-locked > footer {
 .luvva-code-row.is-visible { display:grid; }
 .luvva-v3-success { background: radial-gradient(circle at 50% 42%, rgba(190,126,22,.18), transparent 34%), rgba(3,2,1,.96); }
 .luvva-v3-success.show .luvva-v3-success-inner { animation: luvvaWelcomeIn .75s ease both; }
-.luvva-v3-success p::after { content:"Welcome to LUVVA"; display:block; margin-top:9px; color:rgba(255,236,194,.62); font:500 12px "Montserrat",sans-serif; letter-spacing:.08em; text-transform:uppercase; }
 @keyframes luvvaWelcomeIn { from{opacity:0;transform:scale(.94)} to{opacity:1;transform:scale(1)} }
 @media (max-width:520px){ .luvva-auth-dialog{padding:25px 18px 21px;border-radius:23px}.luvva-auth-title{font-size:26px} }
 
@@ -673,10 +672,6 @@ body.luvva-v3-locked > footer {
 .luvva-welcome-logo-mount .luvva-v3-logo-stage { width:100%; margin:0 auto 2px; }
 .luvva-welcome-logo-mount .luvva-v3-logo { animation:luvvaV3LogoBreath 2.8s ease-in-out infinite; }
 .luvva-v3-success.show .luvva-welcome-logo-mount { animation:luvvaWelcomeHeartIn .9s cubic-bezier(.2,.8,.2,1) both; }
-.luvva-welcome-kicker {
-  margin:4px 0 9px; color:rgba(239,198,112,.72); font:700 10px/1.2 "Montserrat",sans-serif;
-  letter-spacing:.31em; text-transform:uppercase;
-}
 .luvva-welcome-title {
   margin:0; font:600 clamp(36px,6vw,58px)/1 "Cormorant Garamond",Georgia,serif;
   color:transparent; background:linear-gradient(180deg,#fff3bf 0%,#e9bd62 48%,#9a5b08 100%);
@@ -689,7 +684,6 @@ body.luvva-v3-locked > footer {
 }
 .luvva-welcome-pulse-line { width:min(240px,60vw); height:1px; margin-top:25px; background:linear-gradient(90deg,transparent,rgba(224,166,54,.46),transparent); overflow:visible; }
 .luvva-welcome-pulse-line span { display:block; width:9px; height:9px; margin:-4px auto 0; border-radius:50%; background:#fff0b0; box-shadow:0 0 8px #fff3c1,0 0 22px rgba(225,151,31,.9); animation:luvvaWelcomeBeat 1.45s ease-in-out infinite; }
-.luvva-v3-success.show .luvva-welcome-kicker,
 .luvva-v3-success.show .luvva-welcome-title,
 .luvva-v3-success.show .luvva-welcome-message,
 .luvva-v3-success.show .luvva-welcome-pulse-line { animation:luvvaWelcomeTextIn .8s ease both; }
@@ -708,7 +702,7 @@ body.luvva-v3-locked > footer {
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V10_WELCOME_HEART_TEST_2026-07-30 -->
+<!-- LUVVA_SECURE_GATEWAY_V11_WELCOME_CLEAN_6_SECONDS_2026-07-30 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -810,7 +804,6 @@ body.luvva-v3-locked > footer {
 <div aria-hidden="true" class="luvva-v3-success-aura"></div>
 <div class="luvva-v3-success-inner">
 <div aria-label="LUVVA heart" class="luvva-welcome-logo-mount" id="luvvaWelcomeLogoMount"></div>
-<p class="luvva-welcome-kicker">IDENTITY VERIFIED</p>
 <h2 class="luvva-welcome-title">Welcome to LUVVA</h2>
 <p class="luvva-welcome-message">Where technology begins with the human heart.</p>
 <div aria-hidden="true" class="luvva-welcome-pulse-line"><span></span></div>
@@ -1285,17 +1278,19 @@ body.luvva-v3-locked > footer {
     const beat2 = setTimeout(playLowHeartbeatPair, 1450);
     const beat3 = setTimeout(playLowHeartbeatPair, 2900);
     const beat4 = setTimeout(playLowHeartbeatPair, 4350);
+    const beat5 = setTimeout(playLowHeartbeatPair, 5800);
 
-    setTimeout(() => success.classList.add("is-leaving"), 5050);
+    // Keep the welcome screen fully visible for six seconds, then fade out.
+    setTimeout(() => success.classList.add("is-leaving"), 6000);
     setTimeout(() => {
-      clearTimeout(beat2); clearTimeout(beat3); clearTimeout(beat4);
+      clearTimeout(beat2); clearTimeout(beat3); clearTimeout(beat4); clearTimeout(beat5);
       success.classList.remove("show", "is-leaving");
       success.setAttribute("aria-hidden", "true");
       gateway.hidden = true;
       document.body.classList.remove("luvva-v3-locked");
       document.body.style.removeProperty("overflow");
       window.scrollTo({ top: 0, behavior: "auto" });
-    }, 5650);
+    }, 6600);
   }
 
   providerButtons.forEach(button => button.addEventListener("click", async () => {
