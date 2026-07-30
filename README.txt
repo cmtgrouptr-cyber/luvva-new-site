@@ -1,11 +1,18 @@
-LUVVA Gateway Static Fix V2
+LUVVA Gateway Login Windows V4 — Welcome Screen Test
 
-Changes:
-- Removed the automatic redirect from index.html to dashboard.html.
-- Removed the 90-minute prototype login session.
-- Clears any old saved prototype session in the browser.
-- Provider buttons no longer grant access or open the dashboard automatically.
-- Gateway design and heartbeat animation remain unchanged.
-- dashboard.html remains available manually at /dashboard.html.
+What changed:
+- Added a dedicated welcome screen after submitting any login window.
+- The exact original gateway heart/head element is moved into the welcome screen, preserving the same golden path animation and timing.
+- Added low heartbeat pairs synchronized through the welcome sequence.
+- Welcome screen fades into the website automatically after about 5.6 seconds.
+- Authentication validation is intentionally bypassed in this prototype so every provider window can be tested quickly.
+- No passwords or verification codes are stored.
 
-Upload index.html and dashboard.html to the same location as the existing website files.
+Test flow:
+1. Open index.html.
+2. Choose Business Email, Google, WhatsApp, or LinkedIn.
+3. Press the window's Continue/Send button; test data is not required.
+4. Confirm the welcome screen, golden animation, heartbeat sound, and automatic website transition.
+
+Important:
+Real provider authentication will be connected later after the welcome experience is approved.
