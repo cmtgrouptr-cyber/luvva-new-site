@@ -768,7 +768,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 }
 
 
-/* ===== LUVVA V30 — timer physically inside nav after Contact ===== */
+/* ===== LUVVA V31 — 25-minute session and calm timer ===== */
 #luvvaSessionTimer {
   position: relative !important;
   inset: auto !important;
@@ -785,14 +785,14 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   margin: 0 7px;
   padding: 10px 14px;
   overflow: hidden;
-  border: 2px solid rgba(111,46,58,.88);
+  border: 1.25px solid rgba(111,46,58,.58);
   border-radius: 999px;
   color: #54340b;
   background: linear-gradient(180deg,rgba(255,252,244,.99),rgba(246,236,220,.98));
   box-shadow:
-    0 8px 15px rgba(70,70,76,.42),
-    0 0 0 3px rgba(111,46,58,.20),
-    0 0 20px rgba(111,46,58,.38),
+    0 7px 10px rgba(72,72,78,.30),
+    0 13px 24px rgba(72,72,78,.20),
+    0 0 0 1px rgba(111,46,58,.10),
     inset 0 1px 0 rgba(255,255,255,1),
     inset 0 -2px 5px rgba(96,96,102,.10);
   cursor: pointer;
@@ -811,30 +811,26 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   background: linear-gradient(105deg,transparent 25%,rgba(255,255,255,.72) 48%,transparent 70%);
   transform: translateX(-120%);
 }
-#luvvaSessionTimer.is-visible {
-  display: flex;
-  animation: luvvaTimerSoftFlash 1.8s ease-in-out infinite;
-}
-#luvvaSessionTimer.is-visible::after {
-  animation: luvvaTimerSheen 3.6s ease-in-out infinite;
-}
+#luvvaSessionTimer.is-visible { display: flex; }
+#luvvaSessionTimer.is-visible::after { animation: none; }
 #luvvaSessionTimer:hover { transform: translateY(-1px); }
+#luvvaSessionTimer:active { transform: translateY(1px); }
 #luvvaSessionTimer strong {
   display:inline-block;
   color:#6f2e3a;
   text-shadow:0 0 8px rgba(111,46,58,.32);
-  animation:luvvaTimerDigitsPulse 1.8s ease-in-out infinite;
+  animation:luvvaTimerDigitsPulse 1.65s ease-in-out infinite;
 }
 #luvvaSessionTimer .luvva-session-dot {
   width: 8px; height: 8px; border-radius: 50%;
   background: #c58a28;
   box-shadow: 0 0 0 4px rgba(197,138,40,.13),0 0 8px rgba(197,138,40,.42);
 }
-#luvvaSessionTimer.is-ending .luvva-session-dot { animation: luvvaSessionBlink 1s ease-in-out infinite; }
+#luvvaSessionTimer.is-ending .luvva-session-dot { animation: none; }
 @keyframes luvvaSessionBlink { 50% { opacity:.28; transform:scale(.85); } }
 @keyframes luvvaTimerDigitsPulse {
-  0%,100%{opacity:.82;transform:scale(1)}
-  50%{opacity:1;transform:scale(1.045)}
+  0%,100%{opacity:.68;text-shadow:0 0 4px rgba(111,46,58,.18)}
+  50%{opacity:1;text-shadow:0 0 11px rgba(111,46,58,.46)}
 }
 @keyframes luvvaTimerSoftFlash {
   0%,100% { filter:brightness(1); box-shadow:0 7px 14px rgba(65,65,70,.30),0 0 0 2px rgba(113,43,50,.18),0 0 11px rgba(113,43,50,.20),inset 0 1px 0 rgba(255,255,255,1),inset 0 -2px 5px rgba(96,96,102,.10); }
@@ -847,7 +843,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 }
 #luvvaSessionTimer:focus-visible { outline:3px solid rgba(140,82,48,.38); outline-offset:3px; }
 @media (prefers-reduced-motion: reduce) {
-  #luvvaSessionTimer.is-visible,#luvvaSessionTimer.is-visible::after { animation:none; }
+  #luvvaSessionTimer strong,#luvvaSessionTimer.is-visible::after { animation:none; }
 }
 @media (max-width: 1100px) {
   #luvvaSessionTimer { min-width:116px; margin:0 4px; padding:9px 10px; font-size:11px; gap:6px; }
@@ -918,7 +914,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V30_TIMER_IN_NAV_AFTER_CONTACT_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V31_25MIN_DUAL_REMINDERS_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -1116,7 +1112,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 <a href="#contact">Contact</a>
 <div aria-live="polite" aria-label="Open session reminder" id="luvvaSessionTimer" role="button" tabindex="0" title="Open session reminder">
   <span aria-hidden="true" class="luvva-session-dot"></span>
-  <span>Session&nbsp;</span><strong id="luvvaSessionTime">45:00</strong>
+  <span>Session&nbsp;</span><strong id="luvvaSessionTime">25:00</strong>
 </div>
 </nav>
 <a class="investor-button" href="#partnership">Investor Brief</a>
@@ -1216,9 +1212,10 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   <section aria-labelledby="luvvaFiveMinuteTitle" aria-modal="true" class="luvva-session-card" role="dialog">
     <div aria-hidden="true" class="luvva-session-mark">♡</div>
     <h2 id="luvvaFiveMinuteTitle">A Gentle Reminder</h2>
-    <p>Your secure visit lasts 45 minutes. You may enter or update your details at any time through the <strong>Contact</strong> button at the top of the page. If the session ends, verification will be required again before returning to LUVVA.</p>
+    <p>To continue your visit and regain access later, please open <strong>Contact</strong> and complete your information. Your information remains secure and confidential.</p>
     <div class="luvva-session-actions">
-      <button class="luvva-session-button primary" id="luvvaNoticeClose" type="button">Continue exploring</button>
+      <button class="luvva-session-button primary" id="luvvaGoContact" type="button">Go to Contact</button>
+      <button class="luvva-session-button secondary" id="luvvaNoticeClose" type="button">Continue exploring</button>
     </div>
   </section>
 </div>
@@ -1226,7 +1223,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   <section aria-labelledby="luvvaSessionExpiredTitle" aria-modal="true" class="luvva-session-card" role="dialog">
     <div aria-hidden="true" class="luvva-session-mark">⌛</div>
     <h2 id="luvvaSessionExpiredTitle">Your Visit Has Ended</h2>
-    <p>For your privacy and the protection of LUVVA, the 45-minute session has ended. Please enter your details again to continue.</p>
+    <p>For your privacy and the protection of LUVVA, the 25-minute session has ended. Please enter your details again to continue.</p>
     <div class="luvva-session-actions">
       <button class="luvva-session-button primary" id="luvvaReenterButton" type="button">Enter again</button>
     </div>
@@ -1648,9 +1645,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     e.preventDefault(); errorBox.textContent = "Password recovery will be connected to the official provider in the live version.";
   });
 
-  const SESSION_DURATION_MS = 45 * 60 * 1000;
-  const NOTICE_AFTER_ACTIVE_MS = 3 * 60 * 1000;
-  const SESSION_KEY = "luvvaVisitorSessionV26";
+  const SESSION_DURATION_MS = 25 * 60 * 1000;
+  const FIRST_NOTICE_AFTER_ACTIVE_MS = 3 * 60 * 1000;
+  const SECOND_NOTICE_AFTER_ACTIVE_MS = 20 * 60 * 1000;
+  const NOTICE_VISIBLE_MS = 5 * 1000;
+  const SESSION_KEY = "luvvaVisitorSessionV31";
   const VISITOR_KEY = "luvvaVisitorIdentityV23";
   const VISITOR_LOG_KEY = "luvvaVisitorLogV23";
   const CURRENT_VISIT_KEY = "luvvaCurrentVisitV23";
@@ -1658,13 +1657,34 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   const sessionTime = document.getElementById("luvvaSessionTime");
   const fiveMinuteNotice = document.getElementById("luvvaFiveMinuteNotice");
   const sessionExpired = document.getElementById("luvvaSessionExpired");
-  const openReminderFromTimer = () => { if (sessionTimer.classList.contains("is-visible")) openSessionMessage(fiveMinuteNotice); };
+  function closeSessionMessage(element) {
+    if (!element) return;
+    if (noticeAutoCloseTimer) { clearTimeout(noticeAutoCloseTimer); noticeAutoCloseTimer = null; }
+    element.classList.remove("is-open");
+    element.setAttribute("aria-hidden", "true");
+  }
+
+  function openSessionMessage(element, autoCloseMs = 0) {
+    if (!element) return;
+    if (noticeAutoCloseTimer) { clearTimeout(noticeAutoCloseTimer); noticeAutoCloseTimer = null; }
+    element.classList.add("is-open");
+    element.setAttribute("aria-hidden", "false");
+    if (autoCloseMs > 0) {
+      noticeAutoCloseTimer = setTimeout(() => closeSessionMessage(element), autoCloseMs);
+    }
+  }
+
+  const openReminderFromTimer = () => {
+    if (sessionTimer.classList.contains("is-visible")) openSessionMessage(fiveMinuteNotice, NOTICE_VISIBLE_MS);
+  };
   const noticeClose = document.getElementById("luvvaNoticeClose");
+  const goContactButton = document.getElementById("luvvaGoContact");
   const reenterButton = document.getElementById("luvvaReenterButton");
   let sessionInterval = null;
   let returningSession = false;
   let savedSession = null;
   let savedVisitor = null;
+  let noticeAutoCloseTimer = null;
 
   function formatRemaining(ms) {
     const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
@@ -1757,8 +1777,15 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       const activeElapsed=liveActiveElapsed(current);
       sessionTime.textContent=formatRemaining(remaining);
       sessionTimer.classList.toggle("is-ending",remaining<=5*60*1000);
-      if(!current.noticeShown && activeElapsed>=NOTICE_AFTER_ACTIVE_MS){
-        current.noticeShown=true; current.remainingMs=remaining; current.activeElapsedMs=activeElapsed; current.activeSince=Date.now(); writeSession(current); openSessionMessage(fiveMinuteNotice);
+      if(!current.firstNoticeShown && activeElapsed>=FIRST_NOTICE_AFTER_ACTIVE_MS){
+        current.firstNoticeShown=true;
+        current.remainingMs=remaining; current.activeElapsedMs=activeElapsed; current.activeSince=Date.now();
+        writeSession(current); openSessionMessage(fiveMinuteNotice, NOTICE_VISIBLE_MS);
+      }
+      if(!current.secondNoticeShown && activeElapsed>=SECOND_NOTICE_AFTER_ACTIVE_MS){
+        current.secondNoticeShown=true;
+        current.remainingMs=remaining; current.activeElapsedMs=activeElapsed; current.activeSince=Date.now();
+        writeSession(current); openSessionMessage(fiveMinuteNotice, NOTICE_VISIBLE_MS);
       }
       if(remaining<=0) expireSession();
     };
@@ -1766,7 +1793,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 
   function startVisitorSession() {
-    const session={remainingMs:SESSION_DURATION_MS,activeElapsedMs:0,noticeShown:false,isActive:false,activeSince:null,createdAt:Date.now()};
+    const session={remainingMs:SESSION_DURATION_MS,activeElapsedMs:0,firstNoticeShown:false,secondNoticeShown:false,isActive:false,activeSince:null,createdAt:Date.now()};
     writeSession(session);
     try{const visitor=JSON.parse(localStorage.getItem(VISITOR_KEY)||"null"); if(visitor&&visitor.identity)createVisitRecord(visitor,session);}catch(_){}
     runSession(session);
@@ -1794,6 +1821,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   document.addEventListener("visibilitychange",()=>{ if(document.hidden && gateway.hidden) pauseSession(); });
 
   noticeClose.addEventListener("click", () => closeSessionMessage(fiveMinuteNotice));
+  goContactButton.addEventListener("click", () => {
+    closeSessionMessage(fiveMinuteNotice);
+    const contactSection = document.getElementById("contact");
+    if (contactSection) contactSection.scrollIntoView({ behavior:"smooth", block:"start" });
+  });
   sessionTimer.addEventListener("click", openReminderFromTimer);
   sessionTimer.addEventListener("keydown", e => {
     if (e.key === "Enter" || e.key === " ") {
@@ -1840,7 +1872,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     // V16: showWelcome controls the exact cover-then-hide sequence to eliminate every flash.
     const isWhatsApp = activeProvider === "WhatsApp";
 
-    // Returning within the active 45-minute credit: the same verified provider
+    // Returning within the active 25-minute credit: the same verified provider
     // opens the visit again through the gateway without another OTP/password check.
     if (returningSession && savedSession && savedVisitor && activeProvider === savedVisitor.provider && (savedSession.remainingMs || 0) > 0) {
       submit.disabled = true;
