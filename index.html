@@ -1298,6 +1298,55 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   .luvva-company-contact-list a{font-size:12px !important;}
 }
 
+
+/* ===== LUVVA V40 — refined Contact page hierarchy and alignment ===== */
+@media (min-width: 881px) {
+  .contact-section {
+    align-items: flex-start;
+    gap: clamp(46px, 5.2vw, 82px);
+    padding-top: clamp(72px, 8vh, 108px);
+  }
+  .luvva-contact-intro {
+    transform: translateY(-14px);
+  }
+  .luvva-contact-intro > h2 {
+    font-size: clamp(34px, 4.1vw, 58px);
+    line-height: 1.02;
+    margin-bottom: 10px;
+  }
+  .luvva-contact-intro > p {
+    max-width: 520px;
+    margin-bottom: 14px;
+    font-size: 12px;
+    line-height: 1.55;
+  }
+  .luvva-company-contact-card {
+    margin-top: 16px;
+    transform: translateY(-4px);
+  }
+  .luvva-contact-form-panel {
+    margin-left: clamp(12px, 1.6vw, 28px);
+    transform: translateY(-8px);
+  }
+}
+.luvva-contact-form-heading h3 {
+  margin: 4px 0 7px;
+  font-size: clamp(25px, 2.75vw, 34px);
+  line-height: 1.05;
+  letter-spacing: .01em;
+}
+.luvva-contact-form-heading p {
+  margin: 0 0 18px;
+  color: #665b4d;
+  font-size: 12.5px;
+  line-height: 1.55;
+  font-weight: 600;
+}
+@media (max-width: 880px) {
+  .contact-section { padding-top: 82px; }
+  .luvva-contact-intro > h2 { font-size: clamp(34px, 10vw, 48px); line-height: 1.04; }
+  .luvva-contact-form-heading h3 { font-size: clamp(27px, 8vw, 34px); }
+}
 </style>
 </link></head>
 <body class="luvva-v3-locked">
@@ -1578,7 +1627,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   <div class="luvva-contact-intro">
     <span class="eyebrow">Contact</span>
     <h2>Let’s create a more human future.</h2>
-    <p>For investors, strategic partners and ecosystem collaborations.</p>
+    <p>For investors, partners and collaborations.</p>
     <div class="luvva-company-contact-card" aria-label="LUVVA and CMT Group contact information">
       <div class="luvva-company-logo-frame">
         <img alt="CMT Group — Call Mind Technology" src="cmt-contact-logo.jpg"/>
@@ -1598,8 +1647,8 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   <div class="luvva-contact-form-panel" id="luvvaContactFormPanel" aria-labelledby="luvvaContactFormTitle">
     <div class="luvva-contact-form-heading">
       <span class="eyebrow">Your Information</span>
-      <h3 id="luvvaContactFormTitle">Tell us how we can reach you.</h3>
-      <p>Your details help us recognize your interest and continue the conversation securely.</p>
+      <h3 id="luvvaContactFormTitle">Let's Connect</h3>
+      <p>Please complete the form below to continue securely.</p>
     </div>
     <form id="luvvaContactForm" novalidate>
       <div class="luvva-contact-grid">
