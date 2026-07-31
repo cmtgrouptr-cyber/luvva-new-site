@@ -1214,10 +1214,91 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 .luvva-access-lock-note{margin-top:15px!important;color:#afcbd6!important;font-size:11px!important;}
 .luvva-provider-used{opacity:.52;filter:grayscale(.35);}
 
+
+
+/* ===== LUVVA V38 — final CMT contact identity colors ===== */
+.luvva-company-contact-list{
+  gap:12px !important;
+}
+.luvva-company-contact-list p{
+  grid-template-columns:104px minmax(0,1fr) !important;
+  align-items:center !important;
+  column-gap:15px !important;
+  min-height:42px !important;
+  padding:10px 13px !important;
+  border-radius:13px !important;
+  border:1px solid rgba(201,150,78,.36) !important;
+  background:
+    radial-gradient(ellipse at 14% 32%,rgba(255,255,255,.034) 0 1px,transparent 2px),
+    radial-gradient(ellipse at 78% 70%,rgba(255,255,255,.022) 0 1px,transparent 2px),
+    repeating-linear-gradient(118deg,rgba(255,255,255,.013) 0 2px,rgba(0,0,0,.045) 2px 6px),
+    linear-gradient(145deg,#171717 0%,#0f0f0f 48%,#080808 100%) !important;
+  background-size:15px 15px,19px 19px,9px 9px,100% 100% !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.075),
+    inset 0 -9px 18px rgba(0,0,0,.30),
+    0 6px 14px rgba(0,0,0,.19) !important;
+  font-family:"Montserrat","Segoe UI",Arial,sans-serif !important;
+  color:#d8a15c !important;
+  text-shadow:0 1px 0 rgba(255,224,170,.18),0 2px 5px rgba(0,0,0,.78) !important;
+}
+.luvva-company-contact-list strong{
+  position:relative !important;
+  display:flex !important;
+  align-items:center !important;
+  min-height:22px !important;
+  padding-right:15px !important;
+  color:#e2ad68 !important;
+  font-family:"Cormorant Garamond",Georgia,serif !important;
+  font-size:16px !important;
+  font-weight:700 !important;
+  line-height:1.05 !important;
+  letter-spacing:.025em !important;
+  text-shadow:0 1px 0 rgba(255,231,187,.30),0 2px 6px rgba(0,0,0,.86) !important;
+}
+.luvva-company-contact-list strong::after{
+  content:"";
+  position:absolute;
+  top:1px;
+  bottom:1px;
+  right:0;
+  width:1px;
+  border-radius:99px;
+  background:linear-gradient(180deg,transparent,rgba(226,173,104,.82) 18%,rgba(255,229,179,.92) 50%,rgba(153,100,39,.72) 82%,transparent);
+  box-shadow:1px 0 0 rgba(255,255,255,.08),0 0 6px rgba(214,157,82,.18);
+}
+.luvva-company-contact-list span,
+.luvva-company-contact-list a{
+  color:#d39a55 !important;
+  font-family:"Montserrat","Segoe UI",Arial,sans-serif !important;
+  font-size:12.7px !important;
+  font-weight:600 !important;
+  line-height:1.5 !important;
+  letter-spacing:.008em !important;
+  text-shadow:0 1px 0 rgba(255,224,170,.16),0 2px 5px rgba(0,0,0,.82) !important;
+}
+.luvva-company-contact-list a:hover{
+  color:#efbd78 !important;
+  filter:none !important;
+}
+@media(max-width:880px){
+  .luvva-company-contact-list p{
+    grid-template-columns:86px minmax(0,1fr) !important;
+    column-gap:12px !important;
+    padding:9px 10px !important;
+  }
+  .luvva-company-contact-list strong{
+    padding-right:12px !important;
+    font-size:15px !important;
+  }
+  .luvva-company-contact-list span,
+  .luvva-company-contact-list a{font-size:12px !important;}
+}
+
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V37_METALLIC_CONTACT_CONTROLLED_TRIALS_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
