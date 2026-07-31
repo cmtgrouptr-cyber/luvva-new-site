@@ -1177,10 +1177,47 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 .luvva-contact-success-card p{margin:0;color:#68737c;font:600 12px/1.7 "Montserrat",sans-serif;}
 .luvva-contact-success-mark{width:58px;height:58px;margin:0 auto 15px;border-radius:50%;display:grid;place-items:center;color:#b98224;font-size:26px;background:linear-gradient(145deg,#fff,#edf7fb);box-shadow:0 9px 20px rgba(92,103,113,.18),0 0 0 4px rgba(185,229,246,.24),inset 0 2px 0 #fff;}
 
+
+/* ===== LUVVA V37 — clear metallic-gold contact rows + controlled trial access ===== */
+.luvva-company-contact-list p{
+  background:
+    radial-gradient(circle at 18% 24%,rgba(255,255,255,.035) 0 1px,transparent 1.7px),
+    repeating-linear-gradient(112deg,rgba(255,255,255,.018) 0 2px,rgba(0,0,0,.026) 2px 5px),
+    linear-gradient(145deg,#302d29 0%,#242321 54%,#1d1c1a 100%) !important;
+  border:1px solid rgba(208,166,76,.30) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -8px 16px rgba(0,0,0,.14),0 5px 12px rgba(0,0,0,.14);
+  color:#d9aa4b !important;
+  font-family:"Montserrat","Segoe UI",Arial,sans-serif !important;
+  font-size:12.5px !important;
+  font-weight:600 !important;
+  line-height:1.55 !important;
+  text-shadow:0 1px 0 rgba(255,231,162,.28),0 2px 5px rgba(0,0,0,.58) !important;
+}
+.luvva-company-contact-list strong,
+.luvva-company-contact-list span,
+.luvva-company-contact-list a{
+  color:#e2b354 !important;
+  font-family:"Montserrat","Segoe UI",Arial,sans-serif !important;
+  font-weight:650 !important;
+  letter-spacing:.012em !important;
+  text-shadow:0 1px 0 rgba(255,235,177,.30),0 2px 5px rgba(0,0,0,.60) !important;
+}
+.luvva-company-contact-list strong{color:#efc66c !important;font-weight:750 !important;}
+.luvva-access-lock-backdrop{position:fixed;inset:0;z-index:2147483640;display:grid;place-items:center;padding:22px;background:rgba(18,20,22,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;visibility:hidden;pointer-events:none;transition:.25s ease;}
+.luvva-access-lock-backdrop.is-open{opacity:1;visibility:visible;pointer-events:auto;}
+.luvva-access-lock-card{width:min(520px,94vw);padding:30px 27px;border-radius:28px;text-align:center;border:1px solid rgba(205,164,76,.55);background:linear-gradient(150deg,#302d29,#211f1d 58%,#191817);box-shadow:0 30px 85px rgba(0,0,0,.48),0 0 0 1px rgba(255,255,255,.10),0 0 0 5px rgba(177,225,244,.13),0 0 35px rgba(142,211,239,.18),inset 0 2px 0 rgba(255,255,255,.10);}
+.luvva-access-lock-mark{width:62px;height:62px;margin:0 auto 15px;border-radius:50%;display:grid;place-items:center;font-size:26px;color:#e8bd62;background:linear-gradient(145deg,#38342f,#211f1d);border:1px solid rgba(222,180,89,.52);box-shadow:0 10px 25px rgba(0,0,0,.35),0 0 0 4px rgba(181,226,244,.11),inset 0 1px 0 rgba(255,255,255,.12);}
+.luvva-access-lock-card h2{margin:0;color:#e7bd64;font:650 clamp(29px,5vw,40px)/1.05 "Cormorant Garamond",Georgia,serif;}
+.luvva-access-lock-card p{margin:13px auto 0;max-width:440px;color:#e5d8bd;font:550 13px/1.75 "Montserrat",sans-serif;}
+.luvva-access-lock-channels{display:grid;gap:8px;margin:20px 0 0;text-align:left;padding:15px 17px;border-radius:16px;background:rgba(255,255,255,.035);border:1px solid rgba(216,175,87,.20);}
+.luvva-access-lock-channels a{color:#edc66f;text-decoration:none;font:650 12px/1.5 "Montserrat",sans-serif;overflow-wrap:anywhere;}
+.luvva-access-lock-note{margin-top:15px!important;color:#afcbd6!important;font-size:11px!important;}
+.luvva-provider-used{opacity:.52;filter:grayscale(.35);}
+
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V36_OFFICIAL_CONTACT_CHANNELS_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V37_METALLIC_CONTACT_CONTROLLED_TRIALS_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -1534,6 +1571,21 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     <h3>Thank you.</h3>
     <p>Your information has been received securely.<br/>Our team will contact you as soon as possible.</p>
   </div>
+</div>
+
+
+<div aria-hidden="true" class="luvva-access-lock-backdrop" id="luvvaAccessLocked">
+  <section aria-labelledby="luvvaAccessLockedTitle" aria-modal="true" class="luvva-access-lock-card" role="dialog">
+    <div aria-hidden="true" class="luvva-access-lock-mark">⌁</div>
+    <h2 id="luvvaAccessLockedTitle">Secure access is temporarily paused.</h2>
+    <p id="luvvaAccessLockedText">The available trial entrances on this device were used without completing the contact information. Please contact CMT GROUP so our team can review and restore official gateway access.</p>
+    <div class="luvva-access-lock-channels">
+      <a href="mailto:contact@luvva.tech">General: contact@luvva.tech</a>
+      <a href="mailto:partnership@luvva.tech">Partnerships: partnership@luvva.tech</a>
+      <a href="https://luvva.tech/#contact">Website: luvva.tech</a>
+    </div>
+    <p class="luvva-access-lock-note">Access can be restored from the administration dashboard after verification.</p>
+  </section>
 </div>
 
 <div aria-hidden="true" class="luvva-session-backdrop" id="luvvaSessionExpired">
@@ -1950,6 +2002,15 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   providerButtons.forEach(button => button.addEventListener("click", async () => {
     const requestedProvider = button.dataset.luvvaV3Provider || "Business Email";
+    const policy = readAccessPolicy();
+    if (!policy.contactCompleted && (policy.locked || ACCESS_PROVIDERS.every(item => policy.usedProviders.includes(item)))) {
+      showAccessLocked("All available 25-minute trial entrances on this device were used without completing the contact information. Please contact CMT GROUP so access can be reviewed and restored.");
+      return;
+    }
+    if (!policy.contactCompleted && policy.usedProviders.includes(requestedProvider)) {
+      showAccessLocked(`${requestedProvider} has already provided its 25-minute trial on this device. Use another unused official entrance, or contact CMT GROUP to restore access.`);
+      return;
+    }
     await enableAudio();
     openProvider(requestedProvider);
     if (returningSession && savedVisitor && requestedProvider !== savedVisitor.provider) {
@@ -1977,6 +2038,77 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   const VISITOR_KEY = "luvvaVisitorIdentityV23";
   const VISITOR_LOG_KEY = "luvvaVisitorLogV23";
   const CURRENT_VISIT_KEY = "luvvaCurrentVisitV23";
+  const ACCESS_POLICY_KEY = "luvvaGatewayAccessPolicyV37";
+  const ACCESS_PROVIDERS = ["Business Email", "Google", "WhatsApp", "LinkedIn"];
+  const accessLockedModal = document.getElementById("luvvaAccessLocked");
+
+  function readAccessPolicy() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(ACCESS_POLICY_KEY) || "null");
+      return saved && typeof saved === "object" ? saved : { usedProviders:[], contactCompleted:false, locked:false, updatedAt:Date.now() };
+    } catch (_) {
+      return { usedProviders:[], contactCompleted:false, locked:false, updatedAt:Date.now() };
+    }
+  }
+
+  function writeAccessPolicy(policy) {
+    policy.updatedAt = Date.now();
+    try { localStorage.setItem(ACCESS_POLICY_KEY, JSON.stringify(policy)); } catch (_) {}
+    return policy;
+  }
+
+  function hasCompletedContact() {
+    const policy = readAccessPolicy();
+    if (policy.contactCompleted) return true;
+    try {
+      const contact = JSON.parse(localStorage.getItem("luvvaContactDetailsV1") || "null");
+      return !!(contact && contact.fullName && contact.email && contact.consent);
+    } catch (_) { return false; }
+  }
+
+  function markProviderTrialUsed(provider) {
+    if (!provider || hasCompletedContact()) return;
+    const policy = readAccessPolicy();
+    if (!policy.usedProviders.includes(provider)) policy.usedProviders.push(provider);
+    policy.locked = ACCESS_PROVIDERS.every(item => policy.usedProviders.includes(item));
+    writeAccessPolicy(policy);
+    refreshProviderAvailability();
+  }
+
+  function refreshProviderAvailability() {
+    const policy = readAccessPolicy();
+    providerButtons.forEach(button => {
+      const provider = button.dataset.luvvaV3Provider || "Business Email";
+      const unavailable = !policy.contactCompleted && policy.usedProviders.includes(provider);
+      button.classList.toggle("luvva-provider-used", unavailable);
+      button.setAttribute("aria-disabled", unavailable ? "true" : "false");
+      button.title = unavailable ? "This 25-minute trial entrance has already been used on this device." : "";
+    });
+  }
+
+  function showAccessLocked(message) {
+    const text = document.getElementById("luvvaAccessLockedText");
+    if (text && message) text.textContent = message;
+    if (accessLockedModal) {
+      accessLockedModal.classList.add("is-open");
+      accessLockedModal.setAttribute("aria-hidden", "false");
+    }
+  }
+
+  function isAccessLocked() {
+    const policy = readAccessPolicy();
+    return !policy.contactCompleted && (policy.locked || ACCESS_PROVIDERS.every(item => policy.usedProviders.includes(item)));
+  }
+
+  // Dashboard/manual administration hook. A server-backed version will replace this prototype hook.
+  window.luvvaAdminUnlockAccess = function() {
+    writeAccessPolicy({ usedProviders:[], contactCompleted:false, locked:false, restoredAt:Date.now() });
+    try { localStorage.removeItem(SESSION_KEY); localStorage.removeItem(VISITOR_KEY); } catch (_) {}
+    refreshProviderAvailability();
+    if (accessLockedModal) { accessLockedModal.classList.remove("is-open"); accessLockedModal.setAttribute("aria-hidden", "true"); }
+    return true;
+  };
+
   const sessionTimer = document.getElementById("luvvaSessionTimer");
   const sessionTime = document.getElementById("luvvaSessionTime");
   const fiveMinuteNotice = document.getElementById("luvvaFiveMinuteNotice");
@@ -2083,11 +2215,19 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   function expireSession() {
     if(sessionInterval) clearInterval(sessionInterval);
     sessionInterval=null;
+    let expiredVisitor = null;
+    try { expiredVisitor = JSON.parse(localStorage.getItem(VISITOR_KEY) || "null"); } catch (_) {}
     try{localStorage.removeItem(SESSION_KEY);}catch(_){}
-    updateCurrentVisit({status:"expired",endedAt:Date.now()});
+    updateCurrentVisit({status:"expired",endedAt:Date.now(),contactCompleted:hasCompletedContact()});
+    if (!hasCompletedContact() && expiredVisitor && expiredVisitor.provider) markProviderTrialUsed(expiredVisitor.provider);
     sessionTime.textContent="00:00";
     sessionTimer.classList.add("is-ending");
-    openSessionMessage(sessionExpired);
+    if (isAccessLocked()) {
+      closeSessionMessage(sessionExpired);
+      showAccessLocked("All available 25-minute trial entrances on this device were used without completing the contact information. Please contact CMT GROUP so access can be reviewed and restored.");
+    } else {
+      openSessionMessage(sessionExpired);
+    }
   }
 
   function runSession(sessionInput) {
@@ -2202,6 +2342,8 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       data.consent = document.getElementById("luvvaContactConsent").checked;
       data.savedAt = Date.now();
       try { localStorage.setItem(CONTACT_DETAILS_KEY, JSON.stringify(data)); } catch(_) {}
+      writeAccessPolicy({ usedProviders:[], contactCompleted:true, locked:false, completedAt:Date.now() });
+      refreshProviderAvailability();
       updateCurrentVisit({ contactCompleted:true, contactDetails:{ fullName:data.fullName||"", company:data.company||"", position:data.position||"", email:data.email||"", phone:data.phone||"", country:data.country||"", interest:data.interest||"" } });
       if (contactStatus) contactStatus.textContent = "Information saved securely.";
       const successCard = document.getElementById("luvvaContactSuccess");
@@ -2227,6 +2369,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   });
   reenterButton.addEventListener("click", () => {
     closeSessionMessage(sessionExpired);
+    if (isAccessLocked()) { showAccessLocked(); return; }
     sessionTimer.classList.remove("is-visible", "is-ending");
     gateway.hidden = false;
     gateway.setAttribute("aria-hidden", "false");
@@ -2322,7 +2465,15 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     showWelcome();
   });
 
-  restoreVisitorSession();
+  refreshProviderAvailability();
+  if (isAccessLocked()) {
+    gateway.hidden = false;
+    gateway.setAttribute("aria-hidden", "false");
+    document.body.classList.add("luvva-v3-locked");
+    window.setTimeout(() => showAccessLocked(), 120);
+  } else {
+    restoreVisitorSession();
+  }
 })();
   </script>
 </body>
