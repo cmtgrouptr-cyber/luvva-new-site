@@ -768,7 +768,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 }
 
 
-/* ===== LUVVA V31 — 25-minute session and calm timer ===== */
+/* ===== LUVVA V32 — clearer timer and concise reminder ===== */
 #luvvaSessionTimer {
   position: relative !important;
   inset: auto !important;
@@ -785,16 +785,17 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   margin: 0 7px;
   padding: 10px 14px;
   overflow: hidden;
-  border: 1.25px solid rgba(111,46,58,.58);
+  border: 1.5px solid rgba(111,46,58,.82);
   border-radius: 999px;
   color: #54340b;
   background: linear-gradient(180deg,rgba(255,252,244,.99),rgba(246,236,220,.98));
   box-shadow:
-    0 7px 10px rgba(72,72,78,.30),
-    0 13px 24px rgba(72,72,78,.20),
-    0 0 0 1px rgba(111,46,58,.10),
+    0 8px 12px rgba(70,70,76,.38),
+    0 15px 28px rgba(70,70,76,.24),
+    0 0 0 1px rgba(111,46,58,.22),
+    0 0 12px rgba(111,46,58,.18),
     inset 0 1px 0 rgba(255,255,255,1),
-    inset 0 -2px 5px rgba(96,96,102,.10);
+    inset 0 -2px 5px rgba(96,96,102,.12);
   cursor: pointer;
   user-select: none;
   backdrop-filter: blur(12px) saturate(135%);
@@ -817,8 +818,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 #luvvaSessionTimer:active { transform: translateY(1px); }
 #luvvaSessionTimer strong {
   display:inline-block;
-  color:#6f2e3a;
-  text-shadow:0 0 8px rgba(111,46,58,.32);
+  color:#a51624;
+  font-size:1.18em;
+  font-weight:900;
+  letter-spacing:.045em;
+  text-shadow:0 0 7px rgba(165,22,36,.34);
   animation:luvvaTimerDigitsPulse 1.65s ease-in-out infinite;
 }
 #luvvaSessionTimer .luvva-session-dot {
@@ -829,8 +833,8 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 #luvvaSessionTimer.is-ending .luvva-session-dot { animation: none; }
 @keyframes luvvaSessionBlink { 50% { opacity:.28; transform:scale(.85); } }
 @keyframes luvvaTimerDigitsPulse {
-  0%,100%{opacity:.68;text-shadow:0 0 4px rgba(111,46,58,.18)}
-  50%{opacity:1;text-shadow:0 0 11px rgba(111,46,58,.46)}
+  0%,100%{opacity:.82;text-shadow:0 0 4px rgba(165,22,36,.20)}
+  50%{opacity:1;text-shadow:0 0 12px rgba(165,22,36,.52)}
 }
 @keyframes luvvaTimerSoftFlash {
   0%,100% { filter:brightness(1); box-shadow:0 7px 14px rgba(65,65,70,.30),0 0 0 2px rgba(113,43,50,.18),0 0 11px rgba(113,43,50,.20),inset 0 1px 0 rgba(255,255,255,1),inset 0 -2px 5px rgba(96,96,102,.10); }
@@ -847,9 +851,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 }
 @media (max-width: 1100px) {
   #luvvaSessionTimer { min-width:116px; margin:0 4px; padding:9px 10px; font-size:11px; gap:6px; }
+  #luvvaSessionTimer strong { font-size:1.16em; }
 }
 @media (max-width: 760px) {
   #luvvaSessionTimer { min-width:108px; margin-left:auto; padding:9px 10px; font-size:10px; }
+  #luvvaSessionTimer strong { font-size:1.14em; }
 }
 
 
@@ -914,7 +920,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V31_25MIN_DUAL_REMINDERS_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V32_CLEAR_TIMER_CONCISE_REMINDER_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -1212,7 +1218,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   <section aria-labelledby="luvvaFiveMinuteTitle" aria-modal="true" class="luvva-session-card" role="dialog">
     <div aria-hidden="true" class="luvva-session-mark">♡</div>
     <h2 id="luvvaFiveMinuteTitle">A Gentle Reminder</h2>
-    <p>To continue your visit and regain access later, please open <strong>Contact</strong> and complete your information. Your information remains secure and confidential.</p>
+    <p>Complete your <strong>Contact</strong> details for easy access on your next visit.</p>
     <div class="luvva-session-actions">
       <button class="luvva-session-button primary" id="luvvaGoContact" type="button">Go to Contact</button>
       <button class="luvva-session-button secondary" id="luvvaNoticeClose" type="button">Continue exploring</button>
