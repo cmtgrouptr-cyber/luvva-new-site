@@ -1014,10 +1014,101 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 .luvva-contact-status { color:#6e531e;font:700 11px/1.45 "Montserrat",sans-serif; }
 @media(max-width:880px){.luvva-contact-grid{grid-template-columns:1fr}.luvva-company-contact-list p{grid-template-columns:78px minmax(0,1fr)}}
 
+/* ===== LUVVA V34 — premium cool-light shadows + guided contact transition ===== */
+.luvva-session-card {
+  border-color: rgba(182,190,198,.46);
+  background: linear-gradient(150deg,rgba(255,255,255,.98),rgba(248,249,250,.97) 52%,rgba(239,247,251,.96));
+  box-shadow:
+    0 24px 70px rgba(62,69,77,.26),
+    0 10px 28px rgba(115,126,138,.18),
+    0 0 0 1px rgba(255,255,255,.96),
+    0 0 0 4px rgba(190,229,244,.20),
+    0 0 34px rgba(165,220,242,.32),
+    inset 0 2px 0 rgba(255,255,255,1),
+    inset 0 -2px 10px rgba(145,157,169,.10);
+}
+.luvva-session-button {
+  box-shadow:
+    0 8px 16px rgba(88,96,105,.19),
+    0 0 0 1px rgba(255,255,255,.82),
+    0 0 0 3px rgba(191,229,244,.13),
+    inset 0 1px 0 rgba(255,255,255,.84);
+  transition:transform .2s ease,box-shadow .2s ease,filter .2s ease;
+}
+.luvva-session-button:hover {
+  transform:translateY(-2px);
+  box-shadow:
+    0 12px 22px rgba(79,87,96,.23),
+    0 0 0 1px rgba(255,255,255,.94),
+    0 0 0 4px rgba(178,225,244,.24),
+    0 0 22px rgba(167,220,241,.34),
+    inset 0 1px 0 rgba(255,255,255,.92);
+}
+.luvva-session-button.secondary {
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(238,241,244,.92));
+  border-color:rgba(161,172,183,.46);
+  color:#4f5964;
+}
+.luvva-contact-form-panel,
+.luvva-company-contact-card {
+  border-color:rgba(167,180,192,.40);
+  background:linear-gradient(150deg,rgba(255,255,255,.97),rgba(247,248,249,.95) 55%,rgba(239,247,251,.92));
+  box-shadow:
+    0 22px 55px rgba(70,77,85,.17),
+    0 9px 22px rgba(120,131,143,.12),
+    0 0 0 1px rgba(255,255,255,.94),
+    0 0 0 4px rgba(190,229,244,.13),
+    0 0 26px rgba(166,220,242,.18),
+    inset 0 2px 0 rgba(255,255,255,1),
+    inset 0 -2px 8px rgba(139,151,163,.08);
+}
+.luvva-contact-form-panel.is-highlighted {
+  transform:translateY(-4px) scale(1.004);
+  box-shadow:
+    0 30px 75px rgba(61,68,76,.23),
+    0 12px 28px rgba(111,123,135,.18),
+    0 0 0 1px rgba(255,255,255,1),
+    0 0 0 5px rgba(174,226,247,.34),
+    0 0 38px rgba(148,216,244,.42),
+    inset 0 2px 0 rgba(255,255,255,1);
+}
+#luvvaContactForm input,#luvvaContactForm select,#luvvaContactForm textarea {
+  border-color:rgba(157,170,183,.48);
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(247,249,250,.91));
+  box-shadow:0 5px 12px rgba(86,95,104,.09),inset 0 1px 0 rgba(255,255,255,1);
+}
+#luvvaContactForm input:focus,#luvvaContactForm select:focus,#luvvaContactForm textarea:focus {
+  border-color:rgba(121,198,230,.95);
+  box-shadow:0 8px 18px rgba(80,91,102,.13),0 0 0 4px rgba(165,222,244,.27),0 0 18px rgba(150,216,242,.24),inset 0 1px 0 #fff;
+}
+.luvva-contact-submit {
+  box-shadow:0 12px 25px rgba(73,81,89,.20),0 0 0 1px rgba(255,255,255,.82),0 0 0 4px rgba(184,226,243,.16),0 0 20px rgba(157,216,240,.22),inset 0 1px 0 rgba(255,255,255,.68);
+}
+#luvvaContactTransition {
+  position:fixed;inset:0;z-index:2147482998;display:grid;place-items:center;
+  background:rgba(26,31,36,.26);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  opacity:0;visibility:hidden;pointer-events:none;transition:opacity .28s ease,visibility .28s ease;
+}
+#luvvaContactTransition.is-active{opacity:1;visibility:visible;pointer-events:auto;}
+.luvva-contact-transition-card{
+  width:min(420px,calc(100vw - 34px));padding:28px 24px;border-radius:28px;text-align:center;
+  border:1px solid rgba(182,194,205,.54);
+  background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(244,247,249,.96),rgba(236,247,252,.94));
+  box-shadow:0 28px 80px rgba(49,57,65,.28),0 0 0 1px rgba(255,255,255,.98),0 0 0 5px rgba(185,229,246,.20),0 0 38px rgba(157,220,245,.35),inset 0 2px 0 #fff;
+  transform:translateY(16px) scale(.97);transition:transform .32s ease;
+}
+#luvvaContactTransition.is-active .luvva-contact-transition-card{transform:translateY(0) scale(1);}
+.luvva-contact-transition-orb{width:58px;height:58px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;font-size:24px;color:#7c8893;background:linear-gradient(145deg,#fff,#e9f5fa);box-shadow:0 9px 20px rgba(92,103,113,.18),0 0 0 4px rgba(185,229,246,.24),0 0 22px rgba(160,220,244,.32),inset 0 2px 0 #fff;}
+.luvva-contact-transition-card h3{margin:0;color:#4f5962;font:600 31px/1.05 "Cormorant Garamond",Georgia,serif;}
+.luvva-contact-transition-card p{margin:10px 0 0;color:#69737d;font:600 12px/1.65 "Montserrat",sans-serif;}
+.luvva-contact-transition-line{height:3px;width:0;margin:18px auto 0;border-radius:999px;background:linear-gradient(90deg,rgba(185,229,246,.25),#91d3ee,rgba(255,255,255,.9));box-shadow:0 0 14px rgba(132,207,237,.56);transition:width .7s ease .08s;}
+#luvvaContactTransition.is-active .luvva-contact-transition-line{width:78%;}
+@media (prefers-reduced-motion:reduce){#luvvaContactTransition,.luvva-contact-transition-card,.luvva-contact-transition-line,.luvva-session-button{transition:none!important}.luvva-contact-form-panel.is-highlighted{transform:none}}
+
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V33_STABLE_TIMER_CONTACT_FORM_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V34_COOL_SHADOW_CONTACT_TRANSITION_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -1345,11 +1436,20 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     <h2 id="luvvaFiveMinuteTitle">A Gentle Reminder</h2>
     <p>Complete your <strong>Contact</strong> details for easy access on your next visit.</p>
     <div class="luvva-session-actions">
-      <button class="luvva-session-button primary" id="luvvaGoContact" type="button">Continue to Contact</button>
+      <button class="luvva-session-button primary" id="luvvaGoContact" type="button">Contact us</button>
       <button class="luvva-session-button secondary" id="luvvaNoticeClose" type="button">Continue exploring</button>
     </div>
   </section>
 </div>
+<div aria-hidden="true" id="luvvaContactTransition">
+  <div class="luvva-contact-transition-card" role="status" aria-live="polite">
+    <div aria-hidden="true" class="luvva-contact-transition-orb">♡</div>
+    <h3>Let’s connect.</h3>
+    <p>Opening the secure contact form for your information.</p>
+    <div aria-hidden="true" class="luvva-contact-transition-line"></div>
+  </div>
+</div>
+
 <div aria-hidden="true" class="luvva-session-backdrop" id="luvvaSessionExpired">
   <section aria-labelledby="luvvaSessionExpiredTitle" aria-modal="true" class="luvva-session-card" role="dialog">
     <div aria-hidden="true" class="luvva-session-mark">⌛</div>
@@ -1958,16 +2058,27 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   function openContactDetails() {
     closeSessionMessage(fiveMinuteNotice);
+    const transition = document.getElementById("luvvaContactTransition");
     const contactSection = document.getElementById("contact");
-    if (contactSection) contactSection.scrollIntoView({ behavior:"smooth", block:"start" });
-    if (contactFormPanel) {
-      contactFormPanel.classList.add("is-highlighted");
-      setTimeout(() => contactFormPanel.classList.remove("is-highlighted"), 2200);
+    if (transition) {
+      transition.setAttribute("aria-hidden", "false");
+      transition.classList.add("is-active");
     }
-    setTimeout(() => {
+    window.setTimeout(() => {
+      if (contactSection) contactSection.scrollIntoView({ behavior:"smooth", block:"start" });
+    }, 360);
+    window.setTimeout(() => {
+      if (transition) {
+        transition.classList.remove("is-active");
+        transition.setAttribute("aria-hidden", "true");
+      }
+      if (contactFormPanel) {
+        contactFormPanel.classList.add("is-highlighted");
+        window.setTimeout(() => contactFormPanel.classList.remove("is-highlighted"), 2400);
+      }
       const firstField = document.getElementById("luvvaContactName");
       if (firstField) firstField.focus({ preventScroll:true });
-    }, 700);
+    }, 1050);
   }
 
   function loadContactDetails() {
