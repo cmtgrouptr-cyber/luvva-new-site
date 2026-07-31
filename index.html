@@ -1275,28 +1275,84 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     if (ctx && ctx.state === "suspended") { try { await ctx.resume(); } catch (_) {} }
   }
 
-  function thump(offset, gainValue, frequency) {
+  function thump(offset, strength, baseFrequency) {
     const ctx = audio();
     if (!ctx || ctx.state !== "running") return;
+
     const now = ctx.currentTime + offset;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(frequency, now);
-    osc.frequency.exponentialRampToValueAtTime(36, now + .18);
-    filter.type = "lowpass"; filter.frequency.value = 125;
-    gain.gain.setValueAtTime(.0001, now);
-    gain.gain.exponentialRampToValueAtTime(gainValue, now + .014);
-    gain.gain.exponentialRampToValueAtTime(.0001, now + .23);
-    osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
-    osc.start(now); osc.stop(now + .25);
+    const compressor = ctx.createDynamicsCompressor();
+    compressor.threshold.setValueAtTime(-22, now);
+    compressor.knee.setValueAtTime(18, now);
+    compressor.ratio.setValueAtTime(7, now);
+    compressor.attack.setValueAtTime(.003, now);
+    compressor.release.setValueAtTime(.18, now);
+    compressor.connect(ctx.destination);
+
+    // Deep body: preserves the warm heartbeat character.
+    const bodyOsc = ctx.createOscillator();
+    const bodyGain = ctx.createGain();
+    const bodyFilter = ctx.createBiquadFilter();
+    bodyOsc.type = "sine";
+    bodyOsc.frequency.setValueAtTime(baseFrequency, now);
+    bodyOsc.frequency.exponentialRampToValueAtTime(42, now + .20);
+    bodyFilter.type = "lowpass";
+    bodyFilter.frequency.setValueAtTime(190, now);
+    bodyFilter.Q.setValueAtTime(.7, now);
+    bodyGain.gain.setValueAtTime(.0001, now);
+    bodyGain.gain.exponentialRampToValueAtTime(strength * .72, now + .009);
+    bodyGain.gain.exponentialRampToValueAtTime(.0001, now + .24);
+    bodyOsc.connect(bodyFilter);
+    bodyFilter.connect(bodyGain);
+    bodyGain.connect(compressor);
+    bodyOsc.start(now);
+    bodyOsc.stop(now + .27);
+
+    // Speaker-presence layer: makes the beat audible on phones and laptops.
+    const presenceOsc = ctx.createOscillator();
+    const presenceGain = ctx.createGain();
+    const presenceFilter = ctx.createBiquadFilter();
+    presenceOsc.type = "triangle";
+    presenceOsc.frequency.setValueAtTime(baseFrequency * 2.45, now);
+    presenceOsc.frequency.exponentialRampToValueAtTime(baseFrequency * 1.35, now + .13);
+    presenceFilter.type = "bandpass";
+    presenceFilter.frequency.setValueAtTime(165, now);
+    presenceFilter.Q.setValueAtTime(1.1, now);
+    presenceGain.gain.setValueAtTime(.0001, now);
+    presenceGain.gain.exponentialRampToValueAtTime(strength * .34, now + .006);
+    presenceGain.gain.exponentialRampToValueAtTime(.0001, now + .15);
+    presenceOsc.connect(presenceFilter);
+    presenceFilter.connect(presenceGain);
+    presenceGain.connect(compressor);
+    presenceOsc.start(now);
+    presenceOsc.stop(now + .18);
+
+    // Very short soft transient adds definition without sounding like a click.
+    const buffer = ctx.createBuffer(1, Math.floor(ctx.sampleRate * .045), ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i++) {
+      const envelope = Math.exp(-i / (ctx.sampleRate * .009));
+      data[i] = (Math.random() * 2 - 1) * envelope;
+    }
+    const transient = ctx.createBufferSource();
+    const transientFilter = ctx.createBiquadFilter();
+    const transientGain = ctx.createGain();
+    transient.buffer = buffer;
+    transientFilter.type = "bandpass";
+    transientFilter.frequency.setValueAtTime(230, now);
+    transientFilter.Q.setValueAtTime(.9, now);
+    transientGain.gain.setValueAtTime(strength * .075, now);
+    transientGain.gain.exponentialRampToValueAtTime(.0001, now + .042);
+    transient.connect(transientFilter);
+    transientFilter.connect(transientGain);
+    transientGain.connect(compressor);
+    transient.start(now);
+    transient.stop(now + .05);
   }
 
   function playLowHeartbeatPair() {
-    // V18: louder heartbeat for built-in laptop and phone speakers.
-    thump(0, .18, 58);
-    thump(.23, .13, 51);
+    // V19: custom LUVVA heartbeat, audible on phone and laptop speakers.
+    thump(0, .92, 72);
+    thump(.24, .70, 66);
   }
 
   function resetForm() {
