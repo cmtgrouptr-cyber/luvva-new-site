@@ -641,7 +641,7 @@ body.luvva-v3-locked > footer {
 
 /* ===== LUVVA V14 — cinematic welcome-to-site transition ===== */
 .luvva-v3-success {
-  position:absolute; z-index:8; inset:0; display:grid; place-items:center;
+  position:fixed; z-index:2147483900; inset:0; display:grid; place-items:center;
   padding:24px 14px; overflow:hidden; opacity:0; visibility:hidden; pointer-events:none;
   background:
     radial-gradient(ellipse at 50% 43%, rgba(83,16,38,.20) 0%, rgba(50,8,24,.08) 30%, transparent 60%),
@@ -1329,6 +1329,15 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   function validEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
 
   async function showWelcome() {
+    // V17: reset every scroll container before the Welcome cover is painted.
+    // The authentication dialog may have shifted the fixed gateway's own scroll position.
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    window.scrollTo(0, 0);
+    gateway.scrollTop = 0;
+    gateway.scrollLeft = 0;
+    success.scrollTop = 0;
+
     // V16: prepare a fully opaque Welcome cover BEFORE removing the data dialog.
     // Because the dialog is still on top during this preparation, the user sees no intermediate frame.
     if (welcomeLogoMount && gatewayLogoStage && gatewayLogoStage.parentNode !== welcomeLogoMount) {
@@ -1369,9 +1378,16 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       gateway.hidden = true;
       gateway.setAttribute("aria-hidden", "true");
       gateway.classList.remove("is-revealing");
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      window.scrollTo(0, 0);
       document.body.classList.remove("luvva-v3-locked", "luvva-page-revealing", "luvva-page-visible");
       document.body.style.removeProperty("overflow");
-      window.scrollTo({ top: 0, behavior: "auto" });
+      requestAnimationFrame(() => {
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        window.scrollTo(0, 0);
+      });
     }, 8000);
 
     // Stop the heartbeat five seconds after the page begins to appear.
