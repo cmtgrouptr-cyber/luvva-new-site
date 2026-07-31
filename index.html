@@ -1105,10 +1105,71 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 #luvvaContactTransition.is-active .luvva-contact-transition-line{width:78%;}
 @media (prefers-reduced-motion:reduce){#luvvaContactTransition,.luvva-contact-transition-card,.luvva-contact-transition-line,.luvva-session-button{transition:none!important}.luvva-contact-form-panel.is-highlighted{transform:none}}
 
+
+/* ===== LUVVA V35 — CMT leather contact identity ===== */
+.luvva-company-contact-card{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(207,164,73,.72) !important;
+  background:
+    radial-gradient(circle at 18% 22%,rgba(255,255,255,.055) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 76% 68%,rgba(0,0,0,.12) 0 1px,transparent 2px),
+    repeating-linear-gradient(115deg,rgba(255,255,255,.025) 0 2px,rgba(0,0,0,.035) 2px 5px),
+    linear-gradient(145deg,#3d3732 0%,#292724 48%,#1e1d1b 100%) !important;
+  background-size:13px 13px,17px 17px,8px 8px,100% 100%;
+  box-shadow:
+    0 24px 58px rgba(25,23,21,.34),
+    0 10px 24px rgba(92,104,116,.16),
+    0 0 0 1px rgba(255,255,255,.14),
+    0 0 0 4px rgba(183,228,246,.14),
+    0 0 28px rgba(154,218,244,.18),
+    inset 0 2px 0 rgba(255,255,255,.13),
+    inset 0 -10px 24px rgba(0,0,0,.25) !important;
+}
+.luvva-company-contact-card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(120deg,rgba(255,255,255,.08),transparent 34%,rgba(198,154,65,.05) 68%,transparent);
+  mix-blend-mode:screen;
+}
+.luvva-company-logo-frame{
+  position:relative;z-index:1;margin:0 0 20px;border-radius:18px;overflow:hidden;
+  border:1px solid rgba(224,184,91,.62);
+  background:#242321;
+  box-shadow:0 14px 30px rgba(0,0,0,.34),0 0 0 1px rgba(255,255,255,.12),0 0 0 4px rgba(183,228,246,.10),inset 0 1px 0 rgba(255,255,255,.18);
+}
+.luvva-company-logo-frame img{
+  display:block !important;width:100% !important;max-width:none !important;height:auto !important;margin:0 !important;
+  filter:saturate(1.03) contrast(1.03);
+}
+.luvva-company-contact-list{position:relative;z-index:1;gap:12px;}
+.luvva-company-contact-list p{
+  grid-template-columns:90px minmax(0,1fr);
+  padding:9px 11px;border-radius:12px;
+  border:1px solid rgba(209,167,77,.20);
+  background:rgba(255,255,255,.035);
+  color:#7f1836 !important;
+  text-shadow:-.45px 0 #d6a94d,.45px 0 #d6a94d,0 .45px #d6a94d,0 -.45px #d6a94d,0 2px 5px rgba(0,0,0,.45);
+}
+.luvva-company-contact-list strong{
+  color:#851b3d !important;
+  letter-spacing:.02em;
+  text-shadow:-.5px 0 #e0b75d,.5px 0 #e0b75d,0 .5px #e0b75d,0 -.5px #e0b75d,0 2px 5px rgba(0,0,0,.48);
+}
+.luvva-company-contact-list a{
+  color:#7f1836 !important;
+  text-decoration:none;
+  text-shadow:-.45px 0 #ddb254,.45px 0 #ddb254,0 .45px #ddb254,0 -.45px #ddb254,0 2px 5px rgba(0,0,0,.45);
+}
+.luvva-company-contact-list a:hover{filter:brightness(1.18);}
+@media(max-width:880px){
+  .luvva-company-contact-card{margin-top:22px;padding:17px;}
+  .luvva-company-contact-list p{grid-template-columns:78px minmax(0,1fr);padding:8px 9px;}
+}
+
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V34_COOL_SHADOW_CONTACT_TRANSITION_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V35_CMT_LEATHER_CONTACT_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -1386,7 +1447,9 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     <h2>Let’s create a more human future.</h2>
     <p>For investors, strategic partners and ecosystem collaborations.</p>
     <div class="luvva-company-contact-card" aria-label="LUVVA and CMT Group contact information">
-      <img alt="CMT Group — Call Mind Technology" src="cmt-logo.png"/>
+      <div class="luvva-company-logo-frame">
+        <img alt="CMT Group — Call Mind Technology" src="cmt-contact-logo.jpg"/>
+      </div>
       <div class="luvva-company-contact-list">
         <p><strong>Company</strong><span>CMT GROUP — Call Mind Technology</span></p>
         <p><strong>Project</strong><span>LUVVA Human-Centered AI</span></p>
