@@ -917,10 +917,107 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   .luvva-session-card { padding:26px 20px 22px; border-radius:23px; }
 }
 
+
+/* ===== LUVVA V33 — stable navigation timer + contact information ===== */
+.site-header .main-nav { min-width: 0; }
+#luvvaSessionTimer {
+  width: 142px;
+  min-width: 142px;
+  max-width: 142px;
+  box-sizing: border-box;
+  gap: 7px;
+  box-shadow:
+    0 8px 12px rgba(70,70,76,.38),
+    0 15px 28px rgba(70,70,76,.24),
+    0 0 0 1px rgba(111,46,58,.22),
+    0 0 12px rgba(111,46,58,.18),
+    0 0 0 3px rgba(137,207,235,.20),
+    0 0 18px rgba(126,205,236,.28),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -2px 5px rgba(96,96,102,.12);
+}
+#luvvaSessionTimer .luvva-session-label {
+  display:inline-block;
+  flex:0 0 48px;
+  width:48px;
+  text-align:right;
+  white-space:nowrap;
+}
+#luvvaSessionTimer strong {
+  display:inline-block;
+  flex:0 0 46px;
+  width:46px;
+  min-width:46px;
+  text-align:center;
+  white-space:nowrap;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  letter-spacing:.02em;
+}
+#luvvaSessionTimer:hover { transform:none; }
+#luvvaSessionTimer:active { transform:none; }
+@media (max-width:1100px){
+  #luvvaSessionTimer{width:128px;min-width:128px;max-width:128px;margin:0 4px;padding:9px 8px;}
+  #luvvaSessionTimer .luvva-session-label{flex-basis:43px;width:43px;}
+  #luvvaSessionTimer strong{flex-basis:43px;width:43px;min-width:43px;}
+}
+@media (max-width:760px){
+  .site-header .main-nav #luvvaSessionTimer{width:128px;min-width:128px;max-width:128px;margin:8px auto 2px;}
+}
+
+.contact-section {
+  align-items: stretch;
+  gap: clamp(24px,4vw,56px);
+}
+.luvva-contact-intro,
+.luvva-contact-form-panel { min-width:0; }
+.luvva-company-contact-card {
+  margin-top:28px;
+  padding:22px;
+  border:1px solid rgba(176,125,43,.28);
+  border-radius:24px;
+  background:linear-gradient(145deg,rgba(255,252,246,.82),rgba(241,225,197,.72));
+  box-shadow:0 18px 40px rgba(87,57,19,.12),inset 0 1px 0 rgba(255,255,255,.9);
+}
+.luvva-company-contact-card img { display:block;width:min(230px,75%);height:auto;margin:0 0 18px; }
+.luvva-company-contact-list { display:grid;gap:10px; }
+.luvva-company-contact-list p { display:grid;grid-template-columns:90px minmax(0,1fr);gap:12px;margin:0;font:500 12px/1.55 "Montserrat",sans-serif;color:#725a38; }
+.luvva-company-contact-list strong { color:#8b5d17; }
+.luvva-company-contact-list a { color:#7c4f0d;text-decoration:none;font-weight:700;overflow-wrap:anywhere; }
+.luvva-contact-form-panel {
+  padding:clamp(22px,3vw,34px);
+  border:1px solid rgba(174,120,34,.30);
+  border-radius:28px;
+  background:linear-gradient(155deg,rgba(255,252,245,.96),rgba(241,225,198,.92));
+  box-shadow:0 26px 70px rgba(73,44,8,.16),0 0 0 3px rgba(137,207,235,.10),inset 0 1px 0 rgba(255,255,255,.95);
+  scroll-margin-top:110px;
+  transition:box-shadow .45s ease,transform .45s ease;
+}
+.luvva-contact-form-panel.is-highlighted {
+  transform:translateY(-2px);
+  box-shadow:0 30px 80px rgba(73,44,8,.20),0 0 0 4px rgba(132,207,236,.28),0 0 28px rgba(132,207,236,.30),inset 0 1px 0 rgba(255,255,255,.95);
+}
+.luvva-contact-form-heading h3 { margin:6px 0 8px;color:#70460a;font:600 clamp(27px,3.2vw,39px)/1.04 "Cormorant Garamond",Georgia,serif; }
+.luvva-contact-form-heading p { margin:0 0 22px;color:#765f3d;font:500 12px/1.7 "Montserrat",sans-serif; }
+.luvva-contact-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px; }
+#luvvaContactForm label { display:grid;gap:7px;color:#6a4b20;font:700 11px/1.3 "Montserrat",sans-serif;letter-spacing:.02em; }
+#luvvaContactForm input,#luvvaContactForm select,#luvvaContactForm textarea {
+  width:100%;box-sizing:border-box;border:1px solid rgba(139,91,20,.28);border-radius:13px;background:rgba(255,255,255,.76);color:#4e3513;padding:12px 13px;font:500 13px "Montserrat",sans-serif;outline:none;transition:border-color .2s ease,box-shadow .2s ease,background .2s ease;
+}
+#luvvaContactForm input:focus,#luvvaContactForm select:focus,#luvvaContactForm textarea:focus { border-color:rgba(126,190,220,.90);box-shadow:0 0 0 3px rgba(126,202,233,.20);background:#fff; }
+.luvva-contact-message { margin-top:15px; }
+#luvvaContactForm textarea { resize:vertical;min-height:108px; }
+.luvva-contact-consent { grid-template-columns:auto 1fr !important;align-items:start;margin-top:14px;font-weight:500 !important;line-height:1.55 !important; }
+.luvva-contact-consent input { width:17px !important;height:17px;margin:1px 0 0;padding:0 !important;accent-color:#a56c17; }
+.luvva-contact-actions { display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:18px; }
+.luvva-contact-submit { min-height:46px;padding:0 21px;border:1px solid rgba(139,88,12,.45);border-radius:999px;color:#fff8e8;background:linear-gradient(180deg,#c9963d,#95600f);box-shadow:0 10px 24px rgba(102,60,6,.22);cursor:pointer;font:700 12px "Montserrat",sans-serif; }
+.luvva-contact-status { color:#6e531e;font:700 11px/1.45 "Montserrat",sans-serif; }
+@media(max-width:880px){.luvva-contact-grid{grid-template-columns:1fr}.luvva-company-contact-list p{grid-template-columns:78px minmax(0,1fr)}}
+
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V32_CLEAR_TIMER_CONCISE_REMINDER_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V33_STABLE_TIMER_CONTACT_FORM_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -1118,7 +1215,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 <a href="#contact">Contact</a>
 <div aria-live="polite" aria-label="Open session reminder" id="luvvaSessionTimer" role="button" tabindex="0" title="Open session reminder">
   <span aria-hidden="true" class="luvva-session-dot"></span>
-  <span>Session&nbsp;</span><strong id="luvvaSessionTime">25:00</strong>
+  <span class="luvva-session-label">Session</span><strong id="luvvaSessionTime">25:00</strong>
 </div>
 </nav>
 <a class="investor-button" href="#partnership">Investor Brief</a>
@@ -1193,24 +1290,52 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </div>
 </section>
 <section class="contact-section" id="contact">
-<div>
-<span class="eyebrow">
-          Contact
-        </span>
-<h2>
-          Let’s create a more human future.
-        </h2>
-<p>
-          For investors, strategic partners and ecosystem collaborations.
-        </p>
-<a class="email-link" href="mailto:partnership@luvva.tech">
-          partnership@luvva.tech
-        </a>
-</div>
-<div class="company">
-<img alt="CMT Group — Call Mind Technology" src="cmt-logo.png"/>
-<p>Developed by CMT Group</p>
-</div>
+  <div class="luvva-contact-intro">
+    <span class="eyebrow">Contact</span>
+    <h2>Let’s create a more human future.</h2>
+    <p>For investors, strategic partners and ecosystem collaborations.</p>
+    <div class="luvva-company-contact-card" aria-label="LUVVA and CMT Group contact information">
+      <img alt="CMT Group — Call Mind Technology" src="cmt-logo.png"/>
+      <div class="luvva-company-contact-list">
+        <p><strong>Company</strong><span>CMT GROUP — Call Mind Technology</span></p>
+        <p><strong>Project</strong><span>LUVVA Human-Centered AI</span></p>
+        <p><strong>Email</strong><a href="mailto:partnership@luvva.tech">partnership@luvva.tech</a></p>
+        <p><strong>Website</strong><a href="https://luvva.tech" rel="noopener" target="_blank">luvva.tech</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="luvva-contact-form-panel" id="luvvaContactFormPanel" aria-labelledby="luvvaContactFormTitle">
+    <div class="luvva-contact-form-heading">
+      <span class="eyebrow">Your Information</span>
+      <h3 id="luvvaContactFormTitle">Tell us how we can reach you.</h3>
+      <p>Your details help us recognize your interest and continue the conversation securely.</p>
+    </div>
+    <form id="luvvaContactForm" novalidate>
+      <div class="luvva-contact-grid">
+        <label>Full name <input autocomplete="name" id="luvvaContactName" name="fullName" required type="text"/></label>
+        <label>Company / Organization <input autocomplete="organization" id="luvvaContactCompany" name="company" type="text"/></label>
+        <label>Email address <input autocomplete="email" id="luvvaContactEmail" name="email" required type="email"/></label>
+        <label>WhatsApp / Phone <input autocomplete="tel" id="luvvaContactPhone" name="phone" type="tel"/></label>
+        <label>Country <input autocomplete="country-name" id="luvvaContactCountry" name="country" type="text"/></label>
+        <label>Area of interest
+          <select id="luvvaContactInterest" name="interest">
+            <option value="Strategic partnership">Strategic partnership</option>
+            <option value="Investment">Investment</option>
+            <option value="Technology collaboration">Technology collaboration</option>
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="General inquiry">General inquiry</option>
+          </select>
+        </label>
+      </div>
+      <label class="luvva-contact-message">Message <textarea id="luvvaContactMessage" name="message" rows="4" placeholder="Write a short message..."></textarea></label>
+      <label class="luvva-contact-consent"><input id="luvvaContactConsent" required type="checkbox"/> <span>I agree to share these details with CMT GROUP for this inquiry.</span></label>
+      <div class="luvva-contact-actions">
+        <button class="luvva-contact-submit" type="submit">Save contact details</button>
+        <span aria-live="polite" class="luvva-contact-status" id="luvvaContactStatus"></span>
+      </div>
+    </form>
+  </div>
 </section>
 </main>
 
@@ -1220,7 +1345,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     <h2 id="luvvaFiveMinuteTitle">A Gentle Reminder</h2>
     <p>Complete your <strong>Contact</strong> details for easy access on your next visit.</p>
     <div class="luvva-session-actions">
-      <button class="luvva-session-button primary" id="luvvaGoContact" type="button">Go to Contact</button>
+      <button class="luvva-session-button primary" id="luvvaGoContact" type="button">Continue to Contact</button>
       <button class="luvva-session-button secondary" id="luvvaNoticeClose" type="button">Continue exploring</button>
     </div>
   </section>
@@ -1826,12 +1951,55 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   window.addEventListener("beforeunload",pauseSession);
   document.addEventListener("visibilitychange",()=>{ if(document.hidden && gateway.hidden) pauseSession(); });
 
-  noticeClose.addEventListener("click", () => closeSessionMessage(fiveMinuteNotice));
-  goContactButton.addEventListener("click", () => {
+  const contactFormPanel = document.getElementById("luvvaContactFormPanel");
+  const contactForm = document.getElementById("luvvaContactForm");
+  const contactStatus = document.getElementById("luvvaContactStatus");
+  const CONTACT_DETAILS_KEY = "luvvaContactDetailsV1";
+
+  function openContactDetails() {
     closeSessionMessage(fiveMinuteNotice);
     const contactSection = document.getElementById("contact");
     if (contactSection) contactSection.scrollIntoView({ behavior:"smooth", block:"start" });
-  });
+    if (contactFormPanel) {
+      contactFormPanel.classList.add("is-highlighted");
+      setTimeout(() => contactFormPanel.classList.remove("is-highlighted"), 2200);
+    }
+    setTimeout(() => {
+      const firstField = document.getElementById("luvvaContactName");
+      if (firstField) firstField.focus({ preventScroll:true });
+    }, 700);
+  }
+
+  function loadContactDetails() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(CONTACT_DETAILS_KEY) || "null");
+      if (!saved) return;
+      const mapping = { fullName:"luvvaContactName", company:"luvvaContactCompany", email:"luvvaContactEmail", phone:"luvvaContactPhone", country:"luvvaContactCountry", interest:"luvvaContactInterest", message:"luvvaContactMessage" };
+      Object.entries(mapping).forEach(([key,id]) => { const el=document.getElementById(id); if(el && saved[key]) el.value=saved[key]; });
+      const consent=document.getElementById("luvvaContactConsent"); if(consent && saved.consent) consent.checked=true;
+    } catch(_) {}
+  }
+
+  if (contactForm) {
+    loadContactDetails();
+    contactForm.addEventListener("submit", e => {
+      e.preventDefault();
+      if (!contactForm.checkValidity()) {
+        contactForm.reportValidity();
+        if (contactStatus) contactStatus.textContent = "Please complete the required fields.";
+        return;
+      }
+      const data = Object.fromEntries(new FormData(contactForm).entries());
+      data.consent = document.getElementById("luvvaContactConsent").checked;
+      data.savedAt = Date.now();
+      try { localStorage.setItem(CONTACT_DETAILS_KEY, JSON.stringify(data)); } catch(_) {}
+      updateCurrentVisit({ contactCompleted:true, contactDetails:{ fullName:data.fullName||"", company:data.company||"", email:data.email||"", phone:data.phone||"", country:data.country||"", interest:data.interest||"" } });
+      if (contactStatus) contactStatus.textContent = "Your contact details have been saved on this device.";
+    });
+  }
+
+  noticeClose.addEventListener("click", () => closeSessionMessage(fiveMinuteNotice));
+  goContactButton.addEventListener("click", openContactDetails);
   sessionTimer.addEventListener("click", openReminderFromTimer);
   sessionTimer.addEventListener("keydown", e => {
     if (e.key === "Enter" || e.key === " ") {
