@@ -647,9 +647,10 @@ body.luvva-v3-locked > footer {
     radial-gradient(ellipse at 50% 43%, rgba(83,16,38,.20) 0%, rgba(50,8,24,.08) 30%, transparent 60%),
     radial-gradient(circle at 50% 36%, rgba(215,151,39,.12), transparent 31%),
     linear-gradient(155deg,#020101 0%,#080403 49%,#010100 100%);
-  transition:opacity 1.15s cubic-bezier(.22,.72,.2,1),visibility 1.15s ease;
+  transition:none;
 }
 .luvva-v3-success.show{opacity:1;visibility:visible;pointer-events:auto}
+.luvva-v3-success.instant-cover{opacity:1!important;visibility:visible!important;pointer-events:auto!important;transition:none!important}
 .luvva-v3-success.is-leaving{opacity:0}
 
 /* Cinematic reveal: the page rises gently behind a dissolving curtain. */
@@ -1293,9 +1294,9 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 
   function playLowHeartbeatPair() {
-    // V15: heartbeat output raised by exactly 25% for clearer laptop/phone playback.
-    thump(0, .0425, 56);
-    thump(.23, .030, 49);
+    // V16: stronger, clearly audible heartbeat for laptop and phone speakers.
+    thump(0, .072, 58);
+    thump(.23, .050, 51);
   }
 
   function resetForm() {
@@ -1328,8 +1329,18 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   function validEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
 
   async function showWelcome() {
-    // V15: remove the visitor-data window synchronously, in the same frame as Enter.
-    // Inline styles override every transition so no ghost image can appear behind Welcome.
+    // V16: prepare a fully opaque Welcome cover BEFORE removing the data dialog.
+    // Because the dialog is still on top during this preparation, the user sees no intermediate frame.
+    if (welcomeLogoMount && gatewayLogoStage && gatewayLogoStage.parentNode !== welcomeLogoMount) {
+      welcomeLogoMount.appendChild(gatewayLogoStage);
+    }
+
+    success.classList.remove("is-leaving", "is-opening", "pulse-fading");
+    success.classList.add("instant-cover", "show");
+    success.setAttribute("aria-hidden", "false");
+    void success.offsetWidth;
+
+    // Remove the visitor-data layer synchronously only after Welcome is already opaque underneath it.
     backdrop.style.transition = "none";
     backdrop.style.opacity = "0";
     backdrop.style.visibility = "hidden";
@@ -1340,17 +1351,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     backdrop.hidden = true;
     status.hidden = true;
 
-    // Show Welcome first; audio activation must never delay the visual transition.
-
-    // Move the original gateway heart into the welcome screen so its gold
-    // path, light follower and timing remain exactly identical.
-    if (welcomeLogoMount && gatewayLogoStage && gatewayLogoStage.parentNode !== welcomeLogoMount) {
-      welcomeLogoMount.appendChild(gatewayLogoStage);
-    }
-
-    success.classList.remove("is-leaving", "is-opening", "pulse-fading");
-    success.classList.add("show");
-    success.setAttribute("aria-hidden", "false");
+    requestAnimationFrame(() => success.classList.remove("instant-cover"));
 
     await enableAudio();
 
@@ -1398,12 +1399,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   form.addEventListener("submit", async e => {
     e.preventDefault();
     errorBox.textContent = "";
-    // Hide the form immediately on submit; do not wait for audio or any promise.
-    backdrop.style.transition = "none";
-    backdrop.style.opacity = "0";
-    backdrop.style.visibility = "hidden";
-    backdrop.style.pointerEvents = "none";
-    backdrop.style.display = "none";
+    // V16: showWelcome controls the exact cover-then-hide sequence to eliminate every flash.
     submit.disabled = true;
     submit.textContent = "Opening…";
     showWelcome();
