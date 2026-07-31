@@ -628,6 +628,9 @@ body.luvva-v3-locked > footer {
 .luvva-auth-submit:disabled { opacity:.55; cursor:wait; }
 .luvva-auth-error { min-height: 18px; margin:0; color:#ffb0a1; font-size:11px; line-height:1.5; text-align:center; }
 .luvva-auth-error.is-success { color:#8fe0ad; }
+.luvva-auth-reset { display:none; margin:-2px auto 2px; border:0; background:transparent; color:#d7b17a; font:700 12px/1.2 Arial,sans-serif; cursor:pointer; text-decoration:underline; text-underline-offset:4px; }
+.luvva-auth-reset.is-visible { display:block; }
+.luvva-auth-reset:hover { color:#f0d2a5; }
 .luvva-auth-hint { margin:2px 0 0; color:rgba(255,245,224,.42); font-size:10px; line-height:1.55; text-align:center; }
 .luvva-phone-grid { display:grid; grid-template-columns: 105px 1fr; gap:9px; }
 .luvva-auth-select { padding-right:8px; }
@@ -1448,6 +1451,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </div>
 </div>
 <p class="luvva-auth-error" id="luvvaAuthError" role="alert"></p>
+<button class="luvva-auth-reset" id="luvvaWhatsappReset" type="button" aria-label="Use another WhatsApp number">↻ Use another number</button>
 <button class="luvva-auth-submit" id="luvvaAuthSubmit" type="submit">Continue securely</button>
 <p class="luvva-auth-hint">Secure prototype interface. LUVVA does not save passwords or verification codes.</p>
 </form>
@@ -1875,6 +1879,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   const phone = document.getElementById("luvvaWhatsappPhone");
   const countryCode = document.getElementById("luvvaCountryCode");
   const code = document.getElementById("luvvaWhatsappCode");
+  const whatsappReset = document.getElementById("luvvaWhatsappReset");
   const codeRow = document.getElementById("luvvaCodeRow");
   const submit = document.getElementById("luvvaAuthSubmit");
   const errorBox = document.getElementById("luvvaAuthError");
@@ -1988,6 +1993,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     identityLabel.textContent = provider === "LinkedIn" ? "Email or phone" : "Email address";
     identity.placeholder = provider === "Business Email" ? "name@company.com" : provider === "LinkedIn" ? "Email or phone" : "name@example.com";
     submit.textContent = isWhatsApp ? "Send verification code" : `Continue with ${provider}`;
+    if (whatsappReset) whatsappReset.classList.toggle("is-visible", isWhatsApp);
     if (returningSession && savedSession && savedVisitor && provider === savedVisitor.provider) {
       title.textContent = `Return with ${provider}`;
       subtitle.textContent = `Your verified session is still active. Continue through the same entrance without requesting a new verification code.`;
@@ -2100,6 +2106,19 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     }
   }));
 
+  if (whatsappReset) whatsappReset.addEventListener("click", () => {
+    whatsappCodeSent = false;
+    phone.value = "";
+    code.value = "";
+    codeRow.classList.remove("is-visible");
+    errorBox.textContent = "";
+    errorBox.classList.remove("is-success");
+    subtitle.textContent = "Enter your WhatsApp number to receive a verification code.";
+    submit.disabled = false;
+    submit.textContent = "Send verification code";
+    setTimeout(() => phone.focus(), 80);
+  });
+
   closeButton.addEventListener("click", closeProvider);
   backdrop.addEventListener("click", e => { if (e.target === backdrop) closeProvider(); });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && backdrop.classList.contains("is-open")) closeProvider(); });
@@ -2123,24 +2142,17 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   const ACCESS_PROVIDERS = ["Business Email", "Google", "WhatsApp", "LinkedIn"];
   const accessLockedModal = document.getElementById("luvvaAccessLocked");
 
+  // V39 temporary open-access mode: identity restrictions are disabled until Dashboard and server database are ready.
+  // Existing local prototype blocks are cleared automatically so the owner and testers can continue entering.
+  try { localStorage.removeItem(ACCESS_POLICY_KEY); } catch (_) {}
+
   function readAccessPolicy() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(ACCESS_POLICY_KEY) || "null");
-      return saved && typeof saved === "object" ? saved : { usedProviders:[], contactCompleted:false, locked:false, updatedAt:Date.now() };
-    } catch (_) {
-      return { usedProviders:[], contactCompleted:false, locked:false, updatedAt:Date.now() };
-    }
+    return { usedProviders:[], contactCompleted:false, locked:false, temporaryOpenAccess:true, updatedAt:Date.now() };
   }
 
-  function writeAccessPolicy(policy) {
-    policy.updatedAt = Date.now();
-    try { localStorage.setItem(ACCESS_POLICY_KEY, JSON.stringify(policy)); } catch (_) {}
-    return policy;
-  }
+  function writeAccessPolicy(policy) { return policy || readAccessPolicy(); }
 
   function hasCompletedContact() {
-    const policy = readAccessPolicy();
-    if (policy.contactCompleted) return true;
     try {
       const contact = JSON.parse(localStorage.getItem("luvvaContactDetailsV1") || "null");
       return !!(contact && contact.fullName && contact.email && contact.consent);
@@ -2148,45 +2160,36 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 
   function markProviderTrialUsed(provider) {
-    if (!provider || hasCompletedContact()) return;
-    const policy = readAccessPolicy();
-    if (!policy.usedProviders.includes(provider)) policy.usedProviders.push(provider);
-    policy.locked = ACCESS_PROVIDERS.every(item => policy.usedProviders.includes(item));
-    writeAccessPolicy(policy);
-    refreshProviderAvailability();
+    // Disabled temporarily. Final enforcement will be identity-based on the server, not device/provider based.
+    return false;
   }
 
   function refreshProviderAvailability() {
-    const policy = readAccessPolicy();
     providerButtons.forEach(button => {
-      const provider = button.dataset.luvvaV3Provider || "Business Email";
-      const unavailable = !policy.contactCompleted && policy.usedProviders.includes(provider);
-      button.classList.toggle("luvva-provider-used", unavailable);
-      button.setAttribute("aria-disabled", unavailable ? "true" : "false");
-      button.title = unavailable ? "This 25-minute trial entrance has already been used on this device." : "";
+      button.classList.remove("luvva-provider-used");
+      button.setAttribute("aria-disabled", "false");
+      button.title = "";
     });
   }
 
   function showAccessLocked(message) {
-    const text = document.getElementById("luvvaAccessLockedText");
-    if (text && message) text.textContent = message;
-    if (accessLockedModal) {
-      accessLockedModal.classList.add("is-open");
-      accessLockedModal.setAttribute("aria-hidden", "false");
-    }
+    // Disabled temporarily until Dashboard controls and server identity records are available.
+    return false;
   }
 
-  function isAccessLocked() {
-    const policy = readAccessPolicy();
-    return !policy.contactCompleted && (policy.locked || ACCESS_PROVIDERS.every(item => policy.usedProviders.includes(item)));
-  }
+  function isAccessLocked() { return false; }
 
-  // Dashboard/manual administration hook. A server-backed version will replace this prototype hook.
   window.luvvaAdminUnlockAccess = function() {
-    writeAccessPolicy({ usedProviders:[], contactCompleted:false, locked:false, restoredAt:Date.now() });
-    try { localStorage.removeItem(SESSION_KEY); localStorage.removeItem(VISITOR_KEY); } catch (_) {}
+    try {
+      localStorage.removeItem(ACCESS_POLICY_KEY);
+      localStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem(VISITOR_KEY);
+    } catch (_) {}
     refreshProviderAvailability();
-    if (accessLockedModal) { accessLockedModal.classList.remove("is-open"); accessLockedModal.setAttribute("aria-hidden", "true"); }
+    if (accessLockedModal) {
+      accessLockedModal.classList.remove("is-open");
+      accessLockedModal.setAttribute("aria-hidden", "true");
+    }
     return true;
   };
 
@@ -2303,12 +2306,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     if (!hasCompletedContact() && expiredVisitor && expiredVisitor.provider) markProviderTrialUsed(expiredVisitor.provider);
     sessionTime.textContent="00:00";
     sessionTimer.classList.add("is-ending");
-    if (isAccessLocked()) {
-      closeSessionMessage(sessionExpired);
-      showAccessLocked("All available 25-minute trial entrances on this device were used without completing the contact information. Please contact CMT GROUP so access can be reviewed and restored.");
-    } else {
-      openSessionMessage(sessionExpired);
-    }
+    openSessionMessage(sessionExpired);
   }
 
   function runSession(sessionInput) {
