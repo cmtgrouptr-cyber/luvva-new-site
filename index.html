@@ -1463,6 +1463,14 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     identityLabel.textContent = provider === "LinkedIn" ? "Email or phone" : "Email address";
     identity.placeholder = provider === "Business Email" ? "name@company.com" : provider === "LinkedIn" ? "Email or phone" : "name@example.com";
     submit.textContent = isWhatsApp ? "Send verification code" : `Continue with ${provider}`;
+    if (returningSession && savedSession && savedVisitor && provider === savedVisitor.provider) {
+      title.textContent = `Return with ${provider}`;
+      subtitle.textContent = `Your verified session is still active. Continue through the same entrance without requesting a new verification code.`;
+      submit.textContent = "Continue current session";
+      if (isWhatsApp) {
+        codeRow.classList.remove("is-visible");
+      }
+    }
     backdrop.classList.add("is-open"); backdrop.setAttribute("aria-hidden", "false");
     setTimeout(() => (isWhatsApp ? phone : identity).focus(), 120);
   }
@@ -1529,7 +1537,12 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       window.scrollTo(0, 0);
       document.body.classList.remove("luvva-v3-locked", "luvva-page-revealing", "luvva-page-visible");
       document.body.style.removeProperty("overflow");
-      startVisitorSession();
+      if (returningSession && savedSession) {
+        updateCurrentVisit({ status: "active", resumedAt: Date.now() });
+        runSession(savedSession.endAt, savedSession.noticeAt || (savedSession.startedAt + FIVE_MINUTE_NOTICE_MS), !!savedSession.noticeShown);
+      } else {
+        startVisitorSession();
+      }
       requestAnimationFrame(() => {
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
@@ -1544,8 +1557,14 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 
   providerButtons.forEach(button => button.addEventListener("click", async () => {
+    const requestedProvider = button.dataset.luvvaV3Provider || "Business Email";
+    if (returningSession && savedVisitor && requestedProvider !== savedVisitor.provider) {
+      status.hidden = false;
+      status.textContent = `Your current visit was verified through ${savedVisitor.provider}. Please re-enter using the same method while the session remains active.`;
+      return;
+    }
     await enableAudio();
-    openProvider(button.dataset.luvvaV3Provider || "Business Email");
+    openProvider(requestedProvider);
   }));
 
   closeButton.addEventListener("click", closeProvider);
@@ -1573,6 +1592,9 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   const reenterButton = document.getElementById("luvvaReenterButton");
   let sessionInterval = null;
   let noticeTimeout = null;
+  let returningSession = false;
+  let savedSession = null;
+  let savedVisitor = null;
 
   function formatRemaining(ms) {
     const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
@@ -1726,16 +1748,26 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   function restoreVisitorSession() {
     try {
       const session = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
-      if (!session || !session.endAt || session.endAt <= Date.now()) {
+      const visitor = JSON.parse(localStorage.getItem(VISITOR_KEY) || "null");
+      if (!session || !session.endAt || session.endAt <= Date.now() || !visitor || !visitor.provider) {
         if (session) localStorage.removeItem(SESSION_KEY);
         return false;
       }
-      gateway.hidden = true;
-      gateway.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("luvva-v3-locked", "luvva-page-revealing", "luvva-page-visible");
-      document.body.style.removeProperty("overflow");
-      updateCurrentVisit({ status: "active" });
-      runSession(session.endAt, session.noticeAt || (session.startedAt + FIVE_MINUTE_NOTICE_MS), !!session.noticeShown);
+
+      // V25: an active session keeps its remaining credit, but every new page opening
+      // starts at the secure gateway. The visitor re-enters through the same provider
+      // without repeating OTP/password verification until the 45-minute credit ends.
+      returningSession = true;
+      savedSession = session;
+      savedVisitor = visitor;
+      gateway.hidden = false;
+      gateway.setAttribute("aria-hidden", "false");
+      document.body.classList.add("luvva-v3-locked");
+      document.body.style.overflow = "hidden";
+      sessionTimer.classList.remove("is-visible", "is-ending");
+      const remaining = formatRemaining(session.endAt - Date.now());
+      status.hidden = false;
+      status.textContent = `Active ${visitor.provider} session — ${remaining} remaining. Enter again through the same method; no new verification code is required.`;
       return true;
     } catch (_) { return false; }
   }
@@ -1762,6 +1794,16 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     errorBox.textContent = "";
     // V16: showWelcome controls the exact cover-then-hide sequence to eliminate every flash.
     const isWhatsApp = activeProvider === "WhatsApp";
+
+    // Returning within the active 45-minute credit: the same verified provider
+    // opens the visit again through the gateway without another OTP/password check.
+    if (returningSession && savedSession && savedVisitor && activeProvider === savedVisitor.provider && savedSession.endAt > Date.now()) {
+      submit.disabled = true;
+      submit.textContent = "Opening…";
+      showWelcome();
+      return;
+    }
+
     if (isWhatsApp) {
       const cleanPhone = phone.value.replace(/\D/g, "");
       if (cleanPhone.length < 7) {
