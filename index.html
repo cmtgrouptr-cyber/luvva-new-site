@@ -765,6 +765,83 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   .luvva-welcome-title{font-size:42px}
   .luvva-welcome-message{font-size:10px;letter-spacing:.11em;padding:0 10px}
 }
+
+
+/* ===== LUVVA V23 — visitor records + 45-minute session ===== */
+#luvvaSessionTimer {
+  position: fixed;
+  z-index: 2147481000;
+  top: 18px;
+  right: 18px;
+  display: none;
+  align-items: center;
+  gap: 9px;
+  min-width: 118px;
+  padding: 9px 13px;
+  border: 1px solid rgba(190,132,35,.34);
+  border-radius: 999px;
+  color: #624012;
+  background: rgba(255,248,234,.88);
+  box-shadow: 0 10px 28px rgba(55,28,3,.13), inset 0 1px rgba(255,255,255,.75);
+  backdrop-filter: blur(12px) saturate(120%);
+  font: 700 12px/1 "Montserrat", sans-serif;
+  letter-spacing: .05em;
+}
+#luvvaSessionTimer.is-visible { display: flex; }
+#luvvaSessionTimer .luvva-session-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #c58a28; box-shadow: 0 0 0 4px rgba(197,138,40,.12);
+}
+#luvvaSessionTimer.is-ending .luvva-session-dot { animation: luvvaSessionBlink 1s ease-in-out infinite; }
+@keyframes luvvaSessionBlink { 50% { opacity:.28; transform:scale(.85); } }
+
+.luvva-session-backdrop {
+  position: fixed;
+  z-index: 2147482500;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  background: rgba(22,12,4,.42);
+  backdrop-filter: blur(9px);
+  transition: opacity .35s ease, visibility .35s ease;
+}
+.luvva-session-backdrop.is-open { opacity:1; visibility:visible; pointer-events:auto; }
+.luvva-session-card {
+  width: min(100%, 520px);
+  padding: 30px 28px 25px;
+  text-align: center;
+  border: 1px solid rgba(199,143,48,.34);
+  border-radius: 28px;
+  color: #4a2f0a;
+  background: linear-gradient(155deg, rgba(255,250,240,.98), rgba(244,228,197,.97));
+  box-shadow: 0 34px 100px rgba(36,18,2,.28), inset 0 1px rgba(255,255,255,.88);
+}
+.luvva-session-mark {
+  width: 52px; height: 52px; margin: 0 auto 14px; display:grid; place-items:center;
+  border-radius: 50%; color:#a66e16; background:rgba(194,137,39,.12);
+  border:1px solid rgba(185,125,25,.22); font-size:22px;
+}
+.luvva-session-card h2 {
+  margin:0; color:#7b4e0d;
+  font:600 34px/1.05 "Cormorant Garamond", Georgia, serif;
+}
+.luvva-session-card p { margin:13px auto 0; max-width:430px; color:#725a38; font:500 13px/1.8 "Montserrat",sans-serif; }
+.luvva-session-actions { display:flex; justify-content:center; gap:10px; margin-top:21px; flex-wrap:wrap; }
+.luvva-session-button {
+  min-height:44px; padding:0 19px; border-radius:999px; cursor:pointer;
+  border:1px solid rgba(178,119,24,.35); font:700 12px "Montserrat",sans-serif;
+}
+.luvva-session-button.primary { color:#fff7e8; background:linear-gradient(180deg,#c99539,#9b6112); box-shadow:0 9px 22px rgba(111,66,7,.22); }
+.luvva-session-button.secondary { color:#73501c; background:rgba(255,255,255,.62); }
+@media (max-width:640px) {
+  #luvvaSessionTimer { top:10px; right:10px; min-width:106px; padding:8px 11px; font-size:11px; }
+  .luvva-session-card { padding:26px 20px 22px; border-radius:23px; }
+}
+
 </style>
 </link></head>
 <body class="luvva-v3-locked">
@@ -1057,6 +1134,32 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </div>
 </section>
 </main>
+
+<div aria-live="polite" id="luvvaSessionTimer" role="timer">
+  <span aria-hidden="true" class="luvva-session-dot"></span>
+  <span>Session&nbsp;</span><strong id="luvvaSessionTime">45:00</strong>
+</div>
+<div aria-hidden="true" class="luvva-session-backdrop" id="luvvaFiveMinuteNotice">
+  <section aria-labelledby="luvvaFiveMinuteTitle" aria-modal="true" class="luvva-session-card" role="dialog">
+    <div aria-hidden="true" class="luvva-session-mark">♡</div>
+    <h2 id="luvvaFiveMinuteTitle">A Gentle Reminder</h2>
+    <p>Your secure visit lasts 45 minutes. When the session ends, you will be asked to enter your details again before returning to LUVVA.</p>
+    <div class="luvva-session-actions">
+      <button class="luvva-session-button primary" id="luvvaNoticeClose" type="button">Continue exploring</button>
+    </div>
+  </section>
+</div>
+<div aria-hidden="true" class="luvva-session-backdrop" id="luvvaSessionExpired">
+  <section aria-labelledby="luvvaSessionExpiredTitle" aria-modal="true" class="luvva-session-card" role="dialog">
+    <div aria-hidden="true" class="luvva-session-mark">⌛</div>
+    <h2 id="luvvaSessionExpiredTitle">Your Visit Has Ended</h2>
+    <p>For your privacy and the protection of LUVVA, the 45-minute session has ended. Please enter your details again to continue.</p>
+    <div class="luvva-session-actions">
+      <button class="luvva-session-button primary" id="luvvaReenterButton" type="button">Enter again</button>
+    </div>
+  </section>
+</div>
+
 <footer>
 <span>
       © <span id="year"></span> LUVVA. All rights reserved.
@@ -1243,6 +1346,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   const standardFields = document.getElementById("luvvaStandardFields");
   const whatsappFields = document.getElementById("luvvaWhatsappFields");
   const phone = document.getElementById("luvvaWhatsappPhone");
+  const countryCode = document.getElementById("luvvaCountryCode");
   const code = document.getElementById("luvvaWhatsappCode");
   const codeRow = document.getElementById("luvvaCodeRow");
   const submit = document.getElementById("luvvaAuthSubmit");
@@ -1423,6 +1527,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       window.scrollTo(0, 0);
       document.body.classList.remove("luvva-v3-locked", "luvva-page-revealing", "luvva-page-visible");
       document.body.style.removeProperty("overflow");
+      startVisitorSession();
       requestAnimationFrame(() => {
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
@@ -1452,14 +1557,223 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     e.preventDefault(); errorBox.textContent = "Password recovery will be connected to the official provider in the live version.";
   });
 
+  const SESSION_DURATION_MS = 45 * 60 * 1000;
+  const FIVE_MINUTE_NOTICE_MS = 5 * 60 * 1000;
+  const SESSION_KEY = "luvvaVisitorSessionV22";
+  const VISITOR_KEY = "luvvaVisitorIdentityV23";
+  const VISITOR_LOG_KEY = "luvvaVisitorLogV23";
+  const CURRENT_VISIT_KEY = "luvvaCurrentVisitV23";
+  const sessionTimer = document.getElementById("luvvaSessionTimer");
+  const sessionTime = document.getElementById("luvvaSessionTime");
+  const fiveMinuteNotice = document.getElementById("luvvaFiveMinuteNotice");
+  const sessionExpired = document.getElementById("luvvaSessionExpired");
+  const noticeClose = document.getElementById("luvvaNoticeClose");
+  const reenterButton = document.getElementById("luvvaReenterButton");
+  let sessionInterval = null;
+  let noticeTimeout = null;
+
+  function formatRemaining(ms) {
+    const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  }
+
+  function openSessionMessage(element) {
+    element.classList.add("is-open");
+    element.setAttribute("aria-hidden", "false");
+  }
+
+  function closeSessionMessage(element) {
+    element.classList.remove("is-open");
+    element.setAttribute("aria-hidden", "true");
+  }
+
+  function getVisitorIdentityValue() {
+    const isWhatsApp = activeProvider === "WhatsApp";
+    return isWhatsApp
+      ? `${countryCode.value}${phone.value.trim()}`
+      : identity.value.trim();
+  }
+
+  function storeVisitorIdentity() {
+    const visitor = { provider: activeProvider, identity: getVisitorIdentityValue(), savedAt: Date.now() };
+    try { localStorage.setItem(VISITOR_KEY, JSON.stringify(visitor)); } catch (_) {}
+    return visitor;
+  }
+
+  function detectDevice() {
+    const ua = navigator.userAgent || "";
+    const platform = /Android/i.test(ua) ? "Android" : /iPhone|iPad|iPod/i.test(ua) ? "iPhone / iPad" : /Windows/i.test(ua) ? "Windows" : /Macintosh|Mac OS X/i.test(ua) ? "macOS" : /Linux/i.test(ua) ? "Linux" : "Unknown";
+    const browser = /Edg\//i.test(ua) ? "Edge" : /Chrome\//i.test(ua) ? "Chrome" : /Safari\//i.test(ua) ? "Safari" : /Firefox\//i.test(ua) ? "Firefox" : "Browser";
+    return { platform, browser, userAgent: ua.slice(0, 240), language: navigator.language || "", screen: `${screen.width}×${screen.height}` };
+  }
+
+  function createVisitRecord(visitor, session) {
+    const record = {
+      id: `LUVVA-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`,
+      provider: visitor.provider,
+      identity: visitor.identity,
+      enteredAt: session.startedAt,
+      noticeAt: session.noticeAt,
+      expiresAt: session.endAt,
+      status: "active",
+      lastSeenAt: Date.now(),
+      device: detectDevice(),
+      page: location.href.split("#")[0]
+    };
+    try {
+      const log = JSON.parse(localStorage.getItem(VISITOR_LOG_KEY) || "[]");
+      log.unshift(record);
+      localStorage.setItem(VISITOR_LOG_KEY, JSON.stringify(log.slice(0, 500)));
+      localStorage.setItem(CURRENT_VISIT_KEY, record.id);
+    } catch (_) {}
+    return record;
+  }
+
+  function updateCurrentVisit(patch) {
+    try {
+      const id = localStorage.getItem(CURRENT_VISIT_KEY);
+      if (!id) return;
+      const log = JSON.parse(localStorage.getItem(VISITOR_LOG_KEY) || "[]");
+      const row = log.find(item => item.id === id);
+      if (!row) return;
+      Object.assign(row, patch, { lastSeenAt: Date.now() });
+      localStorage.setItem(VISITOR_LOG_KEY, JSON.stringify(log));
+    } catch (_) {}
+  }
+
+  function prefillVisitorIdentity() {
+    try {
+      const visitor = JSON.parse(localStorage.getItem(VISITOR_KEY) || "null");
+      if (!visitor || !visitor.identity) return;
+      if (activeProvider === "WhatsApp" && visitor.provider === "WhatsApp") {
+        const matchingCode = Array.from(countryCode.options).find(option => visitor.identity.startsWith(option.value));
+        if (matchingCode) {
+          countryCode.value = matchingCode.value;
+          phone.value = visitor.identity.slice(matchingCode.value.length);
+        }
+      } else if (activeProvider !== "WhatsApp" && visitor.provider === activeProvider) {
+        identity.value = visitor.identity;
+      }
+    } catch (_) {}
+  }
+
+  const originalOpenProvider = openProvider;
+  openProvider = function(provider) {
+    originalOpenProvider(provider);
+    setTimeout(prefillVisitorIdentity, 140);
+  };
+
+  function expireSession() {
+    if (sessionInterval) clearInterval(sessionInterval);
+    if (noticeTimeout) clearTimeout(noticeTimeout);
+    sessionInterval = null;
+    noticeTimeout = null;
+    try { localStorage.removeItem(SESSION_KEY); } catch (_) {}
+    updateCurrentVisit({ status: "expired", endedAt: Date.now() });
+    sessionTime.textContent = "00:00";
+    sessionTimer.classList.add("is-ending");
+    openSessionMessage(sessionExpired);
+  }
+
+  function runSession(endAt, noticeAt, noticeShown) {
+    if (sessionInterval) clearInterval(sessionInterval);
+    if (noticeTimeout) clearTimeout(noticeTimeout);
+    sessionTimer.classList.add("is-visible");
+    sessionTimer.classList.remove("is-ending");
+
+    const update = () => {
+      const remaining = endAt - Date.now();
+      sessionTime.textContent = formatRemaining(remaining);
+      sessionTimer.classList.toggle("is-ending", remaining <= 5 * 60 * 1000);
+      if (remaining <= 0) expireSession();
+    };
+    update();
+    sessionInterval = setInterval(update, 1000);
+
+    if (!noticeShown) {
+      const delay = Math.max(0, noticeAt - Date.now());
+      noticeTimeout = setTimeout(() => {
+        openSessionMessage(fiveMinuteNotice);
+        try {
+          const current = JSON.parse(localStorage.getItem(SESSION_KEY) || "{}");
+          current.noticeShown = true;
+          localStorage.setItem(SESSION_KEY, JSON.stringify(current));
+        } catch (_) {}
+      }, delay);
+    }
+  }
+
+  function startVisitorSession() {
+    const startedAt = Date.now();
+    const session = {
+      startedAt,
+      noticeAt: startedAt + FIVE_MINUTE_NOTICE_MS,
+      endAt: startedAt + SESSION_DURATION_MS,
+      noticeShown: false
+    };
+    try { localStorage.setItem(SESSION_KEY, JSON.stringify(session)); } catch (_) {}
+    try {
+      const visitor = JSON.parse(localStorage.getItem(VISITOR_KEY) || "null");
+      if (visitor && visitor.identity) createVisitRecord(visitor, session);
+    } catch (_) {}
+    runSession(session.endAt, session.noticeAt, session.noticeShown);
+  }
+
+  function restoreVisitorSession() {
+    try {
+      const session = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
+      if (!session || !session.endAt || session.endAt <= Date.now()) {
+        if (session) localStorage.removeItem(SESSION_KEY);
+        return false;
+      }
+      gateway.hidden = true;
+      gateway.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("luvva-v3-locked", "luvva-page-revealing", "luvva-page-visible");
+      document.body.style.removeProperty("overflow");
+      updateCurrentVisit({ status: "active" });
+      runSession(session.endAt, session.noticeAt || (session.startedAt + FIVE_MINUTE_NOTICE_MS), !!session.noticeShown);
+      return true;
+    } catch (_) { return false; }
+  }
+
+  noticeClose.addEventListener("click", () => closeSessionMessage(fiveMinuteNotice));
+  reenterButton.addEventListener("click", () => {
+    closeSessionMessage(sessionExpired);
+    sessionTimer.classList.remove("is-visible", "is-ending");
+    gateway.hidden = false;
+    gateway.setAttribute("aria-hidden", "false");
+    backdrop.hidden = false;
+    backdrop.style.removeProperty("display");
+    backdrop.style.removeProperty("opacity");
+    backdrop.style.removeProperty("visibility");
+    backdrop.style.removeProperty("pointer-events");
+    document.body.classList.add("luvva-v3-locked");
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    window.scrollTo(0, 0);
+  });
+
   form.addEventListener("submit", async e => {
     e.preventDefault();
     errorBox.textContent = "";
     // V16: showWelcome controls the exact cover-then-hide sequence to eliminate every flash.
+    const isWhatsApp = activeProvider === "WhatsApp";
+    if (isWhatsApp) {
+      if (!phone.value.trim()) { errorBox.textContent = "Please enter your WhatsApp number."; submit.disabled = false; return; }
+    } else {
+      if (!identity.value.trim()) { errorBox.textContent = "Please enter your email or account identity."; submit.disabled = false; return; }
+      if (activeProvider !== "LinkedIn" && !validEmail(identity.value.trim())) { errorBox.textContent = "Please enter a valid email address."; submit.disabled = false; return; }
+      if (!password.value) { errorBox.textContent = "Please enter your password for this prototype test."; submit.disabled = false; return; }
+    }
+    storeVisitorIdentity();
     submit.disabled = true;
     submit.textContent = "Opening…";
     showWelcome();
   });
+
+  restoreVisitorSession();
 })();
   </script>
 </body>
