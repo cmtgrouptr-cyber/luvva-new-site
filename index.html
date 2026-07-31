@@ -768,11 +768,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 }
 
 
-/* ===== LUVVA V23 — visitor records + 45-minute session ===== */
+/* ===== LUVVA V26 — active browsing credit + real WhatsApp OTP ===== */
 #luvvaSessionTimer {
   position: fixed;
   z-index: 2147481000;
-  top: 18px;
+  bottom: 18px;
   right: 18px;
   display: none;
   align-items: center;
@@ -839,14 +839,14 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 .luvva-session-button.primary { color:#fff7e8; background:linear-gradient(180deg,#c99539,#9b6112); box-shadow:0 9px 22px rgba(111,66,7,.22); }
 .luvva-session-button.secondary { color:#73501c; background:rgba(255,255,255,.62); }
 @media (max-width:640px) {
-  #luvvaSessionTimer { top:10px; right:10px; min-width:106px; padding:8px 11px; font-size:11px; }
+  #luvvaSessionTimer { bottom:10px; right:10px; min-width:106px; padding:8px 11px; font-size:11px; }
   .luvva-session-card { padding:26px 20px 22px; border-radius:23px; }
 }
 
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V17_INSTANT_WELCOME_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V26_ACTIVE_CREDIT_REAL_OTP_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -1539,7 +1539,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       document.body.style.removeProperty("overflow");
       if (returningSession && savedSession) {
         updateCurrentVisit({ status: "active", resumedAt: Date.now() });
-        runSession(savedSession.endAt, savedSession.noticeAt || (savedSession.startedAt + FIVE_MINUTE_NOTICE_MS), !!savedSession.noticeShown);
+        runSession(savedSession);
       } else {
         startVisitorSession();
       }
@@ -1558,13 +1558,12 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   providerButtons.forEach(button => button.addEventListener("click", async () => {
     const requestedProvider = button.dataset.luvvaV3Provider || "Business Email";
-    if (returningSession && savedVisitor && requestedProvider !== savedVisitor.provider) {
-      status.hidden = false;
-      status.textContent = `Your current visit was verified through ${savedVisitor.provider}. Please re-enter using the same method while the session remains active.`;
-      return;
-    }
     await enableAudio();
     openProvider(requestedProvider);
+    if (returningSession && savedVisitor && requestedProvider !== savedVisitor.provider) {
+      errorBox.textContent = `This remaining session credit belongs to ${savedVisitor.provider}. Close this window and return through the same method.`;
+      submit.disabled = true;
+    }
   }));
 
   closeButton.addEventListener("click", closeProvider);
@@ -1579,8 +1578,8 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   });
 
   const SESSION_DURATION_MS = 45 * 60 * 1000;
-  const FIVE_MINUTE_NOTICE_MS = 3 * 60 * 1000;
-  const SESSION_KEY = "luvvaVisitorSessionV22";
+  const NOTICE_AFTER_ACTIVE_MS = 3 * 60 * 1000;
+  const SESSION_KEY = "luvvaVisitorSessionV26";
   const VISITOR_KEY = "luvvaVisitorIdentityV23";
   const VISITOR_LOG_KEY = "luvvaVisitorLogV23";
   const CURRENT_VISIT_KEY = "luvvaCurrentVisitV23";
@@ -1591,7 +1590,6 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   const noticeClose = document.getElementById("luvvaNoticeClose");
   const reenterButton = document.getElementById("luvvaReenterButton");
   let sessionInterval = null;
-  let noticeTimeout = null;
   let returningSession = false;
   let savedSession = null;
   let savedVisitor = null;
@@ -1603,21 +1601,9 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   }
 
-  function openSessionMessage(element) {
-    element.classList.add("is-open");
-    element.setAttribute("aria-hidden", "false");
-  }
-
-  function closeSessionMessage(element) {
-    element.classList.remove("is-open");
-    element.setAttribute("aria-hidden", "true");
-  }
-
   function getVisitorIdentityValue() {
     const isWhatsApp = activeProvider === "WhatsApp";
-    return isWhatsApp
-      ? `${countryCode.value}${phone.value.trim()}`
-      : identity.value.trim();
+    return isWhatsApp ? `${countryCode.value}${phone.value.replace(/\D/g, "")}` : identity.value.trim();
   }
 
   function storeVisitorIdentity() {
@@ -1634,143 +1620,106 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 
   function createVisitRecord(visitor, session) {
-    const record = {
-      id: `LUVVA-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`,
-      provider: visitor.provider,
-      identity: visitor.identity,
-      enteredAt: session.startedAt,
-      noticeAt: session.noticeAt,
-      expiresAt: session.endAt,
-      status: "active",
-      lastSeenAt: Date.now(),
-      device: detectDevice(),
-      page: location.href.split("#")[0]
-    };
-    try {
-      const log = JSON.parse(localStorage.getItem(VISITOR_LOG_KEY) || "[]");
-      log.unshift(record);
-      localStorage.setItem(VISITOR_LOG_KEY, JSON.stringify(log.slice(0, 500)));
-      localStorage.setItem(CURRENT_VISIT_KEY, record.id);
-    } catch (_) {}
-    return record;
+    const now = Date.now();
+    const record = { id:`LUVVA-${now}-${Math.random().toString(36).slice(2,8).toUpperCase()}`, provider:visitor.provider, identity:visitor.identity, enteredAt:now, expiresAfterActiveMs:session.remainingMs, status:"active", lastSeenAt:now, device:detectDevice(), page:location.href.split("#")[0] };
+    try { const log=JSON.parse(localStorage.getItem(VISITOR_LOG_KEY)||"[]"); log.unshift(record); localStorage.setItem(VISITOR_LOG_KEY,JSON.stringify(log.slice(0,500))); localStorage.setItem(CURRENT_VISIT_KEY,record.id); } catch(_){}
   }
 
   function updateCurrentVisit(patch) {
-    try {
-      const id = localStorage.getItem(CURRENT_VISIT_KEY);
-      if (!id) return;
-      const log = JSON.parse(localStorage.getItem(VISITOR_LOG_KEY) || "[]");
-      const row = log.find(item => item.id === id);
-      if (!row) return;
-      Object.assign(row, patch, { lastSeenAt: Date.now() });
-      localStorage.setItem(VISITOR_LOG_KEY, JSON.stringify(log));
-    } catch (_) {}
+    try { const id=localStorage.getItem(CURRENT_VISIT_KEY); if(!id)return; const log=JSON.parse(localStorage.getItem(VISITOR_LOG_KEY)||"[]"); const row=log.find(x=>x.id===id); if(!row)return; Object.assign(row,patch,{lastSeenAt:Date.now()}); localStorage.setItem(VISITOR_LOG_KEY,JSON.stringify(log)); } catch(_){}
   }
 
   function prefillVisitorIdentity() {
-    try {
-      const visitor = JSON.parse(localStorage.getItem(VISITOR_KEY) || "null");
-      if (!visitor || !visitor.identity) return;
-      if (activeProvider === "WhatsApp" && visitor.provider === "WhatsApp") {
-        const matchingCode = Array.from(countryCode.options).find(option => visitor.identity.startsWith(option.value));
-        if (matchingCode) {
-          countryCode.value = matchingCode.value;
-          phone.value = visitor.identity.slice(matchingCode.value.length);
-        }
-      } else if (activeProvider !== "WhatsApp" && visitor.provider === activeProvider) {
-        identity.value = visitor.identity;
-      }
-    } catch (_) {}
+    try { const visitor=JSON.parse(localStorage.getItem(VISITOR_KEY)||"null"); if(!visitor||!visitor.identity)return; if(activeProvider==="WhatsApp"&&visitor.provider==="WhatsApp"){ const matching=Array.from(countryCode.options).find(o=>visitor.identity.startsWith(o.value)); if(matching){countryCode.value=matching.value; phone.value=visitor.identity.slice(matching.value.length);} } else if(activeProvider!=="WhatsApp"&&visitor.provider===activeProvider){ identity.value=visitor.identity; } } catch(_){}
   }
 
   const originalOpenProvider = openProvider;
-  openProvider = function(provider) {
-    originalOpenProvider(provider);
-    setTimeout(prefillVisitorIdentity, 140);
-  };
+  openProvider = function(provider) { originalOpenProvider(provider); setTimeout(prefillVisitorIdentity,140); };
+
+  function readSession() { try { return JSON.parse(localStorage.getItem(SESSION_KEY)||"null"); } catch(_) { return null; } }
+  function writeSession(session) { try { localStorage.setItem(SESSION_KEY,JSON.stringify(session)); } catch(_){} }
+
+  function liveRemaining(session) {
+    if (!session) return 0;
+    const elapsed = session.isActive && session.activeSince ? Math.max(0, Date.now()-session.activeSince) : 0;
+    return Math.max(0, (session.remainingMs||0)-elapsed);
+  }
+
+  function liveActiveElapsed(session) {
+    const current = session.activeElapsedMs || 0;
+    return current + (session.isActive && session.activeSince ? Math.max(0, Date.now()-session.activeSince) : 0);
+  }
+
+  function pauseSession() {
+    const session=readSession();
+    if(!session || !session.isActive) return;
+    session.remainingMs=liveRemaining(session);
+    session.activeElapsedMs=liveActiveElapsed(session);
+    session.isActive=false;
+    session.activeSince=null;
+    writeSession(session);
+    savedSession=session;
+    if(sessionInterval) clearInterval(sessionInterval);
+    sessionInterval=null;
+    sessionTimer.classList.remove("is-visible","is-ending");
+  }
 
   function expireSession() {
-    if (sessionInterval) clearInterval(sessionInterval);
-    if (noticeTimeout) clearTimeout(noticeTimeout);
-    sessionInterval = null;
-    noticeTimeout = null;
-    try { localStorage.removeItem(SESSION_KEY); } catch (_) {}
-    updateCurrentVisit({ status: "expired", endedAt: Date.now() });
-    sessionTime.textContent = "00:00";
+    if(sessionInterval) clearInterval(sessionInterval);
+    sessionInterval=null;
+    try{localStorage.removeItem(SESSION_KEY);}catch(_){}
+    updateCurrentVisit({status:"expired",endedAt:Date.now()});
+    sessionTime.textContent="00:00";
     sessionTimer.classList.add("is-ending");
     openSessionMessage(sessionExpired);
   }
 
-  function runSession(endAt, noticeAt, noticeShown) {
-    if (sessionInterval) clearInterval(sessionInterval);
-    if (noticeTimeout) clearTimeout(noticeTimeout);
-    sessionTimer.classList.add("is-visible");
-    sessionTimer.classList.remove("is-ending");
-
-    const update = () => {
-      const remaining = endAt - Date.now();
-      sessionTime.textContent = formatRemaining(remaining);
-      sessionTimer.classList.toggle("is-ending", remaining <= 5 * 60 * 1000);
-      if (remaining <= 0) expireSession();
+  function runSession(sessionInput) {
+    if(sessionInterval) clearInterval(sessionInterval);
+    const session={...sessionInput,isActive:true,activeSince:Date.now()};
+    writeSession(session); savedSession=session;
+    sessionTimer.classList.add("is-visible"); sessionTimer.classList.remove("is-ending");
+    const update=()=>{
+      const current=readSession()||session;
+      const remaining=liveRemaining(current);
+      const activeElapsed=liveActiveElapsed(current);
+      sessionTime.textContent=formatRemaining(remaining);
+      sessionTimer.classList.toggle("is-ending",remaining<=5*60*1000);
+      if(!current.noticeShown && activeElapsed>=NOTICE_AFTER_ACTIVE_MS){
+        current.noticeShown=true; current.remainingMs=remaining; current.activeElapsedMs=activeElapsed; current.activeSince=Date.now(); writeSession(current); openSessionMessage(fiveMinuteNotice);
+      }
+      if(remaining<=0) expireSession();
     };
-    update();
-    sessionInterval = setInterval(update, 1000);
-
-    if (!noticeShown) {
-      const delay = Math.max(0, noticeAt - Date.now());
-      noticeTimeout = setTimeout(() => {
-        openSessionMessage(fiveMinuteNotice);
-        try {
-          const current = JSON.parse(localStorage.getItem(SESSION_KEY) || "{}");
-          current.noticeShown = true;
-          localStorage.setItem(SESSION_KEY, JSON.stringify(current));
-        } catch (_) {}
-      }, delay);
-    }
+    update(); sessionInterval=setInterval(update,1000);
   }
 
   function startVisitorSession() {
-    const startedAt = Date.now();
-    const session = {
-      startedAt,
-      noticeAt: startedAt + FIVE_MINUTE_NOTICE_MS,
-      endAt: startedAt + SESSION_DURATION_MS,
-      noticeShown: false
-    };
-    try { localStorage.setItem(SESSION_KEY, JSON.stringify(session)); } catch (_) {}
-    try {
-      const visitor = JSON.parse(localStorage.getItem(VISITOR_KEY) || "null");
-      if (visitor && visitor.identity) createVisitRecord(visitor, session);
-    } catch (_) {}
-    runSession(session.endAt, session.noticeAt, session.noticeShown);
+    const session={remainingMs:SESSION_DURATION_MS,activeElapsedMs:0,noticeShown:false,isActive:false,activeSince:null,createdAt:Date.now()};
+    writeSession(session);
+    try{const visitor=JSON.parse(localStorage.getItem(VISITOR_KEY)||"null"); if(visitor&&visitor.identity)createVisitRecord(visitor,session);}catch(_){}
+    runSession(session);
   }
 
   function restoreVisitorSession() {
     try {
-      const session = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
-      const visitor = JSON.parse(localStorage.getItem(VISITOR_KEY) || "null");
-      if (!session || !session.endAt || session.endAt <= Date.now() || !visitor || !visitor.provider) {
-        if (session) localStorage.removeItem(SESSION_KEY);
-        return false;
-      }
-
-      // V25: an active session keeps its remaining credit, but every new page opening
-      // starts at the secure gateway. The visitor re-enters through the same provider
-      // without repeating OTP/password verification until the 45-minute credit ends.
-      returningSession = true;
-      savedSession = session;
-      savedVisitor = visitor;
-      gateway.hidden = false;
-      gateway.setAttribute("aria-hidden", "false");
-      document.body.classList.add("luvva-v3-locked");
-      document.body.style.overflow = "hidden";
-      sessionTimer.classList.remove("is-visible", "is-ending");
-      const remaining = formatRemaining(session.endAt - Date.now());
-      status.hidden = false;
-      status.textContent = `Active ${visitor.provider} session — ${remaining} remaining. Enter again through the same method; no new verification code is required.`;
+      const session=readSession();
+      const visitor=JSON.parse(localStorage.getItem(VISITOR_KEY)||"null");
+      if(!session || liveRemaining(session)<=0 || !visitor || !visitor.provider){ if(session)localStorage.removeItem(SESSION_KEY); return false; }
+      // Opening or returning always pauses the credit at the secure gateway.
+      if(session.isActive){ session.remainingMs=liveRemaining(session); session.activeElapsedMs=liveActiveElapsed(session); session.isActive=false; session.activeSince=null; writeSession(session); }
+      returningSession=true; savedSession=session; savedVisitor=visitor;
+      gateway.hidden=false; gateway.setAttribute("aria-hidden","false");
+      document.body.classList.add("luvva-v3-locked"); document.body.style.overflow="hidden";
+      sessionTimer.classList.remove("is-visible","is-ending");
+      status.hidden=false;
+      status.textContent=`Active ${visitor.provider} session — ${formatRemaining(session.remainingMs)} browsing credit remaining. Return through the same method.`;
       return true;
-    } catch (_) { return false; }
+    } catch(_){return false;}
   }
+
+  window.addEventListener("pagehide",pauseSession);
+  window.addEventListener("beforeunload",pauseSession);
+  document.addEventListener("visibilitychange",()=>{ if(document.hidden && gateway.hidden) pauseSession(); });
 
   noticeClose.addEventListener("click", () => closeSessionMessage(fiveMinuteNotice));
   reenterButton.addEventListener("click", () => {
@@ -1797,7 +1746,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
     // Returning within the active 45-minute credit: the same verified provider
     // opens the visit again through the gateway without another OTP/password check.
-    if (returningSession && savedSession && savedVisitor && activeProvider === savedVisitor.provider && savedSession.endAt > Date.now()) {
+    if (returningSession && savedSession && savedVisitor && activeProvider === savedVisitor.provider && (savedSession.remainingMs || 0) > 0) {
       submit.disabled = true;
       submit.textContent = "Opening…";
       showWelcome();
@@ -1813,35 +1762,36 @@ body.luvva-page-revealing.luvva-page-visible > footer {
         return;
       }
 
-      // V24 test flow: first submit sends a simulated OTP; second submit verifies it.
-      // The live version will replace this block with a server-side WhatsApp Business OTP request.
+      // V26: real server-side WhatsApp OTP. No test code is shown and no random number can enter.
+      const fullPhone = `${countryCode.value}${cleanPhone}`;
       if (!whatsappCodeSent) {
-        whatsappTestCode = String(Math.floor(100000 + Math.random() * 900000));
-        whatsappCodeSent = true;
-        codeRow.classList.add("is-visible");
-        code.value = "";
-        subtitle.textContent = `A 6-digit verification code was sent to ${countryCode.value}${cleanPhone}.`;
-        errorBox.textContent = `Test mode — verification code: ${whatsappTestCode}`;
-        errorBox.classList.add("is-success");
-        submit.textContent = "Verify and continue";
-        submit.disabled = false;
-        setTimeout(() => code.focus(), 80);
-        return;
+        submit.disabled = true;
+        submit.textContent = "Sending…";
+        try {
+          const response = await fetch("/api/whatsapp-otp-send", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ phone:fullPhone }) });
+          const result = await response.json().catch(()=>({}));
+          if (!response.ok || !result.ok) throw new Error(result.message || "WhatsApp verification service is not connected yet.");
+          whatsappCodeSent = true;
+          codeRow.classList.add("is-visible"); code.value="";
+          subtitle.textContent = `A 6-digit verification code was sent by WhatsApp to ${fullPhone}.`;
+          errorBox.textContent = "Enter the code received on WhatsApp."; errorBox.classList.add("is-success");
+          submit.textContent = "Verify and continue"; submit.disabled=false; setTimeout(()=>code.focus(),80); return;
+        } catch(err) {
+          errorBox.classList.remove("is-success"); errorBox.textContent = err.message || "Unable to send the WhatsApp verification code.";
+          submit.textContent="Send verification code"; submit.disabled=false; return;
+        }
       }
 
       errorBox.classList.remove("is-success");
-      const enteredCode = code.value.replace(/\D/g, "");
-      if (enteredCode.length !== 6) {
-        errorBox.textContent = "Please enter the 6-digit verification code.";
-        code.focus();
-        submit.disabled = false;
-        return;
-      }
-      if (enteredCode !== whatsappTestCode) {
-        errorBox.textContent = "The verification code is incorrect. Please try again.";
-        code.select();
-        submit.disabled = false;
-        return;
+      const enteredCode=code.value.replace(/\D/g,"");
+      if(enteredCode.length!==6){ errorBox.textContent="Please enter the 6-digit verification code."; code.focus(); submit.disabled=false; return; }
+      submit.disabled=true; submit.textContent="Verifying…";
+      try {
+        const response=await fetch("/api/whatsapp-otp-verify",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({phone:fullPhone,code:enteredCode})});
+        const result=await response.json().catch(()=>({}));
+        if(!response.ok || !result.ok || !result.approved) throw new Error(result.message||"The verification code is incorrect or expired.");
+      } catch(err) {
+        errorBox.textContent=err.message||"The verification code is incorrect or expired."; code.select(); submit.textContent="Verify and continue"; submit.disabled=false; return;
       }
     } else {
       if (!identity.value.trim()) { errorBox.textContent = "Please enter your email or account identity."; submit.disabled = false; return; }
