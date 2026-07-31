@@ -1275,28 +1275,68 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     if (ctx && ctx.state === "suspended") { try { await ctx.resume(); } catch (_) {} }
   }
 
-  function thump(offset, gainValue, frequency) {
+  function thump(offset, strength, baseFrequency) {
     const ctx = audio();
     if (!ctx || ctx.state !== "running") return;
+
     const now = ctx.currentTime + offset;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(frequency, now);
-    osc.frequency.exponentialRampToValueAtTime(36, now + .18);
-    filter.type = "lowpass"; filter.frequency.value = 125;
-    gain.gain.setValueAtTime(.0001, now);
-    gain.gain.exponentialRampToValueAtTime(gainValue, now + .014);
-    gain.gain.exponentialRampToValueAtTime(.0001, now + .23);
-    osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
-    osc.start(now); osc.stop(now + .25);
+
+    // Gentle master stage: keeps V19 audibility without its harsh edge.
+    const compressor = ctx.createDynamicsCompressor();
+    compressor.threshold.setValueAtTime(-12, now);
+    compressor.knee.setValueAtTime(30, now);
+    compressor.ratio.setValueAtTime(2.2, now);
+    compressor.attack.setValueAtTime(.018, now);
+    compressor.release.setValueAtTime(.32, now);
+
+    const master = ctx.createGain();
+    master.gain.setValueAtTime(1.65, now);
+    compressor.connect(master);
+    master.connect(ctx.destination);
+
+    // Warm body layer: the original calm heartbeat character.
+    const bodyOsc = ctx.createOscillator();
+    const bodyGain = ctx.createGain();
+    const bodyFilter = ctx.createBiquadFilter();
+    bodyOsc.type = "sine";
+    bodyOsc.frequency.setValueAtTime(baseFrequency, now);
+    bodyOsc.frequency.exponentialRampToValueAtTime(43, now + .24);
+    bodyFilter.type = "lowpass";
+    bodyFilter.frequency.setValueAtTime(175, now);
+    bodyFilter.Q.setValueAtTime(.55, now);
+    bodyGain.gain.setValueAtTime(.0001, now);
+    bodyGain.gain.exponentialRampToValueAtTime(strength, now + .022);
+    bodyGain.gain.exponentialRampToValueAtTime(.0001, now + .29);
+    bodyOsc.connect(bodyFilter);
+    bodyFilter.connect(bodyGain);
+    bodyGain.connect(compressor);
+    bodyOsc.start(now);
+    bodyOsc.stop(now + .31);
+
+    // Soft presence layer for phones/laptops; sine only, no noise or sharp transient.
+    const presenceOsc = ctx.createOscillator();
+    const presenceGain = ctx.createGain();
+    const presenceFilter = ctx.createBiquadFilter();
+    presenceOsc.type = "sine";
+    presenceOsc.frequency.setValueAtTime(baseFrequency * 2.05, now);
+    presenceOsc.frequency.exponentialRampToValueAtTime(baseFrequency * 1.35, now + .18);
+    presenceFilter.type = "bandpass";
+    presenceFilter.frequency.setValueAtTime(145, now);
+    presenceFilter.Q.setValueAtTime(.65, now);
+    presenceGain.gain.setValueAtTime(.0001, now);
+    presenceGain.gain.exponentialRampToValueAtTime(strength * .34, now + .026);
+    presenceGain.gain.exponentialRampToValueAtTime(.0001, now + .23);
+    presenceOsc.connect(presenceFilter);
+    presenceFilter.connect(presenceGain);
+    presenceGain.connect(compressor);
+    presenceOsc.start(now);
+    presenceOsc.stop(now + .25);
   }
 
   function playLowHeartbeatPair() {
-    // V16: stronger, clearly audible heartbeat for laptop and phone speakers.
-    thump(0, .115, 78);
-    thump(.23, .085, 70);
+    // V21: V19-level audibility with a softer, calmer envelope.
+    thump(0, .20, 72);
+    thump(.24, .145, 66);
   }
 
   function resetForm() {
