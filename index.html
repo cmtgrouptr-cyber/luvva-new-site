@@ -1147,18 +1147,20 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   padding:9px 11px;border-radius:12px;
   border:1px solid rgba(209,167,77,.20);
   background:rgba(255,255,255,.035);
-  color:#7f1836 !important;
-  text-shadow:-.45px 0 #d6a94d,.45px 0 #d6a94d,0 .45px #d6a94d,0 -.45px #d6a94d,0 2px 5px rgba(0,0,0,.45);
+  color:#d7ad55 !important;
+  font-weight:650;
+  text-shadow:0 1px 0 rgba(255,244,199,.42),0 -1px 0 rgba(88,52,5,.78),0 2px 6px rgba(0,0,0,.58);
 }
 .luvva-company-contact-list strong{
-  color:#851b3d !important;
-  letter-spacing:.02em;
-  text-shadow:-.5px 0 #e0b75d,.5px 0 #e0b75d,0 .5px #e0b75d,0 -.5px #e0b75d,0 2px 5px rgba(0,0,0,.48);
+  color:#f0cf7a !important;
+  letter-spacing:.025em;
+  text-shadow:0 1px 0 rgba(255,250,218,.58),0 -1px 0 rgba(99,58,4,.86),0 2px 7px rgba(0,0,0,.62);
 }
 .luvva-company-contact-list a{
-  color:#7f1836 !important;
+  color:#d7ad55 !important;
   text-decoration:none;
-  text-shadow:-.45px 0 #ddb254,.45px 0 #ddb254,0 .45px #ddb254,0 -.45px #ddb254,0 2px 5px rgba(0,0,0,.45);
+  font-weight:700;
+  text-shadow:0 1px 0 rgba(255,244,199,.42),0 -1px 0 rgba(88,52,5,.78),0 2px 6px rgba(0,0,0,.58);
 }
 .luvva-company-contact-list a:hover{filter:brightness(1.18);}
 @media(max-width:880px){
@@ -1166,10 +1168,19 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   .luvva-company-contact-list p{grid-template-columns:78px minmax(0,1fr);padding:8px 9px;}
 }
 
+/* ===== LUVVA V36 — official channels + secure success card ===== */
+.luvva-company-contact-list span{color:#d7ad55;font-weight:650;}
+.luvva-contact-success{position:fixed;inset:0;z-index:10020;display:grid;place-items:center;padding:24px;background:rgba(35,38,41,.28);backdrop-filter:blur(9px);opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease;}
+.luvva-contact-success.is-visible{opacity:1;visibility:visible;}
+.luvva-contact-success-card{width:min(430px,92vw);padding:28px;border-radius:25px;text-align:center;background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(235,245,249,.96));border:1px solid rgba(255,255,255,.96);box-shadow:0 24px 65px rgba(70,78,86,.28),0 0 0 4px rgba(185,229,246,.25),0 0 32px rgba(150,216,242,.30),inset 0 2px 0 #fff;}
+.luvva-contact-success-card h3{margin:0 0 9px;color:#6b4b13;font:600 32px/1.05 "Cormorant Garamond",Georgia,serif;}
+.luvva-contact-success-card p{margin:0;color:#68737c;font:600 12px/1.7 "Montserrat",sans-serif;}
+.luvva-contact-success-mark{width:58px;height:58px;margin:0 auto 15px;border-radius:50%;display:grid;place-items:center;color:#b98224;font-size:26px;background:linear-gradient(145deg,#fff,#edf7fb);box-shadow:0 9px 20px rgba(92,103,113,.18),0 0 0 4px rgba(185,229,246,.24),inset 0 2px 0 #fff;}
+
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V35_CMT_LEATHER_CONTACT_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V36_OFFICIAL_CONTACT_CHANNELS_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -1453,8 +1464,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       <div class="luvva-company-contact-list">
         <p><strong>Company</strong><span>CMT GROUP — Call Mind Technology</span></p>
         <p><strong>Project</strong><span>LUVVA Human-Centered AI</span></p>
-        <p><strong>Email</strong><a href="mailto:partnership@luvva.tech">partnership@luvva.tech</a></p>
         <p><strong>Website</strong><a href="https://luvva.tech" rel="noopener" target="_blank">luvva.tech</a></p>
+        <p><strong>General</strong><a href="mailto:contact@luvva.tech">contact@luvva.tech</a></p>
+        <p><strong>Partners</strong><a href="mailto:partnership@luvva.tech">partnership@luvva.tech</a></p>
+        <p><strong>LinkedIn</strong><span>CMT GROUP | Call Mind Technology</span></p>
+        <p><strong>WeChat</strong><span>LUVVA Official</span></p>
       </div>
     </div>
   </div>
@@ -1469,6 +1483,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       <div class="luvva-contact-grid">
         <label>Full name <input autocomplete="name" id="luvvaContactName" name="fullName" required type="text"/></label>
         <label>Company / Organization <input autocomplete="organization" id="luvvaContactCompany" name="company" type="text"/></label>
+        <label>Position (optional) <input autocomplete="organization-title" id="luvvaContactPosition" name="position" type="text"/></label>
         <label>Email address <input autocomplete="email" id="luvvaContactEmail" name="email" required type="email"/></label>
         <label>WhatsApp / Phone <input autocomplete="tel" id="luvvaContactPhone" name="phone" type="tel"/></label>
         <label>Country <input autocomplete="country-name" id="luvvaContactCountry" name="country" type="text"/></label>
@@ -1485,7 +1500,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       <label class="luvva-contact-message">Message <textarea id="luvvaContactMessage" name="message" rows="4" placeholder="Write a short message..."></textarea></label>
       <label class="luvva-contact-consent"><input id="luvvaContactConsent" required type="checkbox"/> <span>I agree to share these details with CMT GROUP for this inquiry.</span></label>
       <div class="luvva-contact-actions">
-        <button class="luvva-contact-submit" type="submit">Save contact details</button>
+        <button class="luvva-contact-submit" type="submit">Send Securely</button>
         <span aria-live="polite" class="luvva-contact-status" id="luvvaContactStatus"></span>
       </div>
     </form>
@@ -1510,6 +1525,14 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     <h3>Let’s connect.</h3>
     <p>Opening the secure contact form for your information.</p>
     <div aria-hidden="true" class="luvva-contact-transition-line"></div>
+  </div>
+</div>
+
+<div aria-hidden="true" class="luvva-contact-success" id="luvvaContactSuccess">
+  <div class="luvva-contact-success-card" role="status" aria-live="polite">
+    <div class="luvva-contact-success-mark" aria-hidden="true">✓</div>
+    <h3>Thank you.</h3>
+    <p>Your information has been received securely.<br/>Our team will contact you as soon as possible.</p>
   </div>
 </div>
 
@@ -1677,6 +1700,13 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
     });
 
+
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        window.setTimeout(showCurrentSection, 0);
+      });
+    });
 
     window.addEventListener(
       "load",
@@ -2121,6 +2151,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   function openContactDetails() {
     closeSessionMessage(fiveMinuteNotice);
+    // Contact is a hash-driven section: activate it first, then scroll/focus.
+    if (window.location.hash !== "#contact") {
+      history.pushState(null, "", "#contact");
+    }
+    if (typeof showCurrentSection === "function") showCurrentSection();
     const transition = document.getElementById("luvvaContactTransition");
     const contactSection = document.getElementById("contact");
     if (transition) {
@@ -2148,7 +2183,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     try {
       const saved = JSON.parse(localStorage.getItem(CONTACT_DETAILS_KEY) || "null");
       if (!saved) return;
-      const mapping = { fullName:"luvvaContactName", company:"luvvaContactCompany", email:"luvvaContactEmail", phone:"luvvaContactPhone", country:"luvvaContactCountry", interest:"luvvaContactInterest", message:"luvvaContactMessage" };
+      const mapping = { fullName:"luvvaContactName", company:"luvvaContactCompany", position:"luvvaContactPosition", email:"luvvaContactEmail", phone:"luvvaContactPhone", country:"luvvaContactCountry", interest:"luvvaContactInterest", message:"luvvaContactMessage" };
       Object.entries(mapping).forEach(([key,id]) => { const el=document.getElementById(id); if(el && saved[key]) el.value=saved[key]; });
       const consent=document.getElementById("luvvaContactConsent"); if(consent && saved.consent) consent.checked=true;
     } catch(_) {}
@@ -2167,8 +2202,17 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       data.consent = document.getElementById("luvvaContactConsent").checked;
       data.savedAt = Date.now();
       try { localStorage.setItem(CONTACT_DETAILS_KEY, JSON.stringify(data)); } catch(_) {}
-      updateCurrentVisit({ contactCompleted:true, contactDetails:{ fullName:data.fullName||"", company:data.company||"", email:data.email||"", phone:data.phone||"", country:data.country||"", interest:data.interest||"" } });
-      if (contactStatus) contactStatus.textContent = "Your contact details have been saved on this device.";
+      updateCurrentVisit({ contactCompleted:true, contactDetails:{ fullName:data.fullName||"", company:data.company||"", position:data.position||"", email:data.email||"", phone:data.phone||"", country:data.country||"", interest:data.interest||"" } });
+      if (contactStatus) contactStatus.textContent = "Information saved securely.";
+      const successCard = document.getElementById("luvvaContactSuccess");
+      if (successCard) {
+        successCard.setAttribute("aria-hidden", "false");
+        successCard.classList.add("is-visible");
+        window.setTimeout(() => {
+          successCard.classList.remove("is-visible");
+          successCard.setAttribute("aria-hidden", "true");
+        }, 3000);
+      }
     });
   }
 
