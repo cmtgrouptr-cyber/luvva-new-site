@@ -627,6 +627,7 @@ body.luvva-v3-locked > footer {
 }
 .luvva-auth-submit:disabled { opacity:.55; cursor:wait; }
 .luvva-auth-error { min-height: 18px; margin:0; color:#ffb0a1; font-size:11px; line-height:1.5; text-align:center; }
+.luvva-auth-error.is-success { color:#8fe0ad; }
 .luvva-auth-hint { margin:2px 0 0; color:rgba(255,245,224,.42); font-size:10px; line-height:1.55; text-align:center; }
 .luvva-phone-grid { display:grid; grid-template-columns: 105px 1fr; gap:9px; }
 .luvva-auth-select { padding-right:8px; }
@@ -991,7 +992,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </div>
 <div class="luvva-auth-field luvva-code-row" id="luvvaCodeRow">
 <label for="luvvaWhatsappCode">Verification code</label>
-<input class="luvva-auth-input" id="luvvaWhatsappCode" inputmode="numeric" maxlength="6" placeholder="6-digit code"/>
+<input class="luvva-auth-input" id="luvvaWhatsappCode" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" autocomplete="one-time-code" placeholder="6-digit code"/>
 </div>
 </div>
 <p class="luvva-auth-error" id="luvvaAuthError" role="alert"></p>
@@ -1143,7 +1144,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   <section aria-labelledby="luvvaFiveMinuteTitle" aria-modal="true" class="luvva-session-card" role="dialog">
     <div aria-hidden="true" class="luvva-session-mark">♡</div>
     <h2 id="luvvaFiveMinuteTitle">A Gentle Reminder</h2>
-    <p>Your secure visit lasts 45 minutes. When the session ends, you will be asked to enter your details again before returning to LUVVA.</p>
+    <p>Your secure visit lasts 45 minutes. You may enter or update your details at any time through the <strong>Contact</strong> button at the top of the page. If the session ends, verification will be required again before returning to LUVVA.</p>
     <div class="luvva-session-actions">
       <button class="luvva-session-button primary" id="luvvaNoticeClose" type="button">Continue exploring</button>
     </div>
@@ -1365,6 +1366,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   let activeProvider = "";
   let whatsappCodeSent = false;
+  let whatsappTestCode = "";
   let audioContext = null;
 
   function audio() {
@@ -1444,7 +1446,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 
   function resetForm() {
-    form.reset(); errorBox.textContent = ""; whatsappCodeSent = false;
+    form.reset(); errorBox.textContent = ""; errorBox.classList.remove("is-success"); whatsappCodeSent = false; whatsappTestCode = "";
     codeRow.classList.remove("is-visible"); password.type = "password";
     submit.disabled = false;
   }
@@ -1558,7 +1560,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   });
 
   const SESSION_DURATION_MS = 45 * 60 * 1000;
-  const FIVE_MINUTE_NOTICE_MS = 5 * 60 * 1000;
+  const FIVE_MINUTE_NOTICE_MS = 3 * 60 * 1000;
   const SESSION_KEY = "luvvaVisitorSessionV22";
   const VISITOR_KEY = "luvvaVisitorIdentityV23";
   const VISITOR_LOG_KEY = "luvvaVisitorLogV23";
@@ -1761,7 +1763,44 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     // V16: showWelcome controls the exact cover-then-hide sequence to eliminate every flash.
     const isWhatsApp = activeProvider === "WhatsApp";
     if (isWhatsApp) {
-      if (!phone.value.trim()) { errorBox.textContent = "Please enter your WhatsApp number."; submit.disabled = false; return; }
+      const cleanPhone = phone.value.replace(/\D/g, "");
+      if (cleanPhone.length < 7) {
+        errorBox.textContent = "Please enter a valid WhatsApp number.";
+        phone.focus();
+        submit.disabled = false;
+        return;
+      }
+
+      // V24 test flow: first submit sends a simulated OTP; second submit verifies it.
+      // The live version will replace this block with a server-side WhatsApp Business OTP request.
+      if (!whatsappCodeSent) {
+        whatsappTestCode = String(Math.floor(100000 + Math.random() * 900000));
+        whatsappCodeSent = true;
+        codeRow.classList.add("is-visible");
+        code.value = "";
+        subtitle.textContent = `A 6-digit verification code was sent to ${countryCode.value}${cleanPhone}.`;
+        errorBox.textContent = `Test mode — verification code: ${whatsappTestCode}`;
+        errorBox.classList.add("is-success");
+        submit.textContent = "Verify and continue";
+        submit.disabled = false;
+        setTimeout(() => code.focus(), 80);
+        return;
+      }
+
+      errorBox.classList.remove("is-success");
+      const enteredCode = code.value.replace(/\D/g, "");
+      if (enteredCode.length !== 6) {
+        errorBox.textContent = "Please enter the 6-digit verification code.";
+        code.focus();
+        submit.disabled = false;
+        return;
+      }
+      if (enteredCode !== whatsappTestCode) {
+        errorBox.textContent = "The verification code is incorrect. Please try again.";
+        code.select();
+        submit.disabled = false;
+        return;
+      }
     } else {
       if (!identity.value.trim()) { errorBox.textContent = "Please enter your email or account identity."; submit.disabled = false; return; }
       if (activeProvider !== "LinkedIn" && !validEmail(identity.value.trim())) { errorBox.textContent = "Please enter a valid email address."; submit.disabled = false; return; }
