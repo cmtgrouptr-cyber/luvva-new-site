@@ -1292,7 +1292,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     osc.start(now); osc.stop(now + .25);
   }
 
-  function playLowHeartbeatPair() { thump(0, .034, 56); thump(.23, .024, 49); }
+  function playLowHeartbeatPair() {
+    // V15: heartbeat output raised by exactly 25% for clearer laptop/phone playback.
+    thump(0, .0425, 56);
+    thump(.23, .030, 49);
+  }
 
   function resetForm() {
     form.reset(); errorBox.textContent = ""; whatsappCodeSent = false;
@@ -1324,14 +1328,19 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   function validEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
 
   async function showWelcome() {
-    await enableAudio();
-
-    // Remove the visitor-data window instantly before the welcome screen is shown.
-    // No opacity transition is allowed here, preventing any ghost image or flash.
+    // V15: remove the visitor-data window synchronously, in the same frame as Enter.
+    // Inline styles override every transition so no ghost image can appear behind Welcome.
+    backdrop.style.transition = "none";
+    backdrop.style.opacity = "0";
+    backdrop.style.visibility = "hidden";
+    backdrop.style.pointerEvents = "none";
+    backdrop.style.display = "none";
     backdrop.classList.remove("is-open");
     backdrop.setAttribute("aria-hidden", "true");
     backdrop.hidden = true;
     status.hidden = true;
+
+    // Show Welcome first; audio activation must never delay the visual transition.
 
     // Move the original gateway heart into the welcome screen so its gold
     // path, light follower and timing remain exactly identical.
@@ -1342,6 +1351,8 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     success.classList.remove("is-leaving", "is-opening", "pulse-fading");
     success.classList.add("show");
     success.setAttribute("aria-hidden", "false");
+
+    await enableAudio();
 
     // Calm, evenly spaced heartbeat pairs. The sound continues for five seconds
     // after the main page appears, while no visual pulse or flash is shown there.
@@ -1387,7 +1398,12 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   form.addEventListener("submit", async e => {
     e.preventDefault();
     errorBox.textContent = "";
-    await enableAudio();
+    // Hide the form immediately on submit; do not wait for audio or any promise.
+    backdrop.style.transition = "none";
+    backdrop.style.opacity = "0";
+    backdrop.style.visibility = "hidden";
+    backdrop.style.pointerEvents = "none";
+    backdrop.style.display = "none";
     submit.disabled = true;
     submit.textContent = "Opening…";
     showWelcome();
