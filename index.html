@@ -768,34 +768,106 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 }
 
 
-/* ===== LUVVA V26 — active browsing credit + real WhatsApp OTP ===== */
+/* ===== LUVVA V30 — timer physically inside nav after Contact ===== */
 #luvvaSessionTimer {
-  position: fixed;
-  z-index: 2147481000;
-  bottom: 18px;
-  right: 18px;
+  position: relative !important;
+  inset: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  top: auto !important;
+  z-index: 6;
+  flex: 0 0 auto;
   display: none;
   align-items: center;
-  gap: 9px;
-  min-width: 118px;
-  padding: 9px 13px;
-  border: 1px solid rgba(190,132,35,.34);
+  justify-content: center;
+  gap: 8px;
+  min-width: 132px;
+  margin: 0 7px;
+  padding: 10px 14px;
+  overflow: hidden;
+  border: 2px solid rgba(111,46,58,.88);
   border-radius: 999px;
-  color: #624012;
-  background: rgba(255,248,234,.88);
-  box-shadow: 0 10px 28px rgba(55,28,3,.13), inset 0 1px rgba(255,255,255,.75);
-  backdrop-filter: blur(12px) saturate(120%);
-  font: 700 12px/1 "Montserrat", sans-serif;
-  letter-spacing: .05em;
+  color: #54340b;
+  background: linear-gradient(180deg,rgba(255,252,244,.99),rgba(246,236,220,.98));
+  box-shadow:
+    0 8px 15px rgba(70,70,76,.42),
+    0 0 0 3px rgba(111,46,58,.20),
+    0 0 20px rgba(111,46,58,.38),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -2px 5px rgba(96,96,102,.10);
+  cursor: pointer;
+  user-select: none;
+  backdrop-filter: blur(12px) saturate(135%);
+  font: 800 12px/1 "Montserrat", sans-serif;
+  letter-spacing: .055em;
+  transition: transform .22s ease, box-shadow .22s ease;
 }
-#luvvaSessionTimer.is-visible { display: flex; }
+#luvvaSessionTimer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(105deg,transparent 25%,rgba(255,255,255,.72) 48%,transparent 70%);
+  transform: translateX(-120%);
+}
+#luvvaSessionTimer.is-visible {
+  display: flex;
+  animation: luvvaTimerSoftFlash 1.8s ease-in-out infinite;
+}
+#luvvaSessionTimer.is-visible::after {
+  animation: luvvaTimerSheen 3.6s ease-in-out infinite;
+}
+#luvvaSessionTimer:hover { transform: translateY(-1px); }
+#luvvaSessionTimer strong {
+  display:inline-block;
+  color:#6f2e3a;
+  text-shadow:0 0 8px rgba(111,46,58,.32);
+  animation:luvvaTimerDigitsPulse 1.8s ease-in-out infinite;
+}
 #luvvaSessionTimer .luvva-session-dot {
   width: 8px; height: 8px; border-radius: 50%;
-  background: #c58a28; box-shadow: 0 0 0 4px rgba(197,138,40,.12);
+  background: #c58a28;
+  box-shadow: 0 0 0 4px rgba(197,138,40,.13),0 0 8px rgba(197,138,40,.42);
 }
 #luvvaSessionTimer.is-ending .luvva-session-dot { animation: luvvaSessionBlink 1s ease-in-out infinite; }
 @keyframes luvvaSessionBlink { 50% { opacity:.28; transform:scale(.85); } }
+@keyframes luvvaTimerDigitsPulse {
+  0%,100%{opacity:.82;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.045)}
+}
+@keyframes luvvaTimerSoftFlash {
+  0%,100% { filter:brightness(1); box-shadow:0 7px 14px rgba(65,65,70,.30),0 0 0 2px rgba(113,43,50,.18),0 0 11px rgba(113,43,50,.20),inset 0 1px 0 rgba(255,255,255,1),inset 0 -2px 5px rgba(96,96,102,.10); }
+  50% { filter:brightness(1.085); box-shadow:0 9px 18px rgba(65,65,70,.38),0 0 0 2px rgba(113,43,50,.34),0 0 22px rgba(113,43,50,.36),inset 0 1px 0 rgba(255,255,255,1),inset 0 -2px 5px rgba(96,96,102,.13); }
+}
+@keyframes luvvaTimerSheen {
+  0%,58% { opacity:0; transform:translateX(-120%); }
+  68% { opacity:.65; }
+  82%,100% { opacity:0; transform:translateX(120%); }
+}
+#luvvaSessionTimer:focus-visible { outline:3px solid rgba(140,82,48,.38); outline-offset:3px; }
+@media (prefers-reduced-motion: reduce) {
+  #luvvaSessionTimer.is-visible,#luvvaSessionTimer.is-visible::after { animation:none; }
+}
+@media (max-width: 1100px) {
+  #luvvaSessionTimer { min-width:116px; margin:0 4px; padding:9px 10px; font-size:11px; gap:6px; }
+}
+@media (max-width: 760px) {
+  #luvvaSessionTimer { min-width:108px; margin-left:auto; padding:9px 10px; font-size:10px; }
+}
 
+
+/* V30 hard override: keeps the timer in the navigation row, immediately after Contact. */
+.site-header .main-nav #luvvaSessionTimer {
+  position:relative !important;
+  left:auto !important; right:auto !important; top:auto !important; bottom:auto !important;
+  transform:none;
+  align-self:center;
+}
+.site-header .main-nav { align-items:center; }
+@media (max-width:760px){
+  .site-header .main-nav #luvvaSessionTimer{width:100%;margin:8px 0 2px;justify-content:center;}
+}
 .luvva-session-backdrop {
   position: fixed;
   z-index: 2147482500;
@@ -839,14 +911,14 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 .luvva-session-button.primary { color:#fff7e8; background:linear-gradient(180deg,#c99539,#9b6112); box-shadow:0 9px 22px rgba(111,66,7,.22); }
 .luvva-session-button.secondary { color:#73501c; background:rgba(255,255,255,.62); }
 @media (max-width:640px) {
-  #luvvaSessionTimer { bottom:10px; right:10px; min-width:106px; padding:8px 11px; font-size:11px; }
+  #luvvaSessionTimer { top:68px; bottom:auto; right:10px; min-width:118px; padding:9px 12px; font-size:11px; }
   .luvva-session-card { padding:26px 20px 22px; border-radius:23px; }
 }
 
 </style>
 </link></head>
 <body class="luvva-v3-locked">
-<!-- LUVVA_SECURE_GATEWAY_V26_ACTIVE_CREDIT_REAL_OTP_2026-07-31 -->
+<!-- LUVVA_SECURE_GATEWAY_V30_TIMER_IN_NAV_AFTER_CONTACT_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
 <div aria-hidden="true" class="luvva-v3-aura"></div>
 <div class="luvva-v3-shell">
@@ -1042,6 +1114,10 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 <a href="#legacy">Core Values</a>
 <a href="#partnership">Partnership</a>
 <a href="#contact">Contact</a>
+<div aria-live="polite" aria-label="Open session reminder" id="luvvaSessionTimer" role="button" tabindex="0" title="Open session reminder">
+  <span aria-hidden="true" class="luvva-session-dot"></span>
+  <span>Session&nbsp;</span><strong id="luvvaSessionTime">45:00</strong>
+</div>
 </nav>
 <a class="investor-button" href="#partnership">Investor Brief</a>
 </header>
@@ -1136,10 +1212,6 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </section>
 </main>
 
-<div aria-live="polite" id="luvvaSessionTimer" role="timer">
-  <span aria-hidden="true" class="luvva-session-dot"></span>
-  <span>Session&nbsp;</span><strong id="luvvaSessionTime">45:00</strong>
-</div>
 <div aria-hidden="true" class="luvva-session-backdrop" id="luvvaFiveMinuteNotice">
   <section aria-labelledby="luvvaFiveMinuteTitle" aria-modal="true" class="luvva-session-card" role="dialog">
     <div aria-hidden="true" class="luvva-session-mark">♡</div>
@@ -1366,7 +1438,6 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   let activeProvider = "";
   let whatsappCodeSent = false;
-  let whatsappTestCode = "";
   let audioContext = null;
 
   function audio() {
@@ -1446,7 +1517,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 
   function resetForm() {
-    form.reset(); errorBox.textContent = ""; errorBox.classList.remove("is-success"); whatsappCodeSent = false; whatsappTestCode = "";
+    form.reset(); errorBox.textContent = ""; errorBox.classList.remove("is-success"); whatsappCodeSent = false;
     codeRow.classList.remove("is-visible"); password.type = "password";
     submit.disabled = false;
   }
@@ -1587,6 +1658,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   const sessionTime = document.getElementById("luvvaSessionTime");
   const fiveMinuteNotice = document.getElementById("luvvaFiveMinuteNotice");
   const sessionExpired = document.getElementById("luvvaSessionExpired");
+  const openReminderFromTimer = () => { if (sessionTimer.classList.contains("is-visible")) openSessionMessage(fiveMinuteNotice); };
   const noticeClose = document.getElementById("luvvaNoticeClose");
   const reenterButton = document.getElementById("luvvaReenterButton");
   let sessionInterval = null;
@@ -1722,6 +1794,13 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   document.addEventListener("visibilitychange",()=>{ if(document.hidden && gateway.hidden) pauseSession(); });
 
   noticeClose.addEventListener("click", () => closeSessionMessage(fiveMinuteNotice));
+  sessionTimer.addEventListener("click", openReminderFromTimer);
+  sessionTimer.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openReminderFromTimer();
+    }
+  });
   reenterButton.addEventListener("click", () => {
     closeSessionMessage(sessionExpired);
     sessionTimer.classList.remove("is-visible", "is-ending");
@@ -1737,6 +1816,23 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     document.body.scrollTop = 0;
     window.scrollTo(0, 0);
   });
+
+  async function fetchJsonWithTimeout(url, options, timeoutMs = 12000) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const response = await fetch(url, { ...options, signal: controller.signal });
+      const result = await response.json().catch(() => ({}));
+      return { response, result };
+    } catch (error) {
+      if (error && error.name === "AbortError") {
+        throw new Error("The verification service did not respond. Check the Vercel API deployment and WhatsApp verification settings.");
+      }
+      throw error;
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
 
   form.addEventListener("submit", async e => {
     e.preventDefault();
@@ -1768,9 +1864,8 @@ body.luvva-page-revealing.luvva-page-visible > footer {
         submit.disabled = true;
         submit.textContent = "Sending…";
         try {
-          const response = await fetch("/api/whatsapp-otp-send", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ phone:fullPhone }) });
-          const result = await response.json().catch(()=>({}));
-          if (!response.ok || !result.ok) throw new Error(result.message || "WhatsApp verification service is not connected yet.");
+          const { response, result } = await fetchJsonWithTimeout("/api/whatsapp-otp-send", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ phone:fullPhone }) });
+          if (!response.ok || !result.ok) throw new Error(result.message || "WhatsApp verification is not active yet. Deploy the api folder and add the Twilio Verify credentials in Vercel.");
           whatsappCodeSent = true;
           codeRow.classList.add("is-visible"); code.value="";
           subtitle.textContent = `A 6-digit verification code was sent by WhatsApp to ${fullPhone}.`;
@@ -1787,8 +1882,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       if(enteredCode.length!==6){ errorBox.textContent="Please enter the 6-digit verification code."; code.focus(); submit.disabled=false; return; }
       submit.disabled=true; submit.textContent="Verifying…";
       try {
-        const response=await fetch("/api/whatsapp-otp-verify",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({phone:fullPhone,code:enteredCode})});
-        const result=await response.json().catch(()=>({}));
+        const { response, result } = await fetchJsonWithTimeout("/api/whatsapp-otp-verify",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({phone:fullPhone,code:enteredCode})});
         if(!response.ok || !result.ok || !result.approved) throw new Error(result.message||"The verification code is incorrect or expired.");
       } catch(err) {
         errorBox.textContent=err.message||"The verification code is incorrect or expired."; code.select(); submit.textContent="Verify and continue"; submit.disabled=false; return;
