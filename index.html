@@ -1355,7 +1355,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   .luvva-contact-form-heading h3 { font-size: clamp(27px, 8vw, 34px); }
 }
 
-/* ===== LUVVA V5 Professional Edition ===== */
+/* ===== LUVVA V5.1 UI Final Edition ===== */
 .luvva-version-badge{display:inline-flex;align-items:center;margin-left:10px;padding:3px 8px;border:1px solid rgba(232,190,98,.34);border-radius:999px;color:#e6bf6a;background:rgba(17,10,3,.46);font:700 10px/1 Arial;letter-spacing:.12em;vertical-align:middle;box-shadow:inset 0 1px 0 rgba(255,242,194,.08)}
 .luvva-v3-providers button{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease}
 .luvva-v3-providers button:hover .luvva-v3-arrow{transform:translateX(4px);color:#f6d68b}
@@ -1378,7 +1378,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
 
 
-/* ===== LUVVA V5 — final professional usability pass ===== */
+/* ===== LUVVA V5.1 — final UI approval pass ===== */
 .luvva-auth-backdrop{padding:12px!important;overflow:hidden!important}
 .luvva-auth-dialog{
   width:min(94vw,480px)!important;
@@ -1446,6 +1446,33 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   .luvva-enterprise-note{font-size:10.5px!important}
 }
 
+
+/* ===== LUVVA V5.1 — final icon and provider-state corrections ===== */
+.luvva-v3-provider-icon.luvva-v3-whatsapp{
+  background:linear-gradient(145deg,#2fe07b,#16b95c)!important;
+  color:#fff!important;
+  border-color:rgba(183,255,216,.44)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.24),0 8px 18px rgba(0,0,0,.28),0 0 12px rgba(37,211,102,.12)!important;
+}
+.luvva-v3-provider-icon.luvva-v3-whatsapp svg{width:27px!important;height:27px!important;filter:drop-shadow(0 1px 2px rgba(0,0,0,.28))}
+.luvva-v3-provider-icon.luvva-v3-wechat{
+  background:linear-gradient(145deg,#17cf68,#079f4c)!important;
+  color:#fff!important;
+  border-color:rgba(183,255,216,.44)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.24),0 8px 18px rgba(0,0,0,.28),0 0 12px rgba(7,193,96,.12)!important;
+}
+.luvva-v3-provider-icon.luvva-v3-wechat svg{width:29px!important;height:29px!important;filter:drop-shadow(0 1px 2px rgba(0,0,0,.28))}
+.luvva-wechat-qr{
+  width:150px!important;height:150px!important;padding:14px!important;
+  background:linear-gradient(145deg,rgba(12,29,21,.98),rgba(5,16,11,.98))!important;
+  border:1px solid rgba(43,224,125,.44)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.06),0 14px 34px rgba(0,0,0,.42),0 0 22px rgba(7,193,96,.11)!important;
+}
+.luvva-wechat-qr svg{width:56px!important;height:56px!important;opacity:.92}
+.luvva-wechat-qr::after{content:"Official QR code";display:block;margin-top:7px;color:#c9f6db;font:700 10px/1.2 "Montserrat",sans-serif;letter-spacing:.04em}
+.luvva-wechat-panel .luvva-auth-hint{max-width:360px!important;color:rgba(255,246,229,.78)!important}
+.luvva-google-ready-state span{display:none!important}
+@media(max-height:720px) and (min-width:521px){.luvva-wechat-qr{width:126px!important;height:126px!important}.luvva-wechat-qr svg{width:47px!important;height:47px!important}}
 </style>
 </link><meta name="google-client-id" content="">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -1509,7 +1536,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 <path d="M12 3v15"></path><path d="m4.5 11.5 7.5 7 7.5-7"></path>
 </svg>
 </div>
-<p class="luvva-v3-kicker">LUVVA SECURE ACCESS <span class="luvva-version-badge">V5.0</span></p>
+<p class="luvva-v3-kicker">LUVVA SECURE ACCESS <span class="luvva-version-badge">V5.1</span></p>
 <h1 class="luvva-v3-title" id="luvvaV3Title">Welcome to a more human future.</h1>
 <p class="luvva-v3-subtitle">
         A protected entrance to LUVVA — where identity, trust and human-centred intelligence meet.
@@ -1563,7 +1590,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </div>
 </div>
 </section>
-<!-- Secure identity provider window — Professional Edition v5.0 -->
+<!-- Secure identity provider window — UI Final Edition v5.1 -->
 <div aria-hidden="true" class="luvva-auth-backdrop" id="luvvaAuthBackdrop">
 <section aria-labelledby="luvvaAuthTitle" aria-modal="true" class="luvva-auth-dialog" role="dialog">
 <button aria-label="Close" class="luvva-auth-close" id="luvvaAuthClose" type="button">×</button>
@@ -1580,10 +1607,10 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </div>
 <div id="luvvaWechatFields" hidden>
   <div class="luvva-wechat-panel">
-    <div class="luvva-wechat-qr" aria-label="WeChat secure authorization">
+    <div class="luvva-wechat-qr" aria-label="WeChat official QR code placeholder">
       <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path fill="#07c160" d="M25.4 10C13.6 10 4 17.9 4 27.7c0 5.6 3.2 10.7 8.2 14l-2.1 7 7.4-4.1c2.5.8 5.2 1.2 7.9 1.2 11.8 0 21.4-7.9 21.4-17.7S37.2 10 25.4 10Z"/><path fill="white" d="M18.1 22.9a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Zm14.5 0a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Z"/><path fill="#07c160" d="M40.5 27.5c-10.9 0-19.7 7.2-19.7 16.1s8.8 16.1 19.7 16.1c2.4 0 4.7-.4 6.8-1.1l6.7 3.6-1.9-6.3c4.9-3 8-7.4 8-12.3 0-8.9-8.8-16.1-19.6-16.1Z"/><path fill="white" d="M34.1 40.7a2.4 2.4 0 1 0 0-4.8 2.4 2.4 0 0 0 0 4.8Zm13 0a2.4 2.4 0 1 0 0-4.8 2.4 2.4 0 0 0 0 4.8Z"/></svg>
     </div>
-    <p class="luvva-auth-hint">On desktop, scan the official QR code with WeChat. On mobile, secure authorization opens in the WeChat app.</p>
+    <p class="luvva-auth-hint">On desktop, scan the official WeChat QR code. On mobile, secure authorization opens in the WeChat app.</p>
   </div>
 </div>
 <div id="luvvaBusinessModes" class="luvva-auth-tabs" hidden style="display:none">
@@ -2188,7 +2215,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   function renderGoogleOfficialButton() {
     googleOfficialButton.innerHTML = "";
     if (!GOOGLE_CLIENT_ID) {
-      googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><div class="luvva-redirecting-ring"></div><strong>Preparing secure Google sign-in…</strong><span>Please use another sign-in method while this service is being connected.</span></div>'; console.warn('LUVVA developer notice: Google Client ID is not configured.');
+      googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><div class="luvva-redirecting-ring"></div><strong>Opening Google secure sign-in…</strong></div>'; console.warn('LUVVA developer notice: Google Client ID is not configured.');
       return;
     }
     if (!window.google?.accounts?.id) {
@@ -2864,6 +2891,6 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 })();
   </script>
-<div style="position:fixed;right:10px;bottom:8px;z-index:20;font:10px/1.2 Arial;color:rgba(199,163,93,.58);pointer-events:none">LUVVA V4 · Professional Edition · V5.0</div>
+<div style="position:fixed;right:10px;bottom:8px;z-index:20;font:10px/1.2 Arial;color:rgba(199,163,93,.58);pointer-events:none">LUVVA V4 · Professional Edition · V5.1</div>
 </body>
 </html>
