@@ -1,0 +1,11 @@
+LUVVA Secure Gateway — Professional Edition V5.0
+
+Final usability pass:
+- Removed internal modal scrollbars on standard laptop and mobile viewports.
+- Unified modal sizing, spacing, fields, buttons, and typography.
+- Improved Google redirect/loading state without exposing technical configuration.
+- Added in-modal WhatsApp OTP confirmation and clearer six-digit code field.
+- Rebuilt WeChat icon presentation with crisp scalable SVG sizing and matching glow.
+- Increased privacy and enterprise-security copy size, contrast, and readability.
+- Added refined hover, arrow, focus, and modal transitions.
+- Corrected WhatsApp OTP error handling so successful server responses do not throw.

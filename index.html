@@ -1355,7 +1355,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   .luvva-contact-form-heading h3 { font-size: clamp(27px, 8vw, 34px); }
 }
 
-/* ===== LUVVA V4 Professional Edition ===== */
+/* ===== LUVVA V5 Professional Edition ===== */
 .luvva-version-badge{display:inline-flex;align-items:center;margin-left:10px;padding:3px 8px;border:1px solid rgba(232,190,98,.34);border-radius:999px;color:#e6bf6a;background:rgba(17,10,3,.46);font:700 10px/1 Arial;letter-spacing:.12em;vertical-align:middle;box-shadow:inset 0 1px 0 rgba(255,242,194,.08)}
 .luvva-v3-providers button{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease}
 .luvva-v3-providers button:hover .luvva-v3-arrow{transform:translateX(4px);color:#f6d68b}
@@ -1375,6 +1375,76 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 .luvva-enterprise-note{margin-top:14px;text-align:center;color:rgba(233,199,126,.72);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
 .luvva-enterprise-note span{display:block;margin-top:4px;color:rgba(255,245,226,.45);font-size:9px;letter-spacing:.04em;text-transform:none}
 .luvva-auth-input:focus{border-color:rgba(239,194,95,.92)!important;box-shadow:0 0 0 3px rgba(222,161,42,.12),inset 0 1px 0 rgba(255,255,255,.05)!important;outline:none}
+
+
+
+/* ===== LUVVA V5 — final professional usability pass ===== */
+.luvva-auth-backdrop{padding:12px!important;overflow:hidden!important}
+.luvva-auth-dialog{
+  width:min(94vw,480px)!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:calc(100dvh - 24px)!important;
+  overflow:hidden!important;
+  padding:22px 24px 20px!important;
+}
+.luvva-auth-brand{gap:7px!important;margin:2px 0 14px!important}
+.luvva-auth-brandmark{width:58px!important;height:58px!important;border-radius:17px!important}
+.luvva-auth-brandmark svg{width:34px!important;height:34px!important}
+.luvva-auth-brandmark.wechat{color:#07c160!important;border-color:rgba(7,193,96,.42)!important;box-shadow:inset 0 1px rgba(255,255,255,.12),0 0 25px rgba(7,193,96,.15),0 12px 28px rgba(0,0,0,.35)!important}
+.luvva-auth-title{font-size:28px!important;line-height:1.08!important;text-align:center!important}
+.luvva-auth-subtitle{font-size:11.5px!important;line-height:1.42!important;max-width:390px!important}
+.luvva-auth-form{gap:11px!important;min-height:0!important;grid-template-rows:none!important;display:grid!important}
+.luvva-auth-tabs{margin:0 0 8px!important}
+.luvva-auth-input{min-height:48px!important}
+.luvva-auth-submit{min-height:52px!important;margin-top:4px!important}
+.luvva-auth-hint{font-size:10.5px!important;line-height:1.45!important;color:rgba(255,246,229,.70)!important}
+.luvva-auth-error{font-size:11.5px!important;min-height:17px!important}
+.luvva-auth-error.is-success{color:#a9edbf!important;font-weight:700!important}
+.luvva-code-row .luvva-auth-input{letter-spacing:.32em!important;text-align:center!important;font-size:18px!important;font-weight:800!important;padding-left:44px!important}
+.luvva-auth-dialog.provider-google .luvva-auth-form,
+.luvva-auth-dialog.provider-wechat .luvva-auth-form{gap:9px!important}
+.luvva-auth-dialog.provider-google .luvva-auth-brand,
+.luvva-auth-dialog.provider-wechat .luvva-auth-brand{margin-bottom:10px!important}
+.luvva-auth-dialog.provider-google{max-width:450px!important}
+.luvva-auth-dialog.provider-whatsapp{max-width:470px!important}
+.luvva-auth-dialog.provider-wechat{max-width:450px!important}
+.luvva-redirecting{min-height:112px!important;gap:10px!important}
+.luvva-google-ready-state{display:grid;justify-items:center;gap:9px;min-height:112px;text-align:center;color:#f5dfb1;padding:8px 4px}
+.luvva-google-ready-state strong{font-size:13px;letter-spacing:.02em}
+.luvva-google-ready-state span{max-width:330px;color:rgba(255,246,229,.66);font-size:10.5px;line-height:1.45}
+.luvva-wechat-panel{gap:10px!important;min-height:0!important}
+.luvva-wechat-qr{width:112px!important;height:112px!important;border-radius:20px!important;background:linear-gradient(145deg,#fff,#eefcf4)!important;box-shadow:0 14px 34px rgba(0,0,0,.38),0 0 28px rgba(7,193,96,.13)!important}
+.luvva-wechat-qr svg{width:72px!important;height:72px!important}
+.luvva-v3-wechat{background:linear-gradient(145deg,#13d470,#05a84f)!important;color:#fff!important;border-color:rgba(187,255,219,.50)!important;box-shadow:inset 0 1px rgba(255,255,255,.34),0 0 20px rgba(7,193,96,.24)!important}
+.luvva-v3-wechat svg{width:30px!important;height:30px!important;filter:drop-shadow(0 2px 3px rgba(0,0,0,.22))}
+.luvva-security-summary{position:relative;margin:16px auto 0;padding:13px 10px 0;max-width:680px;text-align:center;border-top:1px solid rgba(231,188,95,.26)}
+.luvva-security-summary::before{content:"";position:absolute;top:-1px;left:35%;right:35%;height:1px;background:linear-gradient(90deg,transparent,#e7bc5f,transparent);box-shadow:0 0 10px rgba(231,188,95,.30)}
+.luvva-security-summary p{margin:0;color:rgba(255,246,229,.78);font:600 11.5px/1.5 "Montserrat",sans-serif;letter-spacing:.005em;text-shadow:0 2px 7px rgba(0,0,0,.75)}
+.luvva-security-summary p+p{margin-top:2px;color:rgba(255,246,229,.64)}
+.luvva-enterprise-note{margin-top:10px!important;color:#e8bd65!important;font-size:11.5px!important;font-weight:800!important;letter-spacing:.10em!important;text-shadow:0 0 12px rgba(222,163,46,.22)!important}
+.luvva-enterprise-note span{margin-top:5px!important;color:rgba(255,246,229,.72)!important;font-size:10.5px!important;font-weight:600!important;letter-spacing:.02em!important}
+.luvva-v3-providers button:hover{transform:translateY(-2px)!important;border-color:rgba(244,204,119,.72)!important;box-shadow:0 18px 36px rgba(0,0,0,.46),0 0 24px rgba(214,151,37,.15),inset 0 1px rgba(255,244,205,.18)!important}
+@media(max-height:720px) and (min-width:521px){
+  .luvva-auth-dialog{padding:16px 22px 14px!important}
+  .luvva-auth-brandmark{width:50px!important;height:50px!important}
+  .luvva-auth-brandmark svg{width:30px!important;height:30px!important}
+  .luvva-auth-title{font-size:24px!important}
+  .luvva-auth-brand{margin-bottom:9px!important}
+  .luvva-auth-form{gap:8px!important}
+  .luvva-auth-input{min-height:44px!important}
+  .luvva-auth-submit{min-height:47px!important}
+  .luvva-auth-tabs{margin-bottom:5px!important}
+  .luvva-wechat-qr{width:94px!important;height:94px!important}
+  .luvva-wechat-qr svg{width:60px!important;height:60px!important}
+}
+@media(max-width:520px){
+  .luvva-auth-backdrop{padding:8px!important}
+  .luvva-auth-dialog{width:min(96vw,460px)!important;max-height:calc(100dvh - 16px)!important;padding:18px 16px 16px!important}
+  .luvva-auth-title{font-size:25px!important}
+  .luvva-security-summary p{font-size:10.5px!important}
+  .luvva-enterprise-note{font-size:10.5px!important}
+}
 
 </style>
 </link><meta name="google-client-id" content="">
@@ -1439,7 +1509,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 <path d="M12 3v15"></path><path d="m4.5 11.5 7.5 7 7.5-7"></path>
 </svg>
 </div>
-<p class="luvva-v3-kicker">LUVVA SECURE ACCESS <span class="luvva-version-badge">V4.0</span></p>
+<p class="luvva-v3-kicker">LUVVA SECURE ACCESS <span class="luvva-version-badge">V5.0</span></p>
 <h1 class="luvva-v3-title" id="luvvaV3Title">Welcome to a more human future.</h1>
 <p class="luvva-v3-subtitle">
         A protected entrance to LUVVA — where identity, trust and human-centred intelligence meet.
@@ -1476,9 +1546,10 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 <span aria-hidden="true" class="luvva-v3-arrow">›</span>
 </button>
 </div>
-<p class="luvva-v3-note">
-        Your identity remains private and is used only to secure access.<br><span style="opacity:.78">Authentication is completed through the selected identity provider. LUVVA stores only the verified identity required for secure access.</span>
-      </p>
+<div class="luvva-security-summary" aria-label="Security and privacy">
+  <p>Your identity stays private and is used only to secure access.</p>
+  <p>LUVVA stores only the verified identity required for your session.</p>
+</div>
 <div class="luvva-enterprise-note">Enterprise-grade secure authentication<span>Powered by trusted identity providers.</span></div>
 <div aria-live="polite" class="luvva-v3-status" hidden="" id="luvvaV3Status" role="status"></div>
 </div>
@@ -1492,7 +1563,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </div>
 </div>
 </section>
-<!-- Secure identity provider window — Professional Edition v4.0 -->
+<!-- Secure identity provider window — Professional Edition v5.0 -->
 <div aria-hidden="true" class="luvva-auth-backdrop" id="luvvaAuthBackdrop">
 <section aria-labelledby="luvvaAuthTitle" aria-modal="true" class="luvva-auth-dialog" role="dialog">
 <button aria-label="Close" class="luvva-auth-close" id="luvvaAuthClose" type="button">×</button>
@@ -1558,7 +1629,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 <div id="luvvaOtpCountdown" style="text-align:center;font-size:12px;color:#9b8155;min-height:18px"></div>
 <button class="luvva-auth-reset" id="luvvaWhatsappReset" type="button" aria-label="Use another WhatsApp number">↻ Use another number</button>
 <button class="luvva-auth-submit" id="luvvaAuthSubmit" type="submit">Continue securely</button>
-<p class="luvva-auth-hint">Authentication is performed through the selected provider. Passwords and verification codes are never stored by LUVVA.</p>
+<p class="luvva-auth-hint">Verification is completed securely by your selected provider. LUVVA never stores verification codes.</p>
 </form>
 </section>
 </div>
@@ -1970,6 +2041,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   const status = document.getElementById("luvvaV3Status");
   const providerButtons = [...document.querySelectorAll("[data-luvva-v3-provider]")];
   const backdrop = document.getElementById("luvvaAuthBackdrop");
+  const dialog = backdrop.querySelector(".luvva-auth-dialog");
   const form = document.getElementById("luvvaAuthForm");
   const closeButton = document.getElementById("luvvaAuthClose");
   const title = document.getElementById("luvvaAuthTitle");
@@ -2116,11 +2188,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   function renderGoogleOfficialButton() {
     googleOfficialButton.innerHTML = "";
     if (!GOOGLE_CLIENT_ID) {
-      googleOfficialButton.innerHTML = '<div class="luvva-auth-hint">Google secure sign-in will open here after the production identity key is connected.</div>'; console.warn('LUVVA developer notice: Google Client ID is not configured.');
+      googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><div class="luvva-redirecting-ring"></div><strong>Preparing secure Google sign-in…</strong><span>Please use another sign-in method while this service is being connected.</span></div>'; console.warn('LUVVA developer notice: Google Client ID is not configured.');
       return;
     }
     if (!window.google?.accounts?.id) {
-      googleOfficialButton.innerHTML = '<div class="luvva-auth-hint">Preparing Google secure sign-in…</div>'; console.warn('LUVVA developer notice: Google Identity Services is still loading.');
+      googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><div class="luvva-redirecting-ring"></div><strong>Opening Google secure sign-in…</strong></div>'; console.warn('LUVVA developer notice: Google Identity Services is still loading.');
       return;
     }
     google.accounts.id.initialize({
@@ -2129,7 +2201,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
         const profile = decodeGoogleCredential(response.credential);
         if (!profile?.sub) { errorBox.textContent = "Google identity could not be verified."; return; }
         identity.value = profile.email || profile.sub;
-        try { localStorage.setItem("luvvaVerifiedProviderSubjectV4", JSON.stringify({provider:"Google", subject:profile.sub, email:profile.email||"", name:profile.name||"", verifiedAt:Date.now()})); } catch (_) {}
+        try { localStorage.setItem("luvvaVerifiedProviderSubjectV5", JSON.stringify({provider:"Google", subject:profile.sub, email:profile.email||"", name:profile.name||"", verifiedAt:Date.now()})); } catch (_) {}
         storeVisitorIdentity();
         showWelcome();
       }
@@ -2200,6 +2272,8 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     if (whatsappReset) whatsappReset.classList.toggle("is-visible", false);
     if (isBusiness) setBusinessMode("password");
 
+    dialog.classList.remove("provider-business", "provider-google", "provider-whatsapp", "provider-wechat");
+    dialog.classList.add(`provider-${isBusiness ? "business" : provider.toLowerCase()}`);
     backdrop.classList.add("is-open");
     backdrop.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
@@ -2722,12 +2796,15 @@ body.luvva-page-revealing.luvva-page-visible > footer {
         submit.textContent = "Sending…";
         try {
           const { response, result } = await fetchJsonWithTimeout("/api/whatsapp-otp-send", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ phone:fullPhone }) });
-          if (!response.ok || !result.ok) console.error("LUVVA WhatsApp verification unavailable:", result); throw new Error("WhatsApp verification is temporarily unavailable. Please try another secure method.");
+          if (!response.ok || !result.ok) {
+            console.error("LUVVA WhatsApp verification unavailable:", result);
+            throw new Error("WhatsApp verification is temporarily unavailable. Please try another secure method.");
+          }
           whatsappCodeSent = true;
           startOtpCountdown(60);
           codeRow.classList.add("is-visible"); code.value="";
           subtitle.textContent = `A 6-digit verification code was sent by WhatsApp to ${fullPhone}.`;
-          errorBox.textContent = "Enter the code received on WhatsApp."; errorBox.classList.add("is-success");
+          errorBox.textContent = "✓ Verification code sent. Enter the 6-digit code below."; errorBox.classList.add("is-success");
           submit.textContent = "Verify and continue"; submit.disabled=false; setTimeout(()=>code.focus(),80); return;
         } catch(err) {
           errorBox.classList.remove("is-success"); errorBox.textContent = err.message || "Unable to send the WhatsApp verification code.";
@@ -2787,6 +2864,6 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 })();
   </script>
-<div style="position:fixed;right:10px;bottom:8px;z-index:20;font:10px/1.2 Arial;color:rgba(199,163,93,.58);pointer-events:none">LUVVA V4 · Professional Edition · V4.0</div>
+<div style="position:fixed;right:10px;bottom:8px;z-index:20;font:10px/1.2 Arial;color:rgba(199,163,93,.58);pointer-events:none">LUVVA V4 · Professional Edition · V5.0</div>
 </body>
 </html>
