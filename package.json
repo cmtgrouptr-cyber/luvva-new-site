@@ -1,9 +1,8 @@
 {
-  "name": "luvva-secure-gateway-dashboard-update-1",
-  "private": true,
-  "version": "1.0.0",
-  "engines": {
-    "node": ">=20"
-  },
-  "description": "LUVVA Secure Gateway & Professional Edition v5.0"
+  "name":"luvva-secure-gateway-v6-dashboard-core",
+  "private":true,
+  "version":"6.0.0",
+  "engines":{"node":">=20"},
+  "dependencies":{"qrcode":"^1.5.4"},
+  "description":"LUVVA Secure Gateway V6.0 Dashboard Core and Owner Secure Access"
 }
