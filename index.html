@@ -1505,6 +1505,23 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 .luvva-whatsapp-fields.is-code-step .luvva-code-row{animation:luvvaOtpStepIn .28s ease both}
 @keyframes luvvaOtpStepIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:520px){.luvva-auth-dialog.provider-business .luvva-auth-title{font-size:27px!important}.luvva-phone-grid{grid-template-columns:112px 1fr!important}}
+
+/* ===== LUVVA V5.2.1 — final visual alignment approval ===== */
+/* Keep Google loader alive with a soft gold breathing halo while rotating. */
+.luvva-auth-dialog.provider-google .luvva-redirecting-ring{
+  animation:luvvaSpin 1s linear infinite,luvvaGoogleGlow 1.8s ease-in-out infinite!important;
+}
+/* Align WhatsApp heading block with the other provider dialogs. */
+.luvva-auth-dialog.provider-whatsapp .luvva-auth-brand{
+  margin-top:14px!important;
+  margin-bottom:12px!important;
+}
+@media(max-height:720px) and (min-width:521px){
+  .luvva-auth-dialog.provider-whatsapp .luvva-auth-brand{margin-top:10px!important;margin-bottom:9px!important}
+}
+@media(max-width:520px){
+  .luvva-auth-dialog.provider-whatsapp .luvva-auth-brand{margin-top:10px!important;margin-bottom:10px!important}
+}
 </style>
 </link><meta name="google-client-id" content="">
 <script src="https://accounts.google.com/gsi/client" async defer></script>

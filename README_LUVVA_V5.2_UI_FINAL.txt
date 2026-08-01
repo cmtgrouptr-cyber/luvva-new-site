@@ -20,3 +20,6 @@ Important deployment status:
 - Passwords and OTP codes are never written to the browser log or dashboard.
 
 Folder and internal version names were reset to Professional Edition v5.0. No V6 folder name is retained.
+
+
+Final visual alignment patch: V5.2.1

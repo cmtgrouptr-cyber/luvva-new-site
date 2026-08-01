@@ -7,3 +7,9 @@ LUVVA Secure Gateway — V5.2 UI Final
 - Marked this build as the frozen UI reference before real authentication integration in V6.0.
 
 - Final micro-interaction lock: 2px provider hover, 5% close-button scale/glow, and higher-contrast modal helper text.
+
+
+V5.2.1 FINAL ALIGNMENT
+- Preserved Google rotating loader and reinforced its soft gold breathing halo.
+- Lowered the WhatsApp heading block for consistent vertical alignment across provider dialogs.
+- No API, session, dashboard, or authentication logic was changed.
