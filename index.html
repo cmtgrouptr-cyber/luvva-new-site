@@ -2957,75 +2957,83 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 })();
   </script>
-<div style="position:fixed;right:10px;bottom:8px;z-index:20;font:10px/1.2 Arial;color:rgba(199,163,93,.58);pointer-events:none">LUVVA V6.0 · Dashboard Core</div>
+<div style="position:fixed;right:10px;bottom:8px;z-index:20;font:10px/1.2 Arial;color:rgba(199,163,93,.58);pointer-events:none">LUVVA V6.2 · Dashboard First Entry</div>
 
-<div class="luvva-owner-corner left" id="luvvaOwnerWeb" aria-hidden="true"></div><div class="luvva-owner-corner right" id="luvvaOwnerDash" aria-hidden="true"></div><div class="luvva-owner-modal" id="luvvaOwnerModal" role="dialog" aria-modal="true" aria-labelledby="luvvaOwnerTitle"><div class="luvva-owner-card"><button id="luvvaOwnerClose" class="luvva-owner-close" type="button">Close</button><h3 id="luvvaOwnerTitle">Secure Access</h3><div class="luvva-owner-qrbox" id="luvvaOwnerQr"><div class="luvva-owner-placeholder">Preparing secure owner verification…</div></div><p class="luvva-owner-count" id="luvvaOwnerCount"></p><p id="luvvaOwnerHelp">Scan with your registered phone and approve the request.</p></div></div>
-<script id="owner-access-v6-script">
+<div class="luvva-owner-corner left" id="luvvaOwnerWeb" aria-hidden="true"></div><div class="luvva-owner-corner right" id="luvvaOwnerDash" aria-hidden="true"></div><div class="luvva-owner-modal" id="luvvaOwnerModal" role="dialog" aria-modal="true" aria-labelledby="luvvaOwnerTitle"><div class="luvva-owner-card"><button id="luvvaOwnerClose" class="luvva-owner-close" type="button">Close</button><h3 id="luvvaOwnerTitle">Secure Access</h3><div class="luvva-owner-qrbox" id="luvvaOwnerQr"><div class="luvva-owner-placeholder">Preparing secure owner verification…</div></div><p class="luvva-owner-count" id="luvvaOwnerCount"></p><p id="luvvaOwnerHelp">Scan with your registered phone and approve the request.</p><button id="luvvaOwnerPreviewOpen" class="primary" type="button" style="display:none;width:100%;margin-top:10px">Open Dashboard V1</button></div></div>
+<script id="owner-access-v62-script">
 (()=>{
   const modal=document.getElementById('luvvaOwnerModal');
   const title=document.getElementById('luvvaOwnerTitle');
   const qr=document.getElementById('luvvaOwnerQr');
   const count=document.getElementById('luvvaOwnerCount');
   const help=document.getElementById('luvvaOwnerHelp');
-  let poll=null,timer=null;
+  const previewOpen=document.getElementById('luvvaOwnerPreviewOpen');
+  let poll=null,timer=null,currentType='dashboard';
 
   function stop(){clearInterval(poll);clearInterval(timer);poll=timer=null;}
-  function close(){stop();modal.classList.remove('open');}
+  function close(){stop();modal.classList.remove('open');previewOpen.style.display='none';}
+
+  function drawPreviewQr(label){
+    const c=document.createElement('canvas'); c.width=220; c.height=220;
+    const x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,220,220);
+    const size=29, cell=6, offset=23;
+    let seed=0; for(const ch of label) seed=(seed*31+ch.charCodeAt(0))>>>0;
+    const finder=(r,c0)=>{x.fillStyle='#111';x.fillRect(offset+c0*cell,offset+r*cell,7*cell,7*cell);x.fillStyle='#fff';x.fillRect(offset+(c0+1)*cell,offset+(r+1)*cell,5*cell,5*cell);x.fillStyle='#111';x.fillRect(offset+(c0+2)*cell,offset+(r+2)*cell,3*cell,3*cell)};
+    finder(0,0); finder(0,size-7); finder(size-7,0);
+    function reserved(r,c0){return (r<8&&c0<8)||(r<8&&c0>size-9)||(r>size-9&&c0<8)}
+    for(let r=0;r<size;r++)for(let c0=0;c0<size;c0++){
+      if(reserved(r,c0)) continue;
+      seed=(1664525*seed+1013904223)>>>0;
+      if((seed>>>30)&1){x.fillStyle='#111';x.fillRect(offset+c0*cell,offset+r*cell,cell,cell)}
+    }
+    c.setAttribute('aria-label',label+' preview QR'); c.style.width='100%'; c.style.height='100%';
+    qr.innerHTML=''; qr.appendChild(c);
+  }
 
   function bindCorner(el,type){
     let clicks=0,last=0;
     const hit=(ev)=>{
-      ev.preventDefault(); ev.stopPropagation();
-      const now=Date.now();
-      clicks=(now-last<=650)?clicks+1:1;
-      last=now;
-      if(clicks>=5){clicks=0;openAccess(type);}
+      ev.preventDefault(); ev.stopImmediatePropagation();
+      const now=Date.now(); clicks=(now-last<=800)?clicks+1:1; last=now;
+      if(clicks>=5){clicks=0;openAccess(type)}
     };
     el.addEventListener('pointerup',hit,{passive:false,capture:true});
-    el.addEventListener('dblclick',e=>{e.preventDefault();e.stopPropagation();},{capture:true});
+    el.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation()},{capture:true});
+    el.addEventListener('dblclick',e=>{e.preventDefault();e.stopImmediatePropagation()},{capture:true});
     el.addEventListener('contextmenu',e=>e.preventDefault());
   }
 
   async function openAccess(type){
-    stop();
-    modal.classList.add('open');
+    currentType=type; stop(); modal.classList.add('open'); previewOpen.style.display='none';
     title.textContent=type==='dashboard'?'Dashboard Access':'Website Access';
     qr.innerHTML='<div class="luvva-owner-placeholder">Creating one-time QR…</div>';
-    count.textContent='';
-    help.textContent='Scan with your registered phone and approve the request.';
-
+    count.textContent=''; help.textContent='Scan with your registered phone and approve the request.';
     try{
       if(location.protocol==='file:') throw new Error('LOCAL_PREVIEW');
       const r=await fetch('/api/owner-challenge-create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type})});
-      const j=await r.json();
-      if(!r.ok||!j.ok) throw new Error(j.message||'SERVICE_UNAVAILABLE');
+      const j=await r.json(); if(!r.ok||!j.ok) throw new Error(j.message||'SERVICE_UNAVAILABLE');
       qr.innerHTML=`<img src="${j.qr_data_url}" alt="One-time owner access QR">`;
       let left=Math.max(0,Math.ceil((new Date(j.expires_at)-Date.now())/1000));
       count.textContent=`Expires in ${left}s`;
       timer=setInterval(()=>{left--;count.textContent=left>0?`Expires in ${left}s`:'Expired';if(left<=0)clearInterval(timer)},1000);
       poll=setInterval(async()=>{
-        try{
-          const z=await fetch('/api/owner-challenge-status?t='+encodeURIComponent(j.token));
-          const x=await z.json();
-          if(x.status==='approved'){
-            stop();
-            sessionStorage.setItem(type==='dashboard'?'luvvaAdminOwnerSession':'luvvaOwnerSession',x.approved_session_token||'approved');
-            location.href=type==='dashboard'?'dashboard.html':'index.html?owner=1';
-          }else if(['denied','expired','used'].includes(x.status)){
-            stop();count.textContent='Request '+x.status;
-          }
+        try{const z=await fetch('/api/owner-challenge-status?t='+encodeURIComponent(j.token));const x=await z.json();
+          if(x.status==='approved'){stop();sessionStorage.setItem(type==='dashboard'?'luvvaAdminOwnerSession':'luvvaOwnerSession',x.approved_session_token||'approved');location.href=type==='dashboard'?'dashboard.html':'index.html?owner=1'}
+          else if(['denied','expired','used'].includes(x.status)){stop();count.textContent='Request '+x.status}
         }catch(_){ }
       },1800);
     }catch(e){
-      qr.innerHTML='<div class="luvva-owner-placeholder">SECURE QR AREA READY<br><br>Server activation is the next step.</div>';
-      count.textContent='Gateway wiring confirmed';
-      help.textContent='This preview confirms the five-click access point. The live QR will appear after the secure server is connected.';
+      drawPreviewQr(type==='dashboard'?'LUVVA DASHBOARD V6.2':'LUVVA WEBSITE OWNER V6.2');
+      count.textContent='Local preview · 60 seconds';
+      help.textContent=type==='dashboard'?'Preview mode: open Dashboard V1 now. Phone approval will replace this button after server activation.':'Preview mode: owner website access is ready for server activation.';
+      if(type==='dashboard') previewOpen.style.display='block';
     }
   }
 
+  previewOpen.addEventListener('click',()=>{sessionStorage.setItem('luvvaDashboardPreview','1');location.href='dashboard.html?preview=1'});
   document.getElementById('luvvaOwnerClose').addEventListener('click',close);
-  modal.addEventListener('click',e=>{if(e.target===modal)close();});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+  modal.addEventListener('click',e=>{if(e.target===modal)close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
   bindCorner(document.getElementById('luvvaOwnerWeb'),'website');
   bindCorner(document.getElementById('luvvaOwnerDash'),'dashboard');
 })();
