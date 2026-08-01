@@ -5,3 +5,5 @@ LUVVA Secure Gateway — V5.1 UI Final
 - Removed user-facing Google setup language; technical details remain in developer console only.
 - Preserved the approved LUVVA logo, layout, animations, and authentication windows.
 - Marked this build as the frozen UI reference before real authentication integration in V6.0.
+
+- Final micro-interaction lock: 2px provider hover, 5% close-button scale/glow, and higher-contrast modal helper text.

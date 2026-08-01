@@ -1473,6 +1473,16 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 .luvva-wechat-panel .luvva-auth-hint{max-width:360px!important;color:rgba(255,246,229,.78)!important}
 .luvva-google-ready-state span{display:none!important}
 @media(max-height:720px) and (min-width:521px){.luvva-wechat-qr{width:126px!important;height:126px!important}.luvva-wechat-qr svg{width:47px!important;height:47px!important}}
+
+/* ===== LUVVA V5.1 — final micro-interaction lock ===== */
+.luvva-v3-providers button{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease!important}
+.luvva-v3-providers button:hover,.luvva-v3-providers button:focus-visible{transform:translateY(-2px)!important;filter:brightness(1.045);outline:none}
+.luvva-v3-providers button:active{transform:translateY(0)!important;filter:brightness(.99)}
+.luvva-auth-close{transition:transform .18s ease,box-shadow .18s ease,background .18s ease,border-color .18s ease!important;transform-origin:center}
+.luvva-auth-close:hover,.luvva-auth-close:focus-visible{transform:scale(1.05)!important;background:rgba(255,220,150,.11)!important;border-color:rgba(242,201,111,.66)!important;box-shadow:0 0 0 3px rgba(229,185,94,.10),0 0 24px rgba(229,185,94,.44)!important;outline:none}
+.luvva-auth-hint{font-size:11px!important;line-height:1.5!important;color:rgba(255,248,235,.78)!important;text-shadow:0 1px 5px rgba(0,0,0,.72)}
+.luvva-auth-dialog.provider-whatsapp .luvva-auth-hint{margin-top:2px!important}
+@media(max-height:720px) and (min-width:521px){.luvva-auth-hint{font-size:10.4px!important;line-height:1.42!important}}
 </style>
 </link><meta name="google-client-id" content="">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
