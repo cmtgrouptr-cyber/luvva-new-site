@@ -1494,7 +1494,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 .luvva-auth-tabs{position:relative;overflow:hidden}
 .luvva-auth-tab{transition:color .22s ease,background .22s ease,border-color .22s ease,box-shadow .22s ease,transform .22s ease!important}
 .luvva-auth-tab.is-active{transform:translateY(-1px)}
-.luvva-phone-grid{grid-template-columns:120px 1fr!important}
+.luvva-phone-grid{grid-template-columns:185px 1fr!important}
 .luvva-redirecting-ring{position:relative;animation:luvvaSpin 1s linear infinite,luvvaGoogleGlow 1.8s ease-in-out infinite!important}
 .luvva-redirecting-ring::after{content:"";position:absolute;inset:7px;border-radius:50%;background:radial-gradient(circle,rgba(239,198,109,.26),transparent 68%);animation:luvvaGooglePulse 1.8s ease-in-out infinite}
 @keyframes luvvaGoogleGlow{0%,100%{box-shadow:0 0 13px rgba(213,155,48,.13)}50%{box-shadow:0 0 27px rgba(235,188,86,.38)}}
@@ -1504,7 +1504,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 .luvva-whatsapp-fields.is-code-step .luvva-auth-field:first-child{display:none}
 .luvva-whatsapp-fields.is-code-step .luvva-code-row{animation:luvvaOtpStepIn .28s ease both}
 @keyframes luvvaOtpStepIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:520px){.luvva-auth-dialog.provider-business .luvva-auth-title{font-size:27px!important}.luvva-phone-grid{grid-template-columns:112px 1fr!important}}
+@media(max-width:520px){.luvva-auth-dialog.provider-business .luvva-auth-title{font-size:27px!important}.luvva-phone-grid{grid-template-columns:145px 1fr!important}}
 
 /* ===== LUVVA V5.2.1 — final visual alignment approval ===== */
 /* Keep Google loader alive with a soft gold breathing halo while rotating. */
@@ -1524,8 +1524,19 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 }
 </style>
 <style id="owner-access-v6-style">
-.luvva-owner-corner{position:fixed;bottom:0;width:78px;height:78px;z-index:2147483000;opacity:0;background:transparent;cursor:default;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
-.luvva-owner-corner.left{left:0}.luvva-owner-corner.right{right:0}
+.luvva-v3-shell{position:relative}
+.luvva-owner-corner{position:absolute;bottom:14px;width:38px;height:38px;z-index:25;padding:0;border:1px solid rgba(205,166,91,.62);border-radius:7px;background:linear-gradient(145deg,rgba(255,255,255,.025),rgba(205,166,91,.025));box-shadow:inset 0 0 0 1px rgba(255,255,255,.018),0 0 12px rgba(174,128,51,.07);cursor:default;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;outline:none}
+.luvva-owner-corner::before,.luvva-owner-corner::after{content:"";position:absolute;background:rgba(226,190,116,.34);pointer-events:none}
+.luvva-owner-corner::before{width:13px;height:1px;left:50%;top:50%;transform:translate(-50%,-50%)}
+.luvva-owner-corner::after{width:1px;height:13px;left:50%;top:50%;transform:translate(-50%,-50%)}
+.luvva-owner-corner.left{left:14px}.luvva-owner-corner.right{right:14px}
+.luvva-owner-corner:hover{border-color:rgba(225,190,117,.78);box-shadow:inset 0 0 0 1px rgba(255,255,255,.025),0 0 17px rgba(193,145,58,.13)}
+.luvva-owner-corner:focus{outline:none}
+.luvva-security-summary,.luvva-enterprise-note{-webkit-user-select:none;user-select:none}
+.luvva-security-summary{margin-top:14px!important;margin-bottom:3px!important}
+.luvva-security-summary p{margin:0!important;font-size:10.5px!important;line-height:1.35!important;letter-spacing:.015em!important;color:rgba(211,199,180,.66)!important}
+.luvva-enterprise-note{margin-top:3px!important;padding-bottom:2px!important;font-size:9px!important;line-height:1.25!important;letter-spacing:.14em!important;color:rgba(190,153,89,.62)!important}
+@media(max-width:520px){.luvva-owner-corner{width:34px;height:34px;bottom:10px}.luvva-owner-corner.left{left:10px}.luvva-owner-corner.right{right:10px}.luvva-security-summary p{font-size:9.5px!important}.luvva-enterprise-note{font-size:8px!important}}
 .luvva-owner-modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(3,6,9,.78);z-index:2147483100;padding:22px;backdrop-filter:blur(7px)}
 .luvva-owner-modal.open{display:grid}
 .luvva-owner-card{width:min(370px,94vw);background:linear-gradient(145deg,#131b24,#080d12);border:1px solid #80643b;border-radius:22px;padding:20px;text-align:center;box-shadow:0 28px 90px #000;position:relative}
@@ -1600,7 +1611,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 <path d="M12 3v15"></path><path d="m4.5 11.5 7.5 7 7.5-7"></path>
 </svg>
 </div>
-<p class="luvva-v3-kicker">LUVVA SECURE ACCESS <span class="luvva-version-badge">V5.1</span></p>
+<p class="luvva-v3-kicker">LUVVA SECURE ACCESS <span class="luvva-version-badge">V6.3</span></p>
 <h1 class="luvva-v3-title" id="luvvaV3Title">Welcome to a more human future.</h1>
 <p class="luvva-v3-subtitle">
         A protected entrance to LUVVA — where identity, trust and human-centred intelligence meet.
@@ -1638,11 +1649,12 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </button>
 </div>
 <div class="luvva-security-summary" aria-label="Security and privacy">
-  <p>Your identity stays private and is used only to secure access.</p>
-  <p>LUVVA stores only the verified identity required for your session.</p>
+  <p>Verified identity • Private session • Secure access</p>
 </div>
-<div class="luvva-enterprise-note">Enterprise-grade secure authentication</div>
+<div class="luvva-enterprise-note">Enterprise-grade authentication</div>
 <div aria-live="polite" class="luvva-v3-status" hidden="" id="luvvaV3Status" role="status"></div>
+<button class="luvva-owner-corner left" id="luvvaOwnerWeb" type="button" aria-label="Owner website access"></button>
+<button class="luvva-owner-corner right" id="luvvaOwnerDash" type="button" aria-label="Owner dashboard access"></button>
 </div>
 <div aria-hidden="true" class="luvva-v3-success" id="luvvaV3Success">
 <div aria-hidden="true" class="luvva-v3-success-aura"></div>
@@ -1706,7 +1718,44 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 <label for="luvvaWhatsappPhone">WhatsApp number</label>
 <div class="luvva-phone-grid">
 <select aria-label="Country code" class="luvva-auth-input luvva-auth-select" id="luvvaCountryCode">
-<option value="+90">+90</option><option value="+970">+970</option><option value="+972">+972</option><option value="+966">+966</option><option value="+971">+971</option><option value="+962">+962</option><option value="+20">+20</option><option value="+44">+44</option><option value="+1">+1</option>
+<option value="+90">Türkiye (+90)</option>
+<option value="+970">Palestine (+970)</option>
+<option value="+972">Israel (+972)</option>
+<option value="+966">Saudi Arabia (+966)</option>
+<option value="+971">United Arab Emirates (+971)</option>
+<option value="+974">Qatar (+974)</option>
+<option value="+965">Kuwait (+965)</option>
+<option value="+973">Bahrain (+973)</option>
+<option value="+968">Oman (+968)</option>
+<option value="+962">Jordan (+962)</option>
+<option value="+961">Lebanon (+961)</option>
+<option value="+963">Syria (+963)</option>
+<option value="+964">Iraq (+964)</option>
+<option value="+20">Egypt (+20)</option>
+<option value="+212">Morocco (+212)</option>
+<option value="+213">Algeria (+213)</option>
+<option value="+216">Tunisia (+216)</option>
+<option value="+218">Libya (+218)</option>
+<option value="+249">Sudan (+249)</option>
+<option value="+1">United States / Canada (+1)</option>
+<option value="+44">United Kingdom (+44)</option>
+<option value="+49">Germany (+49)</option>
+<option value="+31">Netherlands (+31)</option>
+<option value="+32">Belgium (+32)</option>
+<option value="+33">France (+33)</option>
+<option value="+39">Italy (+39)</option>
+<option value="+34">Spain (+34)</option>
+<option value="+46">Sweden (+46)</option>
+<option value="+47">Norway (+47)</option>
+<option value="+41">Switzerland (+41)</option>
+<option value="+43">Austria (+43)</option>
+<option value="+86">China (+86)</option>
+<option value="+852">Hong Kong (+852)</option>
+<option value="+91">India (+91)</option>
+<option value="+81">Japan (+81)</option>
+<option value="+82">South Korea (+82)</option>
+<option value="+61">Australia (+61)</option>
+<option value="+64">New Zealand (+64)</option>
 </select>
 <input autocomplete="tel" class="luvva-auth-input" id="luvvaWhatsappPhone" inputmode="tel" placeholder="5XX XXX XXXX"/>
 </div>
@@ -2957,10 +3006,9 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 })();
   </script>
-<div style="position:fixed;right:10px;bottom:8px;z-index:20;font:10px/1.2 Arial;color:rgba(199,163,93,.58);pointer-events:none">LUVVA V6.2 · Dashboard First Entry</div>
 
-<div class="luvva-owner-corner left" id="luvvaOwnerWeb" aria-hidden="true"></div><div class="luvva-owner-corner right" id="luvvaOwnerDash" aria-hidden="true"></div><div class="luvva-owner-modal" id="luvvaOwnerModal" role="dialog" aria-modal="true" aria-labelledby="luvvaOwnerTitle"><div class="luvva-owner-card"><button id="luvvaOwnerClose" class="luvva-owner-close" type="button">Close</button><h3 id="luvvaOwnerTitle">Secure Access</h3><div class="luvva-owner-qrbox" id="luvvaOwnerQr"><div class="luvva-owner-placeholder">Preparing secure owner verification…</div></div><p class="luvva-owner-count" id="luvvaOwnerCount"></p><p id="luvvaOwnerHelp">Scan with your registered phone and approve the request.</p><button id="luvvaOwnerPreviewOpen" class="primary" type="button" style="display:none;width:100%;margin-top:10px">Open Dashboard V1</button></div></div>
-<script id="owner-access-v62-script">
+<div class="luvva-owner-modal" id="luvvaOwnerModal" role="dialog" aria-modal="true" aria-labelledby="luvvaOwnerTitle"><div class="luvva-owner-card"><button id="luvvaOwnerClose" class="luvva-owner-close" type="button">Close</button><h3 id="luvvaOwnerTitle">Secure Access</h3><div class="luvva-owner-qrbox" id="luvvaOwnerQr"><div class="luvva-owner-placeholder">Preparing secure owner verification…</div></div><p class="luvva-owner-count" id="luvvaOwnerCount"></p><p id="luvvaOwnerHelp">Scan with your registered phone and approve the request.</p><button id="luvvaOwnerPreviewOpen" class="primary" type="button" style="display:none;width:100%;margin-top:10px">Open Dashboard V1</button></div></div>
+<script id="owner-access-v63-script">
 (()=>{
   const modal=document.getElementById('luvvaOwnerModal');
   const title=document.getElementById('luvvaOwnerTitle');
@@ -3023,7 +3071,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
         }catch(_){ }
       },1800);
     }catch(e){
-      drawPreviewQr(type==='dashboard'?'LUVVA DASHBOARD V6.2':'LUVVA WEBSITE OWNER V6.2');
+      drawPreviewQr(type==='dashboard'?'LUVVA DASHBOARD V6.3':'LUVVA WEBSITE OWNER V6.3');
       count.textContent='Local preview · 60 seconds';
       help.textContent=type==='dashboard'?'Preview mode: open Dashboard V1 now. Phone approval will replace this button after server activation.':'Preview mode: owner website access is ready for server activation.';
       if(type==='dashboard') previewOpen.style.display='block';
