@@ -1,4 +1,4 @@
-LUVVA SECURE GATEWAY & DASHBOARD — UPDATE 1
+LUVVA SECURE GATEWAY & DASHBOARD — UPDATE 3
 Version: DU-3.0
 
 Included in this package:
@@ -34,3 +34,15 @@ Update 3 addition:
 - Added WeChat as a fourth secure entrance beneath WhatsApp.
 - Prepared a premium WeChat authorization panel for official OAuth / QR integration.
 - Live WeChat authorization requires the official WeChat App ID and approved redirect domain.
+
+FIX — GATEWAY VISUAL INTEGRITY
+- Replaced the corrupted embedded WebP artwork with a clean scalable SVG heart.
+- Refined WeChat authorization placeholder so it does not imitate a real QR code before activation.
+
+
+PROVIDER AUTHENTICATION POLISH
+- Google now uses the official Google Identity Services account chooser.
+- The public gateway hides Google or WeChat automatically until their production credentials are configured.
+- Local file preview may show a clean non-technical placeholder for layout review.
+- No provider passwords are collected by LUVVA for social sign-in.
+- Apple and Passkey are intentionally not exposed until their real services are connected.
