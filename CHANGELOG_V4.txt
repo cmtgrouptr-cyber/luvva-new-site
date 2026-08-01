@@ -1,0 +1,9 @@
+LUVVA V4 Secure Gateway — Professional Edition — V4.0
+
+- Built from the stable Update 2 base with the original approved LUVVA logo preserved.
+- Added high-resolution inline SVG WeChat identity option.
+- Added direct Google secure sign-in transition pattern inspired by leading global platforms.
+- Refined Business Email, WhatsApp OTP, modal animations, focus states, arrows, and premium hierarchy.
+- Added visible V4.0 identification beside LUVVA and at the page footer.
+- Added enterprise-grade authentication trust line.
+- No provider passwords or OTP codes are stored client-side.
