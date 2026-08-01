@@ -1,4 +1,4 @@
-LUVVA SECURE GATEWAY & DASHBOARD — UPDATE 3
+LUVVA SECURE GATEWAY & DASHBOARD — UPDATE 1
 Version: DU-3.0
 
 Included in this package:
@@ -22,27 +22,10 @@ Important deployment status:
 Folder and internal version names were reset to Dashboard Update 3. No V6 folder name is retained.
 
 
-UPDATE 3 FINAL GATEWAY REFINEMENTS
-- Removed internal scrolling from provider windows on standard laptop and mobile viewports.
-- Added compact, provider-specific modal heights and unified spacing.
-- Google uses the official Google Identity Services account chooser when the production Client ID is configured.
-- WhatsApp OTP remains inside the same window; the reset option appears only after code dispatch.
-- Added a short gold identity-verified confirmation before the Welcome screen.
-- Unified button dimensions and reduced excess whitespace.
-
-Update 3 addition:
-- Added WeChat as a fourth secure entrance beneath WhatsApp.
-- Prepared a premium WeChat authorization panel for official OAuth / QR integration.
-- Live WeChat authorization requires the official WeChat App ID and approved redirect domain.
-
-FIX — GATEWAY VISUAL INTEGRITY
-- Replaced the corrupted embedded WebP artwork with a clean scalable SVG heart.
-- Refined WeChat authorization placeholder so it does not imitate a real QR code before activation.
-
-
-PROVIDER AUTHENTICATION POLISH
-- Google now uses the official Google Identity Services account chooser.
-- The public gateway hides Google or WeChat automatically until their production credentials are configured.
-- Local file preview may show a clean non-technical placeholder for layout review.
-- No provider passwords are collected by LUVVA for social sign-in.
-- Apple and Passkey are intentionally not exposed until their real services are connected.
+UPDATE 3 NOTES
+- Built from the clean Update 2 source to preserve the approved original LUVVA logo.
+- Added WeChat as a fourth provider.
+- Google uses Google Identity Services and the official account chooser after configuring the Client ID.
+- Provider dialogs are compact, consistent, and avoid technical messages for visitors.
+- WhatsApp OTP stays in the same dialog.
+- No decorative replacement logo was introduced.
