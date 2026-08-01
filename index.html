@@ -578,7 +578,7 @@ body.luvva-v3-locked > footer {
 }
 .luvva-auth-backdrop.is-open { opacity: 1; visibility: visible; }
 .luvva-auth-dialog {
-  position: relative; width: min(100%, 430px); max-height: min(92vh, 680px); overflow: auto;
+  position: relative; width: min(100%, 430px); height: min(88vh, 630px); min-height: 560px; max-height: 630px; overflow: auto;
   padding: 28px 25px 24px; border: 1px solid rgba(229,185,94,.42); border-radius: 27px;
   background: linear-gradient(145deg, rgba(29,20,10,.98), rgba(7,5,3,.99));
   box-shadow: 0 34px 100px rgba(0,0,0,.82), 0 0 50px rgba(185,111,8,.12), inset 0 1px rgba(255,244,204,.19);
@@ -588,8 +588,9 @@ body.luvva-v3-locked > footer {
 .luvva-auth-close {
   position: absolute; top: 13px; right: 13px; width: 36px; height: 36px; border-radius: 50%;
   border: 1px solid rgba(229,185,94,.26); color: #f5d995; background: rgba(255,255,255,.035);
-  font: 300 24px/1 Arial; cursor: pointer;
+  font: 300 24px/1 Arial; cursor: pointer; transition: box-shadow .18s ease, background .18s ease, transform .18s ease;
 }
+.luvva-auth-close:hover, .luvva-auth-close:focus-visible { background: rgba(255,220,150,.10); box-shadow: 0 0 0 3px rgba(229,185,94,.10), 0 0 22px rgba(229,185,94,.42); transform: scale(1.05); outline:none; }
 .luvva-auth-brand { display: grid; place-items: center; gap: 10px; margin: 4px 0 20px; }
 .luvva-auth-brandmark {
   width: 62px; height: 62px; display: grid; place-items: center; border-radius: 18px;
@@ -602,7 +603,7 @@ body.luvva-v3-locked > footer {
 .luvva-auth-brandmark.linkedin { color:#fff; background:#0A66C2; font:700 30px Arial; }
 .luvva-auth-title { margin: 0; color: #fff0c3; font: 600 29px/1.15 "Cormorant Garamond", Georgia, serif; }
 .luvva-auth-subtitle { margin: 0; color: rgba(255,245,224,.58); font-size: 12px; line-height: 1.55; text-align:center; }
-.luvva-auth-form { display: grid; gap: 14px; }
+.luvva-auth-form { display: grid; gap: 14px; min-height: 410px; grid-template-rows: auto auto auto auto 1fr auto auto; }
 .luvva-auth-field { display: grid; gap: 7px; text-align: left; }
 .luvva-auth-field label { color: rgba(255,238,202,.78); font-size: 11px; font-weight: 700; letter-spacing: .04em; }
 .luvva-auth-input-wrap { position: relative; }
@@ -622,16 +623,22 @@ body.luvva-v3-locked > footer {
 .luvva-auth-link { color:#e2b85f; font-size:11px; text-decoration:none; }
 .luvva-auth-submit {
   min-height: 52px; margin-top: 3px; border: 1px solid rgba(255,220,143,.55); border-radius: 14px;
-  color: #241302; background: linear-gradient(180deg,#f8dda0,#c98c27); font: 800 13px "Montserrat",sans-serif;
-  letter-spacing:.02em; cursor:pointer; box-shadow: 0 13px 28px rgba(0,0,0,.35), inset 0 1px rgba(255,255,255,.5);
+  color: #241302; background: linear-gradient(180deg,#ffe7ae,#d99a2f); font: 800 13px "Montserrat",sans-serif;
+  letter-spacing:.02em; cursor:pointer; box-shadow: 0 13px 28px rgba(0,0,0,.35), 0 0 16px rgba(229,185,94,.13), inset 0 1px rgba(255,255,255,.62);
 }
 .luvva-auth-submit:disabled { opacity:.55; cursor:wait; }
-.luvva-auth-error { min-height: 18px; margin:0; color:#ffb0a1; font-size:11px; line-height:1.5; text-align:center; }
+.luvva-auth-error { min-height: 18px; margin:0; color:#fff0cf; font-size:11px; line-height:1.5; text-align:center; }
 .luvva-auth-error.is-success { color:#8fe0ad; }
 .luvva-auth-reset { display:none; margin:-2px auto 2px; border:0; background:transparent; color:#d7b17a; font:700 12px/1.2 Arial,sans-serif; cursor:pointer; text-decoration:underline; text-underline-offset:4px; }
 .luvva-auth-reset.is-visible { display:block; }
 .luvva-auth-reset:hover { color:#f0d2a5; }
-.luvva-auth-hint { margin:2px 0 0; color:rgba(255,245,224,.42); font-size:10px; line-height:1.55; text-align:center; }
+.luvva-auth-tabs { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0 0 14px; padding:4px; border:1px solid rgba(229,185,94,.18); border-radius:14px; background:rgba(255,255,255,.025); }
+.luvva-auth-tab { min-height:42px; border:1px solid transparent; border-radius:10px; background:transparent; color:rgba(255,245,224,.66); font:700 11px/1.2 "Montserrat",sans-serif; cursor:pointer; transition:.18s ease; }
+.luvva-auth-tab:hover { color:#fff0c3; background:rgba(255,255,255,.035); }
+.luvva-auth-tab.is-active { color:#2a1702; border-color:rgba(255,222,150,.62); background:linear-gradient(180deg,#f6daa0,#c98c27); box-shadow:inset 0 1px rgba(255,255,255,.6),0 7px 18px rgba(0,0,0,.25); }
+.luvva-google-secure-badge { display:flex; align-items:center; justify-content:center; gap:8px; margin:2px auto 14px; color:#f1d797; font:700 10px/1.2 "Montserrat",sans-serif; letter-spacing:.04em; }
+.luvva-google-secure-badge::before { content:"✓"; width:18px; height:18px; display:grid; place-items:center; border:1px solid rgba(229,185,94,.42); border-radius:50%; box-shadow:0 0 12px rgba(229,185,94,.16); }
+.luvva-auth-hint { margin:2px 0 0; color:rgba(255,245,224,.48); font-size:9px; line-height:1.5; text-align:center; }
 .luvva-phone-grid { display:grid; grid-template-columns: 105px 1fr; gap:9px; }
 .luvva-auth-select { padding-right:8px; }
 .luvva-code-row { display:none; }
@@ -1455,7 +1462,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </div>
 </div>
 </section>
-<!-- Secure identity provider window — Dashboard Update 1 -->
+<!-- Secure identity provider window — Dashboard Update 2 -->
 <div aria-hidden="true" class="luvva-auth-backdrop" id="luvvaAuthBackdrop">
 <section aria-labelledby="luvvaAuthTitle" aria-modal="true" class="luvva-auth-dialog" role="dialog">
 <button aria-label="Close" class="luvva-auth-close" id="luvvaAuthClose" type="button">×</button>
@@ -1466,12 +1473,13 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </div>
 <form class="luvva-auth-form" id="luvvaAuthForm" novalidate="">
 <div id="luvvaGoogleFields" hidden>
+  <div class="luvva-google-secure-badge">Secure Google Authentication</div>
   <div id="luvvaGoogleOfficialButton" style="display:flex;justify-content:center;min-height:44px"></div>
   <p class="luvva-auth-hint" style="margin-top:12px">Google completes identity confirmation on its own secure screen. LUVVA never receives your Google password.</p>
 </div>
-<div id="luvvaBusinessModes" hidden style="display:none;gap:8px;margin:0 0 14px">
-  <button class="luvva-auth-reset is-visible" id="luvvaBusinessPasswordMode" type="button" style="flex:1">Use password</button>
-  <button class="luvva-auth-reset is-visible" id="luvvaBusinessCodeMode" type="button" style="flex:1">Send email code</button>
+<div id="luvvaBusinessModes" class="luvva-auth-tabs" hidden style="display:none">
+  <button class="luvva-auth-tab is-active" id="luvvaBusinessPasswordMode" type="button">Password</button>
+  <button class="luvva-auth-tab" id="luvvaBusinessCodeMode" type="button">Verification Code</button>
 </div>
 <div id="luvvaStandardFields">
 <div class="luvva-auth-field">
@@ -2067,11 +2075,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   function renderGoogleOfficialButton() {
     googleOfficialButton.innerHTML = "";
     if (!GOOGLE_CLIENT_ID) {
-      googleOfficialButton.innerHTML = '<div class="luvva-auth-error" style="display:block">Google Client ID is not configured yet. Add the production Web Client ID before deployment.</div>';
+      googleOfficialButton.innerHTML = '<div class="luvva-auth-error" style="display:block">Google sign-in is temporarily unavailable. Please use another secure method.</div>'; console.warn('LUVVA: Google Client ID is not configured.');
       return;
     }
     if (!window.google?.accounts?.id) {
-      googleOfficialButton.innerHTML = '<div class="luvva-auth-error" style="display:block">Google Identity Services is still loading. Please reopen this window in a moment.</div>';
+      googleOfficialButton.innerHTML = '<div class="luvva-auth-error" style="display:block">Google sign-in is taking longer than expected. Please try again in a moment.</div>'; console.warn('LUVVA: Google Identity Services is still loading.');
       return;
     }
     google.accounts.id.initialize({
@@ -2080,7 +2088,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
         const profile = decodeGoogleCredential(response.credential);
         if (!profile?.sub) { errorBox.textContent = "Google identity could not be verified."; return; }
         identity.value = profile.email || profile.sub;
-        try { localStorage.setItem("luvvaVerifiedProviderSubjectDU1", JSON.stringify({provider:"Google", subject:profile.sub, email:profile.email||"", name:profile.name||"", verifiedAt:Date.now()})); } catch (_) {}
+        try { localStorage.setItem("luvvaVerifiedProviderSubjectDU2", JSON.stringify({provider:"Google", subject:profile.sub, email:profile.email||"", name:profile.name||"", verifiedAt:Date.now()})); } catch (_) {}
         storeVisitorIdentity();
         showWelcome();
       }
@@ -2092,6 +2100,8 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     businessAuthMode = mode;
     const passField = password.closest('.luvva-auth-field');
     const forgotRow = document.getElementById("luvvaForgotLink")?.parentElement;
+    businessPasswordMode?.classList.toggle("is-active", mode === "password");
+    businessCodeMode?.classList.toggle("is-active", mode === "code");
     if (mode === "password") {
       passField.hidden = false;
       if (forgotRow) forgotRow.hidden = false;
@@ -2290,11 +2300,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   const FIRST_NOTICE_AFTER_ACTIVE_MS = 3 * 60 * 1000;
   const SECOND_NOTICE_AFTER_ACTIVE_MS = 40 * 60 * 1000;
   const NOTICE_VISIBLE_MS = 5 * 1000;
-  const SESSION_KEY = "luvvaVisitorSessionDU1";
-  const VISITOR_KEY = "luvvaVisitorIdentityDU1";
-  const VISITOR_LOG_KEY = "luvvaVisitorLogDU1";
-  const CURRENT_VISIT_KEY = "luvvaCurrentVisitDU1";
-  const ACCESS_POLICY_KEY = "luvvaGatewayAccessPolicyDU1";
+  const SESSION_KEY = "luvvaVisitorSessionDU2";
+  const VISITOR_KEY = "luvvaVisitorIdentityDU2";
+  const VISITOR_LOG_KEY = "luvvaVisitorLogDU2";
+  const CURRENT_VISIT_KEY = "luvvaCurrentVisitDU2";
+  const ACCESS_POLICY_KEY = "luvvaGatewayAccessPolicyDU2";
   const ACCESS_PROVIDERS = ["Business Email", "Google", "WhatsApp"];
   const accessLockedModal = document.getElementById("luvvaAccessLocked");
 
@@ -2628,7 +2638,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       return { response, result };
     } catch (error) {
       if (error && error.name === "AbortError") {
-        throw new Error("The verification service did not respond. Check the Vercel API deployment and WhatsApp verification settings.");
+        console.error("LUVVA verification service timeout. Check Vercel and provider settings."); throw new Error("The verification service did not respond. Please try again shortly.");
       }
       throw error;
     } finally {
@@ -2667,7 +2677,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
         submit.textContent = "Sending…";
         try {
           const { response, result } = await fetchJsonWithTimeout("/api/whatsapp-otp-send", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ phone:fullPhone }) });
-          if (!response.ok || !result.ok) throw new Error(result.message || "WhatsApp verification is not active yet. Deploy the api folder and add the Twilio Verify credentials in Vercel.");
+          if (!response.ok || !result.ok) console.error("LUVVA WhatsApp verification unavailable:", result); throw new Error("WhatsApp verification is temporarily unavailable. Please try another secure method.");
           whatsappCodeSent = true;
           startOtpCountdown(60);
           codeRow.classList.add("is-visible"); code.value="";
@@ -2732,6 +2742,6 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 })();
   </script>
-<div style="position:fixed;right:10px;bottom:8px;z-index:20;font:10px/1.2 Arial;color:rgba(199,163,93,.55);pointer-events:none">Dashboard Update 1 · DU-1.0</div>
+<div style="position:fixed;right:10px;bottom:8px;z-index:20;font:10px/1.2 Arial;color:rgba(199,163,93,.55);pointer-events:none">Dashboard Update 2 · DU-2.0</div>
 </body>
 </html>
