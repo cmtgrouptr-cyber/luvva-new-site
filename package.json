@@ -1,8 +1,9 @@
 {
-  "name": "luvva-secure-gateway",
+  "name": "luvva-secure-gateway-dashboard-update-1",
   "private": true,
-  "version": "27.0.0",
+  "version": "1.0.0",
   "engines": {
     "node": ">=20"
-  }
+  },
+  "description": "LUVVA Secure Gateway & Dashboard Update 1"
 }

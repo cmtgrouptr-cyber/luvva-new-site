@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="LUVVA — Human-Centered AI. It loves. It protects. It powers. It connects." name="description"/>
 <meta content="#efe0c8" name="theme-color"/>
-<title>LUVVA | Human-Centered AI</title>
+<title>LUVVA Secure Gateway & Dashboard — Update 1</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
@@ -1348,7 +1348,9 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   .luvva-contact-form-heading h3 { font-size: clamp(27px, 8vw, 34px); }
 }
 </style>
-</link></head>
+</link><meta name="google-client-id" content="">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
@@ -1437,14 +1439,9 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 <span class="luvva-v5-provider-label">Continue with WhatsApp</span>
 <span aria-hidden="true" class="luvva-v3-arrow">›</span>
 </button>
-<button data-luvva-v3-provider="LinkedIn" type="button">
-<span aria-hidden="true" class="luvva-v3-provider-icon luvva-v3-linkedin">in</span>
-<span class="luvva-v5-provider-label">Continue with LinkedIn</span>
-<span aria-hidden="true" class="luvva-v3-arrow">›</span>
-</button>
 </div>
 <p class="luvva-v3-note">
-        Prototype authentication interface for business email, Google, WhatsApp and LinkedIn. LUVVA does not store passwords or verification codes.
+        Your identity remains private and is used only to secure access.<br><span style="opacity:.78">Authentication is completed through the selected identity provider. LUVVA stores only the verified identity required for secure access.</span>
       </p>
 <div aria-live="polite" class="luvva-v3-status" hidden="" id="luvvaV3Status" role="status"></div>
 </div>
@@ -1458,7 +1455,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </div>
 </div>
 </section>
-<!-- Four independent provider windows. Prototype only: no credentials are stored. -->
+<!-- Secure identity provider window — Dashboard Update 1 -->
 <div aria-hidden="true" class="luvva-auth-backdrop" id="luvvaAuthBackdrop">
 <section aria-labelledby="luvvaAuthTitle" aria-modal="true" class="luvva-auth-dialog" role="dialog">
 <button aria-label="Close" class="luvva-auth-close" id="luvvaAuthClose" type="button">×</button>
@@ -1468,6 +1465,14 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 <p class="luvva-auth-subtitle" id="luvvaAuthSubtitle">Enter your details to continue securely.</p>
 </div>
 <form class="luvva-auth-form" id="luvvaAuthForm" novalidate="">
+<div id="luvvaGoogleFields" hidden>
+  <div id="luvvaGoogleOfficialButton" style="display:flex;justify-content:center;min-height:44px"></div>
+  <p class="luvva-auth-hint" style="margin-top:12px">Google completes identity confirmation on its own secure screen. LUVVA never receives your Google password.</p>
+</div>
+<div id="luvvaBusinessModes" hidden style="display:none;gap:8px;margin:0 0 14px">
+  <button class="luvva-auth-reset is-visible" id="luvvaBusinessPasswordMode" type="button" style="flex:1">Use password</button>
+  <button class="luvva-auth-reset is-visible" id="luvvaBusinessCodeMode" type="button" style="flex:1">Send email code</button>
+</div>
 <div id="luvvaStandardFields">
 <div class="luvva-auth-field">
 <label for="luvvaAuthIdentity" id="luvvaIdentityLabel">Email address</label>
@@ -1483,6 +1488,10 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </div>
 </div>
 <div class="luvva-auth-row" style="margin-top:9px"><span></span><a class="luvva-auth-link" href="#" id="luvvaForgotLink">Forgot password?</a></div>
+<div class="luvva-auth-field luvva-code-row" id="luvvaEmailCodeRow">
+<label for="luvvaEmailCode">Email verification code</label>
+<input class="luvva-auth-input" id="luvvaEmailCode" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" autocomplete="one-time-code" placeholder="6-digit code"/>
+</div>
 </div>
 <div hidden="" id="luvvaWhatsappFields">
 <div class="luvva-auth-field">
@@ -1500,9 +1509,10 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </div>
 </div>
 <p class="luvva-auth-error" id="luvvaAuthError" role="alert"></p>
+<div id="luvvaOtpCountdown" style="text-align:center;font-size:12px;color:#9b8155;min-height:18px"></div>
 <button class="luvva-auth-reset" id="luvvaWhatsappReset" type="button" aria-label="Use another WhatsApp number">↻ Use another number</button>
 <button class="luvva-auth-submit" id="luvvaAuthSubmit" type="submit">Continue securely</button>
-<p class="luvva-auth-hint">Secure prototype interface. LUVVA does not save passwords or verification codes.</p>
+<p class="luvva-auth-hint">Authentication is performed through the selected provider. Passwords and verification codes are never stored by LUVVA.</p>
 </form>
 </section>
 </div>
@@ -1726,7 +1736,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   <section aria-labelledby="luvvaSessionExpiredTitle" aria-modal="true" class="luvva-session-card" role="dialog">
     <div aria-hidden="true" class="luvva-session-mark">⌛</div>
     <h2 id="luvvaSessionExpiredTitle">Your Visit Has Ended</h2>
-    <p>For your privacy and the protection of LUVVA, the 25-minute session has ended. Please enter your details again to continue.</p>
+    <p>For your privacy and the protection of LUVVA, the 45-minute session has ended. Please enter your details again to continue.</p>
     <div class="luvva-session-actions">
       <button class="luvva-session-button primary" id="luvvaReenterButton" type="button">Enter again</button>
     </div>
@@ -1923,6 +1933,18 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   const identityLabel = document.getElementById("luvvaIdentityLabel");
   const password = document.getElementById("luvvaAuthPassword");
   const passwordToggle = document.getElementById("luvvaPasswordToggle");
+  const googleFields = document.getElementById("luvvaGoogleFields");
+  const googleOfficialButton = document.getElementById("luvvaGoogleOfficialButton");
+  const businessModes = document.getElementById("luvvaBusinessModes");
+  const businessPasswordMode = document.getElementById("luvvaBusinessPasswordMode");
+  const businessCodeMode = document.getElementById("luvvaBusinessCodeMode");
+  const emailCodeRow = document.getElementById("luvvaEmailCodeRow");
+  const emailCode = document.getElementById("luvvaEmailCode");
+  const otpCountdown = document.getElementById("luvvaOtpCountdown");
+  let businessAuthMode = "password";
+  let emailCodeSent = false;
+  let otpTimer = null;
+  const GOOGLE_CLIENT_ID = document.querySelector('meta[name="google-client-id"]')?.content || "";
   const standardFields = document.getElementById("luvvaStandardFields");
   const whatsappFields = document.getElementById("luvvaWhatsappFields");
   const phone = document.getElementById("luvvaWhatsappPhone");
@@ -1940,8 +1962,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   const icons = {
     "Business Email": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>`,
     Google: `<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3Z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.5L15.4 17c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22Z"/><path fill="#FBBC05" d="M6.4 13.9a6 6 0 0 1 0-3.8V7.5H3.1a10 10 0 0 0 0 9l3.3-2.6Z"/><path fill="#EA4335" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.8A9.7 9.7 0 0 0 3.1 7.5l3.3 2.6C7.2 7.8 9.4 6 12 6Z"/></svg>`,
-    WhatsApp: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a8.7 8.7 0 0 0-7.5 13.1L3.4 21l5-1.3A8.7 8.7 0 1 0 12 3Zm0 15.8c-1.2 0-2.4-.3-3.5-.9l-.3-.2-3 .8.8-2.9-.2-.3a7 7 0 1 1 6.2 3.5Z"/></svg>`,
-    LinkedIn: `in`
+    WhatsApp: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a8.7 8.7 0 0 0-7.5 13.1L3.4 21l5-1.3A8.7 8.7 0 1 0 12 3Zm0 15.8c-1.2 0-2.4-.3-3.5-.9l-.3-.2-3 .8.8-2.9-.2-.3a7 7 0 1 1 6.2 3.5Z"/></svg>`
   };
 
   let activeProvider = "";
@@ -2026,33 +2047,116 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   function resetForm() {
     form.reset(); errorBox.textContent = ""; errorBox.classList.remove("is-success"); whatsappCodeSent = false;
-    codeRow.classList.remove("is-visible"); password.type = "password";
+    codeRow.classList.remove("is-visible");
+    if (emailCodeRow) emailCodeRow.classList.remove("is-visible");
+    if (googleFields) googleFields.hidden = true;
+    if (businessModes) { businessModes.hidden = true; businessModes.style.display = "none"; }
+    if (otpCountdown) otpCountdown.textContent = "";
+    if (otpTimer) { clearInterval(otpTimer); otpTimer = null; }
+    businessAuthMode = "password"; emailCodeSent = false; password.type = "password";
     submit.disabled = false;
   }
 
+  function decodeGoogleCredential(token) {
+    try {
+      const payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+      return JSON.parse(decodeURIComponent(Array.prototype.map.call(atob(payload), c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')));
+    } catch (_) { return null; }
+  }
+
+  function renderGoogleOfficialButton() {
+    googleOfficialButton.innerHTML = "";
+    if (!GOOGLE_CLIENT_ID) {
+      googleOfficialButton.innerHTML = '<div class="luvva-auth-error" style="display:block">Google Client ID is not configured yet. Add the production Web Client ID before deployment.</div>';
+      return;
+    }
+    if (!window.google?.accounts?.id) {
+      googleOfficialButton.innerHTML = '<div class="luvva-auth-error" style="display:block">Google Identity Services is still loading. Please reopen this window in a moment.</div>';
+      return;
+    }
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: (response) => {
+        const profile = decodeGoogleCredential(response.credential);
+        if (!profile?.sub) { errorBox.textContent = "Google identity could not be verified."; return; }
+        identity.value = profile.email || profile.sub;
+        try { localStorage.setItem("luvvaVerifiedProviderSubjectDU1", JSON.stringify({provider:"Google", subject:profile.sub, email:profile.email||"", name:profile.name||"", verifiedAt:Date.now()})); } catch (_) {}
+        storeVisitorIdentity();
+        showWelcome();
+      }
+    });
+    google.accounts.id.renderButton(googleOfficialButton, {theme:"outline", size:"large", shape:"pill", text:"continue_with", width:320});
+  }
+
+  function setBusinessMode(mode) {
+    businessAuthMode = mode;
+    const passField = password.closest('.luvva-auth-field');
+    const forgotRow = document.getElementById("luvvaForgotLink")?.parentElement;
+    if (mode === "password") {
+      passField.hidden = false;
+      if (forgotRow) forgotRow.hidden = false;
+      emailCodeRow.classList.remove("is-visible");
+      emailCodeSent = false;
+      submit.textContent = "Continue with password";
+    } else {
+      passField.hidden = true;
+      if (forgotRow) forgotRow.hidden = true;
+      emailCodeRow.classList.toggle("is-visible", emailCodeSent);
+      submit.textContent = emailCodeSent ? "Verify and continue" : "Send verification code";
+    }
+  }
+
+  function startOtpCountdown(seconds = 60) {
+    if (otpTimer) clearInterval(otpTimer);
+    let remaining = seconds;
+    otpCountdown.textContent = `You can request another code in ${remaining}s`;
+    otpTimer = setInterval(() => {
+      remaining -= 1;
+      otpCountdown.textContent = remaining > 0 ? `You can request another code in ${remaining}s` : "You may request a new code now.";
+      if (remaining <= 0) { clearInterval(otpTimer); otpTimer = null; }
+    }, 1000);
+  }
+
   function openProvider(provider) {
-    activeProvider = provider; resetForm();
+    activeProvider = provider;
+    resetForm();
     const isWhatsApp = provider === "WhatsApp";
-    standardFields.hidden = isWhatsApp;
+    const isGoogle = provider === "Google";
+    const isBusiness = provider === "Business Email";
+
+    standardFields.hidden = isWhatsApp || isGoogle;
     whatsappFields.hidden = !isWhatsApp;
-    brandmark.className = "luvva-auth-brandmark " + (provider === "Business Email" ? "business" : provider.toLowerCase());
+    googleFields.hidden = !isGoogle;
+    businessModes.hidden = !isBusiness;
+    businessModes.style.display = isBusiness ? "flex" : "none";
+
+    brandmark.className = "luvva-auth-brandmark " + (isBusiness ? "business" : provider.toLowerCase());
     brandmark.innerHTML = icons[provider] || "";
-    title.textContent = provider === "Business Email" ? "Business Email Sign In" : `Continue with ${provider}`;
-    subtitle.textContent = isWhatsApp ? "Enter your WhatsApp number to receive a verification code." : "Enter your details to continue securely.";
-    identityLabel.textContent = provider === "LinkedIn" ? "Email or phone" : "Email address";
-    identity.placeholder = provider === "Business Email" ? "name@company.com" : provider === "LinkedIn" ? "Email or phone" : "name@example.com";
-    submit.textContent = isWhatsApp ? "Send verification code" : `Continue with ${provider}`;
+    title.textContent = isBusiness ? "Business Email Sign In" : `Continue with ${provider}`;
+    subtitle.textContent = isWhatsApp
+      ? "Enter your WhatsApp number to receive a verification code."
+      : isGoogle
+        ? "Confirm your identity using Google’s secure sign-in screen."
+        : "Use a LUVVA password or a verification code sent to your business email.";
+    identityLabel.textContent = "Email address";
+    identity.placeholder = isBusiness ? "name@company.com" : "name@example.com";
+    submit.hidden = isGoogle;
+    submit.textContent = isWhatsApp ? "Send verification code" : "Continue with password";
     if (whatsappReset) whatsappReset.classList.toggle("is-visible", isWhatsApp);
+    if (isBusiness) setBusinessMode("password");
+
     if (returningSession && savedSession && savedVisitor && provider === savedVisitor.provider) {
       title.textContent = `Return with ${provider}`;
-      subtitle.textContent = `Your verified session is still active. Continue through the same entrance without requesting a new verification code.`;
-      submit.textContent = "Continue current session";
-      if (isWhatsApp) {
-        codeRow.classList.remove("is-visible");
-      }
+      subtitle.textContent = "Your verified session is still active. Continue through the same entrance.";
+      if (!isGoogle) submit.textContent = "Continue current session";
+      if (isWhatsApp) codeRow.classList.remove("is-visible");
     }
-    backdrop.classList.add("is-open"); backdrop.setAttribute("aria-hidden", "false");
-    setTimeout(() => (isWhatsApp ? phone : identity).focus(), 120);
+
+    backdrop.classList.add("is-open");
+    backdrop.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    if (isGoogle) setTimeout(renderGoogleOfficialButton, 120);
+    else setTimeout(() => (isWhatsApp ? phone : identity).focus(), 120);
   }
 
   function closeProvider() {
@@ -2140,11 +2244,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     const requestedProvider = button.dataset.luvvaV3Provider || "Business Email";
     const policy = readAccessPolicy();
     if (!policy.contactCompleted && (policy.locked || ACCESS_PROVIDERS.every(item => policy.usedProviders.includes(item)))) {
-      showAccessLocked("All available 25-minute trial entrances on this device were used without completing the contact information. Please contact CMT GROUP so access can be reviewed and restored.");
+      showAccessLocked("All available 45-minute trial entrances on this device were used without completing the contact information. Please contact CMT GROUP so access can be reviewed and restored.");
       return;
     }
     if (!policy.contactCompleted && policy.usedProviders.includes(requestedProvider)) {
-      showAccessLocked(`${requestedProvider} has already provided its 25-minute trial on this device. Use another unused official entrance, or contact CMT GROUP to restore access.`);
+      showAccessLocked(`${requestedProvider} has already provided its 45-minute trial on this device. Use another unused official entrance, or contact CMT GROUP to restore access.`);
       return;
     }
     await enableAudio();
@@ -2168,6 +2272,9 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     setTimeout(() => phone.focus(), 80);
   });
 
+  if (businessPasswordMode) businessPasswordMode.addEventListener("click", () => setBusinessMode("password"));
+  if (businessCodeMode) businessCodeMode.addEventListener("click", () => setBusinessMode("code"));
+
   closeButton.addEventListener("click", closeProvider);
   backdrop.addEventListener("click", e => { if (e.target === backdrop) closeProvider(); });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && backdrop.classList.contains("is-open")) closeProvider(); });
@@ -2179,16 +2286,16 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     e.preventDefault(); errorBox.textContent = "Password recovery will be connected to the official provider in the live version.";
   });
 
-  const SESSION_DURATION_MS = 25 * 60 * 1000;
+  const SESSION_DURATION_MS = 45 * 60 * 1000;
   const FIRST_NOTICE_AFTER_ACTIVE_MS = 3 * 60 * 1000;
-  const SECOND_NOTICE_AFTER_ACTIVE_MS = 20 * 60 * 1000;
+  const SECOND_NOTICE_AFTER_ACTIVE_MS = 40 * 60 * 1000;
   const NOTICE_VISIBLE_MS = 5 * 1000;
-  const SESSION_KEY = "luvvaVisitorSessionV31";
-  const VISITOR_KEY = "luvvaVisitorIdentityV23";
-  const VISITOR_LOG_KEY = "luvvaVisitorLogV23";
-  const CURRENT_VISIT_KEY = "luvvaCurrentVisitV23";
-  const ACCESS_POLICY_KEY = "luvvaGatewayAccessPolicyV37";
-  const ACCESS_PROVIDERS = ["Business Email", "Google", "WhatsApp", "LinkedIn"];
+  const SESSION_KEY = "luvvaVisitorSessionDU1";
+  const VISITOR_KEY = "luvvaVisitorIdentityDU1";
+  const VISITOR_LOG_KEY = "luvvaVisitorLogDU1";
+  const CURRENT_VISIT_KEY = "luvvaCurrentVisitDU1";
+  const ACCESS_POLICY_KEY = "luvvaGatewayAccessPolicyDU1";
+  const ACCESS_PROVIDERS = ["Business Email", "Google", "WhatsApp"];
   const accessLockedModal = document.getElementById("luvvaAccessLocked");
 
   // V39 temporary open-access mode: identity restrictions are disabled until Dashboard and server database are ready.
@@ -2535,7 +2642,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     // V16: showWelcome controls the exact cover-then-hide sequence to eliminate every flash.
     const isWhatsApp = activeProvider === "WhatsApp";
 
-    // Returning within the active 25-minute credit: the same verified provider
+    // Returning within the active 45-minute credit: the same verified provider
     // opens the visit again through the gateway without another OTP/password check.
     if (returningSession && savedSession && savedVisitor && activeProvider === savedVisitor.provider && (savedSession.remainingMs || 0) > 0) {
       submit.disabled = true;
@@ -2562,6 +2669,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
           const { response, result } = await fetchJsonWithTimeout("/api/whatsapp-otp-send", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ phone:fullPhone }) });
           if (!response.ok || !result.ok) throw new Error(result.message || "WhatsApp verification is not active yet. Deploy the api folder and add the Twilio Verify credentials in Vercel.");
           whatsappCodeSent = true;
+          startOtpCountdown(60);
           codeRow.classList.add("is-visible"); code.value="";
           subtitle.textContent = `A 6-digit verification code was sent by WhatsApp to ${fullPhone}.`;
           errorBox.textContent = "Enter the code received on WhatsApp."; errorBox.classList.add("is-success");
@@ -2583,9 +2691,29 @@ body.luvva-page-revealing.luvva-page-visible > footer {
         errorBox.textContent=err.message||"The verification code is incorrect or expired."; code.select(); submit.textContent="Verify and continue"; submit.disabled=false; return;
       }
     } else {
-      if (!identity.value.trim()) { errorBox.textContent = "Please enter your email or account identity."; submit.disabled = false; return; }
-      if (activeProvider !== "LinkedIn" && !validEmail(identity.value.trim())) { errorBox.textContent = "Please enter a valid email address."; submit.disabled = false; return; }
-      if (!password.value) { errorBox.textContent = "Please enter your password for this prototype test."; submit.disabled = false; return; }
+      if (!identity.value.trim() || !validEmail(identity.value.trim())) { errorBox.textContent = "Please enter a valid email address."; submit.disabled = false; return; }
+      if (activeProvider === "Business Email" && businessAuthMode === "code") {
+        if (!emailCodeSent) {
+          submit.disabled = true; submit.textContent = "Sending…";
+          try {
+            const { response, result } = await fetchJsonWithTimeout("/api/email-otp-send", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:identity.value.trim()})});
+            if (!response.ok || !result.ok) throw new Error(result.message || "Business email verification is not configured yet.");
+            emailCodeSent = true; emailCodeRow.classList.add("is-visible"); emailCode.value="";
+            errorBox.textContent = "Enter the 6-digit code sent to your business email."; errorBox.classList.add("is-success");
+            submit.textContent = "Verify and continue"; submit.disabled = false; setTimeout(()=>emailCode.focus(),80); return;
+          } catch(err) { errorBox.textContent = err.message || "Unable to send the email verification code."; submit.textContent="Send verification code"; submit.disabled=false; return; }
+        }
+        const enteredEmailCode = emailCode.value.replace(/\D/g,"");
+        if (enteredEmailCode.length !== 6) { errorBox.textContent = "Please enter the 6-digit email code."; submit.disabled=false; return; }
+        submit.disabled=true; submit.textContent="Verifying…";
+        try {
+          const { response, result } = await fetchJsonWithTimeout("/api/email-otp-verify", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:identity.value.trim(),code:enteredEmailCode})});
+          if (!response.ok || !result.ok || !result.approved) throw new Error(result.message || "The email code is incorrect or expired.");
+        } catch(err) { errorBox.textContent=err.message||"The email code is incorrect or expired."; submit.textContent="Verify and continue"; submit.disabled=false; return; }
+      } else if (activeProvider === "Business Email") {
+        if (!password.value) { errorBox.textContent = "Please enter your LUVVA account password."; submit.disabled = false; return; }
+        // Password verification must be completed server-side. This package keeps the UI ready and does not store the password.
+      }
     }
     storeVisitorIdentity();
     submit.disabled = true;
@@ -2604,5 +2732,6 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 })();
   </script>
+<div style="position:fixed;right:10px;bottom:8px;z-index:20;font:10px/1.2 Arial;color:rgba(199,163,93,.55);pointer-events:none">Dashboard Update 1 · DU-1.0</div>
 </body>
 </html>
