@@ -2022,7 +2022,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   <section aria-labelledby="luvvaSessionExpiredTitle" aria-modal="true" class="luvva-session-card" role="dialog">
     <div aria-hidden="true" class="luvva-session-mark">⌛</div>
     <h2 id="luvvaSessionExpiredTitle">Your Visit Has Ended</h2>
-    <p>For your privacy and the protection of LUVVA, the 45-minute session has ended. Please enter your details again to continue.</p>
+    <p>For your privacy and the protection of LUVVA, the 25-minute session has ended. Please enter your details again to continue.</p>
     <div class="luvva-session-actions">
       <button class="luvva-session-button primary" id="luvvaReenterButton" type="button">Enter again</button>
     </div>
@@ -2232,7 +2232,16 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   let businessAuthMode = "password";
   let emailCodeSent = false;
   let otpTimer = null;
-  const GOOGLE_CLIENT_ID = document.querySelector('meta[name="google-client-id"]')?.content || "";
+  let GOOGLE_CLIENT_ID = document.querySelector('meta[name="google-client-id"]')?.content || "";
+  async function loadPublicAuthConfig() {
+    if (GOOGLE_CLIENT_ID) return GOOGLE_CLIENT_ID;
+    try {
+      const response = await fetch("/api/public-config", { headers:{"Accept":"application/json"} });
+      const config = await response.json();
+      if (response.ok && config.ok && config.googleClientId) GOOGLE_CLIENT_ID = config.googleClientId;
+    } catch (error) { console.warn("LUVVA public auth configuration unavailable.", error); }
+    return GOOGLE_CLIENT_ID;
+  }
   const standardFields = document.getElementById("luvvaStandardFields");
   const whatsappFields = document.getElementById("luvvaWhatsappFields");
   const phone = document.getElementById("luvvaWhatsappPhone");
@@ -2354,8 +2363,9 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     } catch (_) { return null; }
   }
 
-  function renderGoogleOfficialButton() {
+  async function renderGoogleOfficialButton() {
     googleOfficialButton.innerHTML = "";
+    await loadPublicAuthConfig();
     if (!GOOGLE_CLIENT_ID) {
       googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><div class="luvva-redirecting-ring"></div><strong>Opening Google secure sign-in…</strong></div>'; console.warn('LUVVA developer notice: Google Client ID is not configured.');
       return;
@@ -2366,13 +2376,35 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     }
     google.accounts.id.initialize({
       client_id: GOOGLE_CLIENT_ID,
-      callback: (response) => {
-        const profile = decodeGoogleCredential(response.credential);
-        if (!profile?.sub) { errorBox.textContent = "Google identity could not be verified."; return; }
-        identity.value = profile.email || profile.sub;
-        try { localStorage.setItem("luvvaVerifiedProviderSubjectV5", JSON.stringify({provider:"Google", subject:profile.sub, email:profile.email||"", name:profile.name||"", verifiedAt:Date.now()})); } catch (_) {}
-        storeVisitorIdentity();
-        showWelcome();
+      callback: async (response) => {
+        errorBox.classList.remove("is-success");
+        errorBox.textContent = "Verifying Google identity securely…";
+        googleOfficialButton.style.pointerEvents = "none";
+        try {
+          const device = JSON.stringify(detectDevice());
+          const { response: verifyResponse, result } = await fetchJsonWithTimeout("/api/google-auth", {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({ credential:response.credential, device })
+          }, 18000);
+          if (!verifyResponse.ok || !result.ok || !result.approved || !result.visitor?.subject) {
+            throw new Error(result.message || "Google identity could not be verified.");
+          }
+          identity.value = result.visitor.email || result.visitor.subject;
+          try {
+            localStorage.setItem("luvvaVerifiedProviderSubjectV5", JSON.stringify({
+              provider:"Google", subject:result.visitor.subject, email:result.visitor.email||"",
+              name:result.visitor.name||"", identityId:result.visitor.identityId,
+              sessionId:result.session?.id||"", expiresAt:result.session?.expiresAt||null,
+              accessState:result.session?.accessState||"temporary", verifiedAt:Date.now()
+            }));
+          } catch (_) {}
+          storeVisitorIdentity();
+          await showWelcome();
+        } catch (error) {
+          errorBox.textContent = error.message || "Google verification failed. Please try again.";
+          googleOfficialButton.style.pointerEvents = "auto";
+        }
       }
     });
     google.accounts.id.renderButton(googleOfficialButton, {theme:"outline", size:"large", shape:"pill", text:"continue_with", width:320});
@@ -2586,9 +2618,9 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     e.preventDefault(); errorBox.textContent = "Password recovery will be connected to the official provider in the live version.";
   });
 
-  const SESSION_DURATION_MS = 45 * 60 * 1000;
+  const SESSION_DURATION_MS = 25 * 60 * 1000;
   const FIRST_NOTICE_AFTER_ACTIVE_MS = 3 * 60 * 1000;
-  const SECOND_NOTICE_AFTER_ACTIVE_MS = 40 * 60 * 1000;
+  const SECOND_NOTICE_AFTER_ACTIVE_MS = 20 * 60 * 1000;
   const NOTICE_VISIBLE_MS = 5 * 1000;
   const SESSION_KEY = "luvvaVisitorSessionDU2";
   const VISITOR_KEY = "luvvaVisitorIdentityDU2";
@@ -2942,7 +2974,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     // V16: showWelcome controls the exact cover-then-hide sequence to eliminate every flash.
     const isWhatsApp = activeProvider === "WhatsApp";
 
-    // Returning within the active 45-minute credit: the same verified provider
+    // Returning within the active 25-minute credit: the same verified provider
     // opens the visit again through the gateway without another OTP/password check.
     if (returningSession && savedSession && savedVisitor && activeProvider === savedVisitor.provider && (savedSession.remainingMs || 0) > 0) {
       submit.disabled = true;
