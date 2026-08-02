@@ -1,7 +1,7 @@
 {
-  "name": "luvva-secure-gateway-v7-8-google-id-token-fix",
+  "name": "luvva-secure-gateway-v7-9-google-verification-diagnostic-fix",
   "private": true,
-  "version": "7.8.0",
+  "version": "7.9.0",
   "engines": {
     "node": ">=20"
   },
@@ -9,5 +9,5 @@
     "qrcode": "^1.5.4",
     "google-auth-library": "^10.3.0"
   },
-  "description": "LUVVA Secure Gateway V7.8 uses the official Sign in with Google ID-token popup and server verification, with audio primed on provider click."
+  "description": "LUVVA Secure Gateway V7.9 adds dual Google ID-token verification, safe diagnostic stages, and hybrid-mouse hover/audio fixes."
 }

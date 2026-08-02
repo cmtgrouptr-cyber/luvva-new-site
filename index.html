@@ -1476,7 +1476,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
 /* ===== LUVVA V5.2 — final micro-interaction lock ===== */
 .luvva-v3-providers button{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease!important}
-.luvva-v3-providers button:hover,.luvva-v3-providers button:focus-visible{transform:translateY(-2px)!important;filter:brightness(1.045);outline:none}
+.luvva-v3-providers button:hover,.luvva-v3-providers button:focus-visible{transform:translateY(-1px)!important;filter:brightness(1.035);outline:none}
 .luvva-v3-providers button:active{transform:translateY(0)!important;filter:brightness(.99)}
 .luvva-auth-close{transition:transform .18s ease,box-shadow .18s ease,background .18s ease,border-color .18s ease!important;transform-origin:center}
 .luvva-auth-close:hover,.luvva-auth-close:focus-visible{transform:scale(1.05)!important;background:rgba(255,220,150,.11)!important;border-color:rgba(242,201,111,.66)!important;box-shadow:0 0 0 3px rgba(229,185,94,.10),0 0 24px rgba(229,185,94,.44)!important;outline:none}
@@ -2349,7 +2349,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   let lastProviderToneAt = 0;
   async function playProviderHoverTone() {
-    if (window.matchMedia("(hover:none), (pointer:coarse)").matches) return;
+    if (!window.matchMedia("(any-hover:hover)").matches) return;
     const ctx = await enableAudio();
     if (!ctx || ctx.state !== "running") return;
     const nowMs = Date.now();
@@ -2494,7 +2494,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
           body:JSON.stringify({ credential, device })
         }, 22000);
         if (!verifyResponse.ok || !result.ok || !result.approved || !result.visitor?.subject) {
-          throw new Error(result.message || "Google identity could not be verified.");
+          throw new Error(result.message || result.details || "Google identity could not be verified.");
         }
         identity.value = result.visitor.email || result.visitor.subject;
         try {
