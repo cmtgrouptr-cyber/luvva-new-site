@@ -2502,7 +2502,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify({
               code:codeResponse.code,
-              redirectUri:"postmessage",
+              redirectUri:window.location.origin,
               device
             })
           }, 22000);

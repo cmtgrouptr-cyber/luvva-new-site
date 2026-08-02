@@ -1,7 +1,7 @@
 {
-  "name": "luvva-secure-gateway-v7-6-google-final-return-fix",
+  "name": "luvva-secure-gateway-v7-7-google-origin-exchange-fix",
   "private": true,
-  "version": "7.6.0",
+  "version": "7.7.0",
   "engines": {
     "node": ">=20"
   },
@@ -9,5 +9,5 @@
     "qrcode": "^1.5.4",
     "google-auth-library": "^10.3.0"
   },
-  "description": "LUVVA Secure Gateway V7.6 Google popup code exchange using postmessage, verified 25-minute session, and reliable audio unlock"
+  "description": "LUVVA Secure Gateway V7.7 Google popup code exchange using the exact website origin, verified 25-minute session, and reliable audio unlock"
 }
