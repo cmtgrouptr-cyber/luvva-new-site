@@ -2233,14 +2233,30 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   let emailCodeSent = false;
   let otpTimer = null;
   let GOOGLE_CLIENT_ID = document.querySelector('meta[name="google-client-id"]')?.content || "";
-  async function loadPublicAuthConfig() {
-    if (GOOGLE_CLIENT_ID) return GOOGLE_CLIENT_ID;
+  async function loadPublicAuthConfig(force = false) {
+    if (GOOGLE_CLIENT_ID && !force) return GOOGLE_CLIENT_ID;
     try {
-      const response = await fetch("/api/public-config", { headers:{"Accept":"application/json"} });
+      const response = await fetch(`/api/public-config?t=${Date.now()}`, {
+        cache:"no-store",
+        headers:{"Accept":"application/json"}
+      });
       const config = await response.json();
-      if (response.ok && config.ok && config.googleClientId) GOOGLE_CLIENT_ID = config.googleClientId;
-    } catch (error) { console.warn("LUVVA public auth configuration unavailable.", error); }
+      if (response.ok && config.ok && config.googleClientId) {
+        GOOGLE_CLIENT_ID = String(config.googleClientId).trim();
+      }
+    } catch (error) {
+      console.warn("LUVVA public auth configuration unavailable.", error);
+    }
     return GOOGLE_CLIENT_ID;
+  }
+
+  async function waitForGoogleIdentity(timeoutMs = 12000) {
+    const started = Date.now();
+    while (Date.now() - started < timeoutMs) {
+      if (window.google?.accounts?.id) return true;
+      await new Promise(resolve => setTimeout(resolve, 180));
+    }
+    return false;
   }
   const standardFields = document.getElementById("luvvaStandardFields");
   const whatsappFields = document.getElementById("luvvaWhatsappFields");
@@ -2364,50 +2380,84 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 
   async function renderGoogleOfficialButton() {
-    googleOfficialButton.innerHTML = "";
-    await loadPublicAuthConfig();
+    googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><div class="luvva-redirecting-ring"></div><strong>Preparing Google secure sign-in…</strong></div>';
+    errorBox.textContent = "";
+
+    await loadPublicAuthConfig(true);
     if (!GOOGLE_CLIENT_ID) {
-      googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><div class="luvva-redirecting-ring"></div><strong>Opening Google secure sign-in…</strong></div>'; console.warn('LUVVA developer notice: Google Client ID is not configured.');
+      googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><strong>Google sign-in is not configured yet.</strong><span>Please verify GOOGLE_CLIENT_ID in Vercel and redeploy.</span></div>';
+      errorBox.textContent = "Google Client ID could not be loaded from the secure server configuration.";
       return;
     }
-    if (!window.google?.accounts?.id) {
-      googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><div class="luvva-redirecting-ring"></div><strong>Opening Google secure sign-in…</strong></div>'; console.warn('LUVVA developer notice: Google Identity Services is still loading.');
+
+    const googleReady = await waitForGoogleIdentity();
+    if (!googleReady) {
+      googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><strong>Google sign-in could not load.</strong><span>Check the internet connection, then close this window and try again.</span></div>';
+      errorBox.textContent = "Google Identity Services did not finish loading. Please try again.";
       return;
     }
+
+    const handleGoogleCredential = async (response) => {
+      if (!response?.credential) {
+        errorBox.textContent = "Google did not return a verification credential. Please try again.";
+        return;
+      }
+      errorBox.classList.remove("is-success");
+      errorBox.textContent = "Verifying Google identity securely…";
+      googleOfficialButton.style.pointerEvents = "none";
+      try {
+        const device = JSON.stringify(detectDevice());
+        const { response: verifyResponse, result } = await fetchJsonWithTimeout("/api/google-auth", {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({ credential:response.credential, device })
+        }, 18000);
+        if (!verifyResponse.ok || !result.ok || !result.approved || !result.visitor?.subject) {
+          throw new Error(result.message || "Google identity could not be verified.");
+        }
+        identity.value = result.visitor.email || result.visitor.subject;
+        try {
+          localStorage.setItem("luvvaVerifiedProviderSubjectV5", JSON.stringify({
+            provider:"Google", subject:result.visitor.subject, email:result.visitor.email||"",
+            name:result.visitor.name||"", identityId:result.visitor.identityId,
+            sessionId:result.session?.id||"", expiresAt:result.session?.expiresAt||null,
+            accessState:result.session?.accessState||"temporary", verifiedAt:Date.now()
+          }));
+        } catch (_) {}
+        storeVisitorIdentity();
+        await showWelcome();
+      } catch (error) {
+        errorBox.textContent = error.message || "Google verification failed. Please try again.";
+        googleOfficialButton.style.pointerEvents = "auto";
+      }
+    };
+
     google.accounts.id.initialize({
       client_id: GOOGLE_CLIENT_ID,
-      callback: async (response) => {
-        errorBox.classList.remove("is-success");
-        errorBox.textContent = "Verifying Google identity securely…";
-        googleOfficialButton.style.pointerEvents = "none";
-        try {
-          const device = JSON.stringify(detectDevice());
-          const { response: verifyResponse, result } = await fetchJsonWithTimeout("/api/google-auth", {
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({ credential:response.credential, device })
-          }, 18000);
-          if (!verifyResponse.ok || !result.ok || !result.approved || !result.visitor?.subject) {
-            throw new Error(result.message || "Google identity could not be verified.");
-          }
-          identity.value = result.visitor.email || result.visitor.subject;
-          try {
-            localStorage.setItem("luvvaVerifiedProviderSubjectV5", JSON.stringify({
-              provider:"Google", subject:result.visitor.subject, email:result.visitor.email||"",
-              name:result.visitor.name||"", identityId:result.visitor.identityId,
-              sessionId:result.session?.id||"", expiresAt:result.session?.expiresAt||null,
-              accessState:result.session?.accessState||"temporary", verifiedAt:Date.now()
-            }));
-          } catch (_) {}
-          storeVisitorIdentity();
-          await showWelcome();
-        } catch (error) {
-          errorBox.textContent = error.message || "Google verification failed. Please try again.";
-          googleOfficialButton.style.pointerEvents = "auto";
-        }
-      }
+      callback: handleGoogleCredential,
+      cancel_on_tap_outside: false,
+      auto_select: false,
+      itp_support: true
     });
-    google.accounts.id.renderButton(googleOfficialButton, {theme:"outline", size:"large", shape:"pill", text:"continue_with", width:320});
+
+    googleOfficialButton.innerHTML = "";
+    google.accounts.id.renderButton(googleOfficialButton, {
+      theme:"outline", size:"large", shape:"pill", text:"continue_with", width:320,
+      logo_alignment:"left"
+    });
+
+    // Try Google's native account chooser immediately. If the browser declines
+    // One Tap, the official Google button remains visible as a reliable fallback.
+    try {
+      google.accounts.id.prompt((notification) => {
+        if (notification?.isNotDisplayed?.() || notification?.isSkippedMoment?.()) {
+          errorBox.textContent = "Choose your Google account using the secure Google button above.";
+        }
+      });
+    } catch (error) {
+      console.warn("LUVVA Google prompt could not open automatically.", error);
+      errorBox.textContent = "Choose your Google account using the secure Google button above.";
+    }
   }
 
   function setBusinessMode(mode) {
@@ -2463,7 +2513,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     subtitle.textContent = isWhatsApp
       ? "We'll send a one-time verification code."
       : isGoogle
-        ? "Redirecting to Google Secure Sign-In…"
+        ? "Choose your Google account securely."
         : isWeChat
           ? "Authorize securely using the official WeChat sign-in flow."
           : "Use your password or a verification code sent to your business email.";
@@ -2482,7 +2532,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
     if (isGoogle) {
       googleOfficialButton.innerHTML = '<div class="luvva-redirecting"><div class="luvva-redirecting-ring"></div><div>Opening Google secure sign-in…</div></div>';
-      setTimeout(renderGoogleOfficialButton, 350);
+      renderGoogleOfficialButton();
     } else if (isWeChat) {
       setTimeout(() => console.info("LUVVA WeChat authorization ready; configure official App ID and callback URL for live QR/deep-link."), 80);
     } else {
