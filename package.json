@@ -1,7 +1,7 @@
 {
-  "name": "luvva-secure-gateway-v8-0-google-direct-server-post",
+  "name": "luvva-secure-gateway-v7-google-live",
   "private": true,
-  "version": "8.0.0",
+  "version": "7.0.1",
   "engines": {
     "node": ">=20"
   },
@@ -9,5 +9,5 @@
     "qrcode": "^1.5.4",
     "google-auth-library": "^10.3.0"
   },
-  "description": "LUVVA Secure Gateway V8.0 uses direct Google server POST login and fixes hybrid-laptop hover audio."
+  "description": "LUVVA Secure Gateway V7.0.1 Google server verification and live Supabase Dashboard"
 }
