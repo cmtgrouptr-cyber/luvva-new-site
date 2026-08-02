@@ -2310,13 +2310,48 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   async function enableAudio() {
     const ctx = audio();
-    if (ctx && ctx.state === "suspended") { try { await ctx.resume(); } catch (_) {} }
+    if (!ctx) return null;
+    if (ctx.state === "suspended") { try { await ctx.resume(); } catch (_) {} }
+    // Prime the output graph after the first real user gesture. This prevents
+    // the first hover tone from being delayed or silently discarded by Chrome.
+    if (ctx.state === "running" && !ctx.__luvvaPrimed) {
+      try {
+        const buffer = ctx.createBuffer(1, 1, ctx.sampleRate);
+        const source = ctx.createBufferSource();
+        const gain = ctx.createGain();
+        gain.gain.value = 0.00001;
+        source.buffer = buffer;
+        source.connect(gain); gain.connect(ctx.destination);
+        source.start(0);
+        ctx.__luvvaPrimed = true;
+      } catch (_) {}
+    }
+    return ctx;
   }
 
+  let audioUnlockInstalled = false;
+  function installAudioUnlock() {
+    if (audioUnlockInstalled) return;
+    audioUnlockInstalled = true;
+    const unlock = async () => {
+      const ctx = await enableAudio();
+      if (ctx?.state === "running") {
+        ["pointerdown", "mousedown", "touchstart", "keydown", "click"].forEach(type =>
+          document.removeEventListener(type, unlock, true)
+        );
+      }
+    };
+    ["pointerdown", "mousedown", "touchstart", "keydown", "click"].forEach(type =>
+      document.addEventListener(type, unlock, { capture:true, passive:true })
+    );
+  }
+  installAudioUnlock();
+
   let lastProviderToneAt = 0;
-  function playProviderHoverTone() {
-    const ctx = audio();
-    if (!ctx || ctx.state !== "running" || window.matchMedia("(hover:none), (pointer:coarse)").matches) return;
+  async function playProviderHoverTone() {
+    if (window.matchMedia("(hover:none), (pointer:coarse)").matches) return;
+    const ctx = await enableAudio();
+    if (!ctx || ctx.state !== "running") return;
     const nowMs = Date.now();
     if (nowMs - lastProviderToneAt < 110) return;
     lastProviderToneAt = nowMs;
@@ -2467,7 +2502,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify({
               code:codeResponse.code,
-              redirectUri:window.location.origin,
+              redirectUri:"postmessage",
               device
             })
           }, 22000);
