@@ -1,7 +1,7 @@
 {
-  "name": "luvva-secure-gateway-v7-4-google-single-flow-fix",
+  "name": "luvva-secure-gateway-v7-5-google-code-flow-fix",
   "private": true,
-  "version": "7.4.0",
+  "version": "7.5.0",
   "engines": {
     "node": ">=20"
   },
@@ -9,5 +9,5 @@
     "qrcode": "^1.5.4",
     "google-auth-library": "^10.3.0"
   },
-  "description": "LUVVA Secure Gateway V7.4 single Google account flow, verified session fallback, refined hover motion, and soft navigation tone"
+  "description": "LUVVA Secure Gateway V7.5 robust Google OAuth authorization-code popup flow with verified 25-minute session"
 }
