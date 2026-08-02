@@ -1,7 +1,7 @@
 {
-  "name": "luvva-secure-gateway-v7-google-live",
+  "name": "luvva-secure-gateway-v7-1-meta-whatsapp-otp",
   "private": true,
-  "version": "7.0.1",
+  "version": "7.1.0",
   "engines": {
     "node": ">=20"
   },
@@ -9,5 +9,5 @@
     "qrcode": "^1.5.4",
     "google-auth-library": "^10.3.0"
   },
-  "description": "LUVVA Secure Gateway V7.0.1 Google server verification and live Supabase Dashboard"
+  "description": "LUVVA Secure Gateway V7.1 Meta WhatsApp OTP, Google server verification and live Supabase Dashboard"
 }
