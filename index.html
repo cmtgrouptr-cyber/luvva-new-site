@@ -2222,6 +2222,10 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 (() => {
   "use strict";
 
+  const LUVVA_GATEWAY_BUILD = "V7.5.0-session-provider-state-fix";
+  window.__LUVVA_GATEWAY_BUILD__ = LUVVA_GATEWAY_BUILD;
+  console.info("LUVVA Secure Gateway build:", LUVVA_GATEWAY_BUILD);
+
   const gateway = document.getElementById("luvvaGatewayV3");
   const success = document.getElementById("luvvaV3Success");
   const status = document.getElementById("luvvaV3Status");
@@ -2524,9 +2528,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       clearTimeout(googleRenderTimer);
       googleRenderTimer = null;
     }
+    try { window.google?.accounts?.id?.cancel?.(); } catch (_) {}
     if (googleOfficialButton) {
       googleOfficialButton.style.pointerEvents = "auto";
       delete googleOfficialButton.dataset.waitStarted;
+      googleOfficialButton.replaceChildren();
     }
   }
 
@@ -2567,6 +2573,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
     dialog.classList.remove("provider-business", "provider-google", "provider-whatsapp", "provider-wechat");
     dialog.classList.add(`provider-${isBusiness ? "business" : provider.toLowerCase()}`);
+    backdrop.hidden = false;
+    backdrop.style.removeProperty("display");
+    backdrop.style.removeProperty("visibility");
+    backdrop.style.removeProperty("opacity");
+    backdrop.style.removeProperty("pointer-events");
     backdrop.classList.add("is-open");
     backdrop.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
@@ -2588,9 +2599,18 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     cancelPendingProviderWork();
     backdrop.classList.remove("is-open");
     backdrop.setAttribute("aria-hidden", "true");
+    backdrop.style.pointerEvents = "none";
+    backdrop.style.visibility = "hidden";
+    backdrop.style.opacity = "0";
+    backdrop.hidden = true;
     document.body.style.removeProperty("overflow");
     activeProvider = "";
     resetForm();
+    requestAnimationFrame(() => {
+      backdrop.style.removeProperty("pointer-events");
+      backdrop.style.removeProperty("visibility");
+      backdrop.style.removeProperty("opacity");
+    });
   }
 
   function validEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
@@ -2699,8 +2719,9 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     if (backdrop.classList.contains("is-open")) closeProvider();
     openProvider(requestedProvider);
     if (returningSession && savedVisitor && requestedProvider !== savedVisitor.provider) {
-      errorBox.textContent = `This remaining session credit belongs to ${savedVisitor.provider}. Close this window and return through the same method.`;
-      submit.disabled = true;
+      errorBox.textContent = `Verify with ${requestedProvider} to continue using this entrance.`;
+      errorBox.classList.remove("is-success");
+      submit.disabled = false;
     }
   }));
 
@@ -2843,6 +2864,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   function storeVisitorIdentity() {
     const visitor = { provider: activeProvider, identity: getVisitorIdentityValue(), savedAt: Date.now() };
     try { localStorage.setItem(VISITOR_KEY, JSON.stringify(visitor)); } catch (_) {}
+    if (returningSession) savedVisitor = visitor;
     return visitor;
   }
 
