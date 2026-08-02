@@ -1,3 +1,6 @@
+const crypto = require('crypto');
+const { supabase } = require('./_shared');
+
 function sendJson(res, status, body) {
   res.status(status);
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -10,46 +13,69 @@ function readBody(req) {
   try { return JSON.parse(req.body || '{}'); } catch (_) { return {}; }
 }
 
+function normalizePhone(value) {
+  return String(value || '').replace(/[\s()-]/g, '').trim();
+}
+
+function otpHash(phone, code) {
+  const secret = process.env.WHATSAPP_OTP_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+  return crypto.createHmac('sha256', secret).update(`${phone}:${code}`).digest('hex');
+}
+
+function safeEqual(a, b) {
+  const left = Buffer.from(String(a));
+  const right = Buffer.from(String(b));
+  return left.length === right.length && crypto.timingSafeEqual(left, right);
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return sendJson(res, 405, { ok:false, approved:false, message:'Method not allowed.' });
 
-  const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_VERIFY_SERVICE_SID } = process.env;
-  if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_VERIFY_SERVICE_SID) {
-    return sendJson(res, 503, {
-      ok:false,
-      approved:false,
-      code:'OTP_NOT_CONFIGURED',
-      message:'WhatsApp verification is not active yet. Add the Twilio Verify credentials in Vercel and redeploy.'
-    });
+  if (!process.env.WHATSAPP_OTP_SECRET && !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return sendJson(res, 503, { ok:false, approved:false, code:'OTP_NOT_CONFIGURED', message:'WhatsApp verification is not configured.' });
   }
 
   const { phone, code } = readBody(req);
-  const normalizedPhone = String(phone || '').replace(/[\s()-]/g, '').trim();
+  const normalizedPhone = normalizePhone(phone);
   const normalizedCode = String(code || '').replace(/\D/g, '');
-  if (!/^\+[1-9]\d{7,14}$/.test(normalizedPhone) || !/^\d{4,10}$/.test(normalizedCode)) {
+  if (!/^\+[1-9]\d{7,14}$/.test(normalizedPhone) || !/^\d{6}$/.test(normalizedCode)) {
     return sendJson(res, 400, { ok:false, approved:false, message:'Invalid phone number or verification code.' });
   }
 
-  const auth = Buffer.from(`${TWILIO_ACCOUNT_SID}:${TWILIO_AUTH_TOKEN}`).toString('base64');
-  const form = new URLSearchParams({ To:normalizedPhone, Code:normalizedCode });
-
   try {
-    const response = await fetch(
-      `https://verify.twilio.com/v2/Services/${encodeURIComponent(TWILIO_VERIFY_SERVICE_SID)}/VerificationCheck`,
-      {
-        method:'POST',
-        headers:{ Authorization:`Basic ${auth}`, 'Content-Type':'application/x-www-form-urlencoded' },
-        body:form.toString()
-      }
-    );
-    const data = await response.json().catch(() => ({}));
-    const approved = response.ok && data.status === 'approved';
-    return sendJson(res, approved ? 200 : 400, {
-      ok:approved,
-      approved,
-      message:approved ? 'Verified.' : (data.message || 'The verification code is incorrect or expired.')
+    const phoneKey = encodeURIComponent(normalizedPhone);
+    const rows = await supabase(`whatsapp_otp_challenges?phone=eq.${phoneKey}&used=eq.false&order=created_at.desc&select=*&limit=1`);
+    const challenge = Array.isArray(rows) ? rows[0] : null;
+
+    if (!challenge) {
+      return sendJson(res, 400, { ok:false, approved:false, message:'The verification code is incorrect or expired.' });
+    }
+
+    if (new Date(challenge.expires_at).getTime() <= Date.now()) {
+      await supabase(`whatsapp_otp_challenges?id=eq.${encodeURIComponent(challenge.id)}`, { method:'PATCH', body:{ used:true } });
+      return sendJson(res, 400, { ok:false, approved:false, message:'The verification code has expired. Request a new code.' });
+    }
+
+    const attempts = Number(challenge.attempts || 0);
+    if (attempts >= 5) {
+      await supabase(`whatsapp_otp_challenges?id=eq.${encodeURIComponent(challenge.id)}`, { method:'PATCH', body:{ used:true } });
+      return sendJson(res, 429, { ok:false, approved:false, message:'Too many attempts. Request a new verification code.' });
+    }
+
+    const approved = safeEqual(challenge.code_hash, otpHash(normalizedPhone, normalizedCode));
+    if (!approved) {
+      await supabase(`whatsapp_otp_challenges?id=eq.${encodeURIComponent(challenge.id)}`, { method:'PATCH', body:{ attempts:attempts + 1 } });
+      return sendJson(res, 400, { ok:false, approved:false, message:'The verification code is incorrect or expired.' });
+    }
+
+    await supabase(`whatsapp_otp_challenges?id=eq.${encodeURIComponent(challenge.id)}`, {
+      method:'PATCH',
+      body:{ used:true, verified_at:new Date().toISOString(), attempts:attempts + 1 }
     });
-  } catch (_) {
-    return sendJson(res, 502, { ok:false, approved:false, message:'Unable to contact the WhatsApp verification service.' });
+
+    return sendJson(res, 200, { ok:true, approved:true, phone:normalizedPhone, message:'Verified.' });
+  } catch (error) {
+    console.error('LUVVA WhatsApp OTP verify error:', error);
+    return sendJson(res, 502, { ok:false, approved:false, message:'Unable to verify the WhatsApp code right now.' });
   }
 };
