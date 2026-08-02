@@ -572,11 +572,15 @@ body.luvva-v3-locked > footer {
 
 /* ===== LUVVA V9 — four provider sign-in windows ===== */
 .luvva-auth-backdrop {
-  position: fixed; inset: 0; z-index: 2147483600; display: grid; place-items: center;
+  position: fixed; inset: 0; z-index: 2147483600; display: none; place-items: center;
   padding: 18px; background: rgba(2,1,0,.78); backdrop-filter: blur(13px) saturate(115%);
-  opacity: 0; visibility: hidden; transition: opacity .24s ease, visibility .24s ease;
+  opacity: 0; visibility: hidden; pointer-events: none;
 }
-.luvva-auth-backdrop.is-open { opacity: 1; visibility: visible; }
+.luvva-auth-backdrop[hidden] { display: none !important; pointer-events: none !important; }
+.luvva-auth-backdrop.is-open {
+  display: grid; opacity: 1; visibility: visible; pointer-events: auto;
+}
+
 .luvva-auth-dialog {
   position: relative; width: min(100%, 430px); height: min(88vh, 630px); min-height: 560px; max-height: 630px; overflow: auto;
   padding: 28px 25px 24px; border: 1px solid rgba(229,185,94,.42); border-radius: 27px;
@@ -1707,7 +1711,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </div>
 </section>
 <!-- Secure identity provider window — UI Final Edition v5.2 -->
-<div aria-hidden="true" class="luvva-auth-backdrop" id="luvvaAuthBackdrop">
+<div aria-hidden="true" class="luvva-auth-backdrop" id="luvvaAuthBackdrop" hidden>
 <section aria-labelledby="luvvaAuthTitle" aria-modal="true" class="luvva-auth-dialog" role="dialog">
 <button aria-label="Close" class="luvva-auth-close" id="luvvaAuthClose" type="button">×</button>
 <div class="luvva-auth-brand">
@@ -2222,7 +2226,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 (() => {
   "use strict";
 
-  const LUVVA_GATEWAY_BUILD = "V7.5.0-session-provider-state-fix";
+  const LUVVA_GATEWAY_BUILD = "V7.6.0-modal-overlay-hit-test-fix";
   window.__LUVVA_GATEWAY_BUILD__ = LUVVA_GATEWAY_BUILD;
   console.info("LUVVA Secure Gateway build:", LUVVA_GATEWAY_BUILD);
 
@@ -2513,8 +2517,8 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   let googleRenderTimer = null;
 
   function restoreAuthBackdrop() {
-    // V7.3: show the authentication layer again after any previous successful
-    // welcome transition hid it with inline styles/hidden=true.
+    // V7.6: one deterministic source of truth for the modal overlay.
+    // Closed = hidden + no is-open. Open = not hidden + is-open.
     backdrop.hidden = false;
     backdrop.style.removeProperty("display");
     backdrop.style.removeProperty("visibility");
@@ -2597,20 +2601,18 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   function closeProvider() {
     cancelPendingProviderWork();
+    // V7.6: remove the overlay from layout and hit-testing synchronously.
+    // No delayed cleanup and no requestAnimationFrame that can resurrect it.
     backdrop.classList.remove("is-open");
     backdrop.setAttribute("aria-hidden", "true");
-    backdrop.style.pointerEvents = "none";
-    backdrop.style.visibility = "hidden";
-    backdrop.style.opacity = "0";
     backdrop.hidden = true;
+    backdrop.style.removeProperty("display");
+    backdrop.style.removeProperty("visibility");
+    backdrop.style.removeProperty("opacity");
+    backdrop.style.removeProperty("pointer-events");
     document.body.style.removeProperty("overflow");
     activeProvider = "";
     resetForm();
-    requestAnimationFrame(() => {
-      backdrop.style.removeProperty("pointer-events");
-      backdrop.style.removeProperty("visibility");
-      backdrop.style.removeProperty("opacity");
-    });
   }
 
   function validEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
