@@ -3081,7 +3081,8 @@ body.luvva-page-revealing.luvva-page-visible > footer {
           const { response, result } = await fetchJsonWithTimeout("/api/whatsapp-otp-send", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ phone:fullPhone }) });
           if (!response.ok || !result.ok) {
             console.error("LUVVA WhatsApp verification unavailable:", result);
-            throw new Error("WhatsApp verification is temporarily unavailable. Please try another secure method.");
+            const serverMessage = result && (result.message || result.error || result.code);
+            throw new Error(serverMessage || "Unable to send the WhatsApp verification code.");
           }
           whatsappCodeSent = true;
           startOtpCountdown(60);
