@@ -2348,8 +2348,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   installAudioUnlock();
 
   let lastProviderToneAt = 0;
-  async function playProviderHoverTone() {
-    if (!window.matchMedia("(any-hover:hover)").matches) return;
+  async function playProviderHoverTone(force = false) {
     const ctx = await enableAudio();
     if (!ctx || ctx.state !== "running") return;
     const nowMs = Date.now();
@@ -2473,54 +2472,14 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       return;
     }
 
-    let verificationInProgress = false;
-    const handleGoogleCredential = async (credentialResponse) => {
-      if (verificationInProgress) return;
-      const credential = String(credentialResponse?.credential || "").trim();
-      if (!credential) {
-        errorBox.textContent = "Google did not return a secure identity credential. Please try again.";
-        return;
-      }
-      verificationInProgress = true;
-      errorBox.classList.remove("is-success");
-      errorBox.textContent = "Verifying Google identity securely…";
-      googleOfficialButton.style.pointerEvents = "none";
-      googleOfficialButton.setAttribute("aria-busy", "true");
-      try {
-        const device = JSON.stringify(detectDevice());
-        const { response: verifyResponse, result } = await fetchJsonWithTimeout("/api/google-auth", {
-          method:"POST",
-          headers:{"Content-Type":"application/json"},
-          body:JSON.stringify({ credential, device })
-        }, 22000);
-        if (!verifyResponse.ok || !result.ok || !result.approved || !result.visitor?.subject) {
-          throw new Error(result.message || result.details || "Google identity could not be verified.");
-        }
-        identity.value = result.visitor.email || result.visitor.subject;
-        try {
-          localStorage.setItem("luvvaVerifiedProviderSubjectV5", JSON.stringify({
-            provider:"Google", subject:result.visitor.subject, email:result.visitor.email||"",
-            name:result.visitor.name||"", identityId:result.visitor.identityId,
-            sessionId:result.session?.id||"", expiresAt:result.session?.expiresAt||null,
-            accessState:result.session?.accessState||"temporary", verifiedAt:Date.now()
-          }));
-        } catch (_) {}
-        storeVisitorIdentity();
-        await showWelcome();
-      } catch (error) {
-        verificationInProgress = false;
-        errorBox.textContent = error.message || "Google verification failed. Please try again.";
-        googleOfficialButton.style.pointerEvents = "auto";
-        googleOfficialButton.removeAttribute("aria-busy");
-      }
-    };
-
     googleOfficialButton.innerHTML = '<div id="luvvaGoogleRenderedButton" style="display:flex;justify-content:center;min-height:48px"></div>';
     try {
+      // V8.0: Google returns directly to the Vercel server endpoint. This avoids
+      // the browser callback path that was never firing on the test device.
       google.accounts.id.initialize({
         client_id: GOOGLE_CLIENT_ID,
-        callback: handleGoogleCredential,
-        ux_mode: "popup",
+        ux_mode: "redirect",
+        login_uri: `${window.location.origin}/api/google-login`,
         auto_select: false,
         cancel_on_tap_outside: false,
         use_fedcm_for_prompt: false
@@ -2698,12 +2657,15 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 
   providerButtons.forEach(button => {
-    button.addEventListener("mouseenter", playProviderHoverTone, { passive:true });
-    button.addEventListener("focus", playProviderHoverTone, { passive:true });
+    button.addEventListener("pointerenter", event => {
+      if (event.pointerType === "mouse" || event.pointerType === "pen" || !event.pointerType) playProviderHoverTone();
+    }, { passive:true });
+    button.addEventListener("focus", () => playProviderHoverTone(), { passive:true });
   });
 
   providerButtons.forEach(button => button.addEventListener("click", async () => {
     await enableAudio();
+    await playProviderHoverTone(true);
     const requestedProvider = button.dataset.luvvaV3Provider || "Business Email";
     const policy = readAccessPolicy();
     if (!policy.contactCompleted && (policy.locked || ACCESS_PROVIDERS.every(item => policy.usedProviders.includes(item)))) {
@@ -3189,7 +3151,28 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   });
 
   refreshProviderAvailability();
-  if (isAccessLocked()) {
+  const directGoogleReturn = new URLSearchParams(window.location.search).get("luvva_google") === "success";
+  if (directGoogleReturn) {
+    try {
+      const verified = JSON.parse(localStorage.getItem("luvvaVerifiedProviderSubjectV5") || "null");
+      if (!verified || verified.provider !== "Google" || !verified.subject) throw new Error("Verified Google session was not found.");
+      activeProvider = "Google";
+      identity.value = verified.email || verified.subject;
+      localStorage.setItem(VISITOR_KEY, JSON.stringify({ provider:"Google", identity:verified.email || verified.subject, savedAt:Date.now() }));
+      history.replaceState(null, "", window.location.pathname + window.location.hash);
+      gateway.hidden = false;
+      gateway.setAttribute("aria-hidden", "false");
+      document.body.classList.add("luvva-v3-locked");
+      window.setTimeout(() => showWelcome(), 80);
+    } catch (error) {
+      history.replaceState(null, "", window.location.pathname + window.location.hash);
+      gateway.hidden = false;
+      gateway.setAttribute("aria-hidden", "false");
+      document.body.classList.add("luvva-v3-locked");
+      status.hidden = false;
+      status.textContent = error?.message || "Google sign-in could not be completed.";
+    }
+  } else if (isAccessLocked()) {
     gateway.hidden = false;
     gateway.setAttribute("aria-hidden", "false");
     document.body.classList.add("luvva-v3-locked");
