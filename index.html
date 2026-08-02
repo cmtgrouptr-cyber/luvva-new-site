@@ -2290,77 +2290,54 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   function audio() {
     if (audioContext) return audioContext;
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return null;
-    try {
-      audioContext = new AudioCtx({ latencyHint: "interactive" });
-    } catch (_) {
-      audioContext = new AudioCtx();
-    }
+    audioContext = AudioCtx ? new AudioCtx({ latencyHint: "interactive" }) : null;
     return audioContext;
   }
 
-  function emitProviderHoverTone(ctx, volume = .12) {
+  function emitProviderHoverTone(ctx, volume = .034) {
     if (!ctx || ctx.state !== "running") return false;
     const stamp = performance.now();
-    if (stamp - lastHoverToneAt < 80) return false;
+    if (stamp - lastHoverToneAt < 65) return false;
     lastHoverToneAt = stamp;
     const now = ctx.currentTime;
-
-    const master = ctx.createGain();
-    master.gain.setValueAtTime(.0001, now);
-    master.gain.exponentialRampToValueAtTime(volume, now + .008);
-    master.gain.exponentialRampToValueAtTime(.0001, now + .12);
-    master.connect(ctx.destination);
-
-    const osc1 = ctx.createOscillator();
-    const osc2 = ctx.createOscillator();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
     const filter = ctx.createBiquadFilter();
-    osc1.type = "sine";
-    osc2.type = "triangle";
-    osc1.frequency.setValueAtTime(560, now);
-    osc1.frequency.exponentialRampToValueAtTime(760, now + .065);
-    osc2.frequency.setValueAtTime(840, now);
-    osc2.frequency.exponentialRampToValueAtTime(1040, now + .065);
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(520, now);
+    osc.frequency.exponentialRampToValueAtTime(690, now + .045);
     filter.type = "lowpass";
-    filter.frequency.setValueAtTime(2400, now);
-    osc1.connect(filter);
-    osc2.connect(filter);
-    filter.connect(master);
-    osc1.start(now);
-    osc2.start(now);
-    osc1.stop(now + .13);
-    osc2.stop(now + .13);
+    filter.frequency.setValueAtTime(1900, now);
+    gain.gain.setValueAtTime(.0001, now);
+    gain.gain.exponentialRampToValueAtTime(volume, now + .006);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + .085);
+    osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+    osc.start(now); osc.stop(now + .09);
     return true;
   }
 
-  async function unlockAudio(playConfirmation = false) {
+  async function unlockAudioAndPlay() {
     const ctx = audio();
     if (!ctx) return false;
     try {
-      if (ctx.state === "suspended") await ctx.resume();
+      if (ctx.state !== "running") await ctx.resume();
     } catch (_) {}
-    audioUnlocked = ctx.state === "running";
-    if (audioUnlocked && playConfirmation) emitProviderHoverTone(ctx, .09);
-    return audioUnlocked;
+    if (ctx.state !== "running") return false;
+    audioUnlocked = true;
+    return emitProviderHoverTone(ctx, .028);
   }
 
-  async function playProviderHoverTone(button) {
-    if (button && button === lastHoverButton) return;
+  function playProviderHoverTone(button) {
+    if (!audioUnlocked || (button && button === lastHoverButton)) return;
     const ctx = audio();
-    if (!ctx) return;
-    if (ctx.state !== "running") await unlockAudio(false);
-    if (ctx.state === "running" && emitProviderHoverTone(ctx, .12)) {
-      lastHoverButton = button || null;
-    }
+    if (ctx && emitProviderHoverTone(ctx)) lastHoverButton = button || null;
   }
 
-  // Attempt to prepare the audio immediately. Chrome may keep it suspended until
-  // the first genuine user action; pointer/click/key handlers below unlock it.
-  audio();
-  const unlockEvents = ["pointerdown", "mousedown", "touchstart", "click", "keydown"];
-  unlockEvents.forEach(type => {
-    window.addEventListener(type, () => unlockAudio(true), { passive:true, capture:true });
-  });
+  // Browsers block sound before a genuine user gesture. Unlock on the first real
+  // click/tap/key action and play a quiet confirmation tone in that same gesture.
+  ["pointerdown", "mousedown", "touchstart", "keydown"].forEach(type =>
+    window.addEventListener(type, unlockAudioAndPlay, { passive:true, once:true, capture:true })
+  );
 
   function thump(offset, strength, baseFrequency) {
     const ctx = audio();
