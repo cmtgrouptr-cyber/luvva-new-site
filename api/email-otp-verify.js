@@ -1,0 +1,1 @@
+export default async function handler(req,res){if(req.method!=="POST")return res.status(405).json({ok:false,message:"Method not allowed"});return res.status(503).json({ok:false,approved:false,message:"Business email OTP verification requires the production database configuration."});}

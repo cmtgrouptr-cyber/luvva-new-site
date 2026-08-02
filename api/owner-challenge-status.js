@@ -1,0 +1,2 @@
+const {json,supabase,hash}=require('./_shared');
+module.exports=async(req,res)=>{const raw=req.query?.t;if(!raw)return json(res,400,{ok:false});try{const rows=await supabase(`owner_access_challenges?token_hash=eq.${hash(raw)}&select=status,access_type,expires_at,approved_session_token&limit=1`);const row=rows[0];if(!row)return json(res,404,{ok:false});if(new Date(row.expires_at)<new Date()&&row.status==='pending')row.status='expired';return json(res,200,{ok:true,...row})}catch(e){return json(res,503,{ok:false,message:e.message})}};
