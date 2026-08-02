@@ -2467,88 +2467,73 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     }
 
     const googleReady = await waitForGoogleIdentity();
-    if (!googleReady || !window.google?.accounts?.oauth2) {
+    if (!googleReady || !window.google?.accounts?.id) {
       googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><strong>Google sign-in could not load.</strong><span>Check the internet connection, then close this window and try again.</span></div>';
       errorBox.textContent = "Google Identity Services did not finish loading. Please try again.";
       return;
     }
 
-    let googleCredentialInProgress = false;
-    const codeClient = google.accounts.oauth2.initCodeClient({
-      client_id: GOOGLE_CLIENT_ID,
-      scope: "openid email profile",
-      ux_mode: "popup",
-      select_account: true,
-      callback: async (codeResponse) => {
-        if (googleCredentialInProgress) return;
-        if (codeResponse?.error) {
-          errorBox.textContent = codeResponse.error_description || codeResponse.error || "Google sign-in was cancelled.";
-          return;
+    let verificationInProgress = false;
+    const handleGoogleCredential = async (credentialResponse) => {
+      if (verificationInProgress) return;
+      const credential = String(credentialResponse?.credential || "").trim();
+      if (!credential) {
+        errorBox.textContent = "Google did not return a secure identity credential. Please try again.";
+        return;
+      }
+      verificationInProgress = true;
+      errorBox.classList.remove("is-success");
+      errorBox.textContent = "Verifying Google identity securely…";
+      googleOfficialButton.style.pointerEvents = "none";
+      googleOfficialButton.setAttribute("aria-busy", "true");
+      try {
+        const device = JSON.stringify(detectDevice());
+        const { response: verifyResponse, result } = await fetchJsonWithTimeout("/api/google-auth", {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({ credential, device })
+        }, 22000);
+        if (!verifyResponse.ok || !result.ok || !result.approved || !result.visitor?.subject) {
+          throw new Error(result.message || "Google identity could not be verified.");
         }
-        if (!codeResponse?.code) {
-          errorBox.textContent = "Google did not return a secure authorization code. Please try again.";
-          return;
-        }
-
-        googleCredentialInProgress = true;
-        errorBox.classList.remove("is-success");
-        errorBox.textContent = "Verifying Google identity securely…";
-        googleOfficialButton.style.pointerEvents = "none";
-        googleOfficialButton.setAttribute("aria-busy", "true");
+        identity.value = result.visitor.email || result.visitor.subject;
         try {
-          const device = JSON.stringify(detectDevice());
-          const { response: verifyResponse, result } = await fetchJsonWithTimeout("/api/google-code-auth", {
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({
-              code:codeResponse.code,
-              redirectUri:window.location.origin,
-              device
-            })
-          }, 22000);
-          if (!verifyResponse.ok || !result.ok || !result.approved || !result.visitor?.subject) {
-            throw new Error(result.message || "Google identity could not be verified.");
-          }
-          identity.value = result.visitor.email || result.visitor.subject;
-          try {
-            localStorage.setItem("luvvaVerifiedProviderSubjectV5", JSON.stringify({
-              provider:"Google", subject:result.visitor.subject, email:result.visitor.email||"",
-              name:result.visitor.name||"", identityId:result.visitor.identityId,
-              sessionId:result.session?.id||"", expiresAt:result.session?.expiresAt||null,
-              accessState:result.session?.accessState||"temporary", verifiedAt:Date.now()
-            }));
-          } catch (_) {}
-          storeVisitorIdentity();
-          await showWelcome();
-        } catch (error) {
-          googleCredentialInProgress = false;
-          errorBox.textContent = error.message || "Google verification failed. Please try again.";
-          googleOfficialButton.style.pointerEvents = "auto";
-          googleOfficialButton.removeAttribute("aria-busy");
-        }
-      },
-      error_callback: (error) => {
-        googleCredentialInProgress = false;
+          localStorage.setItem("luvvaVerifiedProviderSubjectV5", JSON.stringify({
+            provider:"Google", subject:result.visitor.subject, email:result.visitor.email||"",
+            name:result.visitor.name||"", identityId:result.visitor.identityId,
+            sessionId:result.session?.id||"", expiresAt:result.session?.expiresAt||null,
+            accessState:result.session?.accessState||"temporary", verifiedAt:Date.now()
+          }));
+        } catch (_) {}
+        storeVisitorIdentity();
+        await showWelcome();
+      } catch (error) {
+        verificationInProgress = false;
+        errorBox.textContent = error.message || "Google verification failed. Please try again.";
         googleOfficialButton.style.pointerEvents = "auto";
         googleOfficialButton.removeAttribute("aria-busy");
-        errorBox.textContent = error?.message || error?.type || "Google sign-in window could not be completed. Please try again.";
       }
-    });
+    };
 
-    googleOfficialButton.innerHTML = `
-      <button type="button" id="luvvaGoogleCodeButton" aria-label="Continue with Google"
-        style="width:100%;min-height:48px;border:1px solid #dadce0;border-radius:999px;background:#fff;color:#3c4043;display:flex;align-items:center;justify-content:center;gap:14px;font:500 15px/1.2 Arial,sans-serif;cursor:pointer;padding:10px 20px;box-shadow:0 1px 2px rgba(0,0,0,.08)">
-        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3Z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.5L15.4 17c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22Z"/><path fill="#FBBC05" d="M6.4 13.9a6 6 0 0 1 0-3.8V7.5H3.1a10 10 0 0 0 0 9l3.3-2.6Z"/><path fill="#EA4335" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.8A9.7 9.7 0 0 0 3.1 7.5l3.3 2.6C7.2 7.8 9.4 6 12 6Z"/></svg>
-        <span>Continue with Google</span>
-      </button>`;
-
-    document.getElementById("luvvaGoogleCodeButton")?.addEventListener("click", () => {
-      errorBox.textContent = "Opening Google secure sign-in…";
-      try { codeClient.requestCode(); }
-      catch (error) { errorBox.textContent = error?.message || "Google sign-in could not start. Please try again."; }
-    }, { once:false });
-
-    errorBox.textContent = "Choose your Google account using the secure Google button above.";
+    googleOfficialButton.innerHTML = '<div id="luvvaGoogleRenderedButton" style="display:flex;justify-content:center;min-height:48px"></div>';
+    try {
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredential,
+        ux_mode: "popup",
+        auto_select: false,
+        cancel_on_tap_outside: false,
+        use_fedcm_for_prompt: false
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("luvvaGoogleRenderedButton"),
+        { type:"standard", theme:"outline", size:"large", shape:"pill", text:"continue_with", width:320, logo_alignment:"left" }
+      );
+      errorBox.textContent = "Choose your Google account using the secure Google button above.";
+    } catch (error) {
+      googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><strong>Google sign-in could not start.</strong><span>Please refresh and try again.</span></div>';
+      errorBox.textContent = error?.message || "Google sign-in could not start.";
+    }
   }
 
   function setBusinessMode(mode) {
@@ -2718,6 +2703,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   });
 
   providerButtons.forEach(button => button.addEventListener("click", async () => {
+    await enableAudio();
     const requestedProvider = button.dataset.luvvaV3Provider || "Business Email";
     const policy = readAccessPolicy();
     if (!policy.contactCompleted && (policy.locked || ACCESS_PROVIDERS.every(item => policy.usedProviders.includes(item)))) {
