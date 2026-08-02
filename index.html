@@ -1533,6 +1533,12 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 }
 .luvva-v3-providers button:active{transform:translateY(0)!important;}
 
+
+/* Final provider interaction tuning: quick, restrained, and consistent. */
+.luvva-v3-providers button{
+  transition:transform .11s ease-out,border-color .14s ease-out,box-shadow .14s ease-out,background .14s ease-out!important;
+}
+.luvva-v3-providers button:hover{transform:translateY(-1px)!important;}
 </style>
 <style id="owner-access-v66-style">
 .luvva-v3-shell{position:relative;padding-bottom:70px!important}
@@ -2277,73 +2283,60 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   let activeProvider = "";
   let whatsappCodeSent = false;
   let audioContext = null;
+  let audioUnlocked = false;
+  let lastHoverToneAt = 0;
+  let lastHoverButton = null;
 
   function audio() {
     if (audioContext) return audioContext;
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    audioContext = AudioCtx ? new AudioCtx() : null;
+    audioContext = AudioCtx ? new AudioCtx({ latencyHint: "interactive" }) : null;
     return audioContext;
   }
 
-  async function enableAudio() {
-    const ctx = audio();
-    if (ctx && ctx.state === "suspended") { try { await ctx.resume(); } catch (_) {} }
-    if (ctx && ctx.state === "running" && !window.__luvvaAudioPrimed) {
-      // Prime the output during the user's gesture so the first hover tone is not lost.
-      const gain = ctx.createGain();
-      const osc = ctx.createOscillator();
-      gain.gain.setValueAtTime(0.00001, ctx.currentTime);
-      osc.connect(gain); gain.connect(ctx.destination);
-      osc.start(); osc.stop(ctx.currentTime + 0.015);
-      window.__luvvaAudioPrimed = true;
-    }
-  }
-
-  let lastHoverToneAt = 0;
-  let lastHoverButton = null;
-
-  function emitProviderHoverTone(ctx) {
+  function emitProviderHoverTone(ctx, volume = .034) {
     if (!ctx || ctx.state !== "running") return false;
     const stamp = performance.now();
-    if (stamp - lastHoverToneAt < 70) return false;
+    if (stamp - lastHoverToneAt < 65) return false;
     lastHoverToneAt = stamp;
     const now = ctx.currentTime;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     const filter = ctx.createBiquadFilter();
     osc.type = "sine";
-    osc.frequency.setValueAtTime(535, now);
-    osc.frequency.exponentialRampToValueAtTime(670, now + .048);
+    osc.frequency.setValueAtTime(520, now);
+    osc.frequency.exponentialRampToValueAtTime(690, now + .045);
     filter.type = "lowpass";
-    filter.frequency.setValueAtTime(1650, now);
+    filter.frequency.setValueAtTime(1900, now);
     gain.gain.setValueAtTime(.0001, now);
-    gain.gain.exponentialRampToValueAtTime(.021, now + .007);
-    gain.gain.exponentialRampToValueAtTime(.0001, now + .072);
+    gain.gain.exponentialRampToValueAtTime(volume, now + .006);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + .085);
     osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
-    osc.start(now); osc.stop(now + .078);
+    osc.start(now); osc.stop(now + .09);
     return true;
   }
 
-  async function playProviderHoverTone(button) {
-    if (button && button === lastHoverButton) return;
+  async function unlockAudioAndPlay() {
     const ctx = audio();
-    if (!ctx) return;
-    if (ctx.state !== "running") {
-      try { await ctx.resume(); } catch (_) {}
-    }
-    if (ctx.state === "running" && emitProviderHoverTone(ctx)) {
-      lastHoverButton = button || null;
-    }
+    if (!ctx) return false;
+    try {
+      if (ctx.state !== "running") await ctx.resume();
+    } catch (_) {}
+    if (ctx.state !== "running") return false;
+    audioUnlocked = true;
+    return emitProviderHoverTone(ctx, .028);
   }
 
-  // Prepare the audio engine as early as the browser allows. Pointer movement is tried first;
-  // pointer/click/keyboard remains the guaranteed browser fallback when autoplay is restricted.
-  audio();
-  ["pointermove", "mousemove"].forEach(type =>
-    window.addEventListener(type, enableAudio, { passive:true, once:true, capture:true })
-  );
-  ["pointerdown", "mousedown", "keydown", "touchstart"].forEach(type =>
-    window.addEventListener(type, enableAudio, { passive:true, once:true, capture:true })
+  function playProviderHoverTone(button) {
+    if (!audioUnlocked || (button && button === lastHoverButton)) return;
+    const ctx = audio();
+    if (ctx && emitProviderHoverTone(ctx)) lastHoverButton = button || null;
+  }
+
+  // Browsers block sound before a genuine user gesture. Unlock on the first real
+  // click/tap/key action and play a quiet confirmation tone in that same gesture.
+  ["pointerdown", "mousedown", "touchstart", "keydown"].forEach(type =>
+    window.addEventListener(type, unlockAudioAndPlay, { passive:true, once:true, capture:true })
   );
 
   function thump(offset, strength, baseFrequency) {
@@ -2603,7 +2596,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
     requestAnimationFrame(() => success.classList.remove("instant-cover"));
 
-    await enableAudio();
+    await unlockAudioAndPlay();
 
     // Calm, evenly spaced heartbeat pairs. The sound continues for five seconds
     // after the main page appears, while no visual pulse or flash is shown there.
@@ -2643,13 +2636,20 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     }, 13000);
   }
 
-  providerButtons.forEach(button => {
-    button.addEventListener("mouseenter", () => playProviderHoverTone(button));
-    button.addEventListener("focus", () => playProviderHoverTone(button));
-    button.addEventListener("mouseleave", () => {
-      if (lastHoverButton === button) lastHoverButton = null;
-    });
+  // Event delegation is more reliable on hybrid touch/mouse laptops.
+  gateway.addEventListener("pointerover", event => {
+    const button = event.target.closest(".luvva-v3-providers button");
+    if (!button || !gateway.contains(button)) return;
+    if (event.relatedTarget && button.contains(event.relatedTarget)) return;
+    playProviderHoverTone(button);
   });
+  gateway.addEventListener("pointerout", event => {
+    const button = event.target.closest(".luvva-v3-providers button");
+    if (!button) return;
+    if (event.relatedTarget && button.contains(event.relatedTarget)) return;
+    if (lastHoverButton === button) lastHoverButton = null;
+  });
+  providerButtons.forEach(button => button.addEventListener("focus", () => playProviderHoverTone(button)));
 
   providerButtons.forEach(button => button.addEventListener("click", async () => {
     const requestedProvider = button.dataset.luvvaV3Provider || "Business Email";
@@ -2662,7 +2662,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       showAccessLocked(`${requestedProvider} has already provided its 45-minute trial on this device. Use another unused official entrance, or contact CMT GROUP to restore access.`);
       return;
     }
-    await enableAudio();
+    await unlockAudioAndPlay();
     openProvider(requestedProvider);
     if (returningSession && savedVisitor && requestedProvider !== savedVisitor.provider) {
       errorBox.textContent = `This remaining session credit belongs to ${savedVisitor.provider}. Close this window and return through the same method.`;
