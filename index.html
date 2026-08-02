@@ -1569,6 +1569,24 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </style>
 </link><meta name="google-client-id" content="399120453126-lmgl52l87784rjkpr7361b461vmdjktl.apps.googleusercontent.com">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<style id="luvva-v73-refined-provider-motion">
+/* V7.3 — quieter premium provider movement */
+.luvva-v3-providers button{
+  transition:transform .24s cubic-bezier(.22,.61,.36,1),border-color .24s ease,box-shadow .28s ease,filter .24s ease!important;
+  will-change:transform;
+}
+.luvva-v3-providers button:hover,.luvva-v3-providers button:focus-visible{
+  transform:translateY(-1px) scale(1.003)!important;
+  filter:brightness(1.025)!important;
+  box-shadow:0 15px 30px rgba(0,0,0,.43),0 0 18px rgba(214,151,37,.11),inset 0 1px rgba(255,244,205,.16)!important;
+}
+.luvva-v3-providers button:active{transform:translateY(0) scale(.998)!important;}
+.luvva-v3-providers button:hover .luvva-v3-arrow{transform:translateX(2px)!important;}
+@media (hover:none),(pointer:coarse){
+  .luvva-v3-providers button:hover{transform:none!important;filter:none!important;}
+}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -2295,6 +2313,29 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     if (ctx && ctx.state === "suspended") { try { await ctx.resume(); } catch (_) {} }
   }
 
+  let lastProviderToneAt = 0;
+  function playProviderHoverTone() {
+    const ctx = audio();
+    if (!ctx || ctx.state !== "running" || window.matchMedia("(hover:none), (pointer:coarse)").matches) return;
+    const nowMs = Date.now();
+    if (nowMs - lastProviderToneAt < 110) return;
+    lastProviderToneAt = nowMs;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(520, now);
+    osc.frequency.exponentialRampToValueAtTime(610, now + .075);
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(1050, now);
+    gain.gain.setValueAtTime(.0001, now);
+    gain.gain.exponentialRampToValueAtTime(.014, now + .012);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + .11);
+    osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+    osc.start(now); osc.stop(now + .12);
+  }
+
   function thump(offset, strength, baseFrequency) {
     const ctx = audio();
     if (!ctx || ctx.state !== "running") return;
@@ -2620,6 +2661,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       clearInterval(heartbeatTimer);
     }, 13000);
   }
+
+  providerButtons.forEach(button => {
+    button.addEventListener("mouseenter", playProviderHoverTone, { passive:true });
+    button.addEventListener("focus", playProviderHoverTone, { passive:true });
+  });
 
   providerButtons.forEach(button => button.addEventListener("click", async () => {
     const requestedProvider = button.dataset.luvvaV3Provider || "Business Email";
