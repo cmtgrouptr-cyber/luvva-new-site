@@ -1525,7 +1525,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
 /* ===== LUVVA V7.0.1 — responsive micro-motion lock ===== */
 .luvva-v3-providers button{
-  transition:transform .14s cubic-bezier(.2,.72,.2,1),border-color .14s ease,box-shadow .14s ease,filter .14s ease!important;
+  transition:transform .095s cubic-bezier(.2,.78,.2,1),border-color .11s ease,box-shadow .11s ease,filter .11s ease!important;
 }
 .luvva-v3-providers button:hover,.luvva-v3-providers button:focus-visible{
   transform:translateY(-1px)!important;
@@ -2300,30 +2300,49 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 
   let lastHoverToneAt = 0;
-  function playProviderHoverTone() {
-    const ctx = audioContext;
-    if (!ctx || ctx.state !== "running") return;
+  let lastHoverButton = null;
+
+  function emitProviderHoverTone(ctx) {
+    if (!ctx || ctx.state !== "running") return false;
     const stamp = performance.now();
-    if (stamp - lastHoverToneAt < 85) return;
+    if (stamp - lastHoverToneAt < 70) return false;
     lastHoverToneAt = stamp;
     const now = ctx.currentTime;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     const filter = ctx.createBiquadFilter();
     osc.type = "sine";
-    osc.frequency.setValueAtTime(520, now);
-    osc.frequency.exponentialRampToValueAtTime(650, now + .055);
-    filter.type = "lowpass"; filter.frequency.setValueAtTime(1500, now);
+    osc.frequency.setValueAtTime(535, now);
+    osc.frequency.exponentialRampToValueAtTime(670, now + .048);
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(1650, now);
     gain.gain.setValueAtTime(.0001, now);
-    gain.gain.exponentialRampToValueAtTime(.018, now + .009);
-    gain.gain.exponentialRampToValueAtTime(.0001, now + .085);
+    gain.gain.exponentialRampToValueAtTime(.021, now + .007);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + .072);
     osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
-    osc.start(now); osc.stop(now + .09);
+    osc.start(now); osc.stop(now + .078);
+    return true;
   }
 
-  // Browsers require one real gesture before audio. Prime on the earliest possible gesture,
-  // then provider hover tones work immediately and consistently for mouse/trackpad users.
-  ["pointerdown", "keydown", "touchstart"].forEach(type =>
+  async function playProviderHoverTone(button) {
+    if (button && button === lastHoverButton) return;
+    const ctx = audio();
+    if (!ctx) return;
+    if (ctx.state !== "running") {
+      try { await ctx.resume(); } catch (_) {}
+    }
+    if (ctx.state === "running" && emitProviderHoverTone(ctx)) {
+      lastHoverButton = button || null;
+    }
+  }
+
+  // Prepare the audio engine as early as the browser allows. Pointer movement is tried first;
+  // pointer/click/keyboard remains the guaranteed browser fallback when autoplay is restricted.
+  audio();
+  ["pointermove", "mousemove"].forEach(type =>
+    window.addEventListener(type, enableAudio, { passive:true, once:true, capture:true })
+  );
+  ["pointerdown", "mousedown", "keydown", "touchstart"].forEach(type =>
     window.addEventListener(type, enableAudio, { passive:true, once:true, capture:true })
   );
 
@@ -2625,8 +2644,10 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 
   providerButtons.forEach(button => {
-    button.addEventListener("pointerenter", (event) => {
-      if (event.pointerType === "mouse" || event.pointerType === "pen" || !event.pointerType) playProviderHoverTone();
+    button.addEventListener("mouseenter", () => playProviderHoverTone(button));
+    button.addEventListener("focus", () => playProviderHoverTone(button));
+    button.addEventListener("mouseleave", () => {
+      if (lastHoverButton === button) lastHoverButton = null;
     });
   });
 
