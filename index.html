@@ -2506,7 +2506,33 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     }, 1000);
   }
 
+  let googleRenderTimer = null;
+
+  function restoreAuthBackdrop() {
+    // V7.3: show the authentication layer again after any previous successful
+    // welcome transition hid it with inline styles/hidden=true.
+    backdrop.hidden = false;
+    backdrop.style.removeProperty("display");
+    backdrop.style.removeProperty("visibility");
+    backdrop.style.removeProperty("opacity");
+    backdrop.style.removeProperty("pointer-events");
+    backdrop.style.removeProperty("transition");
+  }
+
+  function cancelPendingProviderWork() {
+    if (googleRenderTimer) {
+      clearTimeout(googleRenderTimer);
+      googleRenderTimer = null;
+    }
+    if (googleOfficialButton) {
+      googleOfficialButton.style.pointerEvents = "auto";
+      delete googleOfficialButton.dataset.waitStarted;
+    }
+  }
+
   function openProvider(provider) {
+    cancelPendingProviderWork();
+    restoreAuthBackdrop();
     activeProvider = provider;
     resetForm();
     const isWhatsApp = provider === "WhatsApp";
@@ -2547,7 +2573,10 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
     if (isGoogle) {
       googleOfficialButton.innerHTML = '<div class="luvva-redirecting"><div class="luvva-redirecting-ring"></div><div>Opening Google secure sign-in…</div></div>';
-      setTimeout(renderGoogleOfficialButton, 350);
+      googleRenderTimer = setTimeout(() => {
+        googleRenderTimer = null;
+        renderGoogleOfficialButton();
+      }, 350);
     } else if (isWeChat) {
       setTimeout(() => console.info("LUVVA WeChat authorization ready; configure official App ID and callback URL for live QR/deep-link."), 80);
     } else {
@@ -2556,8 +2585,12 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   }
 
   function closeProvider() {
-    backdrop.classList.remove("is-open"); backdrop.setAttribute("aria-hidden", "true");
-    activeProvider = ""; resetForm();
+    cancelPendingProviderWork();
+    backdrop.classList.remove("is-open");
+    backdrop.setAttribute("aria-hidden", "true");
+    document.body.style.removeProperty("overflow");
+    activeProvider = "";
+    resetForm();
   }
 
   function validEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
@@ -2663,6 +2696,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       return;
     }
     await unlockAudioAndPlay();
+    if (backdrop.classList.contains("is-open")) closeProvider();
     openProvider(requestedProvider);
     if (returningSession && savedVisitor && requestedProvider !== savedVisitor.provider) {
       errorBox.textContent = `This remaining session credit belongs to ${savedVisitor.provider}. Close this window and return through the same method.`;
