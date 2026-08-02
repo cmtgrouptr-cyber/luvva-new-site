@@ -2438,14 +2438,18 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       return;
     }
 
+    let googleCredentialInProgress = false;
     const handleGoogleCredential = async (response) => {
+      if (googleCredentialInProgress) return;
       if (!response?.credential) {
         errorBox.textContent = "Google did not return a verification credential. Please try again.";
         return;
       }
+      googleCredentialInProgress = true;
       errorBox.classList.remove("is-success");
       errorBox.textContent = "Verifying Google identity securely…";
       googleOfficialButton.style.pointerEvents = "none";
+      googleOfficialButton.setAttribute("aria-busy", "true");
       try {
         const device = JSON.stringify(detectDevice());
         const { response: verifyResponse, result } = await fetchJsonWithTimeout("/api/google-auth", {
@@ -2468,8 +2472,10 @@ body.luvva-page-revealing.luvva-page-visible > footer {
         storeVisitorIdentity();
         await showWelcome();
       } catch (error) {
+        googleCredentialInProgress = false;
         errorBox.textContent = error.message || "Google verification failed. Please try again.";
         googleOfficialButton.style.pointerEvents = "auto";
+        googleOfficialButton.removeAttribute("aria-busy");
       }
     };
 
@@ -2487,18 +2493,13 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       logo_alignment:"left"
     });
 
-    // Try Google's native account chooser immediately. If the browser declines
-    // One Tap, the official Google button remains visible as a reliable fallback.
-    try {
-      google.accounts.id.prompt((notification) => {
-        if (notification?.isNotDisplayed?.() || notification?.isSkippedMoment?.()) {
-          errorBox.textContent = "Choose your Google account using the secure Google button above.";
-        }
-      });
-    } catch (error) {
-      console.warn("LUVVA Google prompt could not open automatically.", error);
-      errorBox.textContent = "Choose your Google account using the secure Google button above.";
-    }
+    // Keep a single, deterministic Google flow. We intentionally do not call
+    // google.accounts.id.prompt() here because some Chrome/FedCM versions open
+    // a second account chooser on top of the official button flow, then return
+    // to the dialog without delivering the credential callback. The official
+    // Google button below is the only entry point and reliably returns the ID
+    // credential to handleGoogleCredential.
+    errorBox.textContent = "Choose your Google account using the secure Google button above.";
   }
 
   function setBusinessMode(mode) {
