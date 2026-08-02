@@ -1,7 +1,7 @@
 {
-  "name": "luvva-secure-gateway-v7-1-google-popup-fix",
+  "name": "luvva-secure-gateway-v7-2-google-client-bootstrap",
   "private": true,
-  "version": "7.1.0",
+  "version": "7.2.0",
   "engines": {
     "node": ">=20"
   },
@@ -9,5 +9,5 @@
     "qrcode": "^1.5.4",
     "google-auth-library": "^10.3.0"
   },
-  "description": "LUVVA Secure Gateway V7.1 Google sign-in loading, account chooser, and secure verification fix"
+  "description": "LUVVA Secure Gateway V7.2 Google Client ID bootstrap and secure sign-in fix"
 }
