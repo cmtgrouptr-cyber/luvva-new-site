@@ -20,3 +20,9 @@ Required setup:
 3. Add the environment variables in Vercel Production, Preview and Development as needed.
 4. Redeploy.
 5. Test with info@luvva.tech, contact@luvva.tech, investors@luvva.tech or cmtgroup.tr@luvva.tech.
+
+
+V7.7.1 DELIVERY FIX
+- Default sender changed to noreply@luvva.tech.
+- If BUSINESS_EMAIL_FROM equals the recipient mailbox, the API automatically uses noreply@luvva.tech to prevent self-forwarding suppression in Gmail/ImprovMX.
+- Recommended Vercel value: BUSINESS_EMAIL_FROM=LUVVA Secure Gateway <noreply@luvva.tech>

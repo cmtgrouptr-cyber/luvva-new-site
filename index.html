@@ -3165,6 +3165,9 @@ body.luvva-page-revealing.luvva-page-visible > footer {
         errorBox.textContent=err.message||"The verification code is incorrect or expired."; code.select(); submit.textContent="Verify and continue"; submit.disabled=false; return;
       }
     } else {
+      if (activeProvider === "Business Email") {
+        identity.value = identity.value.trim().toLowerCase().replace(/@luvval\.tech$/i, "@luvva.tech");
+      }
       if (!identity.value.trim() || !validEmail(identity.value.trim())) { errorBox.textContent = "Please enter a valid email address."; submit.disabled = false; return; }
       if (activeProvider === "Business Email" && businessAuthMode === "code") {
         if (!emailCodeSent) {
