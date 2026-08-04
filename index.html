@@ -2226,7 +2226,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 (() => {
   "use strict";
 
-  const LUVVA_GATEWAY_BUILD = "V7.6.0-modal-overlay-hit-test-fix";
+  const LUVVA_GATEWAY_BUILD = "V7.7.5-provider-entry-reset-fix";
   window.__LUVVA_GATEWAY_BUILD__ = LUVVA_GATEWAY_BUILD;
   console.info("LUVVA Secure Gateway build:", LUVVA_GATEWAY_BUILD);
 
@@ -2517,14 +2517,28 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   let googleRenderTimer = null;
 
   function restoreAuthBackdrop() {
-    // V7.6: one deterministic source of truth for the modal overlay.
-    // Closed = hidden + no is-open. Open = not hidden + is-open.
+    // Provider-entry reset fix: explicitly restore the only interactive overlay.
+    // Inline values are intentional so no older author rule can leave a ghost layer.
     backdrop.hidden = false;
-    backdrop.style.removeProperty("display");
-    backdrop.style.removeProperty("visibility");
-    backdrop.style.removeProperty("opacity");
-    backdrop.style.removeProperty("pointer-events");
+    backdrop.classList.add("is-open");
+    backdrop.setAttribute("aria-hidden", "false");
+    backdrop.style.display = "grid";
+    backdrop.style.visibility = "visible";
+    backdrop.style.opacity = "1";
+    backdrop.style.pointerEvents = "auto";
     backdrop.style.removeProperty("transition");
+  }
+
+  function forceCloseAuthBackdrop() {
+    // Synchronous, idempotent cleanup. This is safe to call before every provider switch.
+    backdrop.classList.remove("is-open");
+    backdrop.setAttribute("aria-hidden", "true");
+    backdrop.style.display = "none";
+    backdrop.style.visibility = "hidden";
+    backdrop.style.opacity = "0";
+    backdrop.style.pointerEvents = "none";
+    backdrop.hidden = true;
+    document.body.style.removeProperty("overflow");
   }
 
   function cancelPendingProviderWork() {
@@ -2577,13 +2591,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
     dialog.classList.remove("provider-business", "provider-google", "provider-whatsapp", "provider-wechat");
     dialog.classList.add(`provider-${isBusiness ? "business" : provider.toLowerCase()}`);
-    backdrop.hidden = false;
-    backdrop.style.removeProperty("display");
-    backdrop.style.removeProperty("visibility");
-    backdrop.style.removeProperty("opacity");
-    backdrop.style.removeProperty("pointer-events");
-    backdrop.classList.add("is-open");
-    backdrop.setAttribute("aria-hidden", "false");
+    restoreAuthBackdrop();
     document.body.style.overflow = "hidden";
 
     if (isGoogle) {
@@ -2601,18 +2609,10 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   function closeProvider() {
     cancelPendingProviderWork();
-    // V7.6: remove the overlay from layout and hit-testing synchronously.
-    // No delayed cleanup and no requestAnimationFrame that can resurrect it.
-    backdrop.classList.remove("is-open");
-    backdrop.setAttribute("aria-hidden", "true");
-    backdrop.hidden = true;
-    backdrop.style.removeProperty("display");
-    backdrop.style.removeProperty("visibility");
-    backdrop.style.removeProperty("opacity");
-    backdrop.style.removeProperty("pointer-events");
-    document.body.style.removeProperty("overflow");
+    forceCloseAuthBackdrop();
     activeProvider = "";
     resetForm();
+    submit.disabled = false;
   }
 
   function validEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
@@ -2718,7 +2718,12 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       return;
     }
     await unlockAudioAndPlay();
-    if (backdrop.classList.contains("is-open")) closeProvider();
+    // Always start from a clean modal state. This prevents the invisible backdrop
+    // from intercepting the next provider after a dialog is closed.
+    cancelPendingProviderWork();
+    forceCloseAuthBackdrop();
+    activeProvider = "";
+    resetForm();
     openProvider(requestedProvider);
     if (returningSession && savedVisitor && requestedProvider !== savedVisitor.provider) {
       errorBox.textContent = `Verify with ${requestedProvider} to continue using this entrance.`;
@@ -3078,11 +3083,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     sessionTimer.classList.remove("is-visible", "is-ending");
     gateway.hidden = false;
     gateway.setAttribute("aria-hidden", "false");
-    backdrop.hidden = false;
-    backdrop.style.removeProperty("display");
-    backdrop.style.removeProperty("opacity");
-    backdrop.style.removeProperty("visibility");
-    backdrop.style.removeProperty("pointer-events");
+    forceCloseAuthBackdrop();
     document.body.classList.add("luvva-v3-locked");
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
@@ -3198,6 +3199,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     showWelcome();
   });
 
+  forceCloseAuthBackdrop();
   refreshProviderAvailability();
   if (isAccessLocked()) {
     gateway.hidden = false;
