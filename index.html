@@ -1590,6 +1590,158 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 </style>
 </link><meta name="google-client-id" content="">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<style id="luvva-business-v100-ui">
+/* ===== LUVVA Business Email — isolated logical tactile UI ===== */
+.luvva-auth-dialog.provider-business{
+  max-width:520px!important;
+}
+.luvva-auth-dialog.provider-business #luvvaBusinessModes{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:18px!important;
+  padding:0!important;
+  margin:4px 0 4px!important;
+  border:0!important;
+  overflow:visible!important;
+  background:transparent!important;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-tab{
+  position:relative;
+  min-height:64px!important;
+  padding:0 18px!important;
+  border:1px solid rgba(238,198,111,.72)!important;
+  border-radius:17px!important;
+  color:#f7e7bc!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.11) 0%,rgba(255,255,255,.025) 32%,rgba(0,0,0,.18) 100%),
+    linear-gradient(145deg,#30271f 0%,#171411 56%,#0c0b0a 100%)!important;
+  box-shadow:
+    0 10px 0 rgba(86,48,9,.74),
+    0 17px 25px rgba(0,0,0,.48),
+    0 0 0 1px rgba(255,230,169,.13),
+    inset 0 2px 0 rgba(255,246,219,.28),
+    inset 0 -6px 12px rgba(0,0,0,.34)!important;
+  font-size:13px!important;
+  letter-spacing:.015em!important;
+  transform:translateY(0)!important;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-tab::after{
+  content:"";
+  position:absolute;
+  left:13px;right:13px;bottom:7px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,215,126,.58),transparent);
+  opacity:.7;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-tab:hover,
+.luvva-auth-dialog.provider-business .luvva-auth-tab:focus-visible{
+  transform:translateY(-2px)!important;
+  filter:brightness(1.08);
+  outline:none;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-tab:active{
+  transform:translateY(7px)!important;
+  box-shadow:
+    0 3px 0 rgba(86,48,9,.78),
+    0 8px 14px rgba(0,0,0,.42),
+    inset 0 2px 8px rgba(0,0,0,.28)!important;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-tab.is-active{
+  color:#2d1a05!important;
+  border-color:#ffe4a3!important;
+  background:
+    linear-gradient(180deg,#fff8e9 0%,#f5db9e 57%,#ce8f2d 100%)!important;
+  box-shadow:
+    0 10px 0 #8b5316,
+    0 18px 28px rgba(0,0,0,.48),
+    0 0 24px rgba(235,178,64,.24),
+    inset 0 2px 0 rgba(255,255,255,.92),
+    inset 0 -7px 13px rgba(133,75,9,.25)!important;
+  text-shadow:0 1px rgba(255,255,255,.45)!important;
+}
+.luvva-business-mode-help{
+  margin:3px 6px 5px;
+  min-height:32px;
+  color:rgba(255,241,211,.68);
+  font:600 11px/1.45 "Montserrat",sans-serif;
+  text-align:center;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-field{
+  transition:opacity .18s ease,transform .18s ease;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-submit{
+  width:72%!important;
+  justify-self:center!important;
+  min-height:58px!important;
+  margin:16px auto 2px!important;
+  border:1px solid rgba(255,224,153,.9)!important;
+  border-radius:18px!important;
+  color:#281804!important;
+  background:linear-gradient(180deg,#fffdf5 0%,#f7dda2 58%,#d69832 100%)!important;
+  box-shadow:
+    0 10px 0 #8c551b,
+    0 18px 27px rgba(0,0,0,.5),
+    0 0 20px rgba(226,166,55,.18),
+    inset 0 2px 0 rgba(255,255,255,.95),
+    inset 0 -7px 13px rgba(125,70,8,.24)!important;
+  font-weight:700!important;
+  letter-spacing:.035em!important;
+  transition:transform .15s ease,filter .15s ease,box-shadow .15s ease!important;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-submit:hover:not(:disabled),
+.luvva-auth-dialog.provider-business .luvva-auth-submit:focus-visible:not(:disabled){
+  transform:translateY(-2px)!important;
+  filter:brightness(1.045);
+  outline:none;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-submit:active:not(:disabled){
+  transform:translateY(7px)!important;
+  box-shadow:
+    0 3px 0 #8c551b,
+    0 9px 14px rgba(0,0,0,.48),
+    inset 0 2px 8px rgba(100,53,3,.22)!important;
+}
+.luvva-auth-dialog.provider-business #luvvaForgotLink{
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  min-width:176px;
+  min-height:42px;
+  padding:0 18px;
+  border:1px solid rgba(229,185,94,.72);
+  border-radius:14px;
+  color:#f2d68d!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.015)),#181410;
+  box-shadow:0 6px 0 rgba(74,43,10,.78),0 12px 20px rgba(0,0,0,.42),inset 0 1px rgba(255,241,201,.22);
+  text-decoration:none!important;
+  transition:transform .15s ease,filter .15s ease,box-shadow .15s ease!important;
+}
+.luvva-auth-dialog.provider-business #luvvaForgotLink:hover,
+.luvva-auth-dialog.provider-business #luvvaForgotLink:focus-visible{
+  transform:translateY(-1px);
+  filter:brightness(1.08);
+  outline:none;
+}
+.luvva-auth-dialog.provider-business #luvvaForgotLink:active{
+  transform:translateY(4px);
+  box-shadow:0 2px 0 rgba(74,43,10,.8),0 6px 12px rgba(0,0,0,.4),inset 0 2px 7px rgba(0,0,0,.28);
+}
+.luvva-auth-dialog.provider-business #luvvaForgotLink.parent-fix{}
+.luvva-auth-dialog.provider-business .luvva-auth-row:has(#luvvaForgotLink){
+  display:flex!important;
+  justify-content:flex-end!important;
+  margin-top:14px!important;
+  padding-right:2px;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-row:has(#luvvaForgotLink)>span{display:none!important;}
+@media(max-width:520px){
+  .luvva-auth-dialog.provider-business #luvvaBusinessModes{gap:12px!important;}
+  .luvva-auth-dialog.provider-business .luvva-auth-tab{min-height:57px!important;padding:0 10px!important;font-size:11px!important;}
+  .luvva-auth-dialog.provider-business .luvva-auth-submit{width:84%!important;}
+  .luvva-auth-dialog.provider-business #luvvaForgotLink{min-width:154px;min-height:39px;padding:0 13px;}
+}
+</style>
+
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -1737,6 +1889,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   <button class="luvva-auth-tab is-active" id="luvvaBusinessPasswordMode" type="button">Password</button>
   <button class="luvva-auth-tab" id="luvvaBusinessCodeMode" type="button">Verification Code</button>
 </div>
+<p class="luvva-business-mode-help" id="luvvaBusinessModeHelp" hidden></p>
 <div id="luvvaStandardFields">
 <div class="luvva-auth-field">
 <label for="luvvaAuthIdentity" id="luvvaIdentityLabel">Email address</label>
@@ -2251,6 +2404,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   const businessModes = document.getElementById("luvvaBusinessModes");
   const businessPasswordMode = document.getElementById("luvvaBusinessPasswordMode");
   const businessCodeMode = document.getElementById("luvvaBusinessCodeMode");
+  const businessModeHelp = document.getElementById("luvvaBusinessModeHelp");
   const emailCodeRow = document.getElementById("luvvaEmailCodeRow");
   const emailCode = document.getElementById("luvvaEmailCode");
   const otpCountdown = document.getElementById("luvvaOtpCountdown");
@@ -2489,6 +2643,15 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     const forgotRow = document.getElementById("luvvaForgotLink")?.parentElement;
     businessPasswordMode?.classList.toggle("is-active", mode === "password");
     businessCodeMode?.classList.toggle("is-active", mode === "code");
+    if (businessModeHelp) {
+      businessModeHelp.hidden = false;
+      businessModeHelp.textContent = mode === "password"
+        ? "Enter your business email and LUVVA password to continue securely."
+        : "Receive a one-time code at your business email and verify it here.";
+    }
+    subtitle.textContent = mode === "password"
+      ? "Sign in with your business email and password."
+      : "Sign in without a password using a one-time email code.";
     if (mode === "password") {
       passField.hidden = false;
       if (forgotRow) forgotRow.hidden = false;
@@ -2573,6 +2736,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     submit.hidden = isGoogle || isWeChat;
     submit.textContent = isWhatsApp ? "Send verification code" : "Continue";
     if (whatsappReset) whatsappReset.classList.toggle("is-visible", false);
+    if (businessModeHelp) businessModeHelp.hidden = !isBusiness;
     if (isBusiness) setBusinessMode("password");
 
     dialog.classList.remove("provider-business", "provider-google", "provider-whatsapp", "provider-wechat");
