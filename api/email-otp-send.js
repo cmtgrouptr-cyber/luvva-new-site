@@ -5,6 +5,11 @@ const reply = (res, status, body) => res.status(status).json(body);
 const normalizeEmail = value => String(value || '').trim().toLowerCase();
 const validEmail = value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && value.length <= 254;
 const hashCode = (email, code) => crypto.createHmac('sha256', process.env.EMAIL_OTP_SECRET || '').update(`${email}:${code}`).digest('hex');
+const extractMailbox = value => {
+  const text = String(value || '').trim();
+  const match = text.match(/<([^>]+)>/);
+  return normalizeEmail(match ? match[1] : text);
+};
 
 function domainAllowed(email) {
   const configured = String(process.env.BUSINESS_EMAIL_ALLOWED_DOMAINS || '').trim();
@@ -22,23 +27,15 @@ export default async function handler(req, res) {
     if (!domainAllowed(email)) return reply(res, 403, { ok:false, message:'This email domain is not approved for Business Email access.' });
 
     const apiKey = process.env.RESEND_API_KEY;
-    const from = process.env.BUSINESS_EMAIL_FROM || 'LUVVA Secure Gateway <cmtgroup.tr@luvva.tech>';
-    const secret = process.env.EMAIL_OTP_SECRET;console.log({
-  apiKey: !!apiKey,
-  secret: !!secret,
-  secretLength: secret ? secret.length : 0,
-  from: process.env.BUSINESS_EMAIL_FROM
-});
+    const configuredFrom = process.env.BUSINESS_EMAIL_FROM || 'LUVVA Secure Gateway <noreply@luvva.tech>';
+    // Avoid sending from the same mailbox that is receiving the OTP. Some forwarding
+    // providers/Gmail may suppress or misclassify that self-addressed message.
+    const from = extractMailbox(configuredFrom) === email
+      ? 'LUVVA Secure Gateway <noreply@luvva.tech>'
+      : configuredFrom;
+    const secret = process.env.EMAIL_OTP_SECRET;
     if (!apiKey || !secret || secret.length < 32) {
-     return reply(res, 503, {
-  ok: false,
-  message: 'Business email verification is not configured yet.',
-  diagnostic: {
-    resendKeyPresent: Boolean(apiKey),
-    emailSecretPresent: Boolean(secret),
-    emailSecretLength: secret ? secret.length : 0
-  }
-});
+      return reply(res, 503, { ok:false, message:'Business email verification is not configured yet.' });
     }
 
     const recent = await supabase(`email_otp_challenges?email=eq.${encodeURIComponent(email)}&order=created_at.desc&limit=1`);
