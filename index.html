@@ -2226,7 +2226,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 (() => {
   "use strict";
 
-  const LUVVA_GATEWAY_BUILD = "V7.7.5-provider-entry-reset-fix";
+  const LUVVA_GATEWAY_BUILD = "V7.6.1-provider-hit-test-release-only";
   window.__LUVVA_GATEWAY_BUILD__ = LUVVA_GATEWAY_BUILD;
   console.info("LUVVA Secure Gateway build:", LUVVA_GATEWAY_BUILD);
 
@@ -2516,29 +2516,36 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   let googleRenderTimer = null;
 
-  function restoreAuthBackdrop() {
-    // Provider-entry reset fix: explicitly restore the only interactive overlay.
-    // Inline values are intentional so no older author rule can leave a ghost layer.
-    backdrop.hidden = false;
-    backdrop.classList.add("is-open");
-    backdrop.setAttribute("aria-hidden", "false");
-    backdrop.style.display = "grid";
-    backdrop.style.visibility = "visible";
-    backdrop.style.opacity = "1";
-    backdrop.style.pointerEvents = "auto";
-    backdrop.style.removeProperty("transition");
-  }
-
-  function forceCloseAuthBackdrop() {
-    // Synchronous, idempotent cleanup. This is safe to call before every provider switch.
+  function forceReleaseAuthHitTest() {
+    // V7.6.1: make the closed authentication layer physically unable to
+    // intercept a later provider click. Inline !important is intentional:
+    // it wins over every author rule and over stale transition state.
     backdrop.classList.remove("is-open");
     backdrop.setAttribute("aria-hidden", "true");
-    backdrop.style.display = "none";
-    backdrop.style.visibility = "hidden";
-    backdrop.style.opacity = "0";
-    backdrop.style.pointerEvents = "none";
     backdrop.hidden = true;
+    backdrop.inert = true;
+    backdrop.style.setProperty("display", "none", "important");
+    backdrop.style.setProperty("visibility", "hidden", "important");
+    backdrop.style.setProperty("opacity", "0", "important");
+    backdrop.style.setProperty("pointer-events", "none", "important");
+    backdrop.style.removeProperty("transition");
     document.body.style.removeProperty("overflow");
+    document.documentElement.style.removeProperty("overflow");
+    providerButtons.forEach(button => {
+      button.style.removeProperty("pointer-events");
+      button.removeAttribute("inert");
+    });
+  }
+
+  function restoreAuthBackdrop() {
+    // Open state starts from a completely clean hit-test state.
+    backdrop.hidden = false;
+    backdrop.inert = false;
+    backdrop.style.removeProperty("display");
+    backdrop.style.removeProperty("visibility");
+    backdrop.style.removeProperty("opacity");
+    backdrop.style.removeProperty("pointer-events");
+    backdrop.style.removeProperty("transition");
   }
 
   function cancelPendingProviderWork() {
@@ -2591,7 +2598,13 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
     dialog.classList.remove("provider-business", "provider-google", "provider-whatsapp", "provider-wechat");
     dialog.classList.add(`provider-${isBusiness ? "business" : provider.toLowerCase()}`);
-    restoreAuthBackdrop();
+    backdrop.hidden = false;
+    backdrop.style.removeProperty("display");
+    backdrop.style.removeProperty("visibility");
+    backdrop.style.removeProperty("opacity");
+    backdrop.style.removeProperty("pointer-events");
+    backdrop.classList.add("is-open");
+    backdrop.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
 
     if (isGoogle) {
@@ -2609,10 +2622,12 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   function closeProvider() {
     cancelPendingProviderWork();
-    forceCloseAuthBackdrop();
     activeProvider = "";
     resetForm();
-    submit.disabled = false;
+    forceReleaseAuthHitTest();
+    // Repeat after the current click/transition stack completes. This is not
+    // an animation cleanup; it only neutralizes stale third-party callbacks.
+    setTimeout(forceReleaseAuthHitTest, 0);
   }
 
   function validEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
@@ -2718,12 +2733,8 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       return;
     }
     await unlockAudioAndPlay();
-    // Always start from a clean modal state. This prevents the invisible backdrop
-    // from intercepting the next provider after a dialog is closed.
-    cancelPendingProviderWork();
-    forceCloseAuthBackdrop();
-    activeProvider = "";
-    resetForm();
+    if (backdrop.classList.contains("is-open")) closeProvider();
+    else forceReleaseAuthHitTest();
     openProvider(requestedProvider);
     if (returningSession && savedVisitor && requestedProvider !== savedVisitor.provider) {
       errorBox.textContent = `Verify with ${requestedProvider} to continue using this entrance.`;
@@ -2747,6 +2758,8 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   if (businessPasswordMode) businessPasswordMode.addEventListener("click", () => setBusinessMode("password"));
   if (businessCodeMode) businessCodeMode.addEventListener("click", () => setBusinessMode("code"));
+
+  forceReleaseAuthHitTest();
 
   closeButton.addEventListener("click", closeProvider);
   backdrop.addEventListener("click", e => { if (e.target === backdrop) closeProvider(); });
@@ -3083,7 +3096,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     sessionTimer.classList.remove("is-visible", "is-ending");
     gateway.hidden = false;
     gateway.setAttribute("aria-hidden", "false");
-    forceCloseAuthBackdrop();
+    backdrop.hidden = false;
+    backdrop.style.removeProperty("display");
+    backdrop.style.removeProperty("opacity");
+    backdrop.style.removeProperty("visibility");
+    backdrop.style.removeProperty("pointer-events");
     document.body.classList.add("luvva-v3-locked");
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
@@ -3199,7 +3216,6 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     showWelcome();
   });
 
-  forceCloseAuthBackdrop();
   refreshProviderAvailability();
   if (isAccessLocked()) {
     gateway.hidden = false;
