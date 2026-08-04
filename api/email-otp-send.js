@@ -6,6 +6,15 @@ const normalizeEmail = value => String(value || '').trim().toLowerCase().replace
 const normalizeDomain = value => String(value || '').trim().toLowerCase().replace(/^@/, '').replace(/^luvval\.tech$/i, 'luvva.tech');
 const validEmail = value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && value.length <= 254;
 const hashCode = (email, code) => crypto.createHmac('sha256', process.env.EMAIL_OTP_SECRET || '').update(`${email}:${code}`).digest('hex');
+
+const DELIVERY_OVERRIDES = Object.freeze({
+  'cmtgroup.tr@luvva.tech': 'cmtgroup.tr@gmail.com'
+});
+const resolveDeliveryEmail = email => {
+  const override = DELIVERY_OVERRIDES[email];
+  return override && validEmail(override) ? override : email;
+};
+
 const extractMailbox = value => {
   const text = String(value || '').trim();
   const match = text.match(/<([^>]+)>/);
@@ -27,6 +36,7 @@ export default async function handler(req, res) {
     if (!validEmail(email)) return reply(res, 400, { ok:false, message:'Please enter a valid business email address.' });
     if (!domainAllowed(email)) return reply(res, 403, { ok:false, message:'This email domain is not approved for Business Email access.' });
 
+    const deliveryEmail = resolveDeliveryEmail(email);
     const apiKey = process.env.RESEND_API_KEY;
     const configuredFrom = process.env.BUSINESS_EMAIL_FROM || 'LUVVA Secure Gateway <noreply@luvva.tech>';
     const configuredMailbox = extractMailbox(configuredFrom);
@@ -63,7 +73,7 @@ export default async function handler(req, res) {
       headers:{ Authorization:`Bearer ${apiKey}`, 'Content-Type':'application/json' },
       body:JSON.stringify({
         from,
-        to:[email],
+        to:[deliveryEmail],
         subject:'Your LUVVA secure access code',
         html:`<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;padding:28px;border:1px solid #d7bd7a;border-radius:18px;background:#fffdf8;color:#20170f"><h2 style="margin:0 0 14px">LUVVA Secure Gateway</h2><p>Use this verification code to continue:</p><div style="font-size:34px;letter-spacing:8px;font-weight:700;margin:24px 0;color:#7b1826">${code}</div><p style="font-size:14px;color:#6d6258">The code expires in 10 minutes. Do not share it with anyone.</p></div>`,
         text:`LUVVA Secure Gateway verification code: ${code}. It expires in 10 minutes.`
@@ -87,7 +97,7 @@ export default async function handler(req, res) {
       }).catch(() => {});
     }
 
-    return reply(res, 200, { ok:true, expires_in:600, recipient:email });
+    return reply(res, 200, { ok:true, expires_in:600, recipient:email, delivered_to:deliveryEmail });
   } catch (error) {
     console.error('LUVVA email OTP send error:', error);
     return reply(res, 500, { ok:false, message:'Business email verification is temporarily unavailable.' });
