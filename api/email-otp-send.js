@@ -23,7 +23,12 @@ export default async function handler(req, res) {
 
     const apiKey = process.env.RESEND_API_KEY;
     const from = process.env.BUSINESS_EMAIL_FROM || 'LUVVA Secure Gateway <cmtgroup.tr@luvva.tech>';
-    const secret = process.env.EMAIL_OTP_SECRET;
+    const secret = process.env.EMAIL_OTP_SECRET;console.log({
+  apiKey: !!apiKey,
+  secret: !!secret,
+  secretLength: secret ? secret.length : 0,
+  from: process.env.BUSINESS_EMAIL_FROM
+});
     if (!apiKey || !secret || secret.length < 32) {
      return reply(res, 503, {
   ok: false,
