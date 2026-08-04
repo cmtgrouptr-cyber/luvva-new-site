@@ -1587,6 +1587,191 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 .luvva-country-option{display:block;width:100%;border:0;background:transparent;color:#e8dcc8;text-align:left;padding:8px 9px;border-radius:8px;font:12px Arial}
 .luvva-country-option:hover,.luvva-country-option.active{background:rgba(190,143,61,.14);color:#fff3da}
 @media(max-width:520px){.luvva-v3-shell{padding-bottom:68px!important}.luvva-owner-ornament{left:12px;right:12px;bottom:20px}.luvva-owner-end{width:42px}.luvva-owner-center{width:36px;font-size:24px}.luvva-security-summary p{font-size:15px;font-size:9.3px!important}.luvva-enterprise-note{font-size:13px;letter-spacing:.16em;font-size:7.8px!important}}
+
+
+/* ===== LUVVA V7.7.6 — Unified sculpted control system ===== */
+:root{
+  --luvva-key-gold-1:#fff0bf;
+  --luvva-key-gold-2:#e7bd68;
+  --luvva-key-gold-3:#9d6419;
+  --luvva-key-dark-1:#2b1b0e;
+  --luvva-key-dark-2:#100a06;
+  --luvva-key-edge:rgba(239,194,101,.58);
+}
+
+/* Shared tactile behavior for all controls inside provider dialogs. */
+.luvva-auth-dialog button,
+.luvva-auth-dialog .luvva-auth-link{
+  -webkit-tap-highlight-color:transparent;
+}
+.luvva-auth-tab,
+.luvva-auth-submit,
+.luvva-auth-reset,
+.luvva-country-button,
+.luvva-auth-link{
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--luvva-key-edge)!important;
+  border-radius:13px!important;
+  color:#f8e5b7!important;
+  background:
+    linear-gradient(180deg,rgba(255,236,186,.12) 0%,rgba(147,94,24,.10) 18%,rgba(28,17,9,.96) 52%,rgba(10,6,4,.99) 100%)!important;
+  box-shadow:
+    0 8px 18px rgba(0,0,0,.48),
+    0 2px 0 rgba(83,47,8,.82),
+    inset 0 1px 0 rgba(255,245,213,.32),
+    inset 0 -3px 8px rgba(0,0,0,.56),
+    0 0 0 1px rgba(255,222,150,.035)!important;
+  text-shadow:0 1px 0 #000,0 0 9px rgba(229,177,74,.18);
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,filter .16s ease!important;
+}
+.luvva-auth-tab::before,
+.luvva-auth-submit::before,
+.luvva-auth-reset::before,
+.luvva-country-button::before,
+.luvva-auth-link::before{
+  content:"";
+  position:absolute;
+  left:8px;right:8px;top:4px;height:34%;
+  border-radius:9px;
+  background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0));
+  pointer-events:none;
+}
+.luvva-auth-tab:hover,
+.luvva-auth-submit:hover,
+.luvva-auth-reset:hover,
+.luvva-country-button:hover,
+.luvva-auth-link:hover,
+.luvva-auth-tab:focus-visible,
+.luvva-auth-submit:focus-visible,
+.luvva-auth-reset:focus-visible,
+.luvva-country-button:focus-visible,
+.luvva-auth-link:focus-visible{
+  transform:translateY(-1px);
+  border-color:rgba(255,218,137,.85)!important;
+  filter:brightness(1.08);
+  box-shadow:
+    0 11px 24px rgba(0,0,0,.54),
+    0 2px 0 rgba(97,56,11,.88),
+    0 0 18px rgba(218,157,47,.18),
+    inset 0 1px 0 rgba(255,248,222,.44),
+    inset 0 -3px 8px rgba(0,0,0,.58)!important;
+  outline:none;
+}
+.luvva-auth-tab:active,
+.luvva-auth-submit:active,
+.luvva-auth-reset:active,
+.luvva-country-button:active,
+.luvva-auth-link:active{
+  transform:translateY(2px);
+  box-shadow:
+    0 3px 8px rgba(0,0,0,.46),
+    inset 0 3px 8px rgba(0,0,0,.64),
+    inset 0 1px 0 rgba(255,242,204,.18)!important;
+}
+
+/* Password / Verification Code are now unmistakable raised keys. */
+.luvva-auth-tabs{
+  gap:10px!important;
+  padding:5px!important;
+  border:1px solid rgba(229,185,94,.24)!important;
+  border-radius:17px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.032),rgba(0,0,0,.18))!important;
+  box-shadow:inset 0 2px 7px rgba(0,0,0,.46),0 1px 0 rgba(255,236,185,.06)!important;
+}
+.luvva-auth-tab{
+  min-height:45px!important;
+  padding:0 12px!important;
+  font:800 11px/1.2 "Montserrat",sans-serif!important;
+  letter-spacing:.025em;
+}
+.luvva-auth-tab.is-active{
+  color:#251401!important;
+  background:linear-gradient(180deg,var(--luvva-key-gold-1) 0%,var(--luvva-key-gold-2) 42%,var(--luvva-key-gold-3) 100%)!important;
+  border-color:rgba(255,232,175,.92)!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.48)!important;
+  box-shadow:0 9px 20px rgba(0,0,0,.42),0 2px 0 #6e3d08,inset 0 2px 0 rgba(255,255,255,.72),inset 0 -4px 7px rgba(91,47,2,.34)!important;
+}
+
+/* Primary action appears as a key inside its available space, not a lit panel. */
+.luvva-auth-submit{
+  width:calc(100% - 18px)!important;
+  min-height:50px!important;
+  margin:8px auto 0!important;
+  padding:0 18px!important;
+  color:#251401!important;
+  background:linear-gradient(180deg,#fff1c4 0%,#e9bd68 43%,#a86b1b 100%)!important;
+  border-color:rgba(255,229,166,.9)!important;
+  font:900 12px/1.2 "Montserrat",sans-serif!important;
+  letter-spacing:.035em!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.48)!important;
+  box-shadow:0 11px 22px rgba(0,0,0,.5),0 3px 0 #704009,0 0 14px rgba(229,172,62,.13),inset 0 2px 0 rgba(255,255,255,.7),inset 0 -4px 8px rgba(100,55,5,.32)!important;
+}
+.luvva-auth-submit:disabled{opacity:.56!important;filter:saturate(.7)!important;transform:none!important;}
+
+/* Forgot password is a separate secondary key, lowered and centered. */
+.luvva-auth-row:has(#luvvaForgotLink){
+  justify-content:center!important;
+  margin-top:16px!important;
+  padding-top:2px!important;
+}
+#luvvaForgotLink{
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  min-width:168px;
+  min-height:36px;
+  padding:0 18px!important;
+  text-decoration:none!important;
+  font:800 10.5px/1 "Montserrat",sans-serif!important;
+  letter-spacing:.02em;
+}
+
+/* Other provider-dialog actions inherit the same language. */
+.luvva-auth-reset{
+  display:none;
+  min-height:36px;
+  margin:7px auto 4px!important;
+  padding:0 16px!important;
+  text-decoration:none!important;
+  font:800 10.5px/1 "Montserrat",sans-serif!important;
+}
+.luvva-auth-reset.is-visible{display:inline-flex!important;align-items:center;justify-content:center;}
+.luvva-country-button{
+  min-height:48px!important;
+  padding:0 36px 0 13px!important;
+  text-align:left!important;
+  font:700 12px/1 "Montserrat",sans-serif!important;
+}
+
+/* Icon controls remain compact but gain matching dimensional treatment. */
+.luvva-auth-eye,
+.luvva-auth-close{
+  border:1px solid rgba(229,185,94,.38)!important;
+  background:linear-gradient(180deg,rgba(255,239,195,.10),rgba(22,13,7,.95))!important;
+  box-shadow:0 5px 12px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,245,215,.24),inset 0 -2px 5px rgba(0,0,0,.46)!important;
+}
+.luvva-auth-eye:hover,.luvva-auth-close:hover{filter:brightness(1.12);}
+.luvva-auth-eye:active,.luvva-auth-close:active{transform:translateY(-50%) translateY(1px);}
+.luvva-auth-close:active{transform:translateY(1px)!important;}
+
+/* Provider chooser keys use the same sculpted family. */
+.luvva-v3-providers button{
+  border-color:rgba(229,185,94,.42)!important;
+  background:linear-gradient(180deg,rgba(255,238,192,.075),rgba(26,16,9,.96) 54%,rgba(8,5,3,.99))!important;
+  box-shadow:0 12px 25px rgba(0,0,0,.48),0 3px 0 rgba(69,39,7,.78),inset 0 1px 0 rgba(255,244,211,.22),inset 0 -4px 8px rgba(0,0,0,.44)!important;
+}
+.luvva-v3-providers button:active{
+  transform:translateY(2px)!important;
+  box-shadow:0 4px 10px rgba(0,0,0,.44),inset 0 3px 8px rgba(0,0,0,.54)!important;
+}
+
+@media(max-width:520px){
+  .luvva-auth-tab{font-size:10px!important;padding:0 7px!important;}
+  #luvvaForgotLink{min-width:156px;}
+  .luvva-auth-submit{width:calc(100% - 10px)!important;}
+}
+
 </style>
 </link><meta name="google-client-id" content="">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
