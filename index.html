@@ -1772,6 +1772,144 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   .luvva-auth-submit{width:calc(100% - 10px)!important;}
 }
 
+
+
+/* ===== LUVVA V7.7.7 — tactile key depth + provider switching safety ===== */
+:root{
+  --luvva-key-shadow-deep: 0 18px 30px rgba(0,0,0,.68), 0 6px 0 rgba(70,38,5,.92), 0 0 24px rgba(218,157,47,.12), inset 0 2px 0 rgba(255,249,225,.48), inset 0 -6px 10px rgba(0,0,0,.66);
+  --luvva-key-shadow-hover: 0 22px 36px rgba(0,0,0,.72), 0 7px 0 rgba(78,43,6,.94), 0 0 28px rgba(229,174,63,.20), inset 0 2px 0 rgba(255,252,235,.60), inset 0 -6px 11px rgba(0,0,0,.68);
+  --luvva-key-shadow-pressed: 0 5px 10px rgba(0,0,0,.58), 0 1px 0 rgba(62,32,3,.9), inset 0 5px 11px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,242,204,.14);
+}
+
+/* Never allow a closed auth veil to remain in the hit-testing layer. */
+#luvvaAuthBackdrop[hidden],
+#luvvaAuthBackdrop[aria-hidden="true"]{
+  display:none!important;
+  visibility:hidden!important;
+  opacity:0!important;
+  pointer-events:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+#luvvaAuthBackdrop.is-open[aria-hidden="false"]{
+  display:grid!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+}
+
+/* Password / Verification Code: independent sculpted keys with breathing room. */
+.luvva-auth-tabs{
+  display:flex!important;
+  gap:18px!important;
+  padding:7px 6px 12px!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+.luvva-auth-tab{
+  flex:1 1 0!important;
+  min-height:48px!important;
+  margin:0!important;
+  border-radius:14px!important;
+  box-shadow:var(--luvva-key-shadow-deep)!important;
+  overflow:visible!important;
+}
+.luvva-auth-tab:hover,.luvva-auth-tab:focus-visible{
+  transform:translateY(-2px)!important;
+  box-shadow:var(--luvva-key-shadow-hover)!important;
+}
+.luvva-auth-tab:active{
+  transform:translateY(4px)!important;
+  box-shadow:var(--luvva-key-shadow-pressed)!important;
+}
+.luvva-auth-tab.is-active{
+  box-shadow:0 19px 32px rgba(0,0,0,.66),0 6px 0 #6a3906,0 0 25px rgba(236,185,79,.22),inset 0 3px 0 rgba(255,255,255,.78),inset 0 -6px 10px rgba(89,43,2,.42)!important;
+}
+
+/* Forgot password: right aligned, lower, and shaped as a real secondary key. */
+.luvva-auth-row:has(#luvvaForgotLink){
+  display:flex!important;
+  justify-content:flex-end!important;
+  align-items:center!important;
+  margin-top:22px!important;
+  padding:0 2px 3px!important;
+}
+#luvvaForgotLink{
+  min-width:154px!important;
+  min-height:38px!important;
+  padding:0 16px!important;
+  margin:0!important;
+  border-radius:12px!important;
+  box-shadow:0 14px 24px rgba(0,0,0,.62),0 5px 0 rgba(67,36,5,.9),0 0 18px rgba(218,157,47,.10),inset 0 2px 0 rgba(255,248,220,.36),inset 0 -5px 9px rgba(0,0,0,.62)!important;
+}
+#luvvaForgotLink:hover,#luvvaForgotLink:focus-visible{
+  transform:translateY(-2px)!important;
+  box-shadow:0 18px 30px rgba(0,0,0,.68),0 6px 0 rgba(72,39,5,.92),0 0 22px rgba(225,170,62,.17),inset 0 2px 0 rgba(255,251,231,.48),inset 0 -5px 9px rgba(0,0,0,.64)!important;
+}
+#luvvaForgotLink:active{
+  transform:translateY(3px)!important;
+  box-shadow:var(--luvva-key-shadow-pressed)!important;
+}
+
+/* Main action: compact centered key with intentionally empty side gutters. */
+.luvva-auth-submit{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:76%!important;
+  max-width:320px!important;
+  min-height:50px!important;
+  margin:18px auto 8px!important;
+  border-radius:14px!important;
+  box-shadow:0 19px 32px rgba(0,0,0,.68),0 6px 0 #704009,0 0 23px rgba(229,172,62,.18),inset 0 3px 0 rgba(255,255,255,.76),inset 0 -6px 10px rgba(100,55,5,.42)!important;
+}
+.luvva-auth-submit:hover,.luvva-auth-submit:focus-visible{
+  transform:translateY(-2px)!important;
+  box-shadow:0 23px 38px rgba(0,0,0,.72),0 7px 0 #74420a,0 0 29px rgba(234,181,72,.24),inset 0 3px 0 rgba(255,255,255,.84),inset 0 -6px 11px rgba(100,55,5,.46)!important;
+}
+.luvva-auth-submit:active{
+  transform:translateY(4px)!important;
+  box-shadow:var(--luvva-key-shadow-pressed)!important;
+}
+
+/* WhatsApp controls: same tactile family and spacing. */
+.provider-whatsapp .luvva-country-button,
+.provider-whatsapp .luvva-auth-reset{
+  box-shadow:var(--luvva-key-shadow-deep)!important;
+}
+.provider-whatsapp .luvva-country-button{
+  margin-bottom:13px!important;
+  border-radius:14px!important;
+}
+.provider-whatsapp .luvva-auth-reset{
+  min-width:190px!important;
+  min-height:40px!important;
+  margin:15px auto 4px!important;
+  border-radius:12px!important;
+}
+.provider-whatsapp .luvva-country-button:hover,
+.provider-whatsapp .luvva-auth-reset:hover,
+.provider-whatsapp .luvva-country-button:focus-visible,
+.provider-whatsapp .luvva-auth-reset:focus-visible{
+  transform:translateY(-2px)!important;
+  box-shadow:var(--luvva-key-shadow-hover)!important;
+}
+.provider-whatsapp .luvva-country-button:active,
+.provider-whatsapp .luvva-auth-reset:active{
+  transform:translateY(4px)!important;
+  box-shadow:var(--luvva-key-shadow-pressed)!important;
+}
+.provider-whatsapp .luvva-auth-submit{width:76%!important;}
+
+@media(max-width:520px){
+  .luvva-auth-tabs{gap:14px!important;padding-left:2px!important;padding-right:2px!important;}
+  .luvva-auth-tab{min-height:46px!important;font-size:9.8px!important;}
+  #luvvaForgotLink{min-width:148px!important;}
+  .luvva-auth-submit,.provider-whatsapp .luvva-auth-submit{width:78%!important;}
+}
+
 </style>
 </link><meta name="google-client-id" content="">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -2411,7 +2549,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 (() => {
   "use strict";
 
-  const LUVVA_GATEWAY_BUILD = "V7.6.0-modal-overlay-hit-test-fix";
+  const LUVVA_GATEWAY_BUILD = "V7.7.7-tactile-keys-provider-switch-safety";
   window.__LUVVA_GATEWAY_BUILD__ = LUVVA_GATEWAY_BUILD;
   console.info("LUVVA Secure Gateway build:", LUVVA_GATEWAY_BUILD);
 
@@ -2701,15 +2839,24 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   let googleRenderTimer = null;
 
+  function forceReleaseAuthBackdrop() {
+    // V7.7.7: closed means physically removed from layout and hit-testing.
+    backdrop.classList.remove("is-open");
+    backdrop.setAttribute("aria-hidden", "true");
+    backdrop.hidden = true;
+    backdrop.style.setProperty("display", "none", "important");
+    backdrop.style.setProperty("visibility", "hidden", "important");
+    backdrop.style.setProperty("opacity", "0", "important");
+    backdrop.style.setProperty("pointer-events", "none", "important");
+    document.body.style.removeProperty("overflow");
+  }
+
   function restoreAuthBackdrop() {
-    // V7.6: one deterministic source of truth for the modal overlay.
-    // Closed = hidden + no is-open. Open = not hidden + is-open.
+    // Open from a guaranteed clean state so a previous provider cannot leave a ghost veil.
+    forceReleaseAuthBackdrop();
     backdrop.hidden = false;
-    backdrop.style.removeProperty("display");
-    backdrop.style.removeProperty("visibility");
-    backdrop.style.removeProperty("opacity");
-    backdrop.style.removeProperty("pointer-events");
-    backdrop.style.removeProperty("transition");
+    backdrop.removeAttribute("style");
+    backdrop.setAttribute("aria-hidden", "false");
   }
 
   function cancelPendingProviderWork() {
@@ -2786,18 +2933,12 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   function closeProvider() {
     cancelPendingProviderWork();
-    // V7.6: remove the overlay from layout and hit-testing synchronously.
-    // No delayed cleanup and no requestAnimationFrame that can resurrect it.
-    backdrop.classList.remove("is-open");
-    backdrop.setAttribute("aria-hidden", "true");
-    backdrop.hidden = true;
-    backdrop.style.removeProperty("display");
-    backdrop.style.removeProperty("visibility");
-    backdrop.style.removeProperty("opacity");
-    backdrop.style.removeProperty("pointer-events");
-    document.body.style.removeProperty("overflow");
+    forceReleaseAuthBackdrop();
     activeProvider = "";
     resetForm();
+    // Two watchdog passes protect against late provider callbacks restoring the veil.
+    setTimeout(() => { if (!activeProvider) forceReleaseAuthBackdrop(); }, 0);
+    setTimeout(() => { if (!activeProvider) forceReleaseAuthBackdrop(); }, 180);
   }
 
   function validEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
@@ -2903,7 +3044,9 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       return;
     }
     await unlockAudioAndPlay();
-    if (backdrop.classList.contains("is-open")) closeProvider();
+    // Always clear any stale invisible overlay before opening the next provider.
+    cancelPendingProviderWork();
+    forceReleaseAuthBackdrop();
     openProvider(requestedProvider);
     if (returningSession && savedVisitor && requestedProvider !== savedVisitor.provider) {
       errorBox.textContent = `Verify with ${requestedProvider} to continue using this entrance.`;
@@ -2931,6 +3074,8 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   closeButton.addEventListener("click", closeProvider);
   backdrop.addEventListener("click", e => { if (e.target === backdrop) closeProvider(); });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && backdrop.classList.contains("is-open")) closeProvider(); });
+  window.addEventListener("pageshow", () => { if (!activeProvider) forceReleaseAuthBackdrop(); });
+  window.addEventListener("focus", () => { if (!activeProvider) forceReleaseAuthBackdrop(); });
   passwordToggle.addEventListener("click", () => {
     password.type = password.type === "password" ? "text" : "password";
     passwordToggle.setAttribute("aria-label", password.type === "password" ? "Show password" : "Hide password");
