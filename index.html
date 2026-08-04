@@ -2024,20 +2024,109 @@ button,.btn{
 </style>
 
 
-<style id="final-user-fixes">
-#luvvaAuthSubmit{top:-6px!important;position:relative!important;margin-top:8px!important;}
-#luvvaWhatsappReset,#luvvaWechatReset{top:0!important;position:relative!important;}
-#luvvaWechatContinue,#wechatContinue,.wechat-continue{
-position:relative!important;top:0!important;
-display:flex!important;align-items:center!important;justify-content:center!important;
-background:linear-gradient(#5a5a5a,#3e3e3e)!important;
-box-shadow:0 4px 10px rgba(80,0,20,.45)!important;
-border:1px solid #777!important;
+<style id="luvva105-unified-final-keys">
+/* Final visual-only key unification. No logic/API changes. */
+
+/* Remove previous upward offsets */
+#luvvaAuthSubmit,
+#luvvaWhatsappReset{
+  position:relative!important;
+  top:0!important;
+  transform:none!important;
 }
-button,.btn{
-box-shadow:0 4px 10px rgba(80,0,20,.45)!important;
+
+/* One unified metallic key language for Business, WhatsApp and WeChat */
+.luvva-auth-dialog.provider-business .luvva-auth-submit,
+.luvva-auth-dialog.provider-whatsapp .luvva-auth-submit,
+.luvva-auth-dialog.provider-wechat .luvva-auth-submit,
+#luvvaAuthSubmit{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  width:min(68%,320px)!important;
+  min-height:50px!important;
+  margin:12px auto 18px!important;
+  padding:0 22px!important;
+  border:2px solid #3e454d!important;
+  border-radius:15px!important;
+  color:#11161b!important;
+  background:
+    linear-gradient(180deg,#f7f9fb 0%,#cfd5db 48%,#858e97 100%)!important;
+  box-shadow:
+    0 7px 0 #252a30,
+    0 14px 22px rgba(0,0,0,.70),
+    0 0 0 1px rgba(255,255,255,.18),
+    inset 0 2px 0 rgba(255,255,255,.92),
+    inset 0 -8px 12px rgba(20,24,28,.30)!important;
+  font-weight:800!important;
+  letter-spacing:.025em!important;
+}
+
+/* Use another number: same family, slightly darker */
+#luvvaWhatsappReset{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  width:min(58%,270px)!important;
+  min-height:42px!important;
+  margin:18px auto 18px!important;
+  padding:0 18px!important;
+  border:2px solid #353b42!important;
+  border-radius:14px!important;
+  color:#eef2f5!important;
+  background:
+    linear-gradient(180deg,#626a73 0%,#3d444c 52%,#20252b 100%)!important;
+  box-shadow:
+    0 6px 0 #171b20,
+    0 12px 19px rgba(0,0,0,.68),
+    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 -6px 10px rgba(0,0,0,.38)!important;
+  font-weight:750!important;
+}
+
+/* Business mode keys: darker frame and darker tactile shadow */
+.luvva-auth-dialog.provider-business .luvva-auth-tab{
+  border:2px solid #3a4047!important;
+  background:
+    linear-gradient(180deg,#4b5259 0%,#2e343a 48%,#171b20 100%)!important;
+  color:#eef2f5!important;
+  box-shadow:
+    0 6px 0 #171b20,
+    0 13px 21px rgba(0,0,0,.70),
+    inset 0 2px 0 rgba(255,255,255,.20),
+    inset 0 -7px 11px rgba(0,0,0,.42)!important;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-tab.is-active{
+  color:#11161b!important;
+  background:
+    linear-gradient(180deg,#f8fafc 0%,#d3d9df 50%,#9099a2 100%)!important;
+  box-shadow:
+    0 6px 0 #2a3036,
+    0 13px 21px rgba(0,0,0,.72),
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -7px 11px rgba(30,35,40,.26)!important;
+}
+
+/* Preserve comfortable separation between reset and primary action */
+.luvva-auth-dialog.provider-business #luvvaWhatsappReset,
+.luvva-auth-dialog.provider-whatsapp #luvvaWhatsappReset,
+.luvva-auth-dialog.provider-wechat #luvvaWhatsappReset{
+  margin-bottom:18px!important;
+}
+.luvva-auth-dialog.provider-business #luvvaAuthSubmit,
+.luvva-auth-dialog.provider-whatsapp #luvvaAuthSubmit,
+.luvva-auth-dialog.provider-wechat #luvvaAuthSubmit{
+  margin-top:0!important;
+}
+
+@media(max-width:520px){
+  #luvvaAuthSubmit{width:78%!important;min-height:48px!important;}
+  #luvvaWhatsappReset{width:68%!important;min-height:40px!important;}
 }
 </style>
+
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
