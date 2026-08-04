@@ -1742,6 +1742,126 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 }
 </style>
 
+
+<style id="luvva-v101-premium-tactile-controls">
+/* V101: visual-only refinement. No authentication logic or API changes. */
+
+/* Business Email — every control reads as a physical key */
+.luvva-auth-dialog.provider-business #luvvaBusinessModes{
+  gap:24px!important;
+  padding:10px 12px 15px!important;
+  margin:4px 0 8px!important;
+  border:1px solid rgba(210,170,92,.22)!important;
+  border-radius:20px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.018),rgba(0,0,0,.22))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),inset 0 -14px 28px rgba(0,0,0,.18)!important;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-tab{
+  isolation:isolate;
+  min-height:62px!important;
+  border:1px solid rgba(232,200,132,.72)!important;
+  border-radius:16px!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.018) 38%,rgba(0,0,0,.25)),
+    linear-gradient(145deg,#2a241f,#15120f 58%,#090807)!important;
+  box-shadow:
+    0 8px 0 #5b3511,
+    0 16px 25px rgba(0,0,0,.56),
+    0 0 0 2px rgba(255,224,156,.08),
+    inset 0 2px 0 rgba(255,247,223,.27),
+    inset 0 -8px 14px rgba(0,0,0,.38)!important;
+  text-shadow:0 1px 0 #000!important;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-tab.is-active{
+  color:#2b1904!important;
+  background:linear-gradient(180deg,#fffdf7 0%,#f6dfa8 52%,#c98b2c 100%)!important;
+  box-shadow:
+    0 8px 0 #7d4913,
+    0 17px 27px rgba(0,0,0,.58),
+    0 0 0 2px rgba(255,238,196,.22),
+    0 0 22px rgba(224,164,54,.20),
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -8px 14px rgba(118,64,5,.24)!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.48)!important;
+}
+
+/* Black action tray with one centered key; never illuminate the entire width */
+.luvva-auth-dialog.provider-business .luvva-auth-form,
+.luvva-auth-dialog.provider-whatsapp .luvva-auth-form{position:relative;}
+.luvva-auth-dialog.provider-business .luvva-auth-submit,
+.luvva-auth-dialog.provider-whatsapp .luvva-auth-submit{
+  display:flex!important;
+  width:min(76%,360px)!important;
+  min-height:58px!important;
+  margin:20px auto 12px!important;
+  border:1px solid rgba(255,224,153,.9)!important;
+  border-radius:17px!important;
+  background:linear-gradient(180deg,#fffdf6 0%,#f3d89d 55%,#c98b2b 100%)!important;
+  color:#281704!important;
+  box-shadow:
+    0 9px 0 #7f4a14,
+    0 18px 28px rgba(0,0,0,.58),
+    0 0 0 2px rgba(255,236,188,.12),
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -8px 14px rgba(112,59,4,.25)!important;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-submit::before,
+.luvva-auth-dialog.provider-whatsapp .luvva-auth-submit::before{content:none!important;}
+.luvva-auth-dialog.provider-business .luvva-auth-submit:active:not(:disabled),
+.luvva-auth-dialog.provider-whatsapp .luvva-auth-submit:active:not(:disabled){
+  transform:translateY(7px)!important;
+  box-shadow:0 2px 0 #7f4a14,0 8px 13px rgba(0,0,0,.48),inset 0 3px 10px rgba(91,46,2,.26)!important;
+}
+
+/* Distinct secondary key for Forgot password */
+.luvva-auth-dialog.provider-business .luvva-auth-row:has(#luvvaForgotLink){
+  justify-content:flex-end!important;
+  margin:22px 0 7px!important;
+  padding-right:2px!important;
+}
+.luvva-auth-dialog.provider-business #luvvaForgotLink{
+  min-width:184px!important;
+  min-height:44px!important;
+  border:1px solid rgba(225,205,214,.72)!important;
+  color:#fff4f7!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.025) 42%,rgba(0,0,0,.24)),
+    linear-gradient(145deg,#703448,#401c2a 58%,#241018)!important;
+  box-shadow:
+    0 7px 0 #281018,
+    0 15px 23px rgba(0,0,0,.54),
+    0 0 0 2px rgba(233,214,222,.08),
+    inset 0 2px 0 rgba(255,255,255,.23),
+    inset 0 -7px 12px rgba(0,0,0,.33)!important;
+  text-shadow:0 1px 0 rgba(0,0,0,.75)!important;
+}
+.luvva-auth-dialog.provider-business #luvvaForgotLink:active{
+  transform:translateY(5px)!important;
+  box-shadow:0 2px 0 #281018,0 7px 12px rgba(0,0,0,.45),inset 0 3px 9px rgba(0,0,0,.32)!important;
+}
+
+/* WhatsApp — tactile phone selector and centered Send/Verify key */
+.luvva-auth-dialog.provider-whatsapp .luvva-country-button{
+  border:1px solid rgba(202,166,95,.62)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.015)),#0a1016!important;
+  box-shadow:0 5px 0 #182028,0 11px 18px rgba(0,0,0,.44),inset 0 1px 0 rgba(255,255,255,.12)!important;
+}
+.luvva-auth-dialog.provider-whatsapp .luvva-auth-reset{
+  border:1px solid rgba(190,198,207,.42)!important;
+  border-radius:13px!important;
+  color:#dce4ea!important;
+  background:linear-gradient(180deg,#28323b,#151b21)!important;
+  box-shadow:0 5px 0 #090d11,0 11px 17px rgba(0,0,0,.46),inset 0 1px 0 rgba(255,255,255,.14)!important;
+}
+
+@media(max-width:520px){
+  .luvva-auth-dialog.provider-business #luvvaBusinessModes{gap:14px!important;padding:8px 8px 13px!important;}
+  .luvva-auth-dialog.provider-business .luvva-auth-submit,
+  .luvva-auth-dialog.provider-whatsapp .luvva-auth-submit{width:84%!important;}
+  .luvva-auth-dialog.provider-business #luvvaForgotLink{min-width:164px!important;}
+}
+</style>
+
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
