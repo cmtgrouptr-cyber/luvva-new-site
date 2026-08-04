@@ -25,7 +25,15 @@ export default async function handler(req, res) {
     const from = process.env.BUSINESS_EMAIL_FROM || 'LUVVA Secure Gateway <cmtgroup.tr@luvva.tech>';
     const secret = process.env.EMAIL_OTP_SECRET;
     if (!apiKey || !secret || secret.length < 32) {
-      return reply(res, 503, { ok:false, message:'Business email verification is not configured yet.' });
+     return reply(res, 503, {
+  ok: false,
+  message: 'Business email verification is not configured yet.',
+  diagnostic: {
+    resendKeyPresent: Boolean(apiKey),
+    emailSecretPresent: Boolean(secret),
+    emailSecretLength: secret ? secret.length : 0
+  }
+});
     }
 
     const recent = await supabase(`email_otp_challenges?email=eq.${encodeURIComponent(email)}&order=created_at.desc&limit=1`);
