@@ -1543,6 +1543,13 @@ body.luvva-page-revealing.luvva-page-visible > footer {
   transition:transform .11s ease-out,border-color .14s ease-out,box-shadow .14s ease-out,background .14s ease-out!important;
 }
 .luvva-v3-providers button:hover{transform:translateY(-1px)!important;}
+
+/* ===== LUVVA V7.7.8 — absolute closed-overlay safety ===== */
+#luvvaAuthBackdrop[hidden],
+#luvvaAuthBackdrop[aria-hidden="true"]{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;}
+#luvvaAuthBackdrop:not(.is-open){pointer-events:none!important;}
+#luvvaAuthBackdrop.is-open[aria-hidden="false"]{display:grid!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;}
+
 </style>
 <style id="owner-access-v66-style">
 .luvva-v3-shell{position:relative;padding-bottom:70px!important}
@@ -2549,7 +2556,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 (() => {
   "use strict";
 
-  const LUVVA_GATEWAY_BUILD = "V7.7.7-tactile-keys-provider-switch-safety";
+  const LUVVA_GATEWAY_BUILD = "V7.7.8-email-approval-provider-state-hard-reset";
   window.__LUVVA_GATEWAY_BUILD__ = LUVVA_GATEWAY_BUILD;
   console.info("LUVVA Secure Gateway build:", LUVVA_GATEWAY_BUILD);
 
@@ -2817,7 +2824,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       if (forgotRow) forgotRow.hidden = false;
       emailCodeRow.classList.remove("is-visible");
       emailCodeSent = false;
-      submit.textContent = "Continue with password";
+      submit.textContent = "Continue and send confirmation";
     } else {
       passField.hidden = true;
       if (forgotRow) forgotRow.hidden = true;
@@ -2839,24 +2846,43 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   let googleRenderTimer = null;
 
-  function forceReleaseAuthBackdrop() {
-    // V7.7.7: closed means physically removed from layout and hit-testing.
-    backdrop.classList.remove("is-open");
-    backdrop.setAttribute("aria-hidden", "true");
-    backdrop.hidden = true;
-    backdrop.style.setProperty("display", "none", "important");
-    backdrop.style.setProperty("visibility", "hidden", "important");
-    backdrop.style.setProperty("opacity", "0", "important");
-    backdrop.style.setProperty("pointer-events", "none", "important");
+  function releaseAllTransientVeils() {
+    const transient = [
+      document.getElementById("luvvaAuthBackdrop"),
+      document.getElementById("luvvaContactTransition")
+    ];
+    transient.forEach(el => {
+      if (!el) return;
+      if (el.id === "luvvaContactTransition") {
+        el.classList.remove("is-active");
+        el.setAttribute("aria-hidden", "true");
+      }
+      if (el.id === "luvvaAuthBackdrop") {
+        el.classList.remove("is-open");
+        el.setAttribute("aria-hidden", "true");
+        el.hidden = true;
+        el.inert = true;
+        el.style.cssText = "display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;";
+      }
+    });
+    document.documentElement.classList.remove("luvva-auth-open");
+    document.body.classList.remove("luvva-auth-open");
     document.body.style.removeProperty("overflow");
+    document.body.style.removeProperty("pointer-events");
+  }
+
+  function forceReleaseAuthBackdrop() {
+    releaseAllTransientVeils();
   }
 
   function restoreAuthBackdrop() {
-    // Open from a guaranteed clean state so a previous provider cannot leave a ghost veil.
-    forceReleaseAuthBackdrop();
+    releaseAllTransientVeils();
+    backdrop.inert = false;
     backdrop.hidden = false;
     backdrop.removeAttribute("style");
     backdrop.setAttribute("aria-hidden", "false");
+    document.documentElement.classList.add("luvva-auth-open");
+    document.body.classList.add("luvva-auth-open");
   }
 
   function cancelPendingProviderWork() {
@@ -2899,11 +2925,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
         ? "Redirecting to Google Secure Sign-In…"
         : isWeChat
           ? "Authorize securely using the official WeChat sign-in flow."
-          : "Use your password or a verification code sent to your business email.";
+          : "Choose password approval by email, or enter a verification code sent to your business email.";
     identityLabel.textContent = "Email";
     identity.placeholder = "name@company.com";
     submit.hidden = isGoogle || isWeChat;
-    submit.textContent = isWhatsApp ? "Send verification code" : "Continue";
+    submit.textContent = isWhatsApp ? "Send verification code" : (isBusiness ? "Continue and send confirmation" : "Continue");
     if (whatsappReset) whatsappReset.classList.toggle("is-visible", false);
     if (isBusiness) setBusinessMode("password");
 
@@ -3519,7 +3545,27 @@ body.luvva-page-revealing.luvva-page-visible > footer {
         } catch(err) { errorBox.textContent=err.message||"The email code is incorrect or expired."; submit.textContent="Verify and continue"; submit.disabled=false; return; }
       } else if (activeProvider === "Business Email") {
         if (!password.value) { errorBox.textContent = "Please enter your LUVVA account password."; submit.disabled = false; return; }
-        // Password verification must be completed server-side. This package keeps the UI ready and does not store the password.
+        submit.disabled = true;
+        submit.textContent = "Sending confirmation…";
+        try {
+          const { response, result } = await fetchJsonWithTimeout("/api/email-password-approval-send", {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({email:identity.value.trim(),password:password.value})
+          }, 18000);
+          if (!response.ok || !result.ok) throw new Error(result.message || "Unable to send the sign-in confirmation email.");
+          password.value = "";
+          errorBox.classList.add("is-success");
+          errorBox.textContent = "Open your email and press Confirm Sign In. This page will finish the sign-in when you return.";
+          submit.textContent = "Confirmation email sent";
+          return;
+        } catch (err) {
+          errorBox.classList.remove("is-success");
+          errorBox.textContent = err.message || "Unable to send the sign-in confirmation email.";
+          submit.textContent = "Continue and send confirmation";
+          submit.disabled = false;
+          return;
+        }
       }
     }
     storeVisitorIdentity();
@@ -3528,15 +3574,51 @@ body.luvva-page-revealing.luvva-page-visible > footer {
     showWelcome();
   });
 
-  refreshProviderAvailability();
-  if (isAccessLocked()) {
+  async function completeEmailApprovalFromReturn() {
+    const params = new URLSearchParams(location.search);
+    const grant = params.get("luvva_email_approved");
+    if (!grant) return false;
+    try {
+      history.replaceState(null, "", location.pathname + location.hash);
+      const { response, result } = await fetchJsonWithTimeout("/api/email-password-approval-status", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({grant})
+      }, 12000);
+      if (!response.ok || !result.ok || !result.approved || !result.email) throw new Error(result.message || "The email approval link is invalid or expired.");
+      activeProvider = "Business Email";
+      identity.value = result.email;
+      storeVisitorIdentity();
+      forceReleaseAuthBackdrop();
+      await showWelcome();
+      return true;
+    } catch (err) {
+      forceReleaseAuthBackdrop();
+      openProvider("Business Email");
+      errorBox.textContent = err.message || "The email approval link is invalid or expired.";
+      errorBox.classList.remove("is-success");
+      return false;
+    }
+  }
+
+  // Hard safety net: whenever the provider dialog is closed, no transparent layer may remain hit-testable.
+  const veilObserver = new MutationObserver(() => {
+    if (!activeProvider && !backdrop.classList.contains("is-open")) releaseAllTransientVeils();
+  });
+  veilObserver.observe(backdrop, {attributes:true, attributeFilter:["class","hidden","style","aria-hidden"]});
+
+  completeEmailApprovalFromReturn().then(completed => {
+    if (completed) return;
+    refreshProviderAvailability();
+    if (isAccessLocked()) {
     gateway.hidden = false;
     gateway.setAttribute("aria-hidden", "false");
     document.body.classList.add("luvva-v3-locked");
     window.setTimeout(() => showAccessLocked(), 120);
-  } else {
-    restoreVisitorSession();
-  }
+    } else {
+      restoreVisitorSession();
+    }
+  });
 })();
   </script>
 
