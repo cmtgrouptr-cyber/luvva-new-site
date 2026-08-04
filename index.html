@@ -2226,7 +2226,7 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 (() => {
   "use strict";
 
-  const LUVVA_GATEWAY_BUILD = "V7.6.1-provider-hit-test-release-only";
+  const LUVVA_GATEWAY_BUILD = "V7.6.0-modal-overlay-hit-test-fix";
   window.__LUVVA_GATEWAY_BUILD__ = LUVVA_GATEWAY_BUILD;
   console.info("LUVVA Secure Gateway build:", LUVVA_GATEWAY_BUILD);
 
@@ -2516,31 +2516,10 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   let googleRenderTimer = null;
 
-  function forceReleaseAuthHitTest() {
-    // V7.6.1: make the closed authentication layer physically unable to
-    // intercept a later provider click. Inline !important is intentional:
-    // it wins over every author rule and over stale transition state.
-    backdrop.classList.remove("is-open");
-    backdrop.setAttribute("aria-hidden", "true");
-    backdrop.hidden = true;
-    backdrop.inert = true;
-    backdrop.style.setProperty("display", "none", "important");
-    backdrop.style.setProperty("visibility", "hidden", "important");
-    backdrop.style.setProperty("opacity", "0", "important");
-    backdrop.style.setProperty("pointer-events", "none", "important");
-    backdrop.style.removeProperty("transition");
-    document.body.style.removeProperty("overflow");
-    document.documentElement.style.removeProperty("overflow");
-    providerButtons.forEach(button => {
-      button.style.removeProperty("pointer-events");
-      button.removeAttribute("inert");
-    });
-  }
-
   function restoreAuthBackdrop() {
-    // Open state starts from a completely clean hit-test state.
+    // V7.6: one deterministic source of truth for the modal overlay.
+    // Closed = hidden + no is-open. Open = not hidden + is-open.
     backdrop.hidden = false;
-    backdrop.inert = false;
     backdrop.style.removeProperty("display");
     backdrop.style.removeProperty("visibility");
     backdrop.style.removeProperty("opacity");
@@ -2622,12 +2601,20 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   function closeProvider() {
     cancelPendingProviderWork();
+    // V7.6: remove the overlay from layout and hit-testing synchronously.
+    // No delayed cleanup and no requestAnimationFrame that can resurrect it.
+    backdrop.classList.remove("is-open");
+    backdrop.setAttribute("aria-hidden", "true");
+    backdrop.hidden = true;
+    backdrop.style.removeProperty("display");
+    backdrop.style.removeProperty("visibility");
+    backdrop.style.removeProperty("opacity");
+    backdrop.style.removeProperty("pointer-events");
+    document.body.style.removeProperty("overflow");
+    document.documentElement.style.removeProperty("overflow");
+    dialog.style.removeProperty("pointer-events");
     activeProvider = "";
     resetForm();
-    forceReleaseAuthHitTest();
-    // Repeat after the current click/transition stack completes. This is not
-    // an animation cleanup; it only neutralizes stale third-party callbacks.
-    setTimeout(forceReleaseAuthHitTest, 0);
   }
 
   function validEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
@@ -2732,9 +2719,11 @@ body.luvva-page-revealing.luvva-page-visible > footer {
       showAccessLocked(`${requestedProvider} has already provided its 45-minute trial on this device. Use another unused official entrance, or contact CMT GROUP to restore access.`);
       return;
     }
-    await unlockAudioAndPlay();
+    // Provider opening must never wait for the browser audio context.
+    // Audio resume can remain pending after another provider/modal interaction.
+    // Open the requested provider synchronously; sound is best-effort only.
+    void unlockAudioAndPlay();
     if (backdrop.classList.contains("is-open")) closeProvider();
-    else forceReleaseAuthHitTest();
     openProvider(requestedProvider);
     if (returningSession && savedVisitor && requestedProvider !== savedVisitor.provider) {
       errorBox.textContent = `Verify with ${requestedProvider} to continue using this entrance.`;
@@ -2758,8 +2747,6 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
   if (businessPasswordMode) businessPasswordMode.addEventListener("click", () => setBusinessMode("password"));
   if (businessCodeMode) businessCodeMode.addEventListener("click", () => setBusinessMode("code"));
-
-  forceReleaseAuthHitTest();
 
   closeButton.addEventListener("click", closeProvider);
   backdrop.addEventListener("click", e => { if (e.target === backdrop) closeProvider(); });

@@ -1,7 +1,7 @@
 {
   "name": "luvva-secure-gateway-v7-7-3-business-email-otp-stable",
   "private": true,
-  "version": "7.7.3",
+  "version": "7.7.6",
   "engines": {
     "node": ">=20"
   },
