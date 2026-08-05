@@ -2127,6 +2127,17 @@ button,.btn{
 }
 </style>
 
+
+<style id="luvva105-business-actions-6mm-clearance-fix">
+/* Business Email only. Move both lower action keys upward as one visual group.
+   The same offset preserves their existing spacing. No other provider or function changes. */
+.luvva-auth-dialog.provider-business #luvvaWhatsappReset,
+.luvva-auth-dialog.provider-business #luvvaAuthSubmit{
+  position:relative!important;
+  top:-48px!important;
+  transform:none!important;
+}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -3783,16 +3794,4 @@ Valid for 60 seconds.</p><div class="luvva-owner-actions" id="luvvaOwnerActions"
 </body>
 </html>
 
-<style id="luvva105-business-continue-position-final-fix">
-/* Business Email only: reveal the Continue key with balanced spacing.
-   No changes to Google, WhatsApp, WeChat, authentication logic, sizes, or colors. */
-.luvva-auth-dialog.provider-business #luvvaWhatsappReset{
-  margin:8px auto 8px!important;
-}
-.luvva-auth-dialog.provider-business #luvvaAuthSubmit{
-  position:relative!important;
-  top:-24px!important;
-  transform:none!important;
-  margin:18px auto 8px!important;
-}
-</style>
+
