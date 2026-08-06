@@ -29,8 +29,8 @@ module.exports = async function handler(req, res) {
   // and the older META_* names for backward compatibility.
   const accessToken = String(process.env.WHATSAPP_ACCESS_TOKEN || process.env.META_WHATSAPP_ACCESS_TOKEN || '').trim();
   const phoneNumberId = String(process.env.WHATSAPP_PHONE_NUMBER_ID || process.env.META_WHATSAPP_PHONE_NUMBER_ID || '').trim();
-  const templateName = process.env.WHATSAPP_TEMPLATE_NAME || process.env.META_WHATSAPP_TEMPLATE_NAME || 'luvva_login_code';
-  const templateLanguage = process.env.WHATSAPP_TEMPLATE_LANGUAGE || process.env.META_WHATSAPP_TEMPLATE_LANGUAGE || 'en_US';
+  const templateName = 'hello_world';
+const templateLanguage = 'en_US';
   const graphApiVersion = process.env.META_GRAPH_API_VERSION || 'v23.0';
   const otpSecret = process.env.WHATSAPP_OTP_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
