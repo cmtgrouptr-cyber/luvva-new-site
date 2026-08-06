@@ -82,7 +82,9 @@ const templateLanguage = 'en_US';
     ]
   }
 ]
-
+      }
+    })
+  });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
       const tokenFingerprint = crypto.createHash('sha256').update(accessToken).digest('hex').slice(0, 12);
