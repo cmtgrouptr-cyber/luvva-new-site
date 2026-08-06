@@ -29,7 +29,7 @@ module.exports = async function handler(req, res) {
   // and the older META_* names for backward compatibility.
   const accessToken = String(process.env.WHATSAPP_ACCESS_TOKEN || process.env.META_WHATSAPP_ACCESS_TOKEN || '').trim();
   const phoneNumberId = String(process.env.WHATSAPP_PHONE_NUMBER_ID || process.env.META_WHATSAPP_PHONE_NUMBER_ID || '').trim();
-  const templateName = 'hello_world';
+ const templateName = 'jaspers_market_order_confirmation_v1';
 const templateLanguage = 'en_US';
   const graphApiVersion = process.env.META_GRAPH_API_VERSION || 'v23.0';
   const otpSecret = process.env.WHATSAPP_OTP_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -72,13 +72,16 @@ const templateLanguage = 'en_US';
         template:{
           name:templateName,
           language:{ code:templateLanguage },
-          components:[
-            { type:'body', parameters:[{ type:'text', text:code }] },
-            { type:'button', sub_type:'url', index:'0', parameters:[{ type:'text', text:code }] }
-          ]
-        }
-      })
-    });
+      components: [
+  {
+    type: 'body',
+    parameters: [
+      { type: 'text', text: 'John Doe' },
+      { type: 'text', text: code },
+      { type: 'text', text: new Date().toLocaleDateString('en-US') }
+    ]
+  }
+]
 
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
