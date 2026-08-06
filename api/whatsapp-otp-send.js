@@ -27,8 +27,8 @@ module.exports = async function handler(req, res) {
 
   // V7.2: accept both the concise Vercel names already configured by the owner
   // and the older META_* names for backward compatibility.
-  const accessToken = process.env.WHATSAPP_ACCESS_TOKEN || process.env.META_WHATSAPP_ACCESS_TOKEN;
-  const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID || process.env.META_WHATSAPP_PHONE_NUMBER_ID;
+  const accessToken = String(process.env.WHATSAPP_ACCESS_TOKEN || process.env.META_WHATSAPP_ACCESS_TOKEN || '').trim();
+  const phoneNumberId = String(process.env.WHATSAPP_PHONE_NUMBER_ID || process.env.META_WHATSAPP_PHONE_NUMBER_ID || '').trim();
   const templateName = process.env.WHATSAPP_TEMPLATE_NAME || process.env.META_WHATSAPP_TEMPLATE_NAME || 'luvva_login_code';
   const templateLanguage = process.env.WHATSAPP_TEMPLATE_LANGUAGE || process.env.META_WHATSAPP_TEMPLATE_LANGUAGE || 'en_US';
   const graphApiVersion = process.env.META_GRAPH_API_VERSION || 'v23.0';
@@ -82,6 +82,20 @@ module.exports = async function handler(req, res) {
 
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
+      const tokenFingerprint = crypto.createHash('sha256').update(accessToken).digest('hex').slice(0, 12);
+      console.error('LUVVA Meta WhatsApp send failure:', {
+        httpStatus: response.status,
+        graphApiVersion,
+        phoneNumberId,
+        tokenFingerprint,
+        errorType: data?.error?.type || null,
+        errorCode: data?.error?.code ?? null,
+        errorSubcode: data?.error?.error_subcode ?? null,
+        errorMessage: data?.error?.message || null,
+        errorUserTitle: data?.error?.error_user_title || null,
+        errorUserMessage: data?.error?.error_user_msg || null,
+        fbtraceId: data?.error?.fbtrace_id || null
+      });
       const metaMessage = data?.error?.error_user_msg || data?.error?.message || 'WhatsApp could not send the verification code.';
       return sendJson(res, response.status >= 400 && response.status < 600 ? response.status : 502, {
         ok:false,
