@@ -3653,7 +3653,10 @@ button,.btn{
     passwordToggle.classList.toggle("is-visible", password.type !== "password");
   });
   document.getElementById("luvvaForgotLink").addEventListener("click", e => {
-    e.preventDefault(); errorBox.textContent = "Password recovery will be connected to the official provider in the live version.";
+    e.preventDefault();
+    if(email.value.trim()===""){ errorBox.textContent="Enter your business email first."; return; }
+    setBusinessMode("code");
+    document.getElementById("luvvaAuthSubmit").click();
   });
 
   const SESSION_DURATION_MS = 25 * 60 * 1000;
