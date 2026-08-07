@@ -2450,6 +2450,29 @@ button,.btn{
   .luvva-auth-dialog.provider-business #luvvaBusinessReset{width:74%!important;}
 }
 </style>
+
+<style id="luvva115-google-clean-signin">
+/* Google-only cleanup: preserve OAuth/API logic and all other providers. */
+.luvva-auth-dialog.provider-google #luvvaWhatsappReset,
+.luvva-auth-dialog.provider-google #luvvaAuthSubmit,
+.luvva-auth-dialog.provider-google #luvvaBusinessForgotRow,
+.luvva-auth-dialog.provider-google #luvvaBusinessReset{display:none!important;}
+.luvva-auth-dialog.provider-google #luvvaGoogleFields{display:grid!important;justify-items:center;gap:13px!important;width:100%!important;}
+.luvva-auth-dialog.provider-google #luvvaGoogleFields[hidden]{display:none!important;}
+.luvva-auth-dialog.provider-google #luvvaGoogleOfficialButton{width:100%!important;justify-content:center!important;min-height:48px!important;}
+.luvva-auth-dialog.provider-google .luvva-google-privacy-note{margin:2px auto 2px!important;max-width:350px!important;text-align:center!important;}
+.luvva-google-alt-email{
+  display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;
+  width:min(74%,320px)!important;min-height:46px!important;margin:4px auto 6px!important;padding:0 20px!important;
+  border:2px solid #353b42!important;border-radius:14px!important;color:#eef2f5!important;
+  background:linear-gradient(180deg,#626a73 0%,#3d444c 52%,#20252b 100%)!important;
+  box-shadow:0 6px 0 #171b20,0 12px 19px rgba(0,0,0,.68),inset 0 1px 0 rgba(255,255,255,.22),inset 0 -6px 10px rgba(0,0,0,.38)!important;
+  font:800 12px/1 "Montserrat",sans-serif!important;letter-spacing:.02em!important;cursor:pointer!important;
+}
+.luvva-google-alt-email:hover{transform:translateY(-1px)!important;filter:brightness(1.08)!important;}
+.luvva-google-alt-email:active{transform:translateY(3px)!important;box-shadow:0 3px 0 #171b20,0 8px 13px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.18)!important;}
+@media(max-width:520px){.luvva-google-alt-email{width:82%!important;min-height:44px!important;}}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -2581,7 +2604,8 @@ button,.btn{
 <div id="luvvaGoogleFields" hidden>
   <div class="luvva-google-secure-badge">Secure Google Authentication</div>
   <div id="luvvaGoogleOfficialButton" style="display:flex;justify-content:center;min-height:44px"></div>
-  <p class="luvva-auth-hint" style="margin-top:12px">Google completes identity confirmation on its own secure screen. LUVVA never receives your Google password.</p>
+  <p class="luvva-auth-hint luvva-google-privacy-note">Google securely verifies your identity. LUVVA never receives your Google password.</p>
+  <button class="luvva-google-alt-email" id="luvvaGoogleAltEmail" type="button">↻ Use another email</button>
 </div>
 <div id="luvvaWechatFields" hidden>
   <div class="luvva-wechat-panel">
@@ -3104,6 +3128,7 @@ button,.btn{
   const passwordToggle = document.getElementById("luvvaPasswordToggle");
   const googleFields = document.getElementById("luvvaGoogleFields");
   const googleOfficialButton = document.getElementById("luvvaGoogleOfficialButton");
+  const googleAltEmail = document.getElementById("luvvaGoogleAltEmail");
   const wechatFields = document.getElementById("luvvaWechatFields");
   const businessModes = document.getElementById("luvvaBusinessModes");
   const businessPasswordMode = document.getElementById("luvvaBusinessPasswordMode");
@@ -3342,7 +3367,7 @@ button,.btn{
         }
       }
     });
-    google.accounts.id.renderButton(googleOfficialButton, {theme:"outline", size:"large", shape:"pill", text:"continue_with", width:320});
+    google.accounts.id.renderButton(googleOfficialButton, {theme:"outline", size:"large", shape:"pill", text:"signin_with", width:320});
   }
 
   function setBusinessMode(mode) {
@@ -3642,6 +3667,11 @@ button,.btn{
     submit.disabled = false;
     submit.textContent = "Sign In";
     setTimeout(() => identity.focus(), 80);
+  });
+
+  if (googleAltEmail) googleAltEmail.addEventListener("click", () => {
+    // Return to LUVVA provider selection so the visitor can choose a different email route.
+    closeProvider();
   });
 
   closeButton.addEventListener("click", closeProvider);
