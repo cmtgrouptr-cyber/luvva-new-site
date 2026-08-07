@@ -3654,9 +3654,21 @@ button,.btn{
   });
   document.getElementById("luvvaForgotLink").addEventListener("click", e => {
     e.preventDefault();
-    if(email.value.trim()===""){ errorBox.textContent="Enter your business email first."; return; }
+    errorBox.classList.remove("is-success");
+    identity.value = identity.value.trim().toLowerCase().replace(/@luvval\.tech$/i, "@luvva.tech");
+    if (!identity.value || !validEmail(identity.value)) {
+      errorBox.textContent = "Enter your business email first.";
+      identity.focus();
+      return;
+    }
+    // Forgot password is intentionally passwordless: prove mailbox ownership with the
+    // same OTP flow. LUVVA does not reset or manage the user's mailbox password.
+    emailCodeSent = false;
+    emailCode.value = "";
     setBusinessMode("code");
-    document.getElementById("luvvaAuthSubmit").click();
+    submit.disabled = false;
+    submit.textContent = "Send verification code";
+    form.requestSubmit();
   });
 
   const SESSION_DURATION_MS = 25 * 60 * 1000;
@@ -4102,11 +4114,21 @@ button,.btn{
       } else if (activeProvider === "Business Email") {
         if (!password.value) { errorBox.textContent = "Please enter your LUVVA account password."; submit.disabled = false; return; }
 
-        // Business Email UI flow: password step first, then send the already-working email OTP
-        // and reveal the verification-code field in the same dialog. API files remain unchanged.
+        // Sign In path: verify the LUVVA gateway password on the server FIRST.
+        // Only a successful password check is allowed to trigger the email OTP.
         submit.disabled = true;
-        submit.textContent = "Sending code…";
+        submit.textContent = "Checking…";
         try {
+          const { response: passwordResponse, result: passwordResult } = await fetchJsonWithTimeout("/api/business-password-verify", {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({email:identity.value.trim(), password:password.value})
+          });
+          if (!passwordResponse.ok || !passwordResult.ok) {
+            throw new Error(passwordResult.message || "Incorrect email or password.");
+          }
+
+          submit.textContent = "Sending code…";
           const { response, result } = await fetchJsonWithTimeout("/api/email-otp-send", {
             method:"POST",
             headers:{"Content-Type":"application/json"},
@@ -4127,7 +4149,7 @@ button,.btn{
           return;
         } catch(err) {
           errorBox.classList.remove("is-success");
-          errorBox.textContent = err.message || "Unable to send the email verification code.";
+          errorBox.textContent = err.message || "Incorrect email or password.";
           submit.textContent = "Sign In";
           submit.disabled = false;
           return;
