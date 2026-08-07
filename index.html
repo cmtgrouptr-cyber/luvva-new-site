@@ -4015,7 +4015,7 @@ button,.btn{
 
     // Returning within the active 25-minute credit: the same verified provider
     // opens the visit again through the gateway without another OTP/password check.
-    if (returningSession && savedSession && savedVisitor && activeProvider === savedVisitor.provider && (savedSession.remainingMs || 0) > 0) {
+    if (returningSession && savedSession && savedVisitor && activeProvider === savedVisitor.provider && (savedSession.remainingMs || 0) > 0 && activeProvider !== "Business Email") {
       submit.disabled = true;
       submit.textContent = "Opening…";
       showWelcome();
