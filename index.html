@@ -3634,9 +3634,11 @@ button,.btn{
     password.value = "";
     emailCode.value = "";
     emailCodeSent = false;
+    setBusinessMode("password");
     emailCodeRow.classList.remove("is-visible");
     errorBox.textContent = "";
     errorBox.classList.remove("is-success");
+    subtitle.textContent = "Sign in with your business email and password.";
     submit.disabled = false;
     submit.textContent = "Sign In";
     setTimeout(() => identity.focus(), 80);
@@ -4096,7 +4098,37 @@ button,.btn{
         } catch(err) { errorBox.textContent=err.message||"The email code is incorrect or expired."; submit.textContent="Verify and continue"; submit.disabled=false; return; }
       } else if (activeProvider === "Business Email") {
         if (!password.value) { errorBox.textContent = "Please enter your LUVVA account password."; submit.disabled = false; return; }
-        // Password verification must be completed server-side. This package keeps the UI ready and does not store the password.
+
+        // Business Email UI flow: password step first, then send the already-working email OTP
+        // and reveal the verification-code field in the same dialog. API files remain unchanged.
+        submit.disabled = true;
+        submit.textContent = "Sending code…";
+        try {
+          const { response, result } = await fetchJsonWithTimeout("/api/email-otp-send", {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({email:identity.value.trim()})
+          });
+          if (!response.ok || !result.ok) throw new Error(result.message || "Unable to send the email verification code.");
+
+          emailCodeSent = true;
+          setBusinessMode("code");
+          emailCode.value = "";
+          emailCodeRow.classList.add("is-visible");
+          subtitle.textContent = `Enter the 6-digit verification code sent to ${identity.value.trim()}.`;
+          errorBox.textContent = "✓ Verification code sent. Enter it below to continue.";
+          errorBox.classList.add("is-success");
+          submit.textContent = "Verify and continue";
+          submit.disabled = false;
+          setTimeout(() => emailCode.focus(), 80);
+          return;
+        } catch(err) {
+          errorBox.classList.remove("is-success");
+          errorBox.textContent = err.message || "Unable to send the email verification code.";
+          submit.textContent = "Sign In";
+          submit.disabled = false;
+          return;
+        }
       }
     }
     storeVisitorIdentity();
