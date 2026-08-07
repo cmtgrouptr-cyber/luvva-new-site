@@ -2571,104 +2571,92 @@ button,.btn{
   #luvvaGatewayV3 .luvva-frozen-note{min-width:54px!important;font-size:7px!important;}
   #luvvaGatewayV3 .luvva-gate-principle{grid-template-columns:44px minmax(0,1fr);gap:10px;padding:10px 12px;font-size:10.5px;}
 }
-</style>
 
-<style id="luvva119-final-micro-lock">
-/* V119 FINAL MICRO LOCK — only the four approved finishing touches. */
-
-/* 1) All provider arrows share one exact vertical axis. */
-#luvvaGatewayV3 .luvva-v3-providers > button{position:relative!important;}
-#luvvaGatewayV3 .luvva-v3-providers > button .luvva-v3-arrow{
+/* V118 — exact approved gateway micro-adjustments. */
+#luvvaGatewayV3 .luvva-v3-providers>button{position:relative!important;}
+#luvvaGatewayV3 .luvva-v3-arrow{
   position:absolute!important;
   right:14px!important;
   top:50%!important;
   transform:translateY(-50%)!important;
   width:18px!important;
   height:28px!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  margin:0!important;
+  line-height:28px!important;
 }
-#luvvaGatewayV3 .luvva-v3-providers > button:hover .luvva-v3-arrow{
-  transform:translateY(-50%)!important;
-}
+#luvvaGatewayV3 .luvva-v3-providers button:hover .luvva-v3-arrow{transform:translateY(-50%) translateX(4px)!important;}
 #luvvaGatewayV3 .luvva-provider-tail,
-#luvvaGatewayV3 .luvva-frozen-tail{
-  padding-right:28px!important;
-  box-sizing:border-box!important;
+#luvvaGatewayV3 .luvva-frozen-tail{padding-right:28px!important;box-sizing:border-box!important;}
+#luvvaGatewayV3 .luvva-provider-tail .luvva-v5-business-stars{
+  transform:translateX(-18.9px)!important; /* ≈ 5 mm left */
+  gap:3px!important;
 }
-
-/* 2) Security line: equal visual breathing room on both sides, centered as one unit. */
+#luvvaGatewayV3 .luvva-v5-business-stars i:nth-child(5){font-size:14px;animation-delay:.72s}
 #luvvaGatewayV3 .luvva-gate-principle{
-  grid-template-columns:none!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  gap:16px!important;
-  padding-left:22px!important;
-  padding-right:22px!important;
-  text-align:center!important;
+  grid-template-columns:92px minmax(0,1fr)!important;
+  min-height:106px!important;
+  padding:14px 22px!important;
+  gap:18px!important;
 }
 #luvvaGatewayV3 .luvva-gate-principle-icon{
-  flex:0 0 40px!important;
-  margin:0!important;
+  width:76px!important;
+  height:82px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:none!important;
+  text-shadow:none!important;
 }
-#luvvaGatewayV3 .luvva-gate-principle > span:last-child{
-  flex:0 0 auto!important;
-  margin:0!important;
+#luvvaGatewayV3 .luvva-gate-principle-icon svg{width:76px;height:82px;display:block;overflow:visible;filter:drop-shadow(0 4px 8px rgba(0,0,0,.55)) drop-shadow(0 0 6px rgba(224,171,62,.18));}
+#luvvaGatewayV3 .luvva-trust-shield-fill{fill:url(#none);fill:rgba(105,66,11,.34);}
+#luvvaGatewayV3 .luvva-trust-shield-stroke{stroke:#dfad43;stroke-width:2.8;stroke-linejoin:round;filter:drop-shadow(0 0 2px rgba(255,213,114,.35));}
+#luvvaGatewayV3 .luvva-trust-check-ring{stroke:#e8b953;stroke-width:2.4;fill:rgba(29,18,6,.55);}
+#luvvaGatewayV3 .luvva-trust-check{stroke:#f2c55f;stroke-width:4.2;stroke-linecap:round;stroke-linejoin:round;}
+#luvvaGatewayV3 .luvva-gate-principle-text{
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:22px!important;
+  line-height:1.15!important;
+  letter-spacing:.01em!important;
+  color:rgba(245,241,229,.96)!important;
   white-space:nowrap!important;
 }
-
-/* 3) Keep the existing shield treatment intact; only clarify the check mark inside. */
-#luvvaGatewayV3 .luvva-gate-principle-icon{
-  font-size:0!important;
-}
-#luvvaGatewayV3 .luvva-gate-principle-icon::before{
-  content:"✓";
-  font:800 20px/1 "Montserrat",Arial,sans-serif;
-  color:#f0c66c;
-  text-shadow:0 0 8px rgba(226,179,78,.35);
-}
-
-/* 4) Refine only the small heart head under the security panel. */
-#luvvaGatewayV3 .luvva-owner-center{
-  width:42px!important;
-  font-size:0!important;
-  position:relative!important;
-  height:32px!important;
-  display:grid!important;
-  place-items:center!important;
-  overflow:visible!important;
-}
-#luvvaGatewayV3 .luvva-owner-center::before{
-  content:"♥";
-  display:block;
-  font:700 27px/1 Georgia,"Times New Roman",serif;
-  color:#e5b85d;
-  transform:translateY(-1px) scaleX(1.08);
-  text-shadow:0 0 5px rgba(232,188,96,.42),0 0 12px rgba(205,151,53,.22);
-}
-#luvvaGatewayV3 .luvva-owner-center::after{
-  content:"";
-  position:absolute;
-  width:5px;
-  height:5px;
-  border-radius:50%;
-  background:#fff2bf;
-  box-shadow:0 0 8px 2px rgba(239,194,101,.42);
-  top:4px;
-  right:7px;
-  opacity:.9;
-}
-
+#luvvaGatewayV3 .luvva-gate-principle-text strong{font-weight:500;color:#e7b84f;}
+#luvvaGatewayV3 .luvva-gate-principle-text b{font-weight:500;color:#d4a53f;}
 @media(max-width:520px){
-  #luvvaGatewayV3 .luvva-v3-providers > button .luvva-v3-arrow{right:10px!important;}
-  #luvvaGatewayV3 .luvva-gate-principle{gap:10px!important;padding-left:14px!important;padding-right:14px!important;}
-  #luvvaGatewayV3 .luvva-gate-principle > span:last-child{white-space:normal!important;}
+  #luvvaGatewayV3 .luvva-v3-arrow{right:10px!important;}
+  #luvvaGatewayV3 .luvva-provider-tail,
+  #luvvaGatewayV3 .luvva-frozen-tail{padding-right:23px!important;}
+  #luvvaGatewayV3 .luvva-provider-tail .luvva-v5-business-stars{transform:translateX(-12px)!important;}
+  #luvvaGatewayV3 .luvva-gate-principle{grid-template-columns:62px minmax(0,1fr)!important;min-height:82px!important;padding:10px 12px!important;gap:10px!important;}
+  #luvvaGatewayV3 .luvva-gate-principle-icon,#luvvaGatewayV3 .luvva-gate-principle-icon svg{width:58px!important;height:64px!important;}
+  #luvvaGatewayV3 .luvva-gate-principle-text{font-size:15px!important;white-space:normal!important;}
+}
+
+/* V120 — user-requested final correction on V118 only. */
+#luvvaGatewayV3 .luvva-v3-providers > button > .luvva-v3-arrow,
+#luvvaGatewayV3 .luvva-v3-providers > button > .luvva-provider-tail > .luvva-v3-arrow,
+#luvvaGatewayV3 .luvva-v3-providers > button > .luvva-frozen-tail > .luvva-v3-arrow{
+  position:absolute!important;
+  right:14px!important;
+  left:auto!important;
+  top:50%!important;
+  margin:0!important;
+  transform:translateY(-50%)!important;
+  width:18px!important;
+  height:28px!important;
+  line-height:28px!important;
+}
+#luvvaGatewayV3 .luvva-v3-providers > button:hover > .luvva-v3-arrow,
+#luvvaGatewayV3 .luvva-v3-providers > button:hover > .luvva-provider-tail > .luvva-v3-arrow,
+#luvvaGatewayV3 .luvva-v3-providers > button:hover > .luvva-frozen-tail > .luvva-v3-arrow{
+  transform:translateY(-50%) translateX(4px)!important;
+}
+#luvvaGatewayV3 .luvva-owner-center::before,
+#luvvaGatewayV3 .luvva-owner-center::after{content:none!important;display:none!important;}
+@media(max-width:520px){
+  #luvvaGatewayV3 .luvva-v3-providers > button > .luvva-v3-arrow,
+  #luvvaGatewayV3 .luvva-v3-providers > button > .luvva-provider-tail > .luvva-v3-arrow,
+  #luvvaGatewayV3 .luvva-v3-providers > button > .luvva-frozen-tail > .luvva-v3-arrow{right:10px!important;}
 }
 </style>
-
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -2740,7 +2728,7 @@ button,.btn{
 <svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><rect height="14" rx="2" width="18" x="3" y="5"></rect><path d="m4 7 8 6 8-6"></path></svg>
 </span>
 <span class="luvva-v5-provider-label">Continue with Business Email</span>
-<span class="luvva-provider-tail" aria-hidden="true"><span class="luvva-v5-business-stars"><i>★</i><i>★</i><i>★</i><i>★</i></span><span class="luvva-v3-arrow">›</span></span>
+<span class="luvva-provider-tail" aria-hidden="true"><span class="luvva-v5-business-stars"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span><span class="luvva-v3-arrow">›</span></span>
 </button>
 <button data-luvva-v3-provider="Google" type="button">
 <span aria-hidden="true" class="luvva-v3-provider-icon">
@@ -2769,8 +2757,15 @@ button,.btn{
 </div>
 <div class="luvva-enterprise-note">Enterprise-grade authentication</div>
 <div class="luvva-gate-principle" aria-label="LUVVA trust statement">
-  <span class="luvva-gate-principle-icon" aria-hidden="true">⌾</span>
-  <span>Secure Access. Trusted Identity.</span>
+  <span class="luvva-gate-principle-icon" aria-hidden="true">
+    <svg viewBox="0 0 64 72" fill="none" aria-hidden="true">
+      <path class="luvva-trust-shield-fill" d="M32 3.5 56 12v20.4c0 16.4-9.8 28.8-24 35.8C17.8 61.2 8 48.8 8 32.4V12L32 3.5Z"/>
+      <path class="luvva-trust-shield-stroke" d="M32 3.5 56 12v20.4c0 16.4-9.8 28.8-24 35.8C17.8 61.2 8 48.8 8 32.4V12L32 3.5Z"/>
+      <circle class="luvva-trust-check-ring" cx="32" cy="33" r="14.5"/>
+      <path class="luvva-trust-check" d="m24.5 33.1 5.2 5.2 10.4-11.1"/>
+    </svg>
+  </span>
+  <span class="luvva-gate-principle-text"><strong>Secure Access</strong><b aria-hidden="true"> . </b>Trusted Identity.</span>
 </div>
 <div aria-live="polite" class="luvva-v3-status" hidden="" id="luvvaV3Status" role="status"></div>
 <div class="luvva-owner-ornament" aria-hidden="false">
