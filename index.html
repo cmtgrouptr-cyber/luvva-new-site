@@ -2346,7 +2346,7 @@ button,.btn{
 
 /* BUSINESS EMAIL:
    raise Send verification code by about 4 mm more.
-   Keep Back to LUVVA Gate above it, with a tighter balanced gap. */
+   Keep Use another email above it, with a tighter balanced gap. */
 .luvva-auth-dialog.provider-business #luvvaWhatsappReset{
   position:relative!important;
   top:-19px!important;
@@ -2450,6 +2450,128 @@ button,.btn{
   .luvva-auth-dialog.provider-business #luvvaBusinessReset{width:74%!important;}
 }
 </style>
+
+<style id="luvva115-google-clean-signin">
+/* Google-only cleanup: preserve OAuth/API logic and all other providers. */
+.luvva-auth-dialog.provider-google #luvvaWhatsappReset,
+.luvva-auth-dialog.provider-google #luvvaAuthSubmit,
+.luvva-auth-dialog.provider-google #luvvaBusinessForgotRow,
+.luvva-auth-dialog.provider-google #luvvaBusinessReset{display:none!important;}
+.luvva-auth-dialog.provider-google #luvvaGoogleFields{display:grid!important;justify-items:center;gap:13px!important;width:100%!important;}
+.luvva-auth-dialog.provider-google #luvvaGoogleFields[hidden]{display:none!important;}
+.luvva-auth-dialog.provider-google #luvvaGoogleOfficialButton{width:100%!important;justify-content:center!important;min-height:48px!important;}
+.luvva-auth-dialog.provider-google .luvva-google-privacy-note{margin:2px auto 2px!important;max-width:350px!important;text-align:center!important;}
+.luvva-google-alt-email{
+  display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;
+  width:min(74%,320px)!important;min-height:46px!important;margin:4px auto 6px!important;padding:0 20px!important;
+  border:2px solid #353b42!important;border-radius:14px!important;color:#eef2f5!important;
+  background:linear-gradient(180deg,#626a73 0%,#3d444c 52%,#20252b 100%)!important;
+  box-shadow:0 6px 0 #171b20,0 12px 19px rgba(0,0,0,.68),inset 0 1px 0 rgba(255,255,255,.22),inset 0 -6px 10px rgba(0,0,0,.38)!important;
+  font:800 12px/1 "Montserrat",sans-serif!important;letter-spacing:.02em!important;cursor:pointer!important;
+}
+.luvva-google-alt-email:hover{transform:translateY(-1px)!important;filter:brightness(1.08)!important;}
+.luvva-google-alt-email:active{transform:translateY(3px)!important;box-shadow:0 3px 0 #171b20,0 8px 13px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.18)!important;}
+@media(max-width:520px){.luvva-google-alt-email{width:82%!important;min-height:44px!important;}}
+</style>
+
+<style id="luvva117-gateway-final-alignment">
+/* LUVVA V117 — final gateway visual alignment only. No auth/API logic changes. */
+#luvvaGatewayV3 .luvva-v3-providers{
+  gap:13px!important;
+  width:min(100%,510px)!important;
+}
+#luvvaGatewayV3 .luvva-v3-providers>button{
+  display:grid!important;
+  grid-template-columns:52px minmax(0,1fr) 112px!important;
+  align-items:center!important;
+  column-gap:0!important;
+  min-height:58px!important;
+  padding:0 14px!important;
+}
+#luvvaGatewayV3 .luvva-v3-providers .luvva-v3-provider-icon{
+  grid-column:1!important;
+  justify-self:center!important;
+  width:34px!important;
+  height:34px!important;
+  margin:0!important;
+}
+#luvvaGatewayV3 .luvva-v3-providers .luvva-v5-provider-label{
+  grid-column:2!important;
+  justify-self:stretch!important;
+  justify-content:flex-start!important;
+  text-align:left!important;
+  padding-left:26px!important;
+  margin:0!important;
+  white-space:nowrap!important;
+}
+#luvvaGatewayV3 .luvva-provider-tail,
+#luvvaGatewayV3 .luvva-v3-providers>button[data-luvva-v3-provider="Google"]>.luvva-v3-arrow,
+#luvvaGatewayV3 .luvva-frozen-tail{
+  grid-column:3!important;
+  justify-self:end!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:10px!important;
+  width:100%!important;
+  margin:0!important;
+  position:static!important;
+}
+#luvvaGatewayV3 .luvva-v3-arrow{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:18px!important;
+  margin:0!important;
+  position:static!important;
+}
+#luvvaGatewayV3 .luvva-frozen-note{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:64px!important;
+  margin:0!important;
+}
+#luvvaGatewayV3 #luvvaV3Status{display:none!important;}
+#luvvaGatewayV3 .luvva-gate-principle{
+  width:min(100%,510px);
+  margin:14px auto 0;
+  min-height:68px;
+  padding:12px 18px;
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:54px minmax(0,1fr);
+  align-items:center;
+  gap:16px;
+  border:1px solid rgba(222,173,72,.32);
+  border-radius:14px;
+  background:linear-gradient(180deg,rgba(29,20,9,.72),rgba(11,8,5,.88));
+  color:rgba(255,231,185,.90);
+  box-shadow:inset 0 1px 0 rgba(255,239,195,.06),0 8px 22px rgba(0,0,0,.25);
+  font-size:11.5px;
+  line-height:1.5;
+  text-align:left;
+}
+#luvvaGatewayV3 .luvva-gate-principle-icon{
+  width:40px;
+  height:46px;
+  display:grid;
+  place-items:center;
+  justify-self:center;
+  border:1px solid rgba(229,184,90,.55);
+  border-radius:12px 12px 16px 16px;
+  color:#e4b85a;
+  font-size:21px;
+  text-shadow:0 0 8px rgba(226,179,78,.35);
+}
+@media(max-width:520px){
+  #luvvaGatewayV3 .luvva-v3-providers>button{grid-template-columns:44px minmax(0,1fr) 88px!important;padding:0 10px!important;}
+  #luvvaGatewayV3 .luvva-v3-providers .luvva-v5-provider-label{padding-left:16px!important;font-size:12px!important;}
+  #luvvaGatewayV3 .luvva-frozen-tail{gap:5px!important;}
+  #luvvaGatewayV3 .luvva-frozen-note{min-width:54px!important;font-size:7px!important;}
+  #luvvaGatewayV3 .luvva-gate-principle{grid-template-columns:44px minmax(0,1fr);gap:10px;padding:10px 12px;font-size:10.5px;}
+}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -2535,20 +2657,24 @@ button,.btn{
 <svg fill="currentColor" viewbox="0 0 24 24"><path d="M12 3a8.7 8.7 0 0 0-7.5 13.1L3.4 21l5-1.3A8.7 8.7 0 1 0 12 3Zm0 15.8c-1.2 0-2.4-.3-3.5-.9l-.3-.2-3 .8.8-2.9-.2-.3a7 7 0 1 1 6.2 3.5Zm3.9-5.2c-.2-.1-1.3-.6-1.5-.7-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a5.8 5.8 0 0 1-2.8-2.5c-.2-.3 0-.4.1-.5l.5-.6c.1-.2.1-.3.2-.5 0-.1 0-.3-.1-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9 0 1.1.8 2.2.9 2.3.1.2 1.6 2.5 4 3.4.6.2 1 .4 1.3.5.6.2 1.1.2 1.5.1.5-.1 1.3-.5 1.5-1 .2-.5.2-.9.1-1 0-.1-.2-.2-.4-.3Z"></path></svg>
 </span>
 <span class="luvva-v5-provider-label">Continue with WhatsApp</span>
-<small class="luvva-frozen-note" aria-hidden="true">PAUSED</small>
+<span class="luvva-frozen-tail" aria-hidden="true"><small class="luvva-frozen-note">PAUSED</small><span class="luvva-v3-arrow">›</span></span>
 </button>
 <button class="luvva-provider-frozen" data-luvva-v3-provider="WeChat" data-luvva-frozen="true" type="button" disabled aria-disabled="true" title="Temporarily paused">
 <span aria-hidden="true" class="luvva-v3-provider-icon luvva-v3-wechat">
 <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path fill="white" d="M25.4 12C14.7 12 6 19.2 6 28.1c0 5.1 2.9 9.7 7.4 12.7l-1.9 6.4 6.7-3.7c2.3.7 4.7 1.1 7.2 1.1 10.7 0 19.4-7.2 19.4-16.1S36.1 12 25.4 12Z"/><path fill="#07c160" d="M18.8 23.7a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2Zm13.2 0a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2Z"/><path fill="white" d="M39.2 27.2c-10.4 0-18.8 6.8-18.8 15.2s8.4 15.2 18.8 15.2c2.3 0 4.5-.4 6.5-1l6.4 3.4-1.8-5.9c4.7-2.8 7.7-7 7.7-11.7 0-8.4-8.4-15.2-18.8-15.2Z"/><path fill="#07c160" d="M33.2 39.7a2.3 2.3 0 1 0 0-4.6 2.3 2.3 0 0 0 0 4.6Zm12.4 0a2.3 2.3 0 1 0 0-4.6 2.3 2.3 0 0 0 0 4.6Z"/></svg>
 </span>
 <span class="luvva-v5-provider-label">Continue with WeChat</span>
-<small class="luvva-frozen-note" aria-hidden="true">PAUSED</small>
+<span class="luvva-frozen-tail" aria-hidden="true"><small class="luvva-frozen-note">PAUSED</small><span class="luvva-v3-arrow">›</span></span>
 </button>
 </div>
 <div class="luvva-security-summary" aria-label="Security and privacy">
   <p>Verified identity • Private session • Secure access</p>
 </div>
 <div class="luvva-enterprise-note">Enterprise-grade authentication</div>
+<div class="luvva-gate-principle" aria-label="LUVVA trust statement">
+  <span class="luvva-gate-principle-icon" aria-hidden="true">⌾</span>
+  <span>Your privacy, identity, and trust are protected every step of the way.</span>
+</div>
 <div aria-live="polite" class="luvva-v3-status" hidden="" id="luvvaV3Status" role="status"></div>
 <div class="luvva-owner-ornament" aria-hidden="false">
   <button class="luvva-owner-end left" id="luvvaOwnerWeb" type="button" aria-label="Owner website access"></button>
@@ -2581,7 +2707,8 @@ button,.btn{
 <div id="luvvaGoogleFields" hidden>
   <div class="luvva-google-secure-badge">Secure Google Authentication</div>
   <div id="luvvaGoogleOfficialButton" style="display:flex;justify-content:center;min-height:44px"></div>
-  <p class="luvva-auth-hint" style="margin-top:12px">Google completes identity confirmation on its own secure screen. LUVVA never receives your Google password.</p>
+  <p class="luvva-auth-hint luvva-google-privacy-note">Google securely verifies your identity. LUVVA never receives your Google password.</p>
+  <button class="luvva-google-alt-email" id="luvvaGoogleAltEmail" type="button">← Back to LUVVA Gate</button>
 </div>
 <div id="luvvaWechatFields" hidden>
   <div class="luvva-wechat-panel">
@@ -2675,7 +2802,7 @@ button,.btn{
 <button class="luvva-auth-reset" id="luvvaWhatsappReset" type="button" aria-label="Use another number">↻ Use another number</button>
 <button class="luvva-auth-submit" id="luvvaAuthSubmit" type="submit">Continue securely</button>
 <div class="luvva-auth-row luvva-business-forgot-row" id="luvvaBusinessForgotRow" hidden><span></span><a class="luvva-auth-link" href="#" id="luvvaForgotLink">Forgot password?</a></div>
-<button class="luvva-business-reset" id="luvvaBusinessReset" type="button" hidden>↻ Back to LUVVA Gate</button>
+<button class="luvva-business-reset" id="luvvaBusinessReset" type="button" hidden>↻ Use another email</button>
 <p class="luvva-auth-hint">Verification is completed securely by your selected provider. LUVVA never stores verification codes.</p>
 </form>
 </section>
@@ -3104,6 +3231,7 @@ button,.btn{
   const passwordToggle = document.getElementById("luvvaPasswordToggle");
   const googleFields = document.getElementById("luvvaGoogleFields");
   const googleOfficialButton = document.getElementById("luvvaGoogleOfficialButton");
+  const googleAltEmail = document.getElementById("luvvaGoogleAltEmail");
   const wechatFields = document.getElementById("luvvaWechatFields");
   const businessModes = document.getElementById("luvvaBusinessModes");
   const businessPasswordMode = document.getElementById("luvvaBusinessPasswordMode");
@@ -3342,7 +3470,7 @@ button,.btn{
         }
       }
     });
-    google.accounts.id.renderButton(googleOfficialButton, {theme:"outline", size:"large", shape:"pill", text:"continue_with", width:320});
+    google.accounts.id.renderButton(googleOfficialButton, {theme:"outline", size:"large", shape:"pill", text:"signin_with", width:320});
   }
 
   function setBusinessMode(mode) {
@@ -3642,6 +3770,11 @@ button,.btn{
     submit.disabled = false;
     submit.textContent = "Sign In";
     setTimeout(() => identity.focus(), 80);
+  });
+
+  if (googleAltEmail) googleAltEmail.addEventListener("click", () => {
+    // Return to LUVVA provider selection so the visitor can choose a different email route.
+    closeProvider();
   });
 
   closeButton.addEventListener("click", closeProvider);
