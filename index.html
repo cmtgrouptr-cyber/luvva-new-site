@@ -2145,7 +2145,20 @@ button,.btn{
   pointer-events:none!important;
   transform:none!important;
 }
-</style></head>
+</style>
+<style id="luvva-v107-freeze">
+/* LUVVA V10.7 — WhatsApp and WeChat are visually and functionally frozen on the main gateway only. */
+.luvva-v3-providers{display:flex!important;flex-direction:column!important;gap:14px!important;width:100%!important;}
+.luvva-v3-providers>button{width:100%!important;margin:0!important;}
+.luvva-v3-providers>button.luvva-provider-frozen{
+  opacity:.48!important;filter:grayscale(.3) saturate(.65)!important;cursor:not-allowed!important;
+  transform:none!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+.luvva-v3-providers>button.luvva-provider-frozen:hover,
+.luvva-v3-providers>button.luvva-provider-frozen:focus-visible{transform:none!important;filter:grayscale(.3) saturate(.65)!important;}
+.luvva-frozen-note{display:block;margin-top:3px;font:600 9px/1.2 Arial,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#b9aa8f;opacity:.9;}
+</style>
+</head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
 <section aria-labelledby="luvvaV3Title" id="luvvaGatewayV3">
@@ -2205,7 +2218,7 @@ button,.btn{
 <path d="M12 3v15"></path><path d="m4.5 11.5 7.5 7 7.5-7"></path>
 </svg>
 </div>
-<p class="luvva-v3-kicker">LUVVA SECURE ACCESS <span class="luvva-version-badge">V6.6</span></p>
+<p class="luvva-v3-kicker">LUVVA SECURE ACCESS <span class="luvva-version-badge">V10.7</span></p>
 <h1 class="luvva-v3-title" id="luvvaV3Title">Welcome to a more human future.</h1>
 <p class="luvva-v3-subtitle">
         A protected entrance to LUVVA — where identity, trust and human-centred intelligence meet.
@@ -2227,18 +2240,18 @@ button,.btn{
 <span class="luvva-v5-provider-label">Continue with Google</span>
 <span aria-hidden="true" class="luvva-v3-arrow">›</span>
 </button>
-<button data-luvva-v3-provider="WhatsApp" type="button" disabled aria-disabled="true">
+<button class="luvva-provider-frozen" data-luvva-v3-provider="WhatsApp" data-luvva-frozen="true" type="button" disabled aria-disabled="true" title="Temporarily paused">
 <span aria-hidden="true" class="luvva-v3-provider-icon luvva-v3-whatsapp">
 <svg fill="currentColor" viewbox="0 0 24 24"><path d="M12 3a8.7 8.7 0 0 0-7.5 13.1L3.4 21l5-1.3A8.7 8.7 0 1 0 12 3Zm0 15.8c-1.2 0-2.4-.3-3.5-.9l-.3-.2-3 .8.8-2.9-.2-.3a7 7 0 1 1 6.2 3.5Zm3.9-5.2c-.2-.1-1.3-.6-1.5-.7-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a5.8 5.8 0 0 1-2.8-2.5c-.2-.3 0-.4.1-.5l.5-.6c.1-.2.1-.3.2-.5 0-.1 0-.3-.1-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9 0 1.1.8 2.2.9 2.3.1.2 1.6 2.5 4 3.4.6.2 1 .4 1.3.5.6.2 1.1.2 1.5.1.5-.1 1.3-.5 1.5-1 .2-.5.2-.9.1-1 0-.1-.2-.2-.4-.3Z"></path></svg>
 </span>
-<span class="luvva-v5-provider-label">Continue with WhatsApp</span>
+<span class="luvva-v5-provider-label">Continue with WhatsApp <small class="luvva-frozen-note">Temporarily paused</small></span>
 <span aria-hidden="true" class="luvva-v3-arrow">›</span>
 </button>
-<button data-luvva-v3-provider="WeChat" type="button" disabled aria-disabled="true">
+<button class="luvva-provider-frozen" data-luvva-v3-provider="WeChat" data-luvva-frozen="true" type="button" disabled aria-disabled="true" title="Temporarily paused">
 <span aria-hidden="true" class="luvva-v3-provider-icon luvva-v3-wechat">
 <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path fill="white" d="M25.4 12C14.7 12 6 19.2 6 28.1c0 5.1 2.9 9.7 7.4 12.7l-1.9 6.4 6.7-3.7c2.3.7 4.7 1.1 7.2 1.1 10.7 0 19.4-7.2 19.4-16.1S36.1 12 25.4 12Z"/><path fill="#07c160" d="M18.8 23.7a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2Zm13.2 0a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2Z"/><path fill="white" d="M39.2 27.2c-10.4 0-18.8 6.8-18.8 15.2s8.4 15.2 18.8 15.2c2.3 0 4.5-.4 6.5-1l6.4 3.4-1.8-5.9c4.7-2.8 7.7-7 7.7-11.7 0-8.4-8.4-15.2-18.8-15.2Z"/><path fill="#07c160" d="M33.2 39.7a2.3 2.3 0 1 0 0-4.6 2.3 2.3 0 0 0 0 4.6Zm12.4 0a2.3 2.3 0 1 0 0-4.6 2.3 2.3 0 0 0 0 4.6Z"/></svg>
 </span>
-<span class="luvva-v5-provider-label">Continue with WeChat</span>
+<span class="luvva-v5-provider-label">Continue with WeChat <small class="luvva-frozen-note">Temporarily paused</small></span>
 <span aria-hidden="true" class="luvva-v3-arrow">›</span>
 </button>
 </div>
@@ -3277,6 +3290,9 @@ button,.btn{
 
   providerButtons.forEach(button => button.addEventListener("click", async () => {
     const requestedProvider = button.dataset.luvvaV3Provider || "Business Email";
+    if (button.dataset.luvvaFrozen === "true" || requestedProvider === "WhatsApp" || requestedProvider === "WeChat") {
+      return;
+    }
     const policy = readAccessPolicy();
     if (!policy.contactCompleted && (policy.locked || ACCESS_PROVIDERS.every(item => policy.usedProviders.includes(item)))) {
       showAccessLocked("All available 45-minute trial entrances on this device were used without completing the contact information. Please contact CMT GROUP so access can be reviewed and restored.");
