@@ -2664,6 +2664,12 @@ button,.btn{
 #luvvaGatewayV3 .luvva-gate-principle-text{transform:translateX(-4mm)!important;}
 #luvvaGatewayV3 .luvva-v3-providers > button[data-luvva-v3-provider="Google"] > .luvva-v3-arrow{top:calc(50% + 4px)!important;}
 </style>
+
+<style id="google-arrow-fix">
+button[data-provider="google"] .arrow, .google .arrow, [data-provider="google"] .chevron{
+position:relative!important; top:4px!important; align-self:center!important;
+}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -4438,14 +4444,3 @@ Valid for 60 seconds.</p><div class="luvva-owner-actions" id="luvvaOwnerActions"
   margin:18px auto 8px!important;
 }
 </style>
-
-/* Google arrow final fix */
-#luvvaGatewayV3 .luvva-v3-providers>button[data-luvva-v3-provider="Google"]>.luvva-v3-arrow{
-display:flex!important;
-align-items:center!important;
-justify-content:center!important;
-position:relative!important;
-top:4px!important;
-left:0!important;
-transform:none!important;
-}
