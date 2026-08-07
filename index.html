@@ -2361,6 +2361,95 @@ button,.btn{
 }
 </style>
 
+
+<style id="luvva110-business-clean-password-ui">
+/* Business Email interface only — no API/server changes. */
+.luvva-auth-dialog.provider-business #luvvaBusinessModes,
+.luvva-auth-dialog.provider-business #luvvaBusinessModeHelp{display:none!important;}
+
+.luvva-auth-dialog.provider-business{
+  height:auto!important;
+  min-height:560px!important;
+  max-height:min(88vh,650px)!important;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-brand{margin-bottom:18px!important;}
+.luvva-auth-dialog.provider-business .luvva-auth-subtitle{
+  color:rgba(255,245,224,.66)!important;
+  font-size:12px!important;
+}
+.luvva-auth-dialog.provider-business .luvva-auth-form{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:14px!important;
+  min-height:0!important;
+}
+.luvva-auth-dialog.provider-business #luvvaStandardFields{order:1;}
+.luvva-auth-dialog.provider-business #luvvaAuthError{order:2;}
+.luvva-auth-dialog.provider-business #luvvaOtpCountdown{order:3;display:none!important;}
+.luvva-auth-dialog.provider-business #luvvaAuthSubmit{
+  order:4;
+  position:relative!important;
+  top:0!important;
+  transform:none!important;
+  width:min(76%,330px)!important;
+  min-height:52px!important;
+  margin:2px auto 8px!important;
+  color:#11161b!important;
+  border:2px solid #3e454d!important;
+  border-radius:15px!important;
+  background:linear-gradient(180deg,#f8fafc 0%,#d3d9df 50%,#9099a2 100%)!important;
+  box-shadow:0 7px 0 #252a30,0 14px 22px rgba(0,0,0,.70),0 0 0 1px rgba(255,255,255,.18),inset 0 2px 0 rgba(255,255,255,.94),inset 0 -8px 12px rgba(20,24,28,.28)!important;
+  font-weight:800!important;
+}
+.luvva-auth-dialog.provider-business #luvvaAuthSubmit::before{content:"▢";margin-right:10px;font-size:18px;line-height:1;}
+.luvva-auth-dialog.provider-business #luvvaBusinessForgotRow{
+  order:5;
+  display:flex!important;
+  justify-content:center!important;
+  margin:4px 0 10px!important;
+  padding:0!important;
+}
+.luvva-auth-dialog.provider-business #luvvaBusinessForgotRow[hidden]{display:none!important;}
+.luvva-auth-dialog.provider-business #luvvaForgotLink{
+  min-width:0!important;
+  min-height:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  color:#f2eee6!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  font-size:12px!important;
+  font-weight:750!important;
+  text-decoration:none!important;
+}
+.luvva-auth-dialog.provider-business #luvvaForgotLink::before{content:"↻";color:#e2b85f;margin-right:7px;font-size:16px;vertical-align:-1px;}
+.luvva-auth-dialog.provider-business #luvvaBusinessReset{
+  order:6;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:min(68%,300px)!important;
+  min-height:44px!important;
+  margin:0 auto 8px!important;
+  padding:0 18px!important;
+  border:2px solid #353b42!important;
+  border-radius:14px!important;
+  color:#eef2f5!important;
+  background:linear-gradient(180deg,#626a73 0%,#3d444c 52%,#20252b 100%)!important;
+  box-shadow:0 6px 0 #171b20,0 12px 19px rgba(0,0,0,.68),inset 0 1px 0 rgba(255,255,255,.22),inset 0 -6px 10px rgba(0,0,0,.38)!important;
+  font:750 12px/1.2 "Montserrat",sans-serif!important;
+  cursor:pointer!important;
+}
+.luvva-auth-dialog.provider-business #luvvaBusinessReset[hidden]{display:none!important;}
+.luvva-auth-dialog.provider-business #luvvaWhatsappReset{display:none!important;}
+.luvva-auth-dialog.provider-business .luvva-auth-hint{order:7;margin-top:8px!important;}
+.luvva-auth-dialog.provider-business #luvvaEmailCodeRow:not(.is-visible){display:none!important;}
+@media(max-width:520px){
+  .luvva-auth-dialog.provider-business #luvvaAuthSubmit{width:82%!important;}
+  .luvva-auth-dialog.provider-business #luvvaBusinessReset{width:74%!important;}
+}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -2502,10 +2591,7 @@ button,.btn{
     <p class="luvva-auth-hint">On desktop, scan the official WeChat QR code. On mobile, secure authorization opens in the WeChat app.</p>
   </div>
 </div>
-<div id="luvvaBusinessModes" class="luvva-auth-tabs" hidden style="display:none">
-  <button class="luvva-auth-tab is-active" id="luvvaBusinessPasswordMode" type="button">Password</button>
-  <button class="luvva-auth-tab" id="luvvaBusinessCodeMode" type="button">Verification Code</button>
-</div>
+<div id="luvvaBusinessModes" hidden style="display:none" aria-hidden="true"></div>
 <p class="luvva-business-mode-help" id="luvvaBusinessModeHelp" hidden></p>
 <div id="luvvaStandardFields">
 <div class="luvva-auth-field">
@@ -2521,7 +2607,6 @@ button,.btn{
 <button aria-label="Show password" class="luvva-auth-eye" id="luvvaPasswordToggle" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.8"/></svg></button>
 </div>
 </div>
-<div class="luvva-auth-row" style="margin-top:9px"><span></span><a class="luvva-auth-link" href="#" id="luvvaForgotLink">Forgot password?</a></div>
 <div class="luvva-auth-field luvva-code-row" id="luvvaEmailCodeRow">
 <label for="luvvaEmailCode">Email verification code</label>
 <input class="luvva-auth-input" id="luvvaEmailCode" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" autocomplete="one-time-code" placeholder="6-digit code"/>
@@ -2587,8 +2672,10 @@ button,.btn{
 </div>
 <p class="luvva-auth-error" id="luvvaAuthError" role="alert"></p>
 <div id="luvvaOtpCountdown" style="text-align:center;font-size:12px;color:#9b8155;min-height:18px"></div>
-<button class="luvva-auth-reset" id="luvvaWhatsappReset" type="button" aria-label="Use another email">↻ Use another email</button>
+<button class="luvva-auth-reset" id="luvvaWhatsappReset" type="button" aria-label="Use another number">↻ Use another number</button>
 <button class="luvva-auth-submit" id="luvvaAuthSubmit" type="submit">Continue securely</button>
+<div class="luvva-auth-row luvva-business-forgot-row" id="luvvaBusinessForgotRow" hidden><span></span><a class="luvva-auth-link" href="#" id="luvvaForgotLink">Forgot password?</a></div>
+<button class="luvva-business-reset" id="luvvaBusinessReset" type="button" hidden>↻ Use another email</button>
 <p class="luvva-auth-hint">Verification is completed securely by your selected provider. LUVVA never stores verification codes.</p>
 </form>
 </section>
@@ -3022,6 +3109,8 @@ button,.btn{
   const businessPasswordMode = document.getElementById("luvvaBusinessPasswordMode");
   const businessCodeMode = document.getElementById("luvvaBusinessCodeMode");
   const businessModeHelp = document.getElementById("luvvaBusinessModeHelp");
+  const businessReset = document.getElementById("luvvaBusinessReset");
+  const businessForgotRow = document.getElementById("luvvaBusinessForgotRow");
   const emailCodeRow = document.getElementById("luvvaEmailCodeRow");
   const emailCode = document.getElementById("luvvaEmailCode");
   const otpCountdown = document.getElementById("luvvaOtpCountdown");
@@ -3189,6 +3278,8 @@ button,.btn{
     if (googleFields) googleFields.hidden = true;
     if (wechatFields) wechatFields.hidden = true;
     if (businessModes) { businessModes.hidden = true; businessModes.style.display = "none"; }
+    if (businessReset) businessReset.hidden = true;
+    if (businessForgotRow) businessForgotRow.hidden = true;
     if (otpCountdown) otpCountdown.textContent = "";
     if (otpTimer) { clearInterval(otpTimer); otpTimer = null; }
     businessAuthMode = "password"; emailCodeSent = false; password.type = "password";
@@ -3274,7 +3365,7 @@ button,.btn{
       if (forgotRow) forgotRow.hidden = false;
       emailCodeRow.classList.remove("is-visible");
       emailCodeSent = false;
-      submit.textContent = "Continue with password";
+      submit.textContent = "Sign In";
     } else {
       passField.hidden = true;
       if (forgotRow) forgotRow.hidden = true;
@@ -3335,8 +3426,10 @@ button,.btn{
     whatsappFields.classList.remove("is-code-step");
     googleFields.hidden = !isGoogle;
     if (wechatFields) wechatFields.hidden = !isWeChat;
-    businessModes.hidden = !isBusiness;
-    businessModes.style.display = isBusiness ? "flex" : "none";
+    businessModes.hidden = true;
+    businessModes.style.display = "none";
+    if (businessReset) businessReset.hidden = !isBusiness;
+    if (businessForgotRow) businessForgotRow.hidden = !isBusiness;
 
     brandmark.className = "luvva-auth-brandmark " + (isBusiness ? "business" : provider.toLowerCase());
     brandmark.innerHTML = icons[provider] || "";
@@ -3347,14 +3440,14 @@ button,.btn{
         ? "Redirecting to Google Secure Sign-In…"
         : isWeChat
           ? "Authorize securely using the official WeChat sign-in flow."
-          : "Use your password or a verification code sent to your business email.";
+          : "Sign in with your business email and password.";
     identityLabel.textContent = "Email";
     identity.placeholder = "name@company.com";
     submit.hidden = isGoogle || isWeChat;
     submit.textContent = isWhatsApp ? "Send verification code" : "Continue";
     if (whatsappReset) whatsappReset.classList.toggle("is-visible", false);
-    if (businessModeHelp) businessModeHelp.hidden = !isBusiness;
-    if (isBusiness) setBusinessMode("code");
+    if (businessModeHelp) businessModeHelp.hidden = true;
+    if (isBusiness) setBusinessMode("password");
 
     dialog.classList.remove("provider-business", "provider-google", "provider-whatsapp", "provider-wechat");
     dialog.classList.add(`provider-${isBusiness ? "business" : provider.toLowerCase()}`);
@@ -3535,6 +3628,19 @@ button,.btn{
     businessPasswordMode.title = "Password sign-in is reserved for a future account system.";
   }
   if (businessCodeMode) businessCodeMode.addEventListener("click", () => setBusinessMode("code"));
+
+  if (businessReset) businessReset.addEventListener("click", () => {
+    identity.value = "";
+    password.value = "";
+    emailCode.value = "";
+    emailCodeSent = false;
+    emailCodeRow.classList.remove("is-visible");
+    errorBox.textContent = "";
+    errorBox.classList.remove("is-success");
+    submit.disabled = false;
+    submit.textContent = "Sign In";
+    setTimeout(() => identity.focus(), 80);
+  });
 
   closeButton.addEventListener("click", closeProvider);
   backdrop.addEventListener("click", e => { if (e.target === backdrop) closeProvider(); });
