@@ -2295,6 +2295,44 @@ button,.btn{
 }
 </style>
 
+
+<style id="luvva-last-alignment-fix">
+/* Final requested visual alignment only */
+#luvvaGatewayV3 .luvva-v3-providers > button{
+  display:grid!important;
+  grid-template-columns:52px minmax(0,1fr) 76px!important;
+  align-items:center!important;
+  padding:0 14px!important;
+}
+#luvvaGatewayV3 .luvva-v3-providers .luvva-v3-provider-icon{
+  justify-self:center!important;
+  margin:0!important;
+}
+#luvvaGatewayV3 .luvva-v3-providers .luvva-v5-provider-label{
+  justify-self:start!important;
+  text-align:left!important;
+  width:auto!important;
+  margin:0!important;
+  padding:0!important;
+}
+#luvvaGatewayV3 .luvva-v3-providers .luvva-provider-tail,
+#luvvaGatewayV3 .luvva-v3-providers > button[data-luvva-v3-provider="Google"] > .luvva-v3-arrow,
+#luvvaGatewayV3 .luvva-v3-providers .luvva-frozen-note{
+  justify-self:end!important;
+  margin-right:8px!important;
+}
+/* Move Business Email stars closer to text */
+#luvvaGatewayV3 button[data-luvva-v3-provider="Business Email"] .luvva-provider-tail{
+  margin-left:4px!important;
+  margin-right:10px!important;
+}
+/* Lift Business Email lower action buttons ~4 mm */
+.luvva-auth-dialog.provider-business #luvvaWhatsappReset,
+.luvva-auth-dialog.provider-business #luvvaAuthSubmit{
+  transform:translateY(-15px)!important;
+}
+</style>
+
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
