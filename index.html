@@ -3555,13 +3555,41 @@ button,.btn{
         googleOfficialButton.style.pointerEvents = "none";
         try {
           const device = JSON.stringify(detectDevice());
+          const browserPayload = decodeJwtPayload(response.credential) || {};
+          const browserDiag = {
+            callbackReceived: !!response.credential,
+            tokenAud: browserPayload.aud || null,
+            expectedAud: GOOGLE_CLIENT_ID,
+            audMatch: browserPayload.aud === GOOGLE_CLIENT_ID,
+            issuer: browserPayload.iss || null,
+            exp: browserPayload.exp || null
+          };
           const { response: verifyResponse, result } = await fetchJsonWithTimeout("/api/google-auth", {
             method:"POST",
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify({ credential:response.credential, device })
           }, 18000);
           if (!verifyResponse.ok || !result.ok || !result.approved || !result.visitor?.subject) {
-            throw new Error(result.message || "Google identity could not be verified.");
+            const d = result?.diagnostic || {};
+            document.documentElement.style.background = "#160b0b";
+            document.body.innerHTML = `
+              <main style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:#160b0b;color:#fff;font-family:Arial,sans-serif">
+                <section style="width:min(860px,94vw);border:1px solid #ef4444;border-radius:24px;padding:30px;background:#211010;box-shadow:0 0 50px rgba(239,68,68,.12)">
+                  <h1 style="margin:0 0 18px;color:#fca5a5">GOOGLE DIAGNOSTIC RESULT</h1>
+                  <div style="font-size:18px;line-height:1.8">
+                    <b>Stage:</b> ${String(d.stage || 'HTTP_OR_API_FAILURE')}<br>
+                    <b>HTTP:</b> ${verifyResponse.status}<br>
+                    <b>Credential callback:</b> ${browserDiag.callbackReceived ? 'YES' : 'NO'}<br>
+                    <b>Token audience:</b> <span style="word-break:break-all">${String(browserDiag.tokenAud || 'none')}</span><br>
+                    <b>Expected audience:</b> <span style="word-break:break-all">${String(browserDiag.expectedAud || 'none')}</span><br>
+                    <b>Audience match:</b> ${browserDiag.audMatch ? 'YES' : 'NO'}<br>
+                    <b>Server audience match:</b> ${d.audMatch === true ? 'YES' : d.audMatch === false ? 'NO' : 'unknown'}<br>
+                    <b>Verify error:</b> ${String(d.errorMessage || result?.message || 'No JSON diagnostic returned')}
+                  </div>
+                  <p style="margin-top:22px;opacity:.7">No token, password, or secret is displayed on this page.</p>
+                </section>
+              </main>`;
+            return;
           }
           identity.value = result.visitor.email || result.visitor.subject;
 
