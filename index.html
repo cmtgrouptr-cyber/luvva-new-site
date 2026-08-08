@@ -3573,12 +3573,21 @@ button,.btn{
             }));
           } catch (_) {}
           storeVisitorIdentity();
-          // V4 recovery: persist a valid browsing session immediately after Google
-          // verification, before the 8-second Welcome animation. If the browser
-          // reloads or restores the page during that transition, LUVVA can resume
-          // the verified Google session instead of returning to the gateway.
-          primeVisitorSession();
-          await showWelcome();
+          // V5 recovery: persist and open immediately after server-confirmed Google
+          // verification. Do not make successful access depend on an animation,
+          // database write, popup state, or another redirect.
+          const googleSession = primeVisitorSession();
+          backdrop.classList.remove("is-open");
+          backdrop.setAttribute("aria-hidden", "true");
+          backdrop.hidden = true;
+          backdrop.style.display = "none";
+          gateway.hidden = true;
+          gateway.setAttribute("aria-hidden", "true");
+          status.hidden = true;
+          document.body.classList.remove("luvva-v3-locked", "luvva-page-revealing", "luvva-page-visible");
+          document.body.style.removeProperty("overflow");
+          runSession(googleSession);
+          window.scrollTo(0, 0);
         } catch (error) {
           errorBox.textContent = error.message || "Google verification failed. Please try again.";
           googleOfficialButton.style.pointerEvents = "auto";
