@@ -1589,7 +1589,6 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 @media(max-width:520px){.luvva-v3-shell{padding-bottom:68px!important}.luvva-owner-ornament{left:12px;right:12px;bottom:20px}.luvva-owner-end{width:42px}.luvva-owner-center{width:36px;font-size:24px}.luvva-security-summary p{font-size:15px;font-size:9.3px!important}.luvva-enterprise-note{font-size:13px;letter-spacing:.16em;font-size:7.8px!important}}
 </style>
 </link><meta name="google-client-id" content="">
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style id="luvva-business-v100-ui">
 /* ===== LUVVA Business Email — isolated logical tactile UI ===== */
@@ -3317,7 +3316,7 @@ button,.btn{
 
   </script>
 <script id="luvva-v3-script">
-(() => {
+(async () => {
   "use strict";
 
   const LUVVA_GATEWAY_BUILD = "V10.6-business-email-dashboard-freeze";
@@ -3532,55 +3531,23 @@ button,.btn{
   }
 
   async function renderGoogleOfficialButton() {
+    // FINAL RECOVERY V3: use the server-side Google OAuth redirect flow.
+    // This avoids Google Identity Services JavaScript-origin failures entirely.
     googleOfficialButton.innerHTML = "";
-    await loadPublicAuthConfig();
-    if (!GOOGLE_CLIENT_ID) {
-      googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><div class="luvva-redirecting-ring"></div><strong>Opening Google secure sign-in…</strong></div>'; console.warn('LUVVA developer notice: Google Client ID is not configured.');
-      return;
-    }
-    if (!window.google?.accounts?.id) {
-      googleOfficialButton.innerHTML = '<div class="luvva-google-ready-state"><div class="luvva-redirecting-ring"></div><strong>Opening Google secure sign-in…</strong></div>';
-      const startedAt = Number(googleOfficialButton.dataset.waitStarted || Date.now());
-      googleOfficialButton.dataset.waitStarted = String(startedAt);
-      if (Date.now() - startedAt < 10000) { setTimeout(renderGoogleOfficialButton, 250); return; }
-      errorBox.textContent = "Google secure sign-in could not load. Check the connection and try again.";
-      return;
-    }
-    delete googleOfficialButton.dataset.waitStarted;
-    google.accounts.id.initialize({
-      client_id: GOOGLE_CLIENT_ID,
-      callback: async (response) => {
-        errorBox.classList.remove("is-success");
-        errorBox.textContent = "Verifying Google identity securely…";
-        googleOfficialButton.style.pointerEvents = "none";
-        try {
-          const device = JSON.stringify(detectDevice());
-          const { response: verifyResponse, result } = await fetchJsonWithTimeout("/api/google-auth", {
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({ credential:response.credential, device })
-          }, 18000);
-          if (!verifyResponse.ok || !result.ok || !result.approved || !result.visitor?.subject) {
-            throw new Error(result.message || "Google identity could not be verified.");
-          }
-          identity.value = result.visitor.email || result.visitor.subject;
-          try {
-            localStorage.setItem("luvvaVerifiedProviderSubjectV5", JSON.stringify({
-              provider:"Google", subject:result.visitor.subject, email:result.visitor.email||"",
-              name:result.visitor.name||"", identityId:result.visitor.identityId,
-              sessionId:result.session?.id||"", expiresAt:result.session?.expiresAt||null,
-              accessState:result.session?.accessState||"temporary", verifiedAt:Date.now()
-            }));
-          } catch (_) {}
-          storeVisitorIdentity();
-          await showWelcome();
-        } catch (error) {
-          errorBox.textContent = error.message || "Google verification failed. Please try again.";
-          googleOfficialButton.style.pointerEvents = "auto";
-        }
-      }
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "luvva-google-server-signin";
+    btn.setAttribute("aria-label", "Sign in with Google");
+    btn.style.cssText = "width:100%;max-width:320px;min-height:44px;border:1px solid #dadce0;border-radius:22px;background:#fff;color:#3c4043;font:500 14px Arial,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 18px;margin:0 auto;";
+    btn.innerHTML = '<span style="font-size:18px;font-weight:700;color:#4285f4">G</span><span>Sign in with Google</span>';
+    btn.addEventListener("click", () => {
+      errorBox.classList.remove("is-success");
+      errorBox.textContent = "Opening Google secure sign-in…";
+      btn.disabled = true;
+      const returnTo = location.pathname && location.pathname !== "/" ? location.pathname : "/";
+      location.assign(`/api/google-login?returnTo=${encodeURIComponent(returnTo)}`);
     });
-    google.accounts.id.renderButton(googleOfficialButton, {theme:"outline", size:"large", shape:"pill", text:"signin_with", width:320});
+    googleOfficialButton.appendChild(btn);
   }
 
   function setBusinessMode(mode) {
@@ -3792,6 +3759,7 @@ button,.btn{
       } else {
         startVisitorSession();
       }
+      try { localStorage.removeItem("luvvaPendingGoogleWelcomeV2"); } catch (_) {}
       requestAnimationFrame(() => {
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
@@ -4405,6 +4373,60 @@ button,.btn{
     showWelcome();
   });
 
+  async function restoreGoogleServerSession() {
+    try {
+      const { response, result } = await fetchJsonWithTimeout("/api/google-session", {
+        method:"GET",
+        headers:{"Accept":"application/json"},
+        credentials:"same-origin",
+        cache:"no-store"
+      }, 8000);
+      if (!response.ok || !result?.ok || !result?.approved || !result?.visitor?.subject) return false;
+
+      activeProvider = "Google";
+      identity.value = result.visitor.email || result.visitor.subject;
+      const visitor = {
+        provider:"Google",
+        identity:result.visitor.email || result.visitor.subject,
+        subject:result.visitor.subject,
+        email:result.visitor.email || "",
+        name:result.visitor.name || result.visitor.email || "",
+        identityId:result.visitor.identityId || `google:${result.visitor.subject}`,
+        verifiedAt:Date.now()
+      };
+      try {
+        localStorage.setItem("luvvaVerifiedProviderSubjectV5", JSON.stringify({
+          provider:"Google", subject:visitor.subject, email:visitor.email, name:visitor.name,
+          identityId:visitor.identityId, sessionId:result.session?.id||"",
+          expiresAt:result.session?.expiresAt||null, accessState:"temporary", verifiedAt:Date.now()
+        }));
+        localStorage.setItem(VISITOR_KEY, JSON.stringify(visitor));
+      } catch (_) {}
+
+      const session = {
+        remainingMs: Math.max(1000, Number(result.session?.remainingMs || SESSION_DURATION_MS)),
+        activeElapsedMs:0, firstNoticeShown:false, secondNoticeShown:false,
+        isActive:false, activeSince:null, createdAt:Date.now()
+      };
+      writeSession(session);
+      returningSession = true;
+      savedSession = session;
+      savedVisitor = visitor;
+      try { createVisitRecord(visitor, session); } catch (_) {}
+
+      // Remove the OAuth status marker without reloading the page.
+      if (location.search.includes("google=success")) {
+        const clean = location.pathname + location.hash;
+        history.replaceState(null, "", clean || "/");
+      }
+      await showWelcome();
+      return true;
+    } catch (e) {
+      console.warn("LUVVA Google server-session restore failed:", e);
+      return false;
+    }
+  }
+
   refreshProviderAvailability();
   if (isAccessLocked()) {
     gateway.hidden = false;
@@ -4412,7 +4434,22 @@ button,.btn{
     document.body.classList.add("luvva-v3-locked");
     window.setTimeout(() => showAccessLocked(), 120);
   } else {
-    restoreVisitorSession();
+    const googleRestored = await restoreGoogleServerSession();
+    if (googleRestored) return;
+    const restoredVisitorSession = restoreVisitorSession();
+
+    // GOOGLE RECOVERY V2:
+    // If the browser reloads immediately after Google verification, finish the
+    // already-verified entry instead of showing the login gateway again.
+    try {
+      const pendingGoogle = JSON.parse(localStorage.getItem("luvvaPendingGoogleWelcomeV2") || "null");
+      const pendingIsFresh = pendingGoogle && (Date.now() - Number(pendingGoogle.at || 0) < 120000);
+      if (restoredVisitorSession && pendingIsFresh && savedVisitor?.provider === "Google" && savedSession) {
+        setTimeout(() => showWelcome(), 120);
+      } else if (pendingGoogle && !pendingIsFresh) {
+        localStorage.removeItem("luvvaPendingGoogleWelcomeV2");
+      }
+    } catch (_) {}
   }
 })();
   </script>
