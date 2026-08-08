@@ -1576,7 +1576,6 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 .luvva-owner-close{position:absolute;right:10px;top:9px;width:28px;height:28px;padding:0!important;border-radius:50%!important;font-size:0!important}
 .luvva-owner-close::before{content:"×";font:600 18px/26px Arial;color:#e7d5b8}
 .luvva-owner-count{color:#d7b46c!important;min-height:17px;margin:7px 0 0!important;font-size:10.5px!important}
-.luvva-owner-code-wrap{display:none;margin-top:10px}.luvva-owner-code-wrap.show{display:block}.luvva-owner-code-input{width:100%;height:42px;border:1px solid rgba(112,88,55,.9);border-radius:10px;background:#090f15;color:#f6e8cc;text-align:center;font:700 20px Arial;letter-spacing:7px;outline:none}.luvva-owner-code-input:focus{border-color:#b58b42;box-shadow:0 0 0 2px rgba(181,139,66,.12)}.luvva-owner-verify{width:100%;margin-top:8px}.luvva-owner-code-note{margin-top:7px!important;font-size:10px!important;color:#8f8678!important}
 /* compact country picker */
 .luvva-country-picker{position:relative}
 .luvva-country-button{width:100%;height:48px;border:1px solid rgba(194,150,75,.42);border-radius:12px;background:#0b1117;color:#eee2cf;padding:0 34px 0 12px;text-align:left;font:13px Arial;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -2667,13 +2666,8 @@ button,.btn{
 </style>
 
 <style id="google-arrow-fix">
-/* Google arrow only: use the same vertical centering as the other provider arrows. */
-#luvvaGatewayV3 .luvva-v3-providers > button[data-luvva-v3-provider="Google"] > .luvva-v3-arrow{
-  top:auto!important;
-  transform:none!important;
-}
-#luvvaGatewayV3 .luvva-v3-providers > button[data-luvva-v3-provider="Google"]:hover > .luvva-v3-arrow{
-  transform:translateX(4px)!important;
+button[data-provider="google"] .arrow, .google .arrow, [data-provider="google"] .chevron{
+position:relative!important; top:4px!important; align-self:center!important;
 }
 </style>
 </head>
@@ -3321,7 +3315,7 @@ button,.btn{
 (() => {
   "use strict";
 
-  const LUVVA_GATEWAY_BUILD = "V13-server-driven-owner-login";
+  const LUVVA_GATEWAY_BUILD = "V10.6-business-email-dashboard-freeze";
   window.__LUVVA_GATEWAY_BUILD__ = LUVVA_GATEWAY_BUILD;
   console.info("LUVVA Secure Gateway build:", LUVVA_GATEWAY_BUILD);
 
@@ -3920,7 +3914,6 @@ button,.btn{
   const SECOND_NOTICE_AFTER_ACTIVE_MS = 20 * 60 * 1000;
   const NOTICE_VISIBLE_MS = 5 * 1000;
   const SESSION_KEY = "luvvaVisitorSessionDU2";
-  const OWNER_WEBSITE_KEY = "luvvaOwnerWebsiteAccessV1";
   const VISITOR_KEY = "luvvaVisitorIdentityDU2";
   const VISITOR_LOG_KEY = "luvvaVisitorLogDU2";
   const CURRENT_VISIT_KEY = "luvvaCurrentVisitDU2";
@@ -4407,28 +4400,8 @@ button,.btn{
     showWelcome();
   });
 
-  window.luvvaOwnerEnterWebsite = function(sessionToken) {
-    try { if (sessionToken) sessionStorage.setItem(OWNER_WEBSITE_KEY, sessionToken); } catch (_) {}
-    try { localStorage.removeItem(SESSION_KEY); } catch (_) {}
-    if (sessionInterval) { clearInterval(sessionInterval); sessionInterval = null; }
-    closeSessionMessage(fiveMinuteNotice);
-    closeSessionMessage(sessionExpired);
-    sessionTimer.classList.remove("is-visible", "is-ending");
-    success.classList.remove("show", "is-leaving", "is-opening", "pulse-fading");
-    success.setAttribute("aria-hidden", "true");
-    gateway.hidden = true;
-    gateway.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("luvva-v3-locked", "luvva-page-revealing", "luvva-page-visible");
-    document.body.style.removeProperty("overflow");
-    document.documentElement.scrollTop = 0; document.body.scrollTop = 0; window.scrollTo(0,0);
-  };
-
   refreshProviderAvailability();
-  let ownerWebsiteSession = "";
-  try { ownerWebsiteSession = sessionStorage.getItem(OWNER_WEBSITE_KEY) || ""; } catch (_) {}
-  if (ownerWebsiteSession) {
-    window.luvvaOwnerEnterWebsite(ownerWebsiteSession);
-  } else if (isAccessLocked()) {
+  if (isAccessLocked()) {
     gateway.hidden = false;
     gateway.setAttribute("aria-hidden", "false");
     document.body.classList.add("luvva-v3-locked");
@@ -4440,72 +4413,21 @@ button,.btn{
   </script>
 
 <div class="luvva-owner-modal" id="luvvaOwnerModal" role="dialog" aria-modal="true" aria-labelledby="luvvaOwnerTitle"><div class="luvva-owner-card"><button id="luvvaOwnerClose" class="luvva-owner-close" type="button" aria-label="Close">×</button><h3 id="luvvaOwnerTitle">Owner Secure Access</h3><p id="luvvaOwnerHelp">Generate a one-time secure QR code.
-Valid for 3 minutes.</p><div class="luvva-owner-actions" id="luvvaOwnerActions"><button id="luvvaOwnerCancel" type="button">Cancel</button><button id="luvvaOwnerGenerate" class="primary" type="button">Generate</button></div><div class="luvva-owner-qrbox" id="luvvaOwnerQr"><div class="luvva-owner-placeholder">Preparing secure verification…</div></div><p class="luvva-owner-count" id="luvvaOwnerCount"></p><div class="luvva-owner-code-wrap" id="luvvaOwnerCodeWrap"><input class="luvva-owner-code-input" id="luvvaOwnerCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-label="Google verification code"><button id="luvvaOwnerVerify" class="primary luvva-owner-verify" type="button">Verify Code</button><p class="luvva-owner-code-note">Enter the 6-digit code shown after Google owner verification.</p></div></div></div>
+Valid for 60 seconds.</p><div class="luvva-owner-actions" id="luvvaOwnerActions"><button id="luvvaOwnerCancel" type="button">Cancel</button><button id="luvvaOwnerGenerate" class="primary" type="button">Generate</button></div><div class="luvva-owner-qrbox" id="luvvaOwnerQr"><div class="luvva-owner-placeholder">Preparing secure verification…</div></div><p class="luvva-owner-count" id="luvvaOwnerCount"></p><button id="luvvaOwnerPreviewOpen" class="primary" type="button" style="display:none;width:100%;margin-top:10px">Open Dashboard</button></div></div>
 <script id="owner-access-v66-script">
 (()=>{
-  /* V19: Website QR remains on the old secure owner flow.
-     Dashboard is intentionally REMOVED from this QR algorithm while its new route is tested. */
-  const modal=document.getElementById('luvvaOwnerModal'), title=document.getElementById('luvvaOwnerTitle'), qr=document.getElementById('luvvaOwnerQr'), count=document.getElementById('luvvaOwnerCount'), help=document.getElementById('luvvaOwnerHelp'), generate=document.getElementById('luvvaOwnerGenerate'), actions=document.getElementById('luvvaOwnerActions'), codeWrap=document.getElementById('luvvaOwnerCodeWrap'), codeInput=document.getElementById('luvvaOwnerCode'), verifyButton=document.getElementById('luvvaOwnerVerify');
-  let poll=null,timer=null,challengeToken='';
+  const modal=document.getElementById('luvvaOwnerModal'), title=document.getElementById('luvvaOwnerTitle'), qr=document.getElementById('luvvaOwnerQr'), count=document.getElementById('luvvaOwnerCount'), help=document.getElementById('luvvaOwnerHelp'), previewOpen=document.getElementById('luvvaOwnerPreviewOpen'), generate=document.getElementById('luvvaOwnerGenerate'), actions=document.getElementById('luvvaOwnerActions');
+  let poll=null,timer=null,currentType='dashboard';
   function stop(){clearInterval(poll);clearInterval(timer);poll=timer=null}
-  function close(){stop();challengeToken='';modal.classList.remove('open');qr.classList.remove('is-visible');qr.innerHTML='<div class="luvva-owner-placeholder">Preparing secure verification…</div>';actions.style.display='flex';codeWrap.classList.remove('show');codeInput.value='';count.textContent='';verifyButton.disabled=false;verifyButton.textContent='Verify Code'}
-  function openWebsite(){challengeToken='';modal.classList.add('open');title.textContent='Website Access';help.textContent='Generate a one-time secure QR code.\nValid for 60 seconds.';generate.textContent='Generate';actions.style.display='flex';qr.classList.remove('is-visible');codeWrap.classList.remove('show');codeInput.value='';count.textContent=''}
-  function bindFiveTap(el,action){let clicks=0,last=0;const hit=ev=>{ev.preventDefault();ev.stopImmediatePropagation();const now=Date.now();clicks=(now-last<=850)?clicks+1:1;last=now;if(clicks>=5){clicks=0;action()}};el.addEventListener('pointerup',hit,{passive:false,capture:true});['click','dblclick'].forEach(n=>el.addEventListener(n,e=>{e.preventDefault();e.stopImmediatePropagation()},{capture:true}));el.addEventListener('contextmenu',e=>e.preventDefault())}
-  async function generateQr(){stop();challengeToken='';actions.style.display='none';codeWrap.classList.remove('show');codeInput.value='';qr.classList.add('is-visible');qr.innerHTML='<div class="luvva-owner-placeholder">Creating one-time QR…</div>';help.textContent='Preparing Google owner verification…';try{if(location.protocol==='file:')throw new Error('Secure QR verification requires the deployed site.');const r=await fetch('/api/owner-challenge-create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'website'})});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.message||'Secure service unavailable');challengeToken=j.token;qr.innerHTML=`<img src="${j.qr_data_url}" alt="One-time owner access QR">`;help.textContent='Scan the QR and verify with the authorized Google account.';let left=Math.max(0,Math.ceil((new Date(j.expires_at)-Date.now())/1000));count.textContent=`Expires in ${left}s`;timer=setInterval(()=>{left--;count.textContent=left>0?`Expires in ${left}s`:'Expired';if(left<=0){stop();codeWrap.classList.remove('show');help.textContent='Secure request expired. Generate a new QR code.'}},1000);const check=async()=>{try{const sr=await fetch('/api/owner-challenge-status?t='+encodeURIComponent(challengeToken),{cache:'no-store'});const sj=await sr.json();if(!sr.ok||!sj.ok)return;if(sj.status==='approved'){clearInterval(timer);timer=null;clearInterval(poll);poll=null;codeWrap.classList.add('show');verifyButton.textContent='Login';help.textContent='Google owner verified. Enter the 6-digit code, then press Login.';const codeDeadline=sj.code_expires_at?new Date(sj.code_expires_at).getTime():Date.now()+60000;const paint=()=>{const codeLeft=Math.max(0,Math.ceil((codeDeadline-Date.now())/1000));const m=Math.floor(codeLeft/60),s=String(codeLeft%60).padStart(2,'0');count.textContent=codeLeft>0?`Code valid for ${m}:${s}`:'Expired';if(codeLeft<=0){stop();codeWrap.classList.remove('show');help.textContent='Verification code expired. Generate a new QR code.'}};paint();timer=setInterval(paint,250);setTimeout(()=>codeInput.focus(),50)}else if(sj.status==='used'||sj.status==='denied'||sj.status==='expired'){stop();count.textContent=sj.status[0].toUpperCase()+sj.status.slice(1);help.textContent='Secure request '+sj.status+'.';codeWrap.classList.remove('show')}}catch(_){}};poll=setInterval(check,1200);check()}catch(e){stop();qr.classList.remove('is-visible');actions.style.display='flex';count.textContent='';help.textContent=e.message||'Secure verification is unavailable.'}}
-  async function verifyCode(){const code=codeInput.value.replace(/\D/g,'').slice(0,6);codeInput.value=code;if(!challengeToken||code.length!==6){count.textContent='Enter the 6-digit code';return}verifyButton.disabled=true;count.textContent='Verifying…';try{const r=await fetch('/api/owner-code-verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:challengeToken,code})});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.message||'Verification failed');stop();count.textContent='Verified';help.textContent='Opening LUVVA…';try{sessionStorage.setItem('luvvaOwnerWebsiteAccessV1',j.session_token)}catch(_){}close();window.luvvaOwnerEnterWebsite(j.session_token)}catch(e){count.textContent=e.message||'Incorrect code';codeInput.select()}finally{verifyButton.disabled=false}}
-  generate.addEventListener('click',generateQr);verifyButton.addEventListener('click',verifyCode);codeInput.addEventListener('input',()=>{codeInput.value=codeInput.value.replace(/\D/g,'').slice(0,6)});codeInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();verifyCode()}});document.getElementById('luvvaOwnerCancel').addEventListener('click',close);document.getElementById('luvvaOwnerClose').addEventListener('click',close);modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
-  bindFiveTap(document.getElementById('luvvaOwnerWeb'),openWebsite);
-
-  /* V20 DASHBOARD: fully isolated secure flow. Website keeps its own QR state above. */
-  bindFiveTap(document.getElementById('luvvaOwnerDash'),()=>window.luvvaOpenDashboardAccess?.());
-
+  function close(){stop();modal.classList.remove('open');qr.classList.remove('is-visible');qr.innerHTML='<div class="luvva-owner-placeholder">Preparing secure verification…</div>';previewOpen.style.display='none';actions.style.display='flex';count.textContent=''}
+  function drawPreviewQr(label){const c=document.createElement('canvas');c.width=190;c.height=190;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,190,190);const size=29,cell=5,offset=22;let seed=0;for(const ch of label)seed=(seed*31+ch.charCodeAt(0))>>>0;const finder=(r,c0)=>{x.fillStyle='#111';x.fillRect(offset+c0*cell,offset+r*cell,7*cell,7*cell);x.fillStyle='#fff';x.fillRect(offset+(c0+1)*cell,offset+(r+1)*cell,5*cell,5*cell);x.fillStyle='#111';x.fillRect(offset+(c0+2)*cell,offset+(r+2)*cell,3*cell,3*cell)};finder(0,0);finder(0,size-7);finder(size-7,0);const reserved=(r,c0)=>(r<8&&c0<8)||(r<8&&c0>size-9)||(r>size-9&&c0<8);for(let r=0;r<size;r++)for(let c0=0;c0<size;c0++){if(reserved(r,c0))continue;seed=(1664525*seed+1013904223)>>>0;if((seed>>>30)&1){x.fillStyle='#111';x.fillRect(offset+c0*cell,offset+r*cell,cell,cell)}}qr.innerHTML='';qr.appendChild(c)}
+  function bindCorner(el,type){let clicks=0,last=0;const hit=ev=>{ev.preventDefault();ev.stopImmediatePropagation();const now=Date.now();clicks=(now-last<=850)?clicks+1:1;last=now;if(clicks>=5){clicks=0;currentType=type;modal.classList.add('open');title.textContent=type==='dashboard'?'Dashboard Access':'Website Access';help.textContent='Generate a one-time secure QR code.\nValid for 60 seconds.';actions.style.display='flex';qr.classList.remove('is-visible');previewOpen.style.display='none';count.textContent=''}};el.addEventListener('pointerup',hit,{passive:false,capture:true});['click','dblclick'].forEach(n=>el.addEventListener(n,e=>{e.preventDefault();e.stopImmediatePropagation()},{capture:true}));el.addEventListener('contextmenu',e=>e.preventDefault())}
+  async function generateQr(){stop();actions.style.display='none';qr.classList.add('is-visible');qr.innerHTML='<div class="luvva-owner-placeholder">Creating one-time QR…</div>';help.textContent='Secure owner access is ready.';try{if(location.protocol==='file:')throw new Error('LOCAL_PREVIEW');const r=await fetch('/api/owner-challenge-create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:currentType})});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.message||'SERVICE_UNAVAILABLE');qr.innerHTML=`<img src="${j.qr_data_url}" alt="One-time owner access QR">`;let left=Math.max(0,Math.ceil((new Date(j.expires_at)-Date.now())/1000));count.textContent=`Expires in ${left}s`;timer=setInterval(()=>{left--;count.textContent=left>0?`Expires in ${left}s`:'Expired';if(left<=0)clearInterval(timer)},1000)}catch(e){drawPreviewQr(currentType==='dashboard'?'LUVVA DASHBOARD V6.6':'LUVVA WEBSITE OWNER V6.6');count.textContent='Local preview · 60 seconds';help.textContent=currentType==='dashboard'?'Dashboard preview is ready.':'Preview mode: secure website owner access is ready.';if(currentType==='dashboard')previewOpen.style.display='block'}}
+  generate.addEventListener('click',generateQr);document.getElementById('luvvaOwnerCancel').addEventListener('click',close);document.getElementById('luvvaOwnerClose').addEventListener('click',close);previewOpen.addEventListener('click',()=>{sessionStorage.setItem('luvvaDashboardPreview','1');location.href='dashboard.html?preview=1'});modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});bindCorner(document.getElementById('luvvaOwnerWeb'),'website');bindCorner(document.getElementById('luvvaOwnerDash'),'dashboard');
   const select=document.getElementById('luvvaCountryCode'),button=document.getElementById('luvvaCountryButton'),menu=document.getElementById('luvvaCountryMenu'),search=document.getElementById('luvvaCountrySearch'),items=[...document.querySelectorAll('.luvva-country-option')];
   button?.addEventListener('click',e=>{e.stopPropagation();menu.classList.toggle('open');if(menu.classList.contains('open'))setTimeout(()=>search.focus(),0)});items.forEach(it=>it.addEventListener('click',()=>{select.value=it.dataset.value;button.textContent=it.textContent;items.forEach(x=>x.classList.toggle('active',x===it));menu.classList.remove('open');select.dispatchEvent(new Event('change',{bubbles:true}))}));search?.addEventListener('input',()=>{const q=search.value.toLowerCase();items.forEach(it=>it.style.display=it.textContent.toLowerCase().includes(q)?'block':'none')});document.addEventListener('click',e=>{if(!document.getElementById('luvvaCountryPicker')?.contains(e.target))menu?.classList.remove('open')});
 })();
 </script>
-
-<!-- LUVVA V20: Dashboard has its own modal, state, QR challenge and login navigation. -->
-<div class="luvva-owner-modal" id="luvvaDashModal" role="dialog" aria-modal="true" aria-labelledby="luvvaDashTitle"><div class="luvva-owner-card"><button id="luvvaDashClose" class="luvva-owner-close" type="button" aria-label="Close">×</button><h3 id="luvvaDashTitle">Dashboard Access</h3><p id="luvvaDashHelp">Generate a one-time secure QR code.<br>Valid for 3 minutes.</p><div class="luvva-owner-actions" id="luvvaDashActions"><button id="luvvaDashCancel" type="button">Cancel</button><button id="luvvaDashGenerate" class="primary" type="button">Generate</button></div><div class="luvva-owner-qrbox" id="luvvaDashQr"><div class="luvva-owner-placeholder">Preparing secure verification…</div></div><p class="luvva-owner-count" id="luvvaDashCount"></p><div class="luvva-owner-code-wrap" id="luvvaDashCodeWrap"><input class="luvva-owner-code-input" id="luvvaDashCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-label="Dashboard Google verification code"><button id="luvvaDashVerify" class="primary luvva-owner-verify" type="button">Login</button><p class="luvva-owner-code-note">Enter the 6-digit code shown after Google owner verification.</p></div></div></div>
-<script id="owner-dashboard-v20-script">
-(()=>{
-  const modal=document.getElementById('luvvaDashModal'), qr=document.getElementById('luvvaDashQr'), count=document.getElementById('luvvaDashCount'), help=document.getElementById('luvvaDashHelp'), generate=document.getElementById('luvvaDashGenerate'), actions=document.getElementById('luvvaDashActions'), codeWrap=document.getElementById('luvvaDashCodeWrap'), codeInput=document.getElementById('luvvaDashCode'), verifyButton=document.getElementById('luvvaDashVerify');
-  let poll=null,timer=null,challengeToken='';
-  const stop=()=>{clearInterval(poll);clearInterval(timer);poll=timer=null};
-  function reset(){stop();challengeToken='';qr.classList.remove('is-visible');qr.innerHTML='<div class="luvva-owner-placeholder">Preparing secure verification…</div>';actions.style.display='flex';codeWrap.classList.remove('show');codeInput.value='';count.textContent='';generate.disabled=false;verifyButton.disabled=false}
-  function close(){reset();modal.classList.remove('open')}
-  function open(){reset();modal.classList.add('open');help.innerHTML='Generate a one-time secure QR code.<br>Valid for 3 minutes.';generate.textContent='Generate'}
-  async function generateQr(){
-    stop();challengeToken='';generate.disabled=true;actions.style.display='none';codeWrap.classList.remove('show');codeInput.value='';qr.classList.add('is-visible');qr.innerHTML='<div class="luvva-owner-placeholder">Creating one-time QR…</div>';help.textContent='Preparing Dashboard owner verification…';
-    try{
-      if(location.protocol==='file:')throw new Error('Secure Dashboard verification requires the deployed site.');
-      const r=await fetch('/api/owner-challenge-create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'dashboard'})});
-      const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.message||'Secure service unavailable');
-      challengeToken=j.token;qr.innerHTML=`<img src="${j.qr_data_url}" alt="One-time Dashboard owner access QR">`;help.textContent='Scan the QR and verify with the authorized Google account.';
-      let left=Math.max(0,Math.ceil((new Date(j.expires_at)-Date.now())/1000));count.textContent=`Expires in ${left}s`;
-      timer=setInterval(()=>{left--;count.textContent=left>0?`Expires in ${left}s`:'Expired';if(left<=0){stop();codeWrap.classList.remove('show');help.textContent='Secure request expired. Generate a new QR code.'}},1000);
-      const check=async()=>{try{
-        const sr=await fetch('/api/owner-challenge-status?t='+encodeURIComponent(challengeToken),{cache:'no-store'});const sj=await sr.json();if(!sr.ok||!sj.ok)return;
-        if(sj.access_type!=='dashboard'){stop();throw new Error('Dashboard verification route mismatch');}
-        if(sj.status==='approved'){clearInterval(timer);timer=null;clearInterval(poll);poll=null;codeWrap.classList.add('show');help.textContent='Google owner verified. Enter the 6-digit code, then press Login.';const deadline=sj.code_expires_at?new Date(sj.code_expires_at).getTime():Date.now()+60000;const paint=()=>{const n=Math.max(0,Math.ceil((deadline-Date.now())/1000));const m=Math.floor(n/60),sec=String(n%60).padStart(2,'0');count.textContent=n>0?`Code valid for ${m}:${sec}`:'Expired';if(n<=0){stop();codeWrap.classList.remove('show');help.textContent='Verification code expired. Generate a new QR code.'}};paint();timer=setInterval(paint,250);setTimeout(()=>codeInput.focus(),50)}
-        else if(['used','denied','expired'].includes(sj.status)){stop();count.textContent=sj.status[0].toUpperCase()+sj.status.slice(1);help.textContent='Secure request '+sj.status+'.';codeWrap.classList.remove('show')}
-      }catch(e){if(e.message==='Dashboard verification route mismatch'){count.textContent='Route mismatch';help.textContent=e.message}}};
-      poll=setInterval(check,1200);check();
-    }catch(e){stop();qr.classList.remove('is-visible');actions.style.display='flex';generate.disabled=false;count.textContent='';help.textContent=e.message||'Secure Dashboard verification is unavailable.'}
-  }
-  function login(){
-    const code=codeInput.value.replace(/\D/g,'').slice(0,6);codeInput.value=code;
-    if(!challengeToken||code.length!==6){count.textContent='Enter the 6-digit code';return}
-    stop();verifyButton.disabled=true;count.textContent='Opening Dashboard…';help.textContent='Completing secure owner login…';
-    const form=document.createElement('form');form.method='POST';form.action='/api/owner-code-verify';form.style.display='none';
-    for(const [name,value] of Object.entries({token:challengeToken,code,redirect:'1'})){const input=document.createElement('input');input.type='hidden';input.name=name;input.value=value;form.appendChild(input)}
-    document.body.appendChild(form);form.submit();
-  }
-  window.luvvaOpenDashboardAccess=open;
-  generate.addEventListener('click',generateQr);verifyButton.addEventListener('click',login);codeInput.addEventListener('input',()=>{codeInput.value=codeInput.value.replace(/\D/g,'').slice(0,6)});codeInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();login()}});
-  document.getElementById('luvvaDashCancel').addEventListener('click',close);document.getElementById('luvvaDashClose').addEventListener('click',close);modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))close()});
-})();
-</script>
-
 </body>
 </html>
 
