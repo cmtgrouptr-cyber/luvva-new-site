@@ -3555,7 +3555,7 @@ button,.btn{
         googleOfficialButton.style.pointerEvents = "none";
         try {
           const device = JSON.stringify(detectDevice());
-          const browserPayload = decodeJwtPayload(response.credential) || {};
+          const browserPayload = decodeGoogleCredential(response.credential) || {};
           const browserDiag = {
             callbackReceived: !!response.credential,
             tokenAud: browserPayload.aud || null,
