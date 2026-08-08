@@ -2666,8 +2666,13 @@ button,.btn{
 </style>
 
 <style id="google-arrow-fix">
-button[data-provider="google"] .arrow, .google .arrow, [data-provider="google"] .chevron{
-position:relative!important; top:4px!important; align-self:center!important;
+/* Google arrow only: use the same vertical centering as the other provider arrows. */
+#luvvaGatewayV3 .luvva-v3-providers > button[data-luvva-v3-provider="Google"] > .luvva-v3-arrow{
+  top:auto!important;
+  transform:none!important;
+}
+#luvvaGatewayV3 .luvva-v3-providers > button[data-luvva-v3-provider="Google"]:hover > .luvva-v3-arrow{
+  transform:translateX(4px)!important;
 }
 </style>
 </head>
