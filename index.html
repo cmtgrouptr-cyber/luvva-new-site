@@ -3593,20 +3593,6 @@ button,.btn{
           }
           identity.value = result.visitor.email || result.visitor.subject;
 
-          // GOOGLE DIAGNOSTIC BUILD: stop here on purpose. If this screen appears,
-          // Google credential reached /api/google-auth and verifyIdToken succeeded.
-          document.documentElement.style.background = "#07110d";
-          document.body.innerHTML = `
-            <main style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:#07110d;color:#fff;font-family:Arial,sans-serif;text-align:center">
-              <section style="max-width:720px;border:1px solid #4ade80;border-radius:24px;padding:42px 28px;background:#0b1712;box-shadow:0 0 50px rgba(74,222,128,.12)">
-                <div style="font-size:58px;margin-bottom:14px">✓</div>
-                <h1 style="margin:0 0 16px;font-size:34px;color:#86efac">GOOGLE VERIFIED SUCCESSFULLY</h1>
-                <p style="margin:0;font-size:20px;line-height:1.7">Google verification reached the LUVVA server and succeeded.</p>
-                <p style="margin:18px 0 0;font-size:16px;opacity:.78">Diagnostic checkpoint: G3 — server token verification passed.</p>
-              </section>
-            </main>`;
-          return;
-
           try {
             localStorage.setItem("luvvaVerifiedProviderSubjectV5", JSON.stringify({
               provider:"Google", subject:result.visitor.subject, email:result.visitor.email||"",
