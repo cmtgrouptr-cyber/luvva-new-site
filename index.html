@@ -2504,6 +2504,40 @@ button,.btn{
   #luvvaGatewayV3 .luvva-v3-providers>button[data-luvva-v3-provider="Google"]>.luvva-v3-arrow{right:14px!important}
 }
 </style>
+
+<style id="luvva-04-google-window-design-only">
+/* Google provider only. Main gateway and authentication logic are untouched. */
+.luvva-auth-dialog.provider-google{
+  max-width:520px!important; padding:36px 34px 32px!important;
+  border:1px solid rgba(232,187,92,.82)!important; border-radius:28px!important;
+  background:radial-gradient(circle at 50% 8%,rgba(218,163,62,.08),transparent 26%),linear-gradient(180deg,#11100e 0%,#0b0b0b 100%)!important;
+  box-shadow:0 28px 70px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,225,155,.04)!important;
+}
+.luvva-auth-dialog.provider-google .luvva-auth-close{top:20px!important;right:22px!important;color:#e8b95c!important;border-color:transparent!important;background:transparent!important;font-size:34px!important;}
+.luvva-auth-dialog.provider-google .luvva-auth-brand{margin-bottom:4px!important;}
+.luvva-auth-dialog.provider-google .luvva-auth-brandmark{width:90px!important;height:90px!important;margin:0 auto 18px!important;border:1px solid rgba(232,187,92,.55)!important;border-radius:24px!important;background:linear-gradient(145deg,#201d18,#0d0d0d)!important;box-shadow:0 0 28px rgba(222,170,63,.16)!important;}
+.luvva-auth-dialog.provider-google .luvva-auth-title{font-family:"Montserrat",sans-serif!important;font-size:42px!important;line-height:1.12!important;font-weight:600!important;letter-spacing:-.025em!important;margin:0 0 22px!important;color:#fff!important;}
+.luvva-auth-dialog.provider-google .luvva-auth-subtitle{display:none!important;}
+.luvva-auth-dialog.provider-google .luvva-google-secure-badge{margin:0 auto 28px!important;color:#e6b660!important;font-size:18px!important;font-weight:500!important;letter-spacing:0!important;gap:14px!important;}
+.luvva-auth-dialog.provider-google .luvva-google-secure-badge::before{content:"✓"!important;width:30px!important;height:36px!important;border:0!important;border-radius:0!important;color:#1b1205!important;background:linear-gradient(145deg,#ffe59a,#c98b27)!important;clip-path:polygon(50% 0,88% 14%,84% 70%,50% 100%,16% 70%,12% 14%)!important;box-shadow:0 0 16px rgba(229,185,94,.22)!important;font-size:16px!important;}
+.luvva-auth-dialog.provider-google #luvvaGoogleOfficialButton{min-height:58px!important;margin:0 auto!important;}
+.luvva-auth-dialog.provider-google #luvvaGoogleOfficialButton>div{margin:auto!important;}
+.luvva-auth-dialog.provider-google #luvvaGoogleFields>.luvva-auth-hint{max-width:390px!important;margin:28px auto 0!important;color:rgba(245,245,245,.78)!important;font-size:16px!important;line-height:1.55!important;text-align:center!important;}
+.luvva-auth-dialog.provider-google #luvvaGoogleFields>.luvva-auth-hint strong{color:#e4b25a!important;font-weight:600!important;}
+.luvva-auth-dialog.provider-google #luvvaWhatsappReset,
+.luvva-auth-dialog.provider-google #luvvaAuthSubmit,
+.luvva-auth-dialog.provider-google #luvvaBusinessForgotRow,
+.luvva-auth-dialog.provider-google #luvvaBusinessReset,
+.luvva-auth-dialog.provider-google .luvva-auth-error{display:none!important;}
+.luvva-google-divider{display:flex;align-items:center;gap:12px;margin:38px 0 26px;color:#e0ae53;}
+.luvva-google-divider::before,.luvva-google-divider::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(224,174,83,.5),transparent);}
+.luvva-google-divider span{font-size:30px;line-height:1;}
+.luvva-google-back{display:block;margin:0 auto;border:0;background:transparent;color:#e1ae52;font:500 18px/1.2 "Montserrat",sans-serif;cursor:pointer;padding:12px 20px;border-radius:12px;}
+.luvva-google-back:hover,.luvva-google-back:focus-visible{background:rgba(224,174,83,.07);outline:none;}
+.luvva-google-verifying{position:absolute;inset:0;z-index:15;border-radius:inherit;background:rgba(11,11,11,.985);display:grid;place-content:center;justify-items:center;gap:18px;color:#e7bd6a;font:600 16px/1.4 "Montserrat",sans-serif;text-align:center;}
+.luvva-google-verifying[hidden]{display:none!important;}
+@media(max-width:560px){.luvva-auth-dialog.provider-google{padding:30px 22px 26px!important}.luvva-auth-dialog.provider-google .luvva-auth-title{font-size:34px!important}.luvva-auth-dialog.provider-google #luvvaGoogleFields>.luvva-auth-hint{font-size:14px!important}}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -2657,7 +2691,13 @@ button,.btn{
 <div id="luvvaGoogleFields" hidden>
   <div class="luvva-google-secure-badge">Secure Google Authentication</div>
   <div id="luvvaGoogleOfficialButton" style="display:flex;justify-content:center;min-height:44px"></div>
-  <p class="luvva-auth-hint" style="margin-top:12px">Google completes identity confirmation on its own secure screen. LUVVA never receives your Google password.</p>
+  <p class="luvva-auth-hint" style="margin-top:12px">Google completes identity confirmation on its own secure screen.<br>LUVVA <strong>never</strong> receives your Google password.</p>
+  <div class="luvva-google-divider" aria-hidden="true"><span>♡</span></div>
+  <button class="luvva-google-back" id="luvvaGoogleBack" type="button">←&nbsp;&nbsp;Back to LUVVA Gate</button>
+  <div class="luvva-google-verifying" id="luvvaGoogleVerifying" hidden aria-live="polite">
+    <div class="luvva-redirecting-ring"></div>
+    <strong>Verifying Google identity securely…</strong>
+  </div>
 </div>
 <div id="luvvaWechatFields" hidden>
   <div class="luvva-wechat-panel">
@@ -3180,6 +3220,8 @@ button,.btn{
   const passwordToggle = document.getElementById("luvvaPasswordToggle");
   const googleFields = document.getElementById("luvvaGoogleFields");
   const googleOfficialButton = document.getElementById("luvvaGoogleOfficialButton");
+  const googleBack = document.getElementById("luvvaGoogleBack");
+  const googleVerifying = document.getElementById("luvvaGoogleVerifying");
   const wechatFields = document.getElementById("luvvaWechatFields");
   const businessModes = document.getElementById("luvvaBusinessModes");
   const businessPasswordMode = document.getElementById("luvvaBusinessPasswordMode");
@@ -3391,6 +3433,7 @@ button,.btn{
         errorBox.classList.remove("is-success");
         errorBox.textContent = "Verifying Google identity securely…";
         googleOfficialButton.style.pointerEvents = "none";
+        if (googleVerifying) googleVerifying.hidden = false;
         try {
           const device = JSON.stringify(detectDevice());
           const { response: verifyResponse, result } = await fetchJsonWithTimeout("/api/google-auth", {
@@ -3413,6 +3456,7 @@ button,.btn{
           storeVisitorIdentity();
           await showWelcome();
         } catch (error) {
+          if (googleVerifying) googleVerifying.hidden = true;
           errorBox.textContent = error.message || "Google verification failed. Please try again.";
           googleOfficialButton.style.pointerEvents = "auto";
         }
@@ -3485,6 +3529,7 @@ button,.btn{
       delete googleOfficialButton.dataset.waitStarted;
       googleOfficialButton.replaceChildren();
     }
+    if (googleVerifying) googleVerifying.hidden = true;
   }
 
   function openProvider(provider) {
@@ -3513,7 +3558,7 @@ button,.btn{
     subtitle.textContent = isWhatsApp
       ? "We'll send a one-time verification code."
       : isGoogle
-        ? "Redirecting to Google Secure Sign-In…"
+        ? "Secure Google Authentication"
         : isWeChat
           ? "Authorize securely using the official WeChat sign-in flow."
           : "Sign in with your business email and password.";
@@ -3721,6 +3766,7 @@ button,.btn{
   });
 
   closeButton.addEventListener("click", closeProvider);
+  googleBack?.addEventListener("click", closeProvider);
   backdrop.addEventListener("click", e => { if (e.target === backdrop) closeProvider(); });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && backdrop.classList.contains("is-open")) closeProvider(); });
   passwordToggle.addEventListener("click", () => {
