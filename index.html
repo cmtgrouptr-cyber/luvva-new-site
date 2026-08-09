@@ -2797,6 +2797,8 @@ button,.btn{
 </section>
 </div>
 <header class="site-header" id="siteHeader">
+<div class="luvva-lang-logout-wrap">
+<button class="luvva-site-logout" id="luvvaSiteLogout" type="button" aria-label="Logout">Logout</button>
 <div class="language-menu">
 <button aria-controls="languageOptions" aria-expanded="false" aria-haspopup="true" aria-label="Choose language" class="language-button" id="languageButton" type="button">
 <svg aria-hidden="true" class="language-globe" viewbox="0 0 24 24">
@@ -2825,7 +2827,7 @@ button,.btn{
 </button>
 </div>
 </div>
-<button class="luvva-site-logout" id="luvvaSiteLogout" type="button" aria-label="Logout">Logout</button>
+</div>
 <a class="cmt-button" href="about-cmt.html">About CMT</a>
 <button aria-controls="mainNav" aria-expanded="false" aria-label="Open menu" class="menu-toggle" id="menuToggle">
 <span></span><span></span><span></span>
@@ -4291,14 +4293,59 @@ button,.btn{
 })();
 </script>
 
-<style id="luvva-007-site-header-fix">
-/* 007: header-only layout. Existing site/auth content is untouched. */
+<style id="luvva-008-site-header-final">
+/* Header-only final pass from clean 06. No auth/provider/site-section logic is changed. */
+
+.luvva-lang-logout-wrap{
+  display:flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  flex:0 0 auto!important;
+}
+.luvva-lang-logout-wrap .language-menu{
+  flex:0 0 auto!important;
+}
+.luvva-lang-logout-wrap .language-button{
+  min-width:0!important;
+  padding-left:9px!important;
+  padding-right:9px!important;
+  transform:scaleX(.93)!important; /* ~3mm visual reduction */
+  transform-origin:center!important;
+}
+#luvvaSiteLogout{
+  flex:0 0 auto!important;
+  width:24px!important;
+  min-width:24px!important;
+  height:42px!important;
+  padding:0!important;
+  border-radius:8px!important;
+  border:1px solid rgba(145,72,86,.95)!important;
+  background:linear-gradient(180deg,#7a2637 0%,#521625 100%)!important;
+  color:#f4e9ec!important;
+  font:700 8px/1 "Montserrat",sans-serif!important;
+  letter-spacing:.02em!important;
+  writing-mode:vertical-rl!important;
+  transform:rotate(180deg)!important;
+  box-shadow:0 2px 0 #341019,0 5px 10px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.10)!important;
+  cursor:pointer!important;
+}
+
+/* Existing language choices remain functional, now arranged vertically. */
+#languageOptions{
+  flex-direction:column!important;
+  align-items:stretch!important;
+}
+#languageOptions > button{
+  width:100%!important;
+  display:flex!important;
+  flex:0 0 auto!important;
+}
+
+/* Keep Investor in its normal header slot; timer lives beneath it out of layout flow. */
 .luvva-investor-stack{
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  align-items:stretch;
-  flex:0 0 auto;
+  position:relative!important;
+  flex:0 0 auto!important;
+  display:block!important;
 }
 .luvva-investor-stack .investor-button{
   position:relative!important;
@@ -4308,77 +4355,46 @@ button,.btn{
 }
 .luvva-investor-stack #luvvaSessionTimer{
   position:absolute!important;
-  top:calc(100% + 7px)!important;
-  left:0!important;
-  right:0!important;
-  width:100%!important;
-  box-sizing:border-box!important;
+  top:calc(100% + 6px)!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
   margin:0!important;
-  transform:none!important;
+  min-width:100%!important;
+  width:max-content!important;
   z-index:20!important;
 }
 .luvva-investor-stack #luvvaSessionTimer:hover,
-.luvva-investor-stack #luvvaSessionTimer:active{transform:none!important}
+.luvva-investor-stack #luvvaSessionTimer:active{
+  transform:translateX(-50%)!important;
+}
 
-/* Only the digits breathe slowly. */
+/* Flash numbers only. */
 #luvvaSessionTime{
-  animation:luvva007TimerDigits 2.8s ease-in-out infinite!important;
+  animation:luvva008TimerNumbers 2.8s ease-in-out infinite!important;
 }
-@keyframes luvva007TimerDigits{
+@keyframes luvva008TimerNumbers{
   0%,100%{opacity:1}
-  50%{opacity:.38}
+  50%{opacity:.40}
 }
 
-/* Language options: one item per row. */
-#languageOptions{
-  display:none;
-  flex-direction:column!important;
-  align-items:stretch!important;
-}
-#languageOptions.is-open,
-.language-menu.open #languageOptions,
-#languageOptions[aria-hidden="false"]{
-  display:flex;
-}
-#languageOptions > button{
-  display:flex!important;
-  width:100%!important;
-  flex:0 0 auto!important;
-}
-
-/* Logout sits beside language and follows the existing metallic header language. */
-#luvvaSiteLogout{
-  flex:0 0 auto;
-  min-height:38px;
-  padding:0 14px;
-  border-radius:10px;
-  border:1px solid rgba(201,164,84,.55);
-  background:linear-gradient(180deg,rgba(31,34,39,.96),rgba(14,16,20,.96));
-  color:#ead8aa;
-  font:700 11px/1 "Montserrat",sans-serif;
-  letter-spacing:.04em;
-  box-shadow:0 2px 0 rgba(80,68,43,.75),0 5px 10px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.08);
-  cursor:pointer;
-}
-
-/* Desktop menu-toggle is only the mobile navigation control; keep it out of desktop header. */
+/* Remove the odd desktop hamburger only; mobile behavior remains intact. */
 @media (min-width:901px){
   #menuToggle{display:none!important}
 }
 </style>
-<script id="luvva-007-site-header-fix-js">
+
+<script id="luvva-008-site-header-final-js">
 (function(){
   const logout=document.getElementById('luvvaSiteLogout');
-  if(logout){
-    logout.addEventListener('click',function(){
-      try{
-        sessionStorage.removeItem('luvva_gateway_session_v1');
-        sessionStorage.removeItem('luvvaDashboardPreview');
-        localStorage.removeItem('luvva_gateway_session_v1');
-      }catch(e){}
-      window.location.replace('/');
-    });
-  }
+  if(!logout) return;
+  logout.addEventListener('click',function(){
+    try{
+      sessionStorage.removeItem('luvva_gateway_session_v1');
+      sessionStorage.removeItem('luvvaDashboardPreview');
+      localStorage.removeItem('luvva_gateway_session_v1');
+    }catch(e){}
+    window.location.replace('/');
+  });
 })();
 </script>
 
