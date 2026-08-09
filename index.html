@@ -641,7 +641,7 @@ body.luvva-v3-locked > footer {
 .luvva-auth-tab:hover { color:#fff0c3; background:rgba(255,255,255,.035); }
 .luvva-auth-tab.is-active { color:#2a1702; border-color:rgba(255,222,150,.62); background:linear-gradient(180deg,#f6daa0,#c98c27); box-shadow:inset 0 1px rgba(255,255,255,.6),0 7px 18px rgba(0,0,0,.25); }
 .luvva-google-secure-badge { display:flex; align-items:center; justify-content:center; gap:8px; margin:2px auto 14px; color:#f1d797; font:700 10px/1.2 "Montserrat",sans-serif; letter-spacing:.04em; }
-.luvva-google-secure-badge::before { content:"✓"; width:18px; height:18px; display:grid; place-items:center; box-sizing:border-box; padding-bottom:2px; color:#2b1600; font:900 11px/1 Arial,sans-serif; background:linear-gradient(145deg,#fff1b0 0%,#f1c35c 38%,#b77517 72%,#f7d77e 100%); border:1px solid rgba(255,229,153,.88); clip-path:polygon(50% 0%,92% 16%,86% 67%,50% 100%,14% 67%,8% 16%); filter:drop-shadow(0 0 5px rgba(229,185,94,.45)); box-shadow:inset 0 1px 0 rgba(255,255,255,.72); }
+.luvva-google-secure-badge::before { content:"✓"; width:18px; height:18px; display:grid; place-items:center; border:1px solid rgba(229,185,94,.42); border-radius:50%; box-shadow:0 0 12px rgba(229,185,94,.16); }
 .luvva-auth-hint { margin:2px 0 0; color:rgba(255,245,224,.48); font-size:9px; line-height:1.5; text-align:center; }
 .luvva-phone-grid { display:grid; grid-template-columns: 105px 1fr; gap:9px; }
 .luvva-auth-select { padding-right:8px; }
@@ -2519,7 +2519,7 @@ button,.btn{
 .luvva-auth-dialog.provider-google .luvva-auth-title{font-family:"Montserrat",sans-serif!important;font-size:42px!important;line-height:1.12!important;font-weight:600!important;letter-spacing:-.025em!important;margin:0 0 22px!important;color:#fff!important;}
 .luvva-auth-dialog.provider-google .luvva-auth-subtitle{display:none!important;}
 .luvva-auth-dialog.provider-google .luvva-google-secure-badge{margin:0 auto 28px!important;color:#e6b660!important;font-size:18px!important;font-weight:500!important;letter-spacing:0!important;gap:14px!important;}
-.luvva-auth-dialog.provider-google .luvva-google-secure-badge::before{content:"✓"!important;width:30px!important;height:36px!important;border:0!important;border-radius:0!important;color:#1b1205!important;background:linear-gradient(145deg,#ffe59a,#c98b27)!important;clip-path:polygon(50% 0,88% 14%,84% 70%,50% 100%,16% 70%,12% 14%)!important;box-shadow:0 0 16px rgba(229,185,94,.22)!important;font-size:16px!important;}
+.luvva-auth-dialog.provider-google .luvva-google-secure-badge::before{content:"✓"!important;width:30px!important;height:36px!important;border:1px solid #ffd979!important;border-radius:0!important;color:#fff1b8!important;background:linear-gradient(135deg,#fff0a8 0%,#d99a2b 24%,#7b4308 58%,#e6ad3f 82%,#fff0a8 100%)!important;clip-path:polygon(50% 0,91% 14%,86% 69%,50% 100%,14% 69%,9% 14%)!important;box-shadow:inset 0 0 0 2px rgba(57,30,4,.48),inset 0 0 9px rgba(255,235,158,.48),0 0 13px rgba(229,185,94,.34)!important;text-shadow:0 1px 2px rgba(55,28,0,.9)!important;font-size:16px!important;font-weight:900!important;}
 .luvva-auth-dialog.provider-google #luvvaGoogleOfficialButton{min-height:58px!important;margin:0 auto!important;}
 .luvva-auth-dialog.provider-google #luvvaGoogleOfficialButton>div{margin:auto!important;}
 .luvva-auth-dialog.provider-google #luvvaGoogleFields>.luvva-auth-hint{max-width:390px!important;margin:28px auto 0!important;color:rgba(245,245,245,.78)!important;font-size:16px!important;line-height:1.55!important;text-align:center!important;}
