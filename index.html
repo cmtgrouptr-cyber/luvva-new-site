@@ -2551,11 +2551,11 @@ button,.btn{
 <div class="luvva-enterprise-note">Enterprise-grade authentication</div>
 <div aria-live="polite" class="luvva-v3-status" hidden="" id="luvvaV3Status" role="status"></div>
 <div class="luvva-owner-ornament" aria-hidden="false">
-  <button class="luvva-owner-end left" id="luvvaOwnerDash" type="button" aria-label="Owner dashboard access"></button>
+  <button class="luvva-owner-end left" id="luvvaOwnerWeb" type="button" aria-label="Owner website access"></button>
   <div class="luvva-owner-line"><svg viewBox="0 0 100 22" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="luvvaGoldStroke" x1="0" x2="1"><stop offset="0" stop-color="#8b682e" stop-opacity=".18"/><stop offset=".5" stop-color="#e1ba6b" stop-opacity=".7"/><stop offset="1" stop-color="#8b682e" stop-opacity=".18"/></linearGradient></defs><path d="M0,12 C25,12 26,5 50,5 C74,5 75,12 100,12"/></svg></div>
   <div class="luvva-owner-center" aria-hidden="true">♥</div>
   <div class="luvva-owner-line"><svg viewBox="0 0 100 22" preserveAspectRatio="none" aria-hidden="true"><path d="M0,12 C25,12 26,5 50,5 C74,5 75,12 100,12"/></svg></div>
-  <button class="luvva-owner-end right" id="luvvaOwnerWeb" type="button" aria-label="Owner website access"></button>
+  <button class="luvva-owner-end right" id="luvvaOwnerDash" type="button" aria-label="Owner dashboard access"></button>
 </div>
 </div>
 <div aria-hidden="true" class="luvva-v3-success" id="luvvaV3Success">
@@ -4154,39 +4154,13 @@ Valid for 60 seconds.</p><div class="luvva-owner-actions" id="luvvaOwnerActions"
 <script id="owner-access-v66-script">
 (()=>{
   const modal=document.getElementById('luvvaOwnerModal'), title=document.getElementById('luvvaOwnerTitle'), qr=document.getElementById('luvvaOwnerQr'), count=document.getElementById('luvvaOwnerCount'), help=document.getElementById('luvvaOwnerHelp'), previewOpen=document.getElementById('luvvaOwnerPreviewOpen'), generate=document.getElementById('luvvaOwnerGenerate'), actions=document.getElementById('luvvaOwnerActions');
-  let currentType='dashboard';
-  function close(){modal.classList.remove('open');qr.classList.remove('is-visible');qr.innerHTML='<div class="luvva-owner-placeholder">Direct owner access ready.</div>';previewOpen.style.display='none';actions.style.display='flex';count.textContent=''}
-  function bindCorner(el,type){let clicks=0,last=0;const hit=ev=>{ev.preventDefault();ev.stopImmediatePropagation();const now=Date.now();clicks=(now-last<=850)?clicks+1:1;last=now;if(clicks>=5){clicks=0;currentType=type;modal.classList.add('open');title.textContent=type==='dashboard'?'Dashboard Access':'Website Access';help.textContent='Press Generate to open directly.';actions.style.display='flex';qr.classList.remove('is-visible');previewOpen.style.display='none';count.textContent=''}};el.addEventListener('pointerup',hit,{passive:false,capture:true});['click','dblclick'].forEach(n=>el.addEventListener(n,e=>{e.preventDefault();e.stopImmediatePropagation()},{capture:true}));el.addEventListener('contextmenu',e=>e.preventDefault())}
-  async function directOpen(){
-    generate.disabled=true;
-    generate.textContent='Opening…';
-    try{
-      if(currentType==='website'){
-        close();
-        if(typeof showWelcome==='function'){await showWelcome();}
-        else{document.getElementById('luvvaGatewayV3')?.setAttribute('hidden','');}
-        return;
-      }
-      const r=await fetch('/api/owner-direct-session',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:'{}'});
-      const j=await r.json().catch(()=>({}));
-      if(!r.ok||!j.ok)throw new Error(j.message||'DIRECT_ACCESS_UNAVAILABLE');
-      sessionStorage.setItem('luvvaOwnerDirectDashboard','1');
-      location.href='dashboard.html?owner=1';
-    }catch(e){
-      help.textContent='Unable to open direct owner access. Please try again.';
-      console.error('LUVVA direct owner access error:',e);
-    }finally{
-      generate.disabled=false;
-      generate.textContent='Generate';
-    }
-  }
-  generate.addEventListener('click',directOpen);
-  document.getElementById('luvvaOwnerCancel').addEventListener('click',close);
-  document.getElementById('luvvaOwnerClose').addEventListener('click',close);
-  modal.addEventListener('click',e=>{if(e.target===modal)close()});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
-  bindCorner(document.getElementById('luvvaOwnerDash'),'dashboard');
-  bindCorner(document.getElementById('luvvaOwnerWeb'),'website');
+  let poll=null,timer=null,currentType='dashboard';
+  function stop(){clearInterval(poll);clearInterval(timer);poll=timer=null}
+  function close(){stop();modal.classList.remove('open');qr.classList.remove('is-visible');qr.innerHTML='<div class="luvva-owner-placeholder">Preparing secure verification…</div>';previewOpen.style.display='none';actions.style.display='flex';count.textContent=''}
+  function drawPreviewQr(label){const c=document.createElement('canvas');c.width=190;c.height=190;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,190,190);const size=29,cell=5,offset=22;let seed=0;for(const ch of label)seed=(seed*31+ch.charCodeAt(0))>>>0;const finder=(r,c0)=>{x.fillStyle='#111';x.fillRect(offset+c0*cell,offset+r*cell,7*cell,7*cell);x.fillStyle='#fff';x.fillRect(offset+(c0+1)*cell,offset+(r+1)*cell,5*cell,5*cell);x.fillStyle='#111';x.fillRect(offset+(c0+2)*cell,offset+(r+2)*cell,3*cell,3*cell)};finder(0,0);finder(0,size-7);finder(size-7,0);const reserved=(r,c0)=>(r<8&&c0<8)||(r<8&&c0>size-9)||(r>size-9&&c0<8);for(let r=0;r<size;r++)for(let c0=0;c0<size;c0++){if(reserved(r,c0))continue;seed=(1664525*seed+1013904223)>>>0;if((seed>>>30)&1){x.fillStyle='#111';x.fillRect(offset+c0*cell,offset+r*cell,cell,cell)}}qr.innerHTML='';qr.appendChild(c)}
+  function bindCorner(el,type){let clicks=0,last=0;const hit=ev=>{ev.preventDefault();ev.stopImmediatePropagation();const now=Date.now();clicks=(now-last<=850)?clicks+1:1;last=now;if(clicks>=5){clicks=0;currentType=type;modal.classList.add('open');title.textContent=type==='dashboard'?'Dashboard Access':'Website Access';help.textContent='Generate a one-time secure QR code.\nValid for 60 seconds.';actions.style.display='flex';qr.classList.remove('is-visible');previewOpen.style.display='none';count.textContent=''}};el.addEventListener('pointerup',hit,{passive:false,capture:true});['click','dblclick'].forEach(n=>el.addEventListener(n,e=>{e.preventDefault();e.stopImmediatePropagation()},{capture:true}));el.addEventListener('contextmenu',e=>e.preventDefault())}
+  async function generateQr(){stop();actions.style.display='none';qr.classList.add('is-visible');qr.innerHTML='<div class="luvva-owner-placeholder">Creating one-time QR…</div>';help.textContent='Secure owner access is ready.';try{if(location.protocol==='file:')throw new Error('LOCAL_PREVIEW');const r=await fetch('/api/owner-challenge-create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:currentType})});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.message||'SERVICE_UNAVAILABLE');qr.innerHTML=`<img src="${j.qr_data_url}" alt="One-time owner access QR">`;let left=Math.max(0,Math.ceil((new Date(j.expires_at)-Date.now())/1000));count.textContent=`Expires in ${left}s`;timer=setInterval(()=>{left--;count.textContent=left>0?`Expires in ${left}s`:'Expired';if(left<=0)clearInterval(timer)},1000)}catch(e){drawPreviewQr(currentType==='dashboard'?'LUVVA DASHBOARD V6.6':'LUVVA WEBSITE OWNER V6.6');count.textContent='Local preview · 60 seconds';help.textContent=currentType==='dashboard'?'Dashboard preview is ready.':'Preview mode: secure website owner access is ready.';if(currentType==='dashboard')previewOpen.style.display='block'}}
+  generate.addEventListener('click',generateQr);document.getElementById('luvvaOwnerCancel').addEventListener('click',close);document.getElementById('luvvaOwnerClose').addEventListener('click',close);previewOpen.addEventListener('click',()=>{sessionStorage.setItem('luvvaDashboardPreview','1');location.href='dashboard.html?preview=1'});modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});bindCorner(document.getElementById('luvvaOwnerWeb'),'website');bindCorner(document.getElementById('luvvaOwnerDash'),'dashboard');
   const select=document.getElementById('luvvaCountryCode'),button=document.getElementById('luvvaCountryButton'),menu=document.getElementById('luvvaCountryMenu'),search=document.getElementById('luvvaCountrySearch'),items=[...document.querySelectorAll('.luvva-country-option')];
   button?.addEventListener('click',e=>{e.stopPropagation();menu.classList.toggle('open');if(menu.classList.contains('open'))setTimeout(()=>search.focus(),0)});items.forEach(it=>it.addEventListener('click',()=>{select.value=it.dataset.value;button.textContent=it.textContent;items.forEach(x=>x.classList.toggle('active',x===it));menu.classList.remove('open');select.dispatchEvent(new Event('change',{bubbles:true}))}));search?.addEventListener('input',()=>{const q=search.value.toLowerCase();items.forEach(it=>it.style.display=it.textContent.toLowerCase().includes(q)?'block':'none')});document.addEventListener('click',e=>{if(!document.getElementById('luvvaCountryPicker')?.contains(e.target))menu?.classList.remove('open')});
 })();
