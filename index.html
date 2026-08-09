@@ -2481,6 +2481,29 @@ button,.btn{
 #luvvaGatewayV3 .luvva-v3-providers>button[data-luvva-v3-provider="Business Email"] .luvva-v5-business-stars{position:absolute!important;right:48px!important;top:50%!important;transform:translateY(-50%)!important}
 @media(max-width:520px){#luvvaGatewayV3 .luvva-v3-providers>button .luvva-v3-arrow{right:14px!important}#luvvaGatewayV3 .luvva-v3-providers>button[data-luvva-v3-provider="Business Email"] .luvva-v5-business-stars{right:42px!important}}
 </style>
+
+<style id="luvva-03-google-arrow-y-center-only">
+/* Google arrow only: keep the same right-side axis as the other arrows and center it vertically. */
+#luvvaGatewayV3 .luvva-v3-providers>button[data-luvva-v3-provider="Google"]>.luvva-v3-arrow{
+  position:absolute!important;
+  left:auto!important;
+  right:18px!important;
+  top:0!important;
+  bottom:0!important;
+  width:24px!important;
+  height:32px!important;
+  margin:auto 0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  line-height:1!important;
+  transform:none!important;
+}
+#luvvaGatewayV3 .luvva-v3-providers>button[data-luvva-v3-provider="Google"]:hover>.luvva-v3-arrow{transform:none!important}
+@media(max-width:520px){
+  #luvvaGatewayV3 .luvva-v3-providers>button[data-luvva-v3-provider="Google"]>.luvva-v3-arrow{right:14px!important}
+}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -4231,15 +4254,5 @@ button,.btn{
   top:-24px!important;
   transform:none!important;
   margin:18px auto 8px!important;
-}
-</style>
-
-<style id="luvva-google-arrow-only-final-alignment">
-/* Google arrow only: align it vertically with the provider arrows. No other UI/logic changes. */
-#luvvaGatewayV3 .luvva-v3-providers > button[data-luvva-v3-provider="Google"] > .luvva-v3-arrow{
-  transform:translateX(55px)!important;
-}
-#luvvaGatewayV3 .luvva-v3-providers > button[data-luvva-v3-provider="Google"]:hover > .luvva-v3-arrow{
-  transform:translateX(55px)!important;
 }
 </style>
