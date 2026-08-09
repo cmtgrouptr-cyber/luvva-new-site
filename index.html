@@ -2572,6 +2572,103 @@ button,.btn{
   #luvvaGatewayV3 .luvva-gate-principle{grid-template-columns:44px minmax(0,1fr);gap:10px;padding:10px 12px;font-size:10.5px;}
 }
 </style>
+
+<style id="luvva119-final-micro-lock">
+/* V119 FINAL MICRO LOCK — only the four approved finishing touches. */
+
+/* 1) All provider arrows share one exact vertical axis. */
+#luvvaGatewayV3 .luvva-v3-providers > button{position:relative!important;}
+#luvvaGatewayV3 .luvva-v3-providers > button .luvva-v3-arrow{
+  position:absolute!important;
+  right:14px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:18px!important;
+  height:28px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  margin:0!important;
+}
+#luvvaGatewayV3 .luvva-v3-providers > button:hover .luvva-v3-arrow{
+  transform:translateY(-50%)!important;
+}
+#luvvaGatewayV3 .luvva-provider-tail,
+#luvvaGatewayV3 .luvva-frozen-tail{
+  padding-right:28px!important;
+  box-sizing:border-box!important;
+}
+
+/* 2) Security line: equal visual breathing room on both sides, centered as one unit. */
+#luvvaGatewayV3 .luvva-gate-principle{
+  grid-template-columns:none!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:16px!important;
+  padding-left:22px!important;
+  padding-right:22px!important;
+  text-align:center!important;
+}
+#luvvaGatewayV3 .luvva-gate-principle-icon{
+  flex:0 0 40px!important;
+  margin:0!important;
+}
+#luvvaGatewayV3 .luvva-gate-principle > span:last-child{
+  flex:0 0 auto!important;
+  margin:0!important;
+  white-space:nowrap!important;
+}
+
+/* 3) Keep the existing shield treatment intact; only clarify the check mark inside. */
+#luvvaGatewayV3 .luvva-gate-principle-icon{
+  font-size:0!important;
+}
+#luvvaGatewayV3 .luvva-gate-principle-icon::before{
+  content:"✓";
+  font:800 20px/1 "Montserrat",Arial,sans-serif;
+  color:#f0c66c;
+  text-shadow:0 0 8px rgba(226,179,78,.35);
+}
+
+/* 4) Refine only the small heart head under the security panel. */
+#luvvaGatewayV3 .luvva-owner-center{
+  width:42px!important;
+  font-size:0!important;
+  position:relative!important;
+  height:32px!important;
+  display:grid!important;
+  place-items:center!important;
+  overflow:visible!important;
+}
+#luvvaGatewayV3 .luvva-owner-center::before{
+  content:"♥";
+  display:block;
+  font:700 27px/1 Georgia,"Times New Roman",serif;
+  color:#e5b85d;
+  transform:translateY(-1px) scaleX(1.08);
+  text-shadow:0 0 5px rgba(232,188,96,.42),0 0 12px rgba(205,151,53,.22);
+}
+#luvvaGatewayV3 .luvva-owner-center::after{
+  content:"";
+  position:absolute;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#fff2bf;
+  box-shadow:0 0 8px 2px rgba(239,194,101,.42);
+  top:4px;
+  right:7px;
+  opacity:.9;
+}
+
+@media(max-width:520px){
+  #luvvaGatewayV3 .luvva-v3-providers > button .luvva-v3-arrow{right:10px!important;}
+  #luvvaGatewayV3 .luvva-gate-principle{gap:10px!important;padding-left:14px!important;padding-right:14px!important;}
+  #luvvaGatewayV3 .luvva-gate-principle > span:last-child{white-space:normal!important;}
+}
+</style>
+
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -2673,7 +2770,7 @@ button,.btn{
 <div class="luvva-enterprise-note">Enterprise-grade authentication</div>
 <div class="luvva-gate-principle" aria-label="LUVVA trust statement">
   <span class="luvva-gate-principle-icon" aria-hidden="true">⌾</span>
-  <span>Your privacy, identity, and trust are protected every step of the way.</span>
+  <span>Secure Access. Trusted Identity.</span>
 </div>
 <div aria-live="polite" class="luvva-v3-status" hidden="" id="luvvaV3Status" role="status"></div>
 <div class="luvva-owner-ornament" aria-hidden="false">
