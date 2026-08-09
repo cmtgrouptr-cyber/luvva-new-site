@@ -2450,6 +2450,23 @@ button,.btn{
   .luvva-auth-dialog.provider-business #luvvaBusinessReset{width:74%!important;}
 }
 </style>
+
+<style id="luvva-security-lower-panel-00">
+/* 00: lower security area only. Provider area and owner controls remain untouched. */
+.luvva-security-panel{width:min(100%,510px);box-sizing:border-box;margin:13px auto 0;padding:13px 18px;min-height:92px;border:1px solid rgba(232,181,74,.78);border-radius:15px;background:linear-gradient(110deg,rgba(45,27,5,.72),rgba(8,7,5,.92) 43%,rgba(10,8,5,.94));box-shadow:inset 0 1px 0 rgba(255,238,191,.10),0 0 18px rgba(214,155,39,.08);display:flex;align-items:center;gap:18px;text-align:left}
+.luvva-security-shield{width:72px;height:78px;flex:0 0 72px;display:grid;place-items:center;position:relative;color:#2b1902;font:900 31px/1 Arial;text-shadow:0 1px 0 rgba(255,247,210,.45);filter:drop-shadow(0 0 8px rgba(236,174,43,.34))}
+.luvva-security-shield:before{content:"";position:absolute;inset:2px 5px 4px;background:linear-gradient(135deg,#ffe09a 0%,#e5a72f 35%,#81510d 72%,#d99722 100%);clip-path:polygon(50% 0,92% 15%,87% 67%,70% 87%,50% 100%,30% 87%,13% 67%,8% 15%);box-shadow:inset 0 0 0 2px rgba(255,235,170,.45)}
+.luvva-security-shield span{position:relative;z-index:1}
+.luvva-security-copy{min-width:0;flex:1}
+.luvva-security-title{white-space:nowrap;font:800 28px/1.05 Arial,sans-serif;letter-spacing:.015em}
+.luvva-security-title strong{color:#fff;font-weight:800}.luvva-security-title em{color:#dca33b;font-style:normal;font-weight:800}
+.luvva-security-detail{margin-top:8px;color:rgba(245,239,228,.82);font:500 11.5px/1.35 Arial,sans-serif}
+.luvva-security-grade{margin-top:4px;color:#d9a548;font:800 11px/1.25 Arial,sans-serif;letter-spacing:.075em}
+.luvva-privacy-panel{width:min(100%,510px);box-sizing:border-box;margin:10px auto 0;padding:11px 17px;min-height:58px;border:1px solid rgba(193,145,64,.45);border-radius:14px;background:rgba(9,8,7,.72);display:flex;align-items:center;gap:16px;text-align:left;color:rgba(239,235,228,.78);font:500 12px/1.4 Arial,sans-serif}
+.luvva-privacy-lock{width:44px;height:44px;flex:0 0 44px;border:1px solid rgba(225,173,72,.72);border-radius:50%;display:grid;place-items:center;color:#e2aa45;font-size:21px;text-shadow:0 0 8px rgba(226,170,69,.28)}
+#luvvaV3Status{display:none!important}
+@media(max-width:520px){.luvva-security-panel{padding:11px 12px;gap:11px;min-height:82px}.luvva-security-shield{width:58px;height:64px;flex-basis:58px}.luvva-security-title{font-size:22px}.luvva-security-detail{font-size:9.5px}.luvva-security-grade{font-size:8.8px;letter-spacing:.055em}.luvva-privacy-panel{padding:9px 12px;gap:11px;font-size:10px;min-height:52px}.luvva-privacy-lock{width:38px;height:38px;flex-basis:38px}}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -2545,10 +2562,18 @@ button,.btn{
 <small class="luvva-frozen-note" aria-hidden="true">PAUSED</small>
 </button>
 </div>
-<div class="luvva-security-summary" aria-label="Security and privacy">
-  <p>Verified identity • Private session • Secure access</p>
+<div class="luvva-security-panel" aria-label="Secure access">
+  <div class="luvva-security-shield" aria-hidden="true"><span>✓</span></div>
+  <div class="luvva-security-copy">
+    <div class="luvva-security-title"><strong>SECURE</strong> <em>ACCESS</em></div>
+    <div class="luvva-security-detail">Verified identity • Private session • Secure access</div>
+    <div class="luvva-security-grade">ENTERPRISE-GRADE AUTHENTICATION</div>
+  </div>
 </div>
-<div class="luvva-enterprise-note">Enterprise-grade authentication</div>
+<div class="luvva-privacy-panel" aria-label="Privacy protection">
+  <div class="luvva-privacy-lock" aria-hidden="true">▣</div>
+  <div>Your privacy, identity, and trust are protected every step of the way.</div>
+</div>
 <div aria-live="polite" class="luvva-v3-status" hidden="" id="luvvaV3Status" role="status"></div>
 <div class="luvva-owner-ornament" aria-hidden="false">
   <button class="luvva-owner-end left" id="luvvaOwnerWeb" type="button" aria-label="Owner website access"></button>
