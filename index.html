@@ -2450,6 +2450,128 @@ button,.btn{
   .luvva-auth-dialog.provider-business #luvvaBusinessReset{width:74%!important;}
 }
 </style>
+
+<style id="luvva115-google-clean-signin">
+/* Google-only cleanup: preserve OAuth/API logic and all other providers. */
+.luvva-auth-dialog.provider-google #luvvaWhatsappReset,
+.luvva-auth-dialog.provider-google #luvvaAuthSubmit,
+.luvva-auth-dialog.provider-google #luvvaBusinessForgotRow,
+.luvva-auth-dialog.provider-google #luvvaBusinessReset{display:none!important;}
+.luvva-auth-dialog.provider-google #luvvaGoogleFields{display:grid!important;justify-items:center;gap:13px!important;width:100%!important;}
+.luvva-auth-dialog.provider-google #luvvaGoogleFields[hidden]{display:none!important;}
+.luvva-auth-dialog.provider-google #luvvaGoogleOfficialButton{width:100%!important;justify-content:center!important;min-height:48px!important;}
+.luvva-auth-dialog.provider-google .luvva-google-privacy-note{margin:2px auto 2px!important;max-width:350px!important;text-align:center!important;}
+.luvva-google-alt-email{
+  display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;
+  width:min(74%,320px)!important;min-height:46px!important;margin:4px auto 6px!important;padding:0 20px!important;
+  border:2px solid #353b42!important;border-radius:14px!important;color:#eef2f5!important;
+  background:linear-gradient(180deg,#626a73 0%,#3d444c 52%,#20252b 100%)!important;
+  box-shadow:0 6px 0 #171b20,0 12px 19px rgba(0,0,0,.68),inset 0 1px 0 rgba(255,255,255,.22),inset 0 -6px 10px rgba(0,0,0,.38)!important;
+  font:800 12px/1 "Montserrat",sans-serif!important;letter-spacing:.02em!important;cursor:pointer!important;
+}
+.luvva-google-alt-email:hover{transform:translateY(-1px)!important;filter:brightness(1.08)!important;}
+.luvva-google-alt-email:active{transform:translateY(3px)!important;box-shadow:0 3px 0 #171b20,0 8px 13px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.18)!important;}
+@media(max-width:520px){.luvva-google-alt-email{width:82%!important;min-height:44px!important;}}
+</style>
+
+<style id="luvva117-gateway-final-alignment">
+/* LUVVA V117 — final gateway visual alignment only. No auth/API logic changes. */
+#luvvaGatewayV3 .luvva-v3-providers{
+  gap:13px!important;
+  width:min(100%,510px)!important;
+}
+#luvvaGatewayV3 .luvva-v3-providers>button{
+  display:grid!important;
+  grid-template-columns:52px minmax(0,1fr) 112px!important;
+  align-items:center!important;
+  column-gap:0!important;
+  min-height:58px!important;
+  padding:0 14px!important;
+}
+#luvvaGatewayV3 .luvva-v3-providers .luvva-v3-provider-icon{
+  grid-column:1!important;
+  justify-self:center!important;
+  width:34px!important;
+  height:34px!important;
+  margin:0!important;
+}
+#luvvaGatewayV3 .luvva-v3-providers .luvva-v5-provider-label{
+  grid-column:2!important;
+  justify-self:stretch!important;
+  justify-content:flex-start!important;
+  text-align:left!important;
+  padding-left:26px!important;
+  margin:0!important;
+  white-space:nowrap!important;
+}
+#luvvaGatewayV3 .luvva-provider-tail,
+#luvvaGatewayV3 .luvva-v3-providers>button[data-luvva-v3-provider="Google"]>.luvva-v3-arrow,
+#luvvaGatewayV3 .luvva-frozen-tail{
+  grid-column:3!important;
+  justify-self:end!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:10px!important;
+  width:100%!important;
+  margin:0!important;
+  position:static!important;
+}
+#luvvaGatewayV3 .luvva-v3-arrow{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:18px!important;
+  margin:0!important;
+  position:static!important;
+}
+#luvvaGatewayV3 .luvva-frozen-note{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:64px!important;
+  margin:0!important;
+}
+#luvvaGatewayV3 #luvvaV3Status{display:none!important;}
+#luvvaGatewayV3 .luvva-gate-principle{
+  width:min(100%,510px);
+  margin:14px auto 0;
+  min-height:68px;
+  padding:12px 18px;
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:54px minmax(0,1fr);
+  align-items:center;
+  gap:16px;
+  border:1px solid rgba(222,173,72,.32);
+  border-radius:14px;
+  background:linear-gradient(180deg,rgba(29,20,9,.72),rgba(11,8,5,.88));
+  color:rgba(255,231,185,.90);
+  box-shadow:inset 0 1px 0 rgba(255,239,195,.06),0 8px 22px rgba(0,0,0,.25);
+  font-size:11.5px;
+  line-height:1.5;
+  text-align:left;
+}
+#luvvaGatewayV3 .luvva-gate-principle-icon{
+  width:40px;
+  height:46px;
+  display:grid;
+  place-items:center;
+  justify-self:center;
+  border:1px solid rgba(229,184,90,.55);
+  border-radius:12px 12px 16px 16px;
+  color:#e4b85a;
+  font-size:21px;
+  text-shadow:0 0 8px rgba(226,179,78,.35);
+}
+@media(max-width:520px){
+  #luvvaGatewayV3 .luvva-v3-providers>button{grid-template-columns:44px minmax(0,1fr) 88px!important;padding:0 10px!important;}
+  #luvvaGatewayV3 .luvva-v3-providers .luvva-v5-provider-label{padding-left:16px!important;font-size:12px!important;}
+  #luvvaGatewayV3 .luvva-frozen-tail{gap:5px!important;}
+  #luvvaGatewayV3 .luvva-frozen-note{min-width:54px!important;font-size:7px!important;}
+  #luvvaGatewayV3 .luvva-gate-principle{grid-template-columns:44px minmax(0,1fr);gap:10px;padding:10px 12px;font-size:10.5px;}
+}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -2535,20 +2657,24 @@ button,.btn{
 <svg fill="currentColor" viewbox="0 0 24 24"><path d="M12 3a8.7 8.7 0 0 0-7.5 13.1L3.4 21l5-1.3A8.7 8.7 0 1 0 12 3Zm0 15.8c-1.2 0-2.4-.3-3.5-.9l-.3-.2-3 .8.8-2.9-.2-.3a7 7 0 1 1 6.2 3.5Zm3.9-5.2c-.2-.1-1.3-.6-1.5-.7-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a5.8 5.8 0 0 1-2.8-2.5c-.2-.3 0-.4.1-.5l.5-.6c.1-.2.1-.3.2-.5 0-.1 0-.3-.1-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9 0 1.1.8 2.2.9 2.3.1.2 1.6 2.5 4 3.4.6.2 1 .4 1.3.5.6.2 1.1.2 1.5.1.5-.1 1.3-.5 1.5-1 .2-.5.2-.9.1-1 0-.1-.2-.2-.4-.3Z"></path></svg>
 </span>
 <span class="luvva-v5-provider-label">Continue with WhatsApp</span>
-<small class="luvva-frozen-note" aria-hidden="true">PAUSED</small>
+<span class="luvva-frozen-tail" aria-hidden="true"><small class="luvva-frozen-note">PAUSED</small><span class="luvva-v3-arrow">›</span></span>
 </button>
 <button class="luvva-provider-frozen" data-luvva-v3-provider="WeChat" data-luvva-frozen="true" type="button" disabled aria-disabled="true" title="Temporarily paused">
 <span aria-hidden="true" class="luvva-v3-provider-icon luvva-v3-wechat">
 <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path fill="white" d="M25.4 12C14.7 12 6 19.2 6 28.1c0 5.1 2.9 9.7 7.4 12.7l-1.9 6.4 6.7-3.7c2.3.7 4.7 1.1 7.2 1.1 10.7 0 19.4-7.2 19.4-16.1S36.1 12 25.4 12Z"/><path fill="#07c160" d="M18.8 23.7a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2Zm13.2 0a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2Z"/><path fill="white" d="M39.2 27.2c-10.4 0-18.8 6.8-18.8 15.2s8.4 15.2 18.8 15.2c2.3 0 4.5-.4 6.5-1l6.4 3.4-1.8-5.9c4.7-2.8 7.7-7 7.7-11.7 0-8.4-8.4-15.2-18.8-15.2Z"/><path fill="#07c160" d="M33.2 39.7a2.3 2.3 0 1 0 0-4.6 2.3 2.3 0 0 0 0 4.6Zm12.4 0a2.3 2.3 0 1 0 0-4.6 2.3 2.3 0 0 0 0 4.6Z"/></svg>
 </span>
 <span class="luvva-v5-provider-label">Continue with WeChat</span>
-<small class="luvva-frozen-note" aria-hidden="true">PAUSED</small>
+<span class="luvva-frozen-tail" aria-hidden="true"><small class="luvva-frozen-note">PAUSED</small><span class="luvva-v3-arrow">›</span></span>
 </button>
 </div>
 <div class="luvva-security-summary" aria-label="Security and privacy">
   <p>Verified identity • Private session • Secure access</p>
 </div>
 <div class="luvva-enterprise-note">Enterprise-grade authentication</div>
+<div class="luvva-gate-principle" aria-label="LUVVA trust statement">
+  <span class="luvva-gate-principle-icon" aria-hidden="true">⌾</span>
+  <span>Your privacy, identity, and trust are protected every step of the way.</span>
+</div>
 <div aria-live="polite" class="luvva-v3-status" hidden="" id="luvvaV3Status" role="status"></div>
 <div class="luvva-owner-ornament" aria-hidden="false">
   <button class="luvva-owner-end left" id="luvvaOwnerWeb" type="button" aria-label="Owner website access"></button>
@@ -2581,7 +2707,8 @@ button,.btn{
 <div id="luvvaGoogleFields" hidden>
   <div class="luvva-google-secure-badge">Secure Google Authentication</div>
   <div id="luvvaGoogleOfficialButton" style="display:flex;justify-content:center;min-height:44px"></div>
-  <p class="luvva-auth-hint" style="margin-top:12px">Google completes identity confirmation on its own secure screen. LUVVA never receives your Google password.</p>
+  <p class="luvva-auth-hint luvva-google-privacy-note">Google securely verifies your identity. LUVVA never receives your Google password.</p>
+  <button class="luvva-google-alt-email" id="luvvaGoogleAltEmail" type="button">← Back to LUVVA Gate</button>
 </div>
 <div id="luvvaWechatFields" hidden>
   <div class="luvva-wechat-panel">
@@ -3104,6 +3231,7 @@ button,.btn{
   const passwordToggle = document.getElementById("luvvaPasswordToggle");
   const googleFields = document.getElementById("luvvaGoogleFields");
   const googleOfficialButton = document.getElementById("luvvaGoogleOfficialButton");
+  const googleAltEmail = document.getElementById("luvvaGoogleAltEmail");
   const wechatFields = document.getElementById("luvvaWechatFields");
   const businessModes = document.getElementById("luvvaBusinessModes");
   const businessPasswordMode = document.getElementById("luvvaBusinessPasswordMode");
@@ -3342,7 +3470,7 @@ button,.btn{
         }
       }
     });
-    google.accounts.id.renderButton(googleOfficialButton, {theme:"outline", size:"large", shape:"pill", text:"continue_with", width:320});
+    google.accounts.id.renderButton(googleOfficialButton, {theme:"outline", size:"large", shape:"pill", text:"signin_with", width:320});
   }
 
   function setBusinessMode(mode) {
@@ -3644,6 +3772,11 @@ button,.btn{
     setTimeout(() => identity.focus(), 80);
   });
 
+  if (googleAltEmail) googleAltEmail.addEventListener("click", () => {
+    // Return to LUVVA provider selection so the visitor can choose a different email route.
+    closeProvider();
+  });
+
   closeButton.addEventListener("click", closeProvider);
   backdrop.addEventListener("click", e => { if (e.target === backdrop) closeProvider(); });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && backdrop.classList.contains("is-open")) closeProvider(); });
@@ -3653,7 +3786,22 @@ button,.btn{
     passwordToggle.classList.toggle("is-visible", password.type !== "password");
   });
   document.getElementById("luvvaForgotLink").addEventListener("click", e => {
-    e.preventDefault(); errorBox.textContent = "Password recovery will be connected to the official provider in the live version.";
+    e.preventDefault();
+    errorBox.classList.remove("is-success");
+    identity.value = identity.value.trim().toLowerCase().replace(/@luvval\.tech$/i, "@luvva.tech");
+    if (!identity.value || !validEmail(identity.value)) {
+      errorBox.textContent = "Enter your business email first.";
+      identity.focus();
+      return;
+    }
+    // Forgot password is intentionally passwordless: prove mailbox ownership with the
+    // same OTP flow. LUVVA does not reset or manage the user's mailbox password.
+    emailCodeSent = false;
+    emailCode.value = "";
+    setBusinessMode("code");
+    submit.disabled = false;
+    submit.textContent = "Send verification code";
+    form.requestSubmit();
   });
 
   const SESSION_DURATION_MS = 25 * 60 * 1000;
@@ -4099,11 +4247,21 @@ button,.btn{
       } else if (activeProvider === "Business Email") {
         if (!password.value) { errorBox.textContent = "Please enter your LUVVA account password."; submit.disabled = false; return; }
 
-        // Business Email UI flow: password step first, then send the already-working email OTP
-        // and reveal the verification-code field in the same dialog. API files remain unchanged.
+        // Sign In path: verify the LUVVA gateway password on the server FIRST.
+        // Only a successful password check is allowed to trigger the email OTP.
         submit.disabled = true;
-        submit.textContent = "Sending code…";
+        submit.textContent = "Checking…";
         try {
+          const { response: passwordResponse, result: passwordResult } = await fetchJsonWithTimeout("/api/business-password-verify", {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({email:identity.value.trim(), password:password.value})
+          });
+          if (!passwordResponse.ok || !passwordResult.ok) {
+            throw new Error(passwordResult.message || "Incorrect email or password.");
+          }
+
+          submit.textContent = "Sending code…";
           const { response, result } = await fetchJsonWithTimeout("/api/email-otp-send", {
             method:"POST",
             headers:{"Content-Type":"application/json"},
@@ -4124,7 +4282,7 @@ button,.btn{
           return;
         } catch(err) {
           errorBox.classList.remove("is-success");
-          errorBox.textContent = err.message || "Unable to send the email verification code.";
+          errorBox.textContent = err.message || "Incorrect email or password.";
           submit.textContent = "Sign In";
           submit.disabled = false;
           return;
@@ -4149,7 +4307,8 @@ button,.btn{
 })();
   </script>
 
-<div class="luvva-owner-modal" id="luvvaOwnerModal" role="dialog" aria-modal="true" aria-labelledby="luvvaOwnerTitle"><div class="luvva-owner-card"><button id="luvvaOwnerClose" class="luvva-owner-close" type="button" aria-label="Close">×</button><h3 id="luvvaOwnerTitle">Owner Secure Access</h3><p id="luvvaOwnerHelp">Direct owner access.</p><div class="luvva-owner-actions" id="luvvaOwnerActions"><button id="luvvaOwnerCancel" type="button">Cancel</button></div><div class="luvva-owner-qrbox" id="luvvaOwnerQr" style="display:none"><div class="luvva-owner-placeholder">Preparing secure verification…</div></div><p class="luvva-owner-count" id="luvvaOwnerCount" style="display:none"></p><button id="luvvaOwnerPreviewOpen" class="primary" type="button" style="display:none;width:100%;margin-top:10px">Open Dashboard</button></div></div>
+<div class="luvva-owner-modal" id="luvvaOwnerModal" role="dialog" aria-modal="true" aria-labelledby="luvvaOwnerTitle"><div class="luvva-owner-card"><button id="luvvaOwnerClose" class="luvva-owner-close" type="button" aria-label="Close">×</button><h3 id="luvvaOwnerTitle">Owner Secure Access</h3><p id="luvvaOwnerHelp">Generate a one-time secure QR code.
+Valid for 60 seconds.</p><div class="luvva-owner-actions" id="luvvaOwnerActions"><button id="luvvaOwnerCancel" type="button">Cancel</button><button id="luvvaOwnerGenerate" class="primary" type="button">Generate</button></div><div class="luvva-owner-qrbox" id="luvvaOwnerQr"><div class="luvva-owner-placeholder">Preparing secure verification…</div></div><p class="luvva-owner-count" id="luvvaOwnerCount"></p><button id="luvvaOwnerPreviewOpen" class="primary" type="button" style="display:none;width:100%;margin-top:10px">Open Dashboard</button></div></div>
 <script id="owner-access-v66-script">
 (()=>{
   const modal=document.getElementById('luvvaOwnerModal'), title=document.getElementById('luvvaOwnerTitle'), qr=document.getElementById('luvvaOwnerQr'), count=document.getElementById('luvvaOwnerCount'), help=document.getElementById('luvvaOwnerHelp'), previewOpen=document.getElementById('luvvaOwnerPreviewOpen'), generate=document.getElementById('luvvaOwnerGenerate'), actions=document.getElementById('luvvaOwnerActions');
@@ -4157,9 +4316,9 @@ button,.btn{
   function stop(){clearInterval(poll);clearInterval(timer);poll=timer=null}
   function close(){stop();modal.classList.remove('open');qr.classList.remove('is-visible');qr.innerHTML='<div class="luvva-owner-placeholder">Preparing secure verification…</div>';previewOpen.style.display='none';actions.style.display='flex';count.textContent=''}
   function drawPreviewQr(label){const c=document.createElement('canvas');c.width=190;c.height=190;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,190,190);const size=29,cell=5,offset=22;let seed=0;for(const ch of label)seed=(seed*31+ch.charCodeAt(0))>>>0;const finder=(r,c0)=>{x.fillStyle='#111';x.fillRect(offset+c0*cell,offset+r*cell,7*cell,7*cell);x.fillStyle='#fff';x.fillRect(offset+(c0+1)*cell,offset+(r+1)*cell,5*cell,5*cell);x.fillStyle='#111';x.fillRect(offset+(c0+2)*cell,offset+(r+2)*cell,3*cell,3*cell)};finder(0,0);finder(0,size-7);finder(size-7,0);const reserved=(r,c0)=>(r<8&&c0<8)||(r<8&&c0>size-9)||(r>size-9&&c0<8);for(let r=0;r<size;r++)for(let c0=0;c0<size;c0++){if(reserved(r,c0))continue;seed=(1664525*seed+1013904223)>>>0;if((seed>>>30)&1){x.fillStyle='#111';x.fillRect(offset+c0*cell,offset+r*cell,cell,cell)}}qr.innerHTML='';qr.appendChild(c)}
-  function bindCorner(el,type){let clicks=0,last=0;const hit=ev=>{ev.preventDefault();ev.stopImmediatePropagation();const now=Date.now();clicks=(now-last<=850)?clicks+1:1;last=now;if(clicks>=5){clicks=0;currentType=type;modal.classList.add('open');title.textContent=type==='dashboard'?'Dashboard Access':'Website Access';help.textContent=type==='dashboard'?'Open the dashboard directly.':'Open the website directly.';actions.style.display='flex';qr.classList.remove('is-visible');previewOpen.textContent=type==='dashboard'?'Open Dashboard':'Open Website';previewOpen.style.display='block';count.textContent=''}};el.addEventListener('pointerup',hit,{passive:false,capture:true});['click','dblclick'].forEach(n=>el.addEventListener(n,e=>{e.preventDefault();e.stopImmediatePropagation()},{capture:true}));el.addEventListener('contextmenu',e=>e.preventDefault())}
+  function bindCorner(el,type){let clicks=0,last=0;const hit=ev=>{ev.preventDefault();ev.stopImmediatePropagation();const now=Date.now();clicks=(now-last<=850)?clicks+1:1;last=now;if(clicks>=5){clicks=0;currentType=type;modal.classList.add('open');title.textContent=type==='dashboard'?'Dashboard Access':'Website Access';help.textContent='Generate a one-time secure QR code.\nValid for 60 seconds.';actions.style.display='flex';qr.classList.remove('is-visible');previewOpen.style.display='none';count.textContent=''}};el.addEventListener('pointerup',hit,{passive:false,capture:true});['click','dblclick'].forEach(n=>el.addEventListener(n,e=>{e.preventDefault();e.stopImmediatePropagation()},{capture:true}));el.addEventListener('contextmenu',e=>e.preventDefault())}
   async function generateQr(){stop();actions.style.display='none';qr.classList.add('is-visible');qr.innerHTML='<div class="luvva-owner-placeholder">Creating one-time QR…</div>';help.textContent='Secure owner access is ready.';try{if(location.protocol==='file:')throw new Error('LOCAL_PREVIEW');const r=await fetch('/api/owner-challenge-create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:currentType})});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.message||'SERVICE_UNAVAILABLE');qr.innerHTML=`<img src="${j.qr_data_url}" alt="One-time owner access QR">`;let left=Math.max(0,Math.ceil((new Date(j.expires_at)-Date.now())/1000));count.textContent=`Expires in ${left}s`;timer=setInterval(()=>{left--;count.textContent=left>0?`Expires in ${left}s`:'Expired';if(left<=0)clearInterval(timer)},1000)}catch(e){drawPreviewQr(currentType==='dashboard'?'LUVVA DASHBOARD V6.6':'LUVVA WEBSITE OWNER V6.6');count.textContent='Local preview · 60 seconds';help.textContent=currentType==='dashboard'?'Dashboard preview is ready.':'Preview mode: secure website owner access is ready.';if(currentType==='dashboard')previewOpen.style.display='block'}}
-  document.getElementById('luvvaOwnerCancel').addEventListener('click',close);document.getElementById('luvvaOwnerClose').addEventListener('click',close);previewOpen.addEventListener('click',()=>{if(currentType==='dashboard'){sessionStorage.setItem('luvvaDashboardPreview','1');location.href='dashboard.html?preview=1'}else{close();const gateway=document.getElementById('luvvaGatewayV3');const success=document.getElementById('luvvaV3Success');const backdrop=document.getElementById('luvvaAuthBackdrop');if(gateway){gateway.hidden=true;gateway.setAttribute('aria-hidden','true');gateway.classList.remove('is-revealing')}if(success){success.classList.remove('show','is-leaving','is-opening','pulse-fading');success.setAttribute('aria-hidden','true')}if(backdrop){backdrop.classList.remove('is-open');backdrop.hidden=true;backdrop.setAttribute('aria-hidden','true')}document.body.classList.remove('luvva-v3-locked','luvva-page-revealing','luvva-page-visible');document.body.style.removeProperty('overflow');document.documentElement.style.removeProperty('overflow');document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0)}});modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});bindCorner(document.getElementById('luvvaOwnerWeb'),'website');bindCorner(document.getElementById('luvvaOwnerDash'),'dashboard');
+  generate.addEventListener('click',generateQr);document.getElementById('luvvaOwnerCancel').addEventListener('click',close);document.getElementById('luvvaOwnerClose').addEventListener('click',close);previewOpen.addEventListener('click',()=>{sessionStorage.setItem('luvvaDashboardPreview','1');location.href='dashboard.html?preview=1'});modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});bindCorner(document.getElementById('luvvaOwnerWeb'),'website');bindCorner(document.getElementById('luvvaOwnerDash'),'dashboard');
   const select=document.getElementById('luvvaCountryCode'),button=document.getElementById('luvvaCountryButton'),menu=document.getElementById('luvvaCountryMenu'),search=document.getElementById('luvvaCountrySearch'),items=[...document.querySelectorAll('.luvva-country-option')];
   button?.addEventListener('click',e=>{e.stopPropagation();menu.classList.toggle('open');if(menu.classList.contains('open'))setTimeout(()=>search.focus(),0)});items.forEach(it=>it.addEventListener('click',()=>{select.value=it.dataset.value;button.textContent=it.textContent;items.forEach(x=>x.classList.toggle('active',x===it));menu.classList.remove('open');select.dispatchEvent(new Event('change',{bubbles:true}))}));search?.addEventListener('input',()=>{const q=search.value.toLowerCase();items.forEach(it=>it.style.display=it.textContent.toLowerCase().includes(q)?'block':'none')});document.addEventListener('click',e=>{if(!document.getElementById('luvvaCountryPicker')?.contains(e.target))menu?.classList.remove('open')});
 })();
