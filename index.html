@@ -2467,6 +2467,20 @@ button,.btn{
 #luvvaV3Status{display:none!important}
 @media(max-width:520px){.luvva-security-panel{padding:11px 12px;gap:11px;min-height:82px}.luvva-security-shield{width:58px;height:64px;flex-basis:58px}.luvva-security-title{font-size:22px}.luvva-security-detail{font-size:9.5px}.luvva-security-grade{font-size:8.8px;letter-spacing:.055em}.luvva-privacy-panel{padding:9px 12px;gap:11px;font-size:10px;min-height:52px}.luvva-privacy-lock{width:38px;height:38px;flex-basis:38px}}
 </style>
+
+<style id="luvva-00-security-refinement-only">
+/* Surgical refinement: security icons + arrow column only. No logo/label/spacing movement. */
+.luvva-security-shield:before{display:none!important}
+.luvva-security-shield svg{width:100%;height:100%;display:block;overflow:visible}
+.luvva-security-shield{filter:drop-shadow(0 0 9px rgba(236,174,43,.34))!important}
+.luvva-privacy-lock svg{width:27px;height:27px;display:block}
+#luvvaGatewayV3 .luvva-v3-providers>button{position:relative!important}
+#luvvaGatewayV3 .luvva-v3-providers>button .luvva-v3-arrow{position:absolute!important;left:auto!important;right:18px!important;top:50%!important;transform:translateY(-50%)!important;margin:0!important;justify-self:auto!important}
+#luvvaGatewayV3 .luvva-v3-providers>button:hover .luvva-v3-arrow{transform:translateY(-50%)!important}
+#luvvaGatewayV3 .luvva-v3-providers>button[data-luvva-v3-provider="Business Email"] .luvva-provider-tail{position:static!important}
+#luvvaGatewayV3 .luvva-v3-providers>button[data-luvva-v3-provider="Business Email"] .luvva-v5-business-stars{position:absolute!important;right:48px!important;top:50%!important;transform:translateY(-50%)!important}
+@media(max-width:520px){#luvvaGatewayV3 .luvva-v3-providers>button .luvva-v3-arrow{right:14px!important}#luvvaGatewayV3 .luvva-v3-providers>button[data-luvva-v3-provider="Business Email"] .luvva-v5-business-stars{right:42px!important}}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -2553,6 +2567,7 @@ button,.btn{
 </span>
 <span class="luvva-v5-provider-label">Continue with WhatsApp</span>
 <small class="luvva-frozen-note" aria-hidden="true">PAUSED</small>
+<span aria-hidden="true" class="luvva-v3-arrow luvva-arrow-fixed">›</span>
 </button>
 <button class="luvva-provider-frozen" data-luvva-v3-provider="WeChat" data-luvva-frozen="true" type="button" disabled aria-disabled="true" title="Temporarily paused">
 <span aria-hidden="true" class="luvva-v3-provider-icon luvva-v3-wechat">
@@ -2560,10 +2575,23 @@ button,.btn{
 </span>
 <span class="luvva-v5-provider-label">Continue with WeChat</span>
 <small class="luvva-frozen-note" aria-hidden="true">PAUSED</small>
+<span aria-hidden="true" class="luvva-v3-arrow luvva-arrow-fixed">›</span>
 </button>
 </div>
 <div class="luvva-security-panel" aria-label="Secure access">
-  <div class="luvva-security-shield" aria-hidden="true"><span>✓</span></div>
+  <div class="luvva-security-shield" aria-hidden="true">
+<svg viewBox="0 0 100 116" role="img" aria-hidden="true">
+<defs>
+ <linearGradient id="shieldGold00" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff1ae"/><stop offset=".22" stop-color="#f2bd45"/><stop offset=".52" stop-color="#8b4d08"/><stop offset=".76" stop-color="#e2a62d"/><stop offset="1" stop-color="#5b3004"/></linearGradient>
+ <linearGradient id="shieldInner00" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd96c"/><stop offset=".5" stop-color="#9a5709"/><stop offset="1" stop-color="#2b1602"/></linearGradient>
+ <filter id="shieldGlow00"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<path d="M50 4C64 14 78 17 92 19v35c0 28-16 47-42 58C24 101 8 82 8 54V19c14-2 28-5 42-15Z" fill="url(#shieldGold00)" filter="url(#shieldGlow00)"/>
+<path d="M50 12c12 8 23 11 34 13v29c0 23-12 39-34 49-22-10-34-26-34-49V25c11-2 22-5 34-13Z" fill="#1b0e02" stroke="#ffe08a" stroke-width="2"/>
+<path d="M50 18c10 6 19 9 28 11v25c0 19-10 33-28 42-18-9-28-23-28-42V29c9-2 18-5 28-11Z" fill="url(#shieldInner00)"/>
+<path d="M34 56l10 10 23-27" fill="none" stroke="#fff0a6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
   <div class="luvva-security-copy">
     <div class="luvva-security-title"><strong>SECURE</strong> <em>ACCESS</em></div>
     <div class="luvva-security-detail">Verified identity • Private session • Secure access</div>
@@ -2571,7 +2599,7 @@ button,.btn{
   </div>
 </div>
 <div class="luvva-privacy-panel" aria-label="Privacy protection">
-  <div class="luvva-privacy-lock" aria-hidden="true">▣</div>
+  <div class="luvva-privacy-lock" aria-hidden="true"><svg viewBox="0 0 64 64"><defs><linearGradient id="lockGold00" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe69a"/><stop offset=".45" stop-color="#e0a13a"/><stop offset="1" stop-color="#8a520e"/></linearGradient></defs><path d="M20 29v-8c0-8 5-14 12-14s12 6 12 14v8" fill="none" stroke="url(#lockGold00)" stroke-width="5" stroke-linecap="round"/><rect x="14" y="27" width="36" height="29" rx="6" fill="url(#lockGold00)"/><circle cx="32" cy="40" r="4" fill="#2b1804"/><path d="M32 43v7" stroke="#2b1804" stroke-width="3" stroke-linecap="round"/></svg></div>
   <div>Your privacy, identity, and trust are protected every step of the way.</div>
 </div>
 <div aria-live="polite" class="luvva-v3-status" hidden="" id="luvvaV3Status" role="status"></div>
