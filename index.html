@@ -4087,9 +4087,14 @@ html[lang="en"] .investor-button{
 
   function restoreVisitorSession() {
     try {
-      const storyReturn = new URLSearchParams(window.location.search).get("luvva_story_return") === "1";
+      const returnParams = new URLSearchParams(window.location.search);
+      const storyReturn = returnParams.get("luvva_story_return") === "1";
+      const ownerBypassReturn = returnParams.get("luvva_owner_bypass") === "1";
       let ownerWebsiteBypass=false;
-      try { ownerWebsiteBypass = sessionStorage.getItem('luvva_owner_website_bypass') === '1'; } catch (_) {}
+      try {
+        if (ownerBypassReturn) sessionStorage.setItem('luvva_owner_website_bypass','1');
+        ownerWebsiteBypass = ownerBypassReturn || sessionStorage.getItem('luvva_owner_website_bypass') === '1';
+      } catch (_) { ownerWebsiteBypass = ownerBypassReturn; }
 
       // Secret owner website access is a true bypass: no gateway, no visitor timer,
       // and CMT Story returns stay inside the site in the same tab.
@@ -4576,7 +4581,10 @@ html[lang="en"] .investor-button{
 
     const cmt=document.querySelector("a.cmt-button");
     if(cmt){
-      cmt.href=arabic?"about-cmt-ar.html":"about-cmt.html";
+      let ownerStoryBypass=false;
+      try { ownerStoryBypass=sessionStorage.getItem('luvva_owner_website_bypass')==='1'; } catch (_) {}
+      const cmtBase=arabic?"about-cmt-ar.html":"about-cmt.html";
+      cmt.href=cmtBase+(ownerStoryBypass?"?luvva_owner_bypass=1":"");
       cmt.innerHTML=arabic?'عن <span class="cmt-latin-mark">CMT</span>':'About <span class="cmt-latin-mark">CMT</span>';
     }
 
@@ -4593,6 +4601,18 @@ html[lang="en"] .investor-button{
       if(img) img.src=arabic?srcs[1]:srcs[0];
     });
   }
+
+  document.addEventListener("click",function(e){
+    const cmt=e.target.closest&&e.target.closest("a.cmt-button");
+    if(!cmt) return;
+    let ownerStoryBypass=false;
+    try { ownerStoryBypass=sessionStorage.getItem('luvva_owner_website_bypass')==='1'; } catch (_) {}
+    if(ownerStoryBypass){
+      const u=new URL(cmt.href,window.location.href);
+      u.searchParams.set('luvva_owner_bypass','1');
+      cmt.href=u.pathname+u.search+u.hash;
+    }
+  },true);
 
   document.addEventListener("DOMContentLoaded",function(){
     applyLanguage(currentLang);
