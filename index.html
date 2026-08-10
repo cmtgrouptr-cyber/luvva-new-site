@@ -2578,11 +2578,16 @@ button,.btn{
 
 
 <style id="luvva016-arabic-key-font-only">
+/* Arabic navigation typography only: modern, clean, and dimension-safe. */
 html[lang="ar"] .main-nav a,
 html[lang="ar"] a.cmt-button,
 html[lang="ar"] .investor-button,
+html[lang="ar"] .luvva-site-logout,
 html[lang="ar"] .logout-button{
-  font-size:1.12em!important;
+  font-family:Tahoma,Arial,sans-serif!important;
+  font-size:1em!important;
+  font-weight:600!important;
+  letter-spacing:0!important;
 }
 </style>
 
@@ -4540,6 +4545,19 @@ html[lang="en"] .investor-button{
       cmt.href=arabic?"about-cmt-ar.html":"about-cmt.html";
       cmt.textContent=arabic?"عن CMT":"About CMT";
     }
+
+    /* Arabic artwork: same sections and exact display geometry as English. */
+    const sectionImages = {
+      "home": ["home.jpeg", "HOME-A.jpg"],
+      "vision": ["vision.png", "VISION-A.jpg"],
+      "ecosystem": ["ecosystem.png", "ECOSYSTEM-A.jpg"],
+      "human-centered": ["human-centered.png", "HOW WE SERVE-A.jpg"],
+      "legacy": ["legacy.png", "CORE VALUES-A.jpg"]
+    };
+    Object.entries(sectionImages).forEach(([id,srcs])=>{
+      const img=document.querySelector(`#${id} > img`);
+      if(img) img.src=arabic?srcs[1]:srcs[0];
+    });
   }
 
   document.addEventListener("DOMContentLoaded",function(){
