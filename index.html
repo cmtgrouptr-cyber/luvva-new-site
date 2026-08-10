@@ -2600,6 +2600,15 @@ html[lang="ar"] .logout-button{
 }
 </style>
 
+
+<style id="luvva018-english-key-readability-only">
+html[lang="en"] .main-nav a,
+html[lang="en"] a.cmt-button,
+html[lang="en"] .investor-button{
+  font-size:1.08em!important;
+}
+</style>
+
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -4521,7 +4530,7 @@ html[lang="ar"] .logout-button{
 </script>
 
 
-<script id="luvva015-lock-nav-geometry">
+<script id="luvva018-language-aware-nav-geometry">
 (function(){
   let saved=[];
   function navKeys(){
@@ -4536,10 +4545,13 @@ html[lang="ar"] .logout-button{
   }
   function lock(){
     if(!saved.length) capture();
+    const english=(document.documentElement.lang||'en').toLowerCase().startsWith('en');
     saved.forEach(x=>{
-      x.el.style.setProperty('width',x.w+'px','important');
-      x.el.style.setProperty('min-width',x.w+'px','important');
-      x.el.style.setProperty('max-width',x.w+'px','important');
+      const factor=english ? 1.16 : 1.00;
+      const w=x.w*factor;
+      x.el.style.setProperty('width',w+'px','important');
+      x.el.style.setProperty('min-width',w+'px','important');
+      x.el.style.setProperty('max-width',w+'px','important');
       x.el.style.setProperty('height',x.h+'px','important');
       x.el.style.setProperty('min-height',x.h+'px','important');
       x.el.style.setProperty('box-sizing','border-box','important');
@@ -4549,7 +4561,7 @@ html[lang="ar"] .logout-button{
   document.addEventListener('DOMContentLoaded',function(){
     capture(); lock();
     document.querySelectorAll('#languageOptions button[data-language]').forEach(b=>{
-      b.addEventListener('click',()=>setTimeout(lock,0));
+      b.addEventListener('click',()=>setTimeout(lock,10));
     });
   });
 })();
