@@ -2601,13 +2601,18 @@ html[lang="ar"] .logout-button{
 </style>
 
 
-<style id="luvva018-english-key-readability-only">
-html[lang="en"] .main-nav a,
-html[lang="en"] a.cmt-button,
-html[lang="en"] .investor-button{
-  font-size:1.08em!important;
-}
-</style>
+
+<script id="luvva020-story-return-home-only">
+(function(){
+  const q = new URLSearchParams(location.search);
+  if(q.get('luvva_story_return') === '1'){
+    try{
+      sessionStorage.setItem('luvva_internal_story_return','1');
+      history.replaceState(null,'',location.pathname + location.hash);
+    }catch(e){}
+  }
+})();
+</script>
 
 </head>
 <body class="luvva-v3-locked">
@@ -4564,6 +4569,36 @@ html[lang="en"] .investor-button{
       b.addEventListener('click',()=>setTimeout(lock,10));
     });
   });
+})();
+</script>
+
+
+<script id="luvva020-story-return-gateway-guard">
+(function(){
+  function apply(){
+    try{
+      if(sessionStorage.getItem('luvva_internal_story_return') === '1'){
+        sessionStorage.removeItem('luvva_internal_story_return');
+        const gatewaySelectors = [
+          '#luvvaSecureGateway','.luvva-v3-gateway','.luvva-v3-shell',
+          '.luvva-v3-panel','.luvva-gateway-overlay'
+        ];
+        gatewaySelectors.forEach(sel=>{
+          document.querySelectorAll(sel).forEach(el=>{
+            el.style.setProperty('display','none','important');
+            el.style.setProperty('visibility','hidden','important');
+            el.style.setProperty('pointer-events','none','important');
+          });
+        });
+        document.documentElement.style.removeProperty('overflow');
+        document.body && document.body.style.removeProperty('overflow');
+        window.scrollTo(0,0);
+      }
+    }catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded', apply);
+  setTimeout(apply, 50);
+  setTimeout(apply, 300);
 })();
 </script>
 
