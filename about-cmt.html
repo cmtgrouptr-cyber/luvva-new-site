@@ -26,12 +26,19 @@
 }
 </style>
 
+
+<style id="luvva022-globe-gold-routes-only">
+.luvva-globe-route-wrap{position:relative}
+.luvva-globe-route-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
+.luvva-globe-route-overlay path{fill:none;stroke:#d7ad55;stroke-width:1.15;stroke-linecap:round;opacity:.78}
+</style>
+
 </head>
 <body>
 <div aria-hidden="true" class="grain"></div>
 <div class="entry-curtain" id="entryCurtain">
 <div class="entry-folder">
-<a aria-label="Return to LUVVA" class="entry-back luvva-action" href="index.html#home"><span aria-hidden="true">←</span> Return to LUVVA</a>
+<a aria-label="Return to LUVVA" class="entry-back luvva-action" href="index.html?luvva_story_return=1#home"><span aria-hidden="true">←</span> Return to LUVVA</a>
 <span class="entry-kicker">CMT HISTORICAL ARCHIVE</span>
 <div class="entry-seal"><b>CMT</b><small>EST. 1993</small></div>
 <h1>The CMT Story</h1>
@@ -44,7 +51,7 @@
 </div>
 </div>
 <audio aria-label="Calm bamboo flute meditation" id="archiveAudio" loop preload="auto"><source src="background-music.mp3" type="audio/mpeg"/></audio><header class="archive-topbar">
-<a aria-label="Return to LUVVA" class="back-button luvva-action" href="index.html?luvva_story_return=1"><span>←</span> Return to LUVVA</a>
+<a aria-label="Return to LUVVA" class="back-button luvva-action" href="index.html?luvva_story_return=1#home"><span>←</span> Return to LUVVA</a>
 <span class="topbar-title">CMT HISTORICAL ARCHIVE</span>
 <div class="sound-panel">
 <button aria-pressed="false" class="sound-toggle" id="soundToggle" title="Turn the continuous CMT archive music on or off" type="button">
@@ -110,7 +117,13 @@
 <header class="section-heading reveal"><p class="file-number">ARCHIVE 004</p><h2>Global Operations</h2><p class="section-subtitle">Real operations. Real shipments. Real experience.</p></header>
 <div class="global-operations-layout">
 <figure class="media-frame global-hero reveal">
-<img alt="A stylized world network showing CMT international logistics connections" src="cmt-global-network.svg"/>
+<div class="luvva-globe-route-wrap"><img alt="A stylized world network showing CMT international logistics connections" src="cmt-global-network.svg"/><svg class="luvva-globe-route-overlay" viewBox="0 0 1000 740" preserveAspectRatio="none" aria-hidden="true">
+<path d="M505 370 Q380 230 210 205"/>
+<path d="M505 370 Q620 225 790 205"/>
+<path d="M505 370 Q690 365 885 405"/>
+<path d="M505 370 Q380 500 205 535"/>
+<path d="M505 370 Q625 520 800 555"/>
+</svg></div>
 <div class="watermark-stamp">CMT GLOBAL NETWORK</div>
 <figcaption>Global reach supported by practical logistics, export and shipment experience.</figcaption>
 </figure>

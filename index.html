@@ -2602,6 +2602,21 @@ html[lang="ar"] .logout-button{
 
 
 
+
+<style id="luvva022-english-key-fit">
+html[lang="en"] .main-nav a,
+html[lang="en"] a.cmt-button,
+html[lang="en"] .investor-button{
+  width:max-content!important;
+  min-width:0!important;
+  max-width:none!important;
+  padding-left:18px!important;
+  padding-right:18px!important;
+  box-sizing:border-box!important;
+  white-space:nowrap!important;
+}
+</style>
+
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -4560,11 +4575,16 @@ html[lang="ar"] .logout-button{
     if(!saved.length) capture();
     const english=(document.documentElement.lang||'en').toLowerCase().startsWith('en');
     saved.forEach(x=>{
-      const factor=english ? 1.16 : 1.00;
-      const w=x.w*factor;
-      x.el.style.setProperty('width',w+'px','important');
-      x.el.style.setProperty('min-width',w+'px','important');
-      x.el.style.setProperty('max-width',w+'px','important');
+      const w=x.w;
+      if(!english){
+        x.el.style.setProperty('width',w+'px','important');
+        x.el.style.setProperty('min-width',w+'px','important');
+        x.el.style.setProperty('max-width',w+'px','important');
+      }else{
+        x.el.style.removeProperty('width');
+        x.el.style.removeProperty('min-width');
+        x.el.style.removeProperty('max-width');
+      }
       x.el.style.setProperty('height',x.h+'px','important');
       x.el.style.setProperty('min-height',x.h+'px','important');
       x.el.style.setProperty('box-sizing','border-box','important');
