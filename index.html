@@ -2576,6 +2576,30 @@ button,.btn{
 </style>
 
 
+
+<style id="luvva016-arabic-key-font-only">
+html[lang="ar"] .main-nav a,
+html[lang="ar"] a.cmt-button,
+html[lang="ar"] .investor-button,
+html[lang="ar"] .logout-button{
+  font-size:1.12em!important;
+}
+</style>
+
+
+<style id="luvva017-gateway-direction-lock">
+/* Secure Gateway must never inherit Arabic RTL layout.
+   This changes direction only — no auth/API/provider logic touched. */
+#luvvaSecureGateway,
+.luvva-v3-gateway,
+.luvva-v3-shell,
+.luvva-v3-panel,
+.luvva-v3-providers,
+.luvva-auth-dialog{
+  direction:ltr!important;
+}
+</style>
+
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
