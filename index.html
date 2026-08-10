@@ -2554,6 +2554,27 @@ button,.btn{
 }
 </style>
 
+
+<style id="luvva013-language-stack-fix">
+#languageOptions{
+  flex-direction:column!important;
+  flex-wrap:nowrap!important;
+  align-items:stretch!important;
+  direction:ltr!important;
+}
+#languageOptions button{
+  width:100%!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  direction:ltr!important;
+}
+#languageOptions button span:last-child{
+  text-align:left!important;
+}
+</style>
+
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -4407,62 +4428,70 @@ button,.btn{
 </script>
 
 
-<script id="luvva012-bilingual-ui">
+
+<script id="luvva013-bilingual-ui">
 (function(){
   const AR = {
     "Home":"الرئيسية",
     "Vision":"الرؤية",
     "Ecosystem":"المنظومة",
     "Human-centered":"الإنسان أولاً",
+    "Who We Serve":"من نخدم",
     "Legacy":"الإرث",
-    "Who we serve":"من نخدم",
-    "Who-we-serve":"من نخدم",
-    "How we serve":"كيف نخدم",
-    "Core values":"قيمنا الأساسية",
-    "Investor":"المستثمر",
+    "Core Values":"قيمنا الأساسية",
+    "Partnership":"الشراكة",
+    "Contact":"تواصل معنا",
+    "Investor Brief":"ملف المستثمر",
     "About CMT":"عن CMT",
     "Logout":"تسجيل الخروج"
   };
-  const EN = Object.fromEntries(Object.entries(AR).map(([k,v])=>[v,k]));
-  let lang = localStorage.getItem("luvva_language") || "English";
+  const EN = Object.fromEntries(Object.entries(AR).map(([en,ar])=>[ar,en]));
+  let currentLang = localStorage.getItem("luvva_language") === "Arabic" ? "Arabic" : "English";
 
-  function replaceText(map){
+  function translateExact(map){
     const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
     const nodes=[];
     while(walker.nextNode()) nodes.push(walker.currentNode);
-    nodes.forEach(n=>{
-      const raw=n.nodeValue, t=raw.trim();
-      if(map[t]){
-        const lead=raw.match(/^\s*/)[0], trail=raw.match(/\s*$/)[0];
-        n.nodeValue=lead+map[t]+trail;
+    for(const n of nodes){
+      const raw=n.nodeValue;
+      const t=raw.trim();
+      if(Object.prototype.hasOwnProperty.call(map,t)){
+        n.nodeValue=raw.slice(0,raw.indexOf(t))+map[t]+raw.slice(raw.indexOf(t)+t.length);
       }
-    });
+    }
   }
-  function setLang(next){
-    lang=next;
+
+  function applyLanguage(lang){
+    currentLang=lang;
     localStorage.setItem("luvva_language",lang);
-    document.documentElement.lang=lang==="Arabic"?"ar":"en";
-    document.documentElement.dir=lang==="Arabic"?"rtl":"ltr";
-    if(lang==="Arabic") replaceText(AR); else replaceText(EN);
+    const arabic=lang==="Arabic";
+    document.documentElement.lang=arabic?"ar":"en";
+    document.documentElement.dir=arabic?"rtl":"ltr";
+
+    if(arabic) translateExact(AR); else translateExact(EN);
+
     const code=document.getElementById("languageCode");
-    if(code) code.textContent=lang==="Arabic"?"AR":"EN";
+    if(code) code.textContent=arabic?"AR":"EN";
+
+    const cmt=document.querySelector("a.cmt-button");
+    if(cmt){
+      cmt.href=arabic?"about-cmt-ar.html":"about-cmt.html";
+      cmt.textContent=arabic?"عن CMT":"About CMT";
+    }
   }
 
-  document.addEventListener("click",function(e){
-    const opt=e.target.closest && e.target.closest(".language-option");
-    if(opt){
-      const chosen=(opt.dataset.language||opt.textContent||"").trim();
-      if(/Arabic|العربية/i.test(chosen)) setTimeout(()=>setLang("Arabic"),0);
-      if(/English|الإنجليزية/i.test(chosen)) setTimeout(()=>setLang("English"),0);
-    }
-    const about=e.target.closest && e.target.closest('a[href*="about-cmt"],button,[data-page],[data-section]');
-    if(about && /About CMT|عن CMT/i.test(about.textContent||"")){
-      e.preventDefault();
-      location.href=lang==="Arabic"?"about-cmt-ar.html":"about-cmt.html";
-    }
-  },true);
+  document.addEventListener("DOMContentLoaded",function(){
+    applyLanguage(currentLang);
 
-  document.addEventListener("DOMContentLoaded",()=>setLang(lang));
+    document.querySelectorAll('#languageOptions button[data-language]').forEach(function(button){
+      button.addEventListener("click",function(){
+        const chosen=button.dataset.language;
+        if(chosen==="Arabic" || chosen==="English"){
+          applyLanguage(chosen);
+        }
+      });
+    });
+  });
 })();
 </script>
 
