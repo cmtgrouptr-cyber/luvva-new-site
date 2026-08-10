@@ -413,3 +413,7 @@ blockquote,
 .final-page .closing-line{color:#5c302d!important;font-weight:600}
 @media(max-width:900px){.global-operations-layout{grid-template-columns:1fr}.global-hero,.global-hero img{min-height:330px}.operations-player{min-height:280px}.operations-player-placeholder{min-height:280px}}
 @media(max-width:600px){.operation-video-button{grid-template-columns:38px 1fr 30px;padding:12px;font-size:.7rem}.final-page .final-content{padding:28px 20px}.global-hero,.global-hero img{min-height:260px}}
+
+/* 012 clarity only: typography family and sizes remain unchanged */
+body{ -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility; }
+p,h1,h2,h3,h4,a,button,span{ text-shadow:0 0 .01px currentColor; }

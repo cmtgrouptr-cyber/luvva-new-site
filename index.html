@@ -2538,6 +2538,22 @@ button,.btn{
 .luvva-google-verifying[hidden]{display:none!important;}
 @media(max-width:560px){.luvva-auth-dialog.provider-google{padding:30px 22px 26px!important}.luvva-auth-dialog.provider-google .luvva-auth-title{font-size:34px!important}.luvva-auth-dialog.provider-google #luvvaGoogleFields>.luvva-auth-hint{font-size:14px!important}}
 </style>
+
+<style id="luvva012-language-stack">
+#languageOptions{
+  flex-direction:column!important;
+  flex-wrap:nowrap!important;
+  align-items:stretch!important;
+  direction:ltr!important;
+}
+#languageOptions .language-option{
+  width:100%!important;
+  direction:ltr!important;
+  flex-direction:row!important;
+  justify-content:flex-start!important;
+}
+</style>
+
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -3143,7 +3159,6 @@ button,.btn{
             languageCode.textContent = button.dataset.code;
           } else if (selectedLanguage === "Arabic") {
             languageCode.textContent = button.dataset.code;
-            window.location.href = "about-cmt-ar.html";
           } else {
             alert(selectedLanguage + " version will be available after the English website is finalized.");
           }
@@ -4388,6 +4403,66 @@ button,.btn{
     }catch(e){}
     window.location.replace('/');
   });
+})();
+</script>
+
+
+<script id="luvva012-bilingual-ui">
+(function(){
+  const AR = {
+    "Home":"الرئيسية",
+    "Vision":"الرؤية",
+    "Ecosystem":"المنظومة",
+    "Human-centered":"الإنسان أولاً",
+    "Legacy":"الإرث",
+    "Who we serve":"من نخدم",
+    "Who-we-serve":"من نخدم",
+    "How we serve":"كيف نخدم",
+    "Core values":"قيمنا الأساسية",
+    "Investor":"المستثمر",
+    "About CMT":"عن CMT",
+    "Logout":"تسجيل الخروج"
+  };
+  const EN = Object.fromEntries(Object.entries(AR).map(([k,v])=>[v,k]));
+  let lang = localStorage.getItem("luvva_language") || "English";
+
+  function replaceText(map){
+    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+    const nodes=[];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(n=>{
+      const raw=n.nodeValue, t=raw.trim();
+      if(map[t]){
+        const lead=raw.match(/^\s*/)[0], trail=raw.match(/\s*$/)[0];
+        n.nodeValue=lead+map[t]+trail;
+      }
+    });
+  }
+  function setLang(next){
+    lang=next;
+    localStorage.setItem("luvva_language",lang);
+    document.documentElement.lang=lang==="Arabic"?"ar":"en";
+    document.documentElement.dir=lang==="Arabic"?"rtl":"ltr";
+    if(lang==="Arabic") replaceText(AR); else replaceText(EN);
+    const code=document.getElementById("languageCode");
+    if(code) code.textContent=lang==="Arabic"?"AR":"EN";
+  }
+
+  document.addEventListener("click",function(e){
+    const opt=e.target.closest && e.target.closest(".language-option");
+    if(opt){
+      const chosen=(opt.dataset.language||opt.textContent||"").trim();
+      if(/Arabic|العربية/i.test(chosen)) setTimeout(()=>setLang("Arabic"),0);
+      if(/English|الإنجليزية/i.test(chosen)) setTimeout(()=>setLang("English"),0);
+    }
+    const about=e.target.closest && e.target.closest('a[href*="about-cmt"],button,[data-page],[data-section]');
+    if(about && /About CMT|عن CMT/i.test(about.textContent||"")){
+      e.preventDefault();
+      location.href=lang==="Arabic"?"about-cmt-ar.html":"about-cmt.html";
+    }
+  },true);
+
+  document.addEventListener("DOMContentLoaded",()=>setLang(lang));
 })();
 </script>
 
