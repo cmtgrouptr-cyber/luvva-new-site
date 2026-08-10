@@ -2622,6 +2622,18 @@ html[lang="en"] .investor-button{
 }
 </style>
 
+
+<style id="luvva026-cmt-latin-font-refinement">
+/* CMT letters only: clean Latin typeface; natural spacing; button geometry unchanged. */
+.cmt-button .cmt-latin-mark{
+  font-family:"Trebuchet MS","Segoe UI",Arial,sans-serif!important;
+  font-weight:700!important;
+  font-style:normal!important;
+  letter-spacing:0!important;
+  font-variant-ligatures:none!important;
+  text-transform:uppercase!important;
+}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -2912,7 +2924,7 @@ html[lang="en"] .investor-button{
 </div>
 </div>
 </div>
-<a class="cmt-button" href="about-cmt.html">About CMT</a>
+<a class="cmt-button" href="about-cmt.html">About <span class="cmt-latin-mark">CMT</span></a>
 <button aria-controls="mainNav" aria-expanded="false" aria-label="Open menu" class="menu-toggle" id="menuToggle">
 <span></span><span></span><span></span>
 </button>
@@ -2937,10 +2949,7 @@ html[lang="en"] .investor-button{
 <main>
 <section aria-label="LUVVA introduction" class="image-section hero" id="home">
 <img alt="LUVVA human-centered AI companion" src="home.jpeg"/>
-<a aria-label="Discover LUVVA" class="scroll-cue" href="#vision">
-<span>Discover</span>
-<b>↓</b>
-</a>
+
 </section>
 <section aria-label="LUVVA vision" class="image-section" id="vision">
 <img alt="LUVVA Vision" src="vision.png"/>
@@ -4078,6 +4087,31 @@ html[lang="en"] .investor-button{
 
   function restoreVisitorSession() {
     try {
+      const storyReturn = new URLSearchParams(window.location.search).get("luvva_story_return") === "1";
+      let ownerWebsiteBypass=false;
+      try { ownerWebsiteBypass = sessionStorage.getItem('luvva_owner_website_bypass') === '1'; } catch (_) {}
+
+      // Secret owner website access is a true bypass: no gateway, no visitor timer,
+      // and CMT Story returns stay inside the site in the same tab.
+      if (ownerWebsiteBypass) {
+        if (storyReturn) {
+          try { history.replaceState(null, "", window.location.pathname + "#home"); } catch (_) {}
+        }
+        gateway.hidden=true;
+        gateway.setAttribute("aria-hidden","true");
+        gateway.classList.remove("is-revealing");
+        document.body.classList.remove("luvva-v3-locked","luvva-page-revealing","luvva-page-visible");
+        document.body.style.removeProperty("overflow");
+        document.documentElement.style.removeProperty("overflow");
+        sessionTimer.classList.remove("is-visible","is-ending");
+        if(sessionInterval) clearInterval(sessionInterval);
+        sessionInterval=null;
+        document.documentElement.scrollTop=0;
+        document.body.scrollTop=0;
+        window.scrollTo(0,0);
+        return true;
+      }
+
       const session=readSession();
       const visitor=JSON.parse(localStorage.getItem(VISITOR_KEY)||"null");
       if(!session || liveRemaining(session)<=0 || !visitor || !visitor.provider){ if(session)localStorage.removeItem(SESSION_KEY); return false; }
@@ -4087,7 +4121,6 @@ html[lang="en"] .investor-button{
 
       // Internal return from CMT Story: resume the same valid visit directly on Home.
       // Normal visits still return through the secure gateway exactly as before.
-      const storyReturn = new URLSearchParams(window.location.search).get("luvva_story_return") === "1";
       if (storyReturn) {
         try { history.replaceState(null, "", window.location.pathname + "#home"); } catch (_) {}
         gateway.hidden=true;
@@ -4386,7 +4419,7 @@ html[lang="en"] .investor-button{
   function drawPreviewQr(label){const c=document.createElement('canvas');c.width=190;c.height=190;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,190,190);const size=29,cell=5,offset=22;let seed=0;for(const ch of label)seed=(seed*31+ch.charCodeAt(0))>>>0;const finder=(r,c0)=>{x.fillStyle='#111';x.fillRect(offset+c0*cell,offset+r*cell,7*cell,7*cell);x.fillStyle='#fff';x.fillRect(offset+(c0+1)*cell,offset+(r+1)*cell,5*cell,5*cell);x.fillStyle='#111';x.fillRect(offset+(c0+2)*cell,offset+(r+2)*cell,3*cell,3*cell)};finder(0,0);finder(0,size-7);finder(size-7,0);const reserved=(r,c0)=>(r<8&&c0<8)||(r<8&&c0>size-9)||(r>size-9&&c0<8);for(let r=0;r<size;r++)for(let c0=0;c0<size;c0++){if(reserved(r,c0))continue;seed=(1664525*seed+1013904223)>>>0;if((seed>>>30)&1){x.fillStyle='#111';x.fillRect(offset+c0*cell,offset+r*cell,cell,cell)}}qr.innerHTML='';qr.appendChild(c)}
   function bindCorner(el,type){let clicks=0,last=0;const hit=ev=>{ev.preventDefault();ev.stopImmediatePropagation();const now=Date.now();clicks=(now-last<=850)?clicks+1:1;last=now;if(clicks>=5){clicks=0;currentType=type;modal.classList.add('open');title.textContent=type==='dashboard'?'Dashboard Access':'Website Access';help.textContent=type==='dashboard'?'Open the dashboard directly.':'Open the website directly.';actions.style.display='flex';qr.classList.remove('is-visible');previewOpen.textContent=type==='dashboard'?'Open Dashboard':'Open Website';previewOpen.style.display='block';count.textContent=''}};el.addEventListener('pointerup',hit,{passive:false,capture:true});['click','dblclick'].forEach(n=>el.addEventListener(n,e=>{e.preventDefault();e.stopImmediatePropagation()},{capture:true}));el.addEventListener('contextmenu',e=>e.preventDefault())}
   async function generateQr(){stop();actions.style.display='none';qr.classList.add('is-visible');qr.innerHTML='<div class="luvva-owner-placeholder">Creating one-time QR…</div>';help.textContent='Secure owner access is ready.';try{if(location.protocol==='file:')throw new Error('LOCAL_PREVIEW');const r=await fetch('/api/owner-challenge-create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:currentType})});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.message||'SERVICE_UNAVAILABLE');qr.innerHTML=`<img src="${j.qr_data_url}" alt="One-time owner access QR">`;let left=Math.max(0,Math.ceil((new Date(j.expires_at)-Date.now())/1000));count.textContent=`Expires in ${left}s`;timer=setInterval(()=>{left--;count.textContent=left>0?`Expires in ${left}s`:'Expired';if(left<=0)clearInterval(timer)},1000)}catch(e){drawPreviewQr(currentType==='dashboard'?'LUVVA DASHBOARD V6.6':'LUVVA WEBSITE OWNER V6.6');count.textContent='Local preview · 60 seconds';help.textContent=currentType==='dashboard'?'Dashboard preview is ready.':'Preview mode: secure website owner access is ready.';if(currentType==='dashboard')previewOpen.style.display='block'}}
-  document.getElementById('luvvaOwnerCancel').addEventListener('click',close);document.getElementById('luvvaOwnerClose').addEventListener('click',close);previewOpen.addEventListener('click',()=>{if(currentType==='dashboard'){sessionStorage.setItem('luvvaDashboardPreview','1');location.href='dashboard.html?preview=1'}else{close();const gateway=document.getElementById('luvvaGatewayV3');const success=document.getElementById('luvvaV3Success');const backdrop=document.getElementById('luvvaAuthBackdrop');if(gateway){gateway.hidden=true;gateway.setAttribute('aria-hidden','true');gateway.classList.remove('is-revealing')}if(success){success.classList.remove('show','is-leaving','is-opening','pulse-fading');success.setAttribute('aria-hidden','true')}if(backdrop){backdrop.classList.remove('is-open');backdrop.hidden=true;backdrop.setAttribute('aria-hidden','true')}document.body.classList.remove('luvva-v3-locked','luvva-page-revealing','luvva-page-visible');document.body.style.removeProperty('overflow');document.documentElement.style.removeProperty('overflow');document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0)}});modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});bindCorner(document.getElementById('luvvaOwnerWeb'),'website');bindCorner(document.getElementById('luvvaOwnerDash'),'dashboard');
+  document.getElementById('luvvaOwnerCancel').addEventListener('click',close);document.getElementById('luvvaOwnerClose').addEventListener('click',close);previewOpen.addEventListener('click',()=>{if(currentType==='dashboard'){sessionStorage.setItem('luvvaDashboardPreview','1');location.href='dashboard.html?preview=1'}else{try{sessionStorage.setItem('luvva_owner_website_bypass','1')}catch(e){}close();const gateway=document.getElementById('luvvaGatewayV3');const success=document.getElementById('luvvaV3Success');const backdrop=document.getElementById('luvvaAuthBackdrop');if(gateway){gateway.hidden=true;gateway.setAttribute('aria-hidden','true');gateway.classList.remove('is-revealing')}if(success){success.classList.remove('show','is-leaving','is-opening','pulse-fading');success.setAttribute('aria-hidden','true')}if(backdrop){backdrop.classList.remove('is-open');backdrop.hidden=true;backdrop.setAttribute('aria-hidden','true')}document.body.classList.remove('luvva-v3-locked','luvva-page-revealing','luvva-page-visible');document.body.style.removeProperty('overflow');document.documentElement.style.removeProperty('overflow');document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0)}});modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});bindCorner(document.getElementById('luvvaOwnerWeb'),'website');bindCorner(document.getElementById('luvvaOwnerDash'),'dashboard');
   const select=document.getElementById('luvvaCountryCode'),button=document.getElementById('luvvaCountryButton'),menu=document.getElementById('luvvaCountryMenu'),search=document.getElementById('luvvaCountrySearch'),items=[...document.querySelectorAll('.luvva-country-option')];
   button?.addEventListener('click',e=>{e.stopPropagation();menu.classList.toggle('open');if(menu.classList.contains('open'))setTimeout(()=>search.focus(),0)});items.forEach(it=>it.addEventListener('click',()=>{select.value=it.dataset.value;button.textContent=it.textContent;items.forEach(x=>x.classList.toggle('active',x===it));menu.classList.remove('open');select.dispatchEvent(new Event('change',{bubbles:true}))}));search?.addEventListener('input',()=>{const q=search.value.toLowerCase();items.forEach(it=>it.style.display=it.textContent.toLowerCase().includes(q)?'block':'none')});document.addEventListener('click',e=>{if(!document.getElementById('luvvaCountryPicker')?.contains(e.target))menu?.classList.remove('open')});
 })();
@@ -4487,6 +4520,7 @@ html[lang="en"] .investor-button{
     try{
       sessionStorage.removeItem('luvva_gateway_session_v1');
       sessionStorage.removeItem('luvvaDashboardPreview');
+      sessionStorage.removeItem('luvva_owner_website_bypass');
       localStorage.removeItem('luvva_gateway_session_v1');
     }catch(e){}
     window.location.replace('/');
@@ -4543,7 +4577,7 @@ html[lang="en"] .investor-button{
     const cmt=document.querySelector("a.cmt-button");
     if(cmt){
       cmt.href=arabic?"about-cmt-ar.html":"about-cmt.html";
-      cmt.textContent=arabic?"عن CMT":"About CMT";
+      cmt.innerHTML=arabic?'عن <span class="cmt-latin-mark">CMT</span>':'About <span class="cmt-latin-mark">CMT</span>';
     }
 
     /* Arabic artwork: same sections and exact display geometry as English. */
