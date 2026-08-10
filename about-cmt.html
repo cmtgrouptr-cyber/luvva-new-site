@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- CMT Story Archive Version 12 -->
 
 <html lang="en">
 <head>
@@ -22,8 +23,8 @@
 <h1>The CMT Story</h1>
 <p>The Journey Behind the Vision</p>
 <div class="entry-actions">
-<button class="entry-primary luvva-action" id="enterSound" type="button">Story with Music</button>
-<button class="entry-secondary luvva-action" id="enterSilent" type="button">Story without Music</button>
+<button class="entry-primary luvva-action" id="enterSound" type="button">Open archive with sound</button>
+<button class="entry-secondary luvva-action" id="enterSilent" type="button">Enter quietly</button>
 </div>
 <small class="entry-note">A calm bamboo-flute meditation accompanies the archive and can be adjusted or muted at any time.</small>
 </div>
@@ -127,7 +128,7 @@
 </section>
 <section class="archive-page final-page" data-sound="future" id="archive-007">
 <div class="future-grid"></div>
-<div class="final-content reveal"><p class="file-number">The journey did not end when the company name changed, when markets expanded or when its operations moved across borders.</p><h2>From History to Humanity</h2><div class="gold-rule"></div><p>Behind every major chapter stood the same founder — Mishrif Abu Mishrif — whose engineering experience, inventions and long-term human-centered vision continued to mature without losing their original purpose.</p><p class="final-question">LUVVA did not appear overnight. It is the culmination of decades of practical work, continuous learning and one evolving vision. Mishrif Abu Mishrif is its original creator and the true driving force behind the project — the person investors will meet, question and negotiate with.</p><p>This is not a claim built on a title. It is a conclusion supported by the documented journey: the newspaper record, the inventions, CALL MIND TECHNOLOGY, CMT GROUP and the path that now reaches LUVVA.</p><p class="closing-line">The company evolved. The place changed. Experience deepened. The conviction only grew stronger: the most meaningful chapter is still ahead — and it should be better for humanity.</p><a class="home-button luvva-action" href="index.html#home">Enter the world of LUVVA →</a></div>
+<div class="final-content reveal"><p class="file-number">The journey did not end when the company name changed, when markets expanded or when its operations moved across borders.</p><h2>From History to Humanity</h2><div class="gold-rule"></div><p>Behind every major chapter stood the same founder — Mishrif Abu Mishrif — whose engineering experience, inventions and long-term human-centered vision continued to mature without losing their original purpose.</p><p class="final-question">LUVVA did not appear overnight. It is the culmination of decades of practical work, continuous learning and one evolving vision. Mishrif Abu Mishrif is its original creator and the true driving force behind the project — the person investors will meet, question and negotiate with.</p><p>This is not a claim built on a title. It is a conclusion supported by the documented journey: the newspaper record, the inventions, CALL MIND TECHNOLOGY, CMT GROUP and the path that now reaches LUVVA.</p><p class="closing-line">The company evolved. The place changed. Experience deepened. The conviction only grew stronger: the most meaningful chapter is still ahead — and it should be better for humanity.</p><a class="home-button" href="index.html#home">Enter the world of LUVVA →</a></div>
 </section>
 </main>
 <div aria-hidden="true" aria-label="1992 newspaper document" aria-modal="true" class="document-modal" id="documentModal" role="dialog"><button aria-label="Close document" class="modal-close" id="closeModal" type="button">×</button><img alt="Enlarged original Arabic newspaper article from September 1992" src="cmt-newspaper-1992.jpg"/><p>Original newspaper record · September 1992</p></div>
@@ -151,14 +152,6 @@
   let fadeTimer = null;
 
   audio.volume = Number(volumeControl.value) / 100;
-
-  // Keep the musical atmosphere continuous: restart before the quiet ending so the music returns smoothly without a long pause.
-  audio.addEventListener('timeupdate', () => {
-    if (active && Number.isFinite(audio.duration) && audio.duration - audio.currentTime < 9.5) {
-      audio.currentTime = 0;
-      audio.play().catch(() => {});
-    }
-  });
 
   function updateSoundUI(on) {
     active = on;

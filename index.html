@@ -3140,16 +3140,12 @@ button,.btn{
             button.dataset.language;
 
           if (selectedLanguage === "English") {
-
             languageCode.textContent = button.dataset.code;
-
+          } else if (selectedLanguage === "Arabic") {
+            languageCode.textContent = button.dataset.code;
+            window.location.href = "about-cmt-ar.html";
           } else {
-
-            alert(
-              selectedLanguage +
-              " version will be available after the English website is finalized."
-            );
-
+            alert(selectedLanguage + " version will be available after the English website is finalized.");
           }
 
           languageOptions.classList.remove("open");
@@ -4331,10 +4327,7 @@ button,.btn{
 }
 
 /* Existing language choices remain functional, now arranged vertically. */
-#languageOptions{
-  flex-direction:column!important;
-  align-items:stretch!important;
-}
+#languageOptions{display:none!important;flex-direction:column!important;align-items:stretch!important;flex-wrap:nowrap!important}#languageOptions.open{display:flex!important}
 #languageOptions > button{
   width:100%!important;
   display:flex!important;
