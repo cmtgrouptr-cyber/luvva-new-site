@@ -2996,12 +2996,11 @@ html[lang="en"] .investor-button{
   <div class="investor-brief-copy investor-brief-en" lang="en" dir="ltr">
     <span class="investor-kicker">Strategic Introduction</span>
     <h2>A First Look at the LUVVA Ecosystem</h2>
-    <p class="investor-subtitle">Initial strategic information package for investors and partners</p>
+    <p class="investor-subtitle">Initial strategic information package for investors</p>
     <div class="investor-points">
       <article><span>01</span><div><h3>33+ Years of Innovation &amp; Experience</h3><p>Since 1993, we have been developing, innovating, and delivering solutions across technology and industry. Today, we bring this experience forward to help create an entirely new category.</p></div></article>
       <article><span>02</span><div><h3>A New Human-Centered Vision</h3><p>LUVVA presents a vision for a new generation of intelligent companions, bringing technology, artificial intelligence, and human interaction together within one ecosystem.</p></div></article>
       <article><span>03</span><div><h3>Toward a New Global Category</h3><p>The LUVVA Ecosystem is designed to move beyond a single product into a scalable, evolving ecosystem that connects technology with people’s needs and everyday lives.</p></div></article>
-      <article><span>04</span><div><h3>A Strategic Partnership for the Future</h3><p>We are not looking for funding alone, but for a strategic partner who shares our vision and can help build the future and create sustainable global impact.</p></div></article>
     </div>
     <div class="investor-note"><strong>Initial Strategic Information</strong><p>This page provides an initial view of the LUVVA Ecosystem and its strategic opportunity. Executive, technical, commercial, business-model, and project-specific information is shared at a later stage after mutual strategic interest has been established.</p></div>
     <a class="investor-request" href="mailto:partnership@luvva.tech?subject=LUVVA%20Executive%20Brief%20Request">Request Access to the Executive Brief</a>
@@ -3009,12 +3008,11 @@ html[lang="en"] .investor-button{
   <div class="investor-brief-copy investor-brief-ar" lang="ar" dir="rtl">
     <span class="investor-kicker">مقدمة استراتيجية</span>
     <h2>نظرة أولى على منظومة LUVVA</h2>
-    <p class="investor-subtitle">حزمة معلومات استراتيجية أولية للمستثمرين والشركاء</p>
+    <p class="investor-subtitle">حزمة معلومات استراتيجية أولية للمستثمرين</p>
     <div class="investor-points">
       <article><span>01</span><div><h3>أكثر من 33 عامًا من الابتكار والخبرة</h3><p>منذ عام 1993، نعمل على تطوير وابتكار وتقديم حلول في مجالات التكنولوجيا والصناعة. واليوم نوظف هذه الخبرة للمساهمة في بناء فئة جديدة كليًا.</p></div></article>
       <article><span>02</span><div><h3>رؤية جديدة تتمحور حول الإنسان</h3><p>تقدم LUVVA رؤية لجيل جديد من الرفقاء الأذكياء، يجمع بين التكنولوجيا والذكاء الاصطناعي والتفاعل الإنساني ضمن منظومة واحدة.</p></div></article>
       <article><span>03</span><div><h3>نحو فئة عالمية جديدة</h3><p>صُممت منظومة LUVVA لتتجاوز مفهوم المنتج المنفرد، نحو منظومة قابلة للنمو والتوسع، تربط التكنولوجيا باحتياجات الإنسان وحياته اليومية.</p></div></article>
-      <article><span>04</span><div><h3>شراكة استراتيجية للمستقبل</h3><p>نحن لا نبحث عن التمويل فقط، بل عن شريك استراتيجي يشاركنا الرؤية ويساهم معنا في بناء المستقبل وصناعة أثر عالمي مستدام.</p></div></article>
     </div>
     <div class="investor-note"><strong>معلومات استراتيجية أولية</strong><p>هذه الصفحة مخصصة لتقديم نظرة أولية على منظومة LUVVA وفرصتها الاستراتيجية. أما المعلومات التنفيذية والتقنية والتجارية، ونموذج العمل والتفاصيل الخاصة بالمشروع، فتتم مشاركتها في مرحلة لاحقة بعد وجود اهتمام استراتيجي متبادل.</p></div>
     <a class="investor-request" href="mailto:partnership@luvva.tech?subject=LUVVA%20Executive%20Brief%20Request">طلب الاطلاع على الملف التنفيذي</a>
@@ -4819,6 +4817,24 @@ html[lang="en"] #partnership .actions{justify-content:flex-start!important}
 html[lang="en"] #investor-brief.investor-brief-section{grid-template-areas:"copy visual"}
 @media(max-width:900px){#investor-brief.investor-brief-section{grid-template-columns:1fr;grid-template-areas:"copy" "visual"!important;padding:54px 24px 68px;gap:28px}#investor-brief .investor-brief-copy{max-width:760px;margin:auto}#investor-brief .investor-brief-visual{width:min(82%,390px)}}
 @media(max-width:560px){#investor-brief.investor-brief-section{padding-inline:18px}#investor-brief .investor-points article{gap:10px}#investor-brief .investor-request{width:100%;text-align:center}}
+</style>
+
+<style id="luvva033-investor-clean-separation-and-visual-top">
+/* 033 — Investor Brief only: remove Partnership material and align the cover with the top of the investor copy. */
+#investor-brief.investor-brief-section{align-items:start!important;}
+#investor-brief .investor-brief-copy{align-self:start!important;}
+#investor-brief .investor-brief-visual{align-self:start!important;justify-self:center!important;margin-top:0!important;}
+#investor-brief .investor-brief-visual img{object-position:top center!important;}
+/* Arabic: copy stays on screen-right, visual on screen-left. */
+html[lang="ar"] #investor-brief.investor-brief-section{grid-template-areas:"visual copy"!important;}
+html[lang="ar"] #investor-brief .investor-brief-ar{justify-self:end!important;text-align:right!important;}
+/* English: copy stays on screen-left, visual on screen-right. */
+html[lang="en"] #investor-brief.investor-brief-section{grid-template-areas:"copy visual"!important;}
+html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;text-align:left!important;}
+@media(max-width:900px){
+  html[lang="ar"] #investor-brief.investor-brief-section,
+  html[lang="en"] #investor-brief.investor-brief-section{grid-template-areas:"copy" "visual"!important;}
+}
 </style>
 
 <script id="luvva013-bilingual-ui">
