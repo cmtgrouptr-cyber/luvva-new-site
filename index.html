@@ -4154,8 +4154,16 @@ html[lang="en"] .investor-button{
       const ownerBypassReturn = returnParams.get("luvva_owner_bypass") === "1";
       let ownerWebsiteBypass=false;
       try {
-        if (ownerBypassReturn) sessionStorage.setItem('luvva_owner_website_bypass','1');
-        ownerWebsiteBypass = ownerBypassReturn || sessionStorage.getItem('luvva_owner_website_bypass') === '1';
+        // A secret Website Open bypass is valid only for the current in-page owner flow
+        // and for an explicit internal CMT return carrying luvva_owner_bypass=1.
+        // Typing/reloading the public URL must always stop at the secure gateway.
+        if (ownerBypassReturn) {
+          sessionStorage.setItem('luvva_owner_website_bypass','1');
+          ownerWebsiteBypass=true;
+        } else {
+          sessionStorage.removeItem('luvva_owner_website_bypass');
+          ownerWebsiteBypass=false;
+        }
       } catch (_) { ownerWebsiteBypass = ownerBypassReturn; }
 
       // Secret owner website access is a true bypass: no gateway, no visitor timer,
