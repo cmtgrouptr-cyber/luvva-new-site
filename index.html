@@ -4991,3 +4991,26 @@ html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;
   margin:18px auto 8px!important;
 }
 </style>
+
+<style id="luvva034-exclusive-partnership-investor-sections">
+/* 034 — Keep Partnership and Investor Brief as two exclusive views in both languages. */
+html.luvva-view-investor #partnership{display:none!important;}
+html.luvva-view-partnership #investor-brief{display:none!important;}
+</style>
+<script id="luvva034-exclusive-partnership-investor-controller">
+(function(){
+  function syncExclusiveView(){
+    var root=document.documentElement;
+    var hash=(location.hash||'').toLowerCase();
+    root.classList.remove('luvva-view-investor','luvva-view-partnership');
+    if(hash==='#investor-brief') root.classList.add('luvva-view-investor');
+    else if(hash==='#partnership') root.classList.add('luvva-view-partnership');
+  }
+  document.addEventListener('DOMContentLoaded',syncExclusiveView);
+  window.addEventListener('hashchange',syncExclusiveView);
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href="#investor-brief"],a[href="#partnership"]');
+    if(a) setTimeout(syncExclusiveView,0);
+  },true);
+})();
+</script>
