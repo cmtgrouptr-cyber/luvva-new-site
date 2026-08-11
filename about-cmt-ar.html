@@ -251,8 +251,7 @@ html[dir="rtl"] .drop-cap::first-letter{float:right;padding:8px 0 0 8px}
   modal.addEventListener('click',e=>{if(e.target===modal)hideModal();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')hideModal();});
 
-  function playOperationVideo(button) {
-    if (!button || button.disabled) return;
+  operationButtons.forEach(button => button.addEventListener('click', () => {
     operationButtons.forEach(item => {
       item.classList.remove('active');
       item.setAttribute('aria-selected','false');
@@ -263,28 +262,21 @@ html[dir="rtl"] .drop-cap::first-letter{float:right;padding:8px 0 0 8px}
     const source = button.dataset.video;
     operationsTitle.textContent = title;
     operationsVideo.pause();
-    operationsVideo.src = source;
-    operationsVideo.hidden = false;
-    operationsPlaceholder.hidden = true;
+    operationsVideo.removeAttribute('src');
     operationsVideo.load();
-    operationsVideo.play().catch(() => {});
-    document.getElementById('operationsPlayer').scrollIntoView({behavior:'smooth',block:'center'});
-  }
-
-  operationButtons.forEach(button => button.addEventListener('click', () => playOperationVideo(button)));
-  operationsPlaceholder.style.cursor = 'pointer';
-  operationsPlaceholder.setAttribute('role','button');
-  operationsPlaceholder.setAttribute('tabindex','0');
-  operationsPlaceholder.addEventListener('click', () => playOperationVideo(operationButtons.find(b => !b.disabled)));
-  operationsPlaceholder.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); playOperationVideo(operationButtons.find(b => !b.disabled)); }
-  });
-  operationsVideo.addEventListener('error', () => {
     operationsVideo.hidden = true;
     operationsPlaceholder.hidden = false;
-    const message = operationsPlaceholder.querySelector('p:last-child');
-    if (message) message.textContent = 'تعذر تشغيل الفيديو.';
-  });
+    fetch(source, {method:'HEAD'}).then(response => {
+      if (!response.ok) throw new Error('Video not found');
+      operationsVideo.src = source;
+      operationsVideo.hidden = false;
+      operationsPlaceholder.hidden = true;
+      operationsVideo.play().catch(() => {});
+    }).catch(() => {
+      operationsPlaceholder.querySelector('p:last-child').textContent = 'This video has not been added yet. Upload ' + source + ' to activate it.';
+    });
+    document.getElementById('operationsPlayer').scrollIntoView({behavior:'smooth',block:'center'});
+  }));
 
   const revealObserver = new IntersectionObserver(entries => entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
