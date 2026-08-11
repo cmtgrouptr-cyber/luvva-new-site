@@ -2984,8 +2984,10 @@ html[lang="en"] .investor-button{
 <a class="primary-cta" href="mailto:partnership@luvva.tech?subject=LUVVA%20Strategic%20Partnership">استكشف فرصة الشراكة الاستراتيجية</a>
 </div>
 </div>
-<div class="partnership-visual">
-<img alt="CMT Group — Call Mind Technology" class="partnership-logo" src="cmt-logo.png"/>
+<div class="partnership-visual" aria-label="LUVVA and CMT Group">
+  <img alt="LUVVA" class="partnership-brand partnership-brand-luvva" src="luvva-partnership-logo.jpg"/>
+  <span class="partnership-brand-divider" aria-hidden="true"></span>
+  <img alt="CMT Group — Call Mind Technology" class="partnership-brand partnership-brand-cmt" src="cmt-partnership-logo.jpg"/>
 </div>
 </section>
 <section class="about-cmt-section" id="about-cmt">
@@ -4534,35 +4536,62 @@ html[lang="en"] .investor-button{
 
 
 
-<style id="luvva026-partnership-cmt-story-skin">
-/* Partnership only — CMT Story caramel/ivory visual language. */
+<style id="luvva028-partnership-integrated-page">
+/* Partnership only: integrated page treatment. No card/post surface. */
 .partnership-section{
-  position:relative;isolation:isolate;overflow:hidden;
+  position:relative!important; isolation:isolate; overflow:hidden!important;
+  min-height:clamp(650px,78vh,860px)!important;
+  display:grid!important; grid-template-columns:minmax(260px,.78fr) minmax(520px,1.22fr)!important;
+  align-items:center!important; gap:clamp(28px,5vw,82px)!important;
+  padding:clamp(72px,7vw,110px) clamp(36px,7vw,120px)!important;
   background:
-    radial-gradient(circle at 28% 17%,rgba(255,255,255,.74),transparent 34%),
-    linear-gradient(100deg,#d7ad82 0%,#f4e6d0 17%,#fbf4e7 62%,#ddb083 86%,#b87843 100%)!important;
-  color:#463326!important;
-  border-top:1px solid #c9a05b;border-bottom:1px solid #c9a05b;
-  box-shadow:inset 34px 0 48px rgba(133,78,39,.13),inset -52px 0 70px rgba(151,87,42,.22);
+    radial-gradient(ellipse at 67% 30%,rgba(255,255,255,.88) 0%,rgba(255,249,237,.54) 38%,transparent 66%),
+    linear-gradient(115deg,#d6aa79 0%,#ead0aa 10%,#f8ead1 34%,#fff8e9 65%,#ead0aa 100%)!important;
+  color:#493522!important; border:0!important; box-shadow:none!important;
 }
 .partnership-section:before{
-  content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;
-  background:repeating-radial-gradient(ellipse at 13% 23%,rgba(90,54,28,.070) 0 1px,transparent 2px 8px),repeating-linear-gradient(98deg,rgba(255,255,255,.18) 0 1px,transparent 1px 7px),linear-gradient(90deg,rgba(171,103,52,.19) 0%,rgba(255,255,255,.03) 20%,transparent 57%,rgba(154,88,43,.26) 100%);
+  content:""; position:absolute; inset:-8%; z-index:-2; pointer-events:none; opacity:.72;
+  background:
+    repeating-radial-gradient(ellipse at 2% 78%,transparent 0 17px,rgba(171,119,52,.13) 18px 19px,transparent 20px 28px),
+    repeating-radial-gradient(ellipse at 100% 8%,transparent 0 22px,rgba(196,151,83,.10) 23px 24px,transparent 25px 34px);
+  transform:rotate(-3deg) scale(1.08);
 }
-.partnership-section:after{content:"";position:absolute;inset:13px;z-index:-1;border:1px solid rgba(190,143,75,.48);box-shadow:inset 0 0 62px rgba(115,65,30,.12);pointer-events:none}
-.partnership-section .content-card{background:rgba(255,250,237,.34)!important;border:1px solid rgba(190,143,75,.38);box-shadow:0 18px 44px rgba(79,44,20,.12);backdrop-filter:blur(2px)}
-.partnership-section .eyebrow{color:#8f572f!important;letter-spacing:.16em;font-weight:700}
-.partnership-section h2{color:#463326!important;font-family:"Cormorant Garamond",serif}
-.partnership-section p{color:#5c4735!important;line-height:1.9}
-.partnership-section .partnership-closing{color:#8f572f!important;font-family:"Cormorant Garamond",serif;font-size:clamp(1.25rem,2vw,1.65rem);font-weight:700;line-height:1.65;margin-top:24px}
-.partnership-section .primary-cta{background:linear-gradient(145deg,#d8b66c,#b77a46)!important;color:#fffaf1!important;border:1px solid #9f6a39!important;box-shadow:0 8px 18px rgba(89,52,26,.20),inset 0 1px rgba(255,255,255,.35)}
-.partnership-section .secondary-cta{color:#5c4735!important;border-color:#b99a63!important;background:rgba(255,250,237,.35)!important}
-.partnership-ar{display:none!important;text-align:right}
+.partnership-section:after{
+  content:""; position:absolute; left:-7%; right:-7%; bottom:-19%; height:43%; z-index:-1; pointer-events:none;
+  background:linear-gradient(165deg,transparent 0 18%,rgba(255,248,230,.72) 19% 31%,rgba(190,133,70,.28) 32% 45%,rgba(128,78,37,.18) 46% 58%,transparent 59%),
+             repeating-linear-gradient(174deg,transparent 0 12px,rgba(188,137,73,.16) 13px 14px,transparent 15px 23px);
+  border-top:1px solid rgba(191,137,62,.36); transform:rotate(-1.5deg);
+}
+.partnership-section .content-card{
+  grid-column:2!important; grid-row:1!important; align-self:center!important;
+  width:min(100%,760px)!important; margin:0!important; padding:0!important;
+  background:transparent!important; border:0!important; border-radius:0!important;
+  box-shadow:none!important; backdrop-filter:none!important;
+}
+.partnership-section .eyebrow{display:block!important;color:#a06b21!important;letter-spacing:0!important;font-weight:700!important;font-size:clamp(.92rem,1.15vw,1.12rem)!important;margin:0 0 10px!important}
+.partnership-section h2{color:#5a3a1f!important;font-family:inherit!important;font-size:clamp(2.25rem,4vw,4.15rem)!important;line-height:1.12!important;font-weight:700!important;margin:0 0 28px!important}
+.partnership-section p{color:#4c3a2c!important;font-size:clamp(1rem,1.18vw,1.18rem)!important;line-height:2.05!important;margin:0 0 19px!important;font-weight:500!important}
+.partnership-section .partnership-closing{color:#98651e!important;font-family:inherit!important;font-size:clamp(1.28rem,1.85vw,1.75rem)!important;font-weight:800!important;line-height:1.7!important;margin:27px 0 20px!important;padding-inline-end:18px!important;border-inline-end:3px solid rgba(181,126,43,.72)!important}
+.partnership-section .actions{margin-top:18px!important}
+.partnership-section .primary-cta{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:52px!important;padding:11px 28px!important;border-radius:15px!important;background:linear-gradient(145deg,#f0d18f,#c99543)!important;color:#4b321d!important;border:1px solid #a8752d!important;box-shadow:0 7px 14px rgba(91,58,24,.18),inset 0 1px 0 rgba(255,255,255,.7)!important;font-weight:800!important;text-decoration:none!important}
+.partnership-section .secondary-cta{color:#5c4735!important;border-color:#b99a63!important;background:transparent!important}
+.partnership-visual{grid-column:1!important;grid-row:1!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:clamp(12px,2vw,26px)!important;width:100%!important;max-width:570px!important;margin:auto!important;padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.partnership-brand{display:block!important;object-fit:contain!important;mix-blend-mode:screen!important;filter:saturate(.82) sepia(.12) drop-shadow(0 5px 5px rgba(93,58,24,.12))!important}
+.partnership-brand-luvva{width:45%!important;max-height:250px!important}
+.partnership-brand-cmt{width:48%!important;max-height:210px!important}
+.partnership-brand-divider{width:1px!important;height:150px!important;background:linear-gradient(transparent,#b8873c 20%,#b8873c 80%,transparent)!important;opacity:.72!important;flex:0 0 1px!important}
+.partnership-ar{display:none!important;text-align:right!important;direction:rtl!important}
 html[lang="ar"] .partnership-en{display:none!important}
 html[lang="ar"] .partnership-ar{display:block!important}
 html[lang="en"] .partnership-en{display:block!important}
 html[lang="en"] .partnership-ar{display:none!important}
-@media(max-width:760px){.partnership-section .content-card{margin:0 10px}.partnership-section:after{inset:7px}.partnership-ar{text-align:right}}
+@media(max-width:900px){
+ .partnership-section{grid-template-columns:1fr!important;padding:64px 24px 72px!important;gap:34px!important}
+ .partnership-section .content-card{grid-column:1!important;grid-row:1!important;width:100%!important}
+ .partnership-visual{grid-column:1!important;grid-row:2!important;max-width:430px!important}
+ .partnership-section h2{font-size:clamp(2rem,9vw,3rem)!important}
+}
+@media(max-width:560px){.partnership-section{padding-inline:18px!important}.partnership-section p{font-size:.98rem!important;line-height:1.9!important}.partnership-brand-divider{height:105px!important}.partnership-section .primary-cta{width:100%!important}}
 </style>
 
 <script id="luvva013-bilingual-ui">
