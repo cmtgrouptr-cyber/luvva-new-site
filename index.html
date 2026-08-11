@@ -2585,7 +2585,7 @@ html[lang="ar"] .investor-button,
 html[lang="ar"] .luvva-site-logout,
 html[lang="ar"] .logout-button{
   font-family:Tahoma,Arial,sans-serif!important;
-  font-size:1em!important;
+  font-size:.90em!important;
   font-weight:600!important;
   letter-spacing:0!important;
 }
@@ -4992,6 +4992,21 @@ html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;
 }
 </style>
 
+<style id="luvva036-english-position-and-arabic-nav-font-retouch">
+/* 036 — Position retouch only. English Partnership logos up 3cm; English Investor cover down 2cm.
+   Arabic section layouts/content untouched; Arabic navigation font size is handled in luvva016 above. */
+html[lang="en"] #partnership .partnership-visual{
+  transform:translateY(-3cm)!important;
+}
+html[lang="en"] #investor-brief .investor-brief-visual{
+  margin-top:2cm!important;
+}
+@media(max-width:900px){
+  html[lang="en"] #partnership .partnership-visual{transform:none!important;}
+  html[lang="en"] #investor-brief .investor-brief-visual{margin-top:0!important;}
+}
+</style>
+
 <style id="luvva034-exclusive-partnership-investor-sections">
 /* 034 — Keep Partnership and Investor Brief as two exclusive views in both languages. */
 html.luvva-view-investor #partnership{display:none!important;}
@@ -5014,21 +5029,3 @@ html.luvva-view-partnership #investor-brief{display:none!important;}
   },true);
 })();
 </script>
-
-<style id="luvva035-english-only-position-retouch">
-/* 035 — English only. Arabic is intentionally untouched. */
-html[lang="en"] #partnership .partnership-visual{
-  transform:translateY(-3cm)!important;
-}
-html[lang="en"] #investor-brief .investor-brief-visual{
-  margin-top:2cm!important;
-}
-@media(max-width:900px){
-  html[lang="en"] #partnership .partnership-visual{
-    transform:none!important;
-  }
-  html[lang="en"] #investor-brief .investor-brief-visual{
-    margin-top:10px!important;
-  }
-}
-</style>
