@@ -2985,9 +2985,9 @@ html[lang="en"] .investor-button{
 </div>
 </div>
 <div class="partnership-visual" aria-label="LUVVA and CMT Group">
-  <img alt="LUVVA" class="partnership-brand partnership-brand-luvva" src="luvva-partnership-logo.jpg"/>
+  <img alt="LUVVA" class="partnership-brand partnership-brand-luvva" src="luvva-partnership-logo.png"/>
   <span class="partnership-brand-divider" aria-hidden="true"></span>
-  <img alt="CMT Group — Call Mind Technology" class="partnership-brand partnership-brand-cmt" src="cmt-partnership-logo.jpg"/>
+  <img alt="CMT Group — Call Mind Technology" class="partnership-brand partnership-brand-cmt" src="cmt-partnership-logo.png"/>
 </div>
 </section>
 <section class="about-cmt-section" id="about-cmt">
@@ -4536,62 +4536,217 @@ html[lang="en"] .investor-button{
 
 
 
-<style id="luvva028-partnership-integrated-page">
-/* Partnership only: integrated page treatment. No card/post surface. */
-.partnership-section{
-  position:relative!important; isolation:isolate; overflow:hidden!important;
-  min-height:clamp(650px,78vh,860px)!important;
-  display:grid!important; grid-template-columns:minmax(260px,.78fr) minmax(520px,1.22fr)!important;
-  align-items:center!important; gap:clamp(28px,5vw,82px)!important;
-  padding:clamp(72px,7vw,110px) clamp(36px,7vw,120px)!important;
+<style id="luvva029-partnership-reference-match">
+/* 029 — Partnership section only. Built as live HTML, matched to the approved reference layout. */
+#partnership.partnership-section{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+  min-height:calc(100vh - 88px)!important;
+  display:grid!important;
+  grid-template-columns:minmax(330px,42%) minmax(560px,58%)!important;
+  grid-template-areas:"visual copy"!important;
+  align-items:center!important;
+  column-gap:clamp(28px,4vw,72px)!important;
+  padding:clamp(70px,7vh,104px) clamp(48px,6vw,108px) clamp(58px,6vh,86px)!important;
   background:
-    radial-gradient(ellipse at 67% 30%,rgba(255,255,255,.88) 0%,rgba(255,249,237,.54) 38%,transparent 66%),
-    linear-gradient(115deg,#d6aa79 0%,#ead0aa 10%,#f8ead1 34%,#fff8e9 65%,#ead0aa 100%)!important;
-  color:#493522!important; border:0!important; box-shadow:none!important;
+    radial-gradient(circle at 77% 19%,rgba(255,255,255,.96) 0 9%,rgba(255,253,247,.74) 30%,transparent 58%),
+    linear-gradient(112deg,#d9b482 0%,#e9d1ab 13%,#f6e8cf 35%,#fff9ec 66%,#edd5af 100%)!important;
+  color:#493421!important;
+  border:0!important;
+  box-shadow:none!important;
 }
-.partnership-section:before{
-  content:""; position:absolute; inset:-8%; z-index:-2; pointer-events:none; opacity:.72;
+/* woven/satin lines like the approved reference */
+#partnership.partnership-section::before{
+  content:""!important;
+  position:absolute!important;
+  inset:-9% -8% -11% -10%!important;
+  z-index:-2!important;
+  pointer-events:none!important;
+  opacity:.82!important;
   background:
-    repeating-radial-gradient(ellipse at 2% 78%,transparent 0 17px,rgba(171,119,52,.13) 18px 19px,transparent 20px 28px),
-    repeating-radial-gradient(ellipse at 100% 8%,transparent 0 22px,rgba(196,151,83,.10) 23px 24px,transparent 25px 34px);
-  transform:rotate(-3deg) scale(1.08);
+    repeating-radial-gradient(ellipse 76% 38% at -4% 73%,transparent 0 15px,rgba(255,255,255,.45) 16px 17px,rgba(171,117,53,.11) 18px 19px,transparent 20px 28px),
+    repeating-radial-gradient(ellipse 68% 38% at 102% -4%,transparent 0 19px,rgba(255,255,255,.34) 20px 21px,rgba(180,126,62,.09) 22px 23px,transparent 24px 32px)!important;
+  transform:rotate(-2.2deg) scale(1.05)!important;
 }
-.partnership-section:after{
-  content:""; position:absolute; left:-7%; right:-7%; bottom:-19%; height:43%; z-index:-1; pointer-events:none;
-  background:linear-gradient(165deg,transparent 0 18%,rgba(255,248,230,.72) 19% 31%,rgba(190,133,70,.28) 32% 45%,rgba(128,78,37,.18) 46% 58%,transparent 59%),
-             repeating-linear-gradient(174deg,transparent 0 12px,rgba(188,137,73,.16) 13px 14px,transparent 15px 23px);
-  border-top:1px solid rgba(191,137,62,.36); transform:rotate(-1.5deg);
+#partnership.partnership-section::after{
+  content:""!important;
+  position:absolute!important;
+  left:-13%!important;
+  bottom:-22%!important;
+  width:72%!important;
+  height:58%!important;
+  z-index:-1!important;
+  pointer-events:none!important;
+  border-radius:52% 72% 0 0!important;
+  background:
+    linear-gradient(171deg,rgba(255,255,255,.75) 0 7%,rgba(240,214,174,.64) 8% 18%,rgba(188,132,67,.42) 19% 31%,rgba(116,72,35,.24) 32% 42%,transparent 43%),
+    repeating-linear-gradient(173deg,transparent 0 12px,rgba(255,250,235,.46) 13px 14px,rgba(170,112,51,.14) 15px 16px,transparent 17px 25px)!important;
+  transform:rotate(-4deg)!important;
+  filter:drop-shadow(0 -1px 0 rgba(177,123,54,.24))!important;
 }
-.partnership-section .content-card{
-  grid-column:2!important; grid-row:1!important; align-self:center!important;
-  width:min(100%,760px)!important; margin:0!important; padding:0!important;
-  background:transparent!important; border:0!important; border-radius:0!important;
-  box-shadow:none!important; backdrop-filter:none!important;
+#partnership .content-card{
+  grid-area:copy!important;
+  display:block!important;
+  align-self:center!important;
+  justify-self:stretch!important;
+  width:100%!important;
+  max-width:790px!important;
+  margin:0 0 0 auto!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  transform:none!important;
 }
-.partnership-section .eyebrow{display:block!important;color:#a06b21!important;letter-spacing:0!important;font-weight:700!important;font-size:clamp(.92rem,1.15vw,1.12rem)!important;margin:0 0 10px!important}
-.partnership-section h2{color:#5a3a1f!important;font-family:inherit!important;font-size:clamp(2.25rem,4vw,4.15rem)!important;line-height:1.12!important;font-weight:700!important;margin:0 0 28px!important}
-.partnership-section p{color:#4c3a2c!important;font-size:clamp(1rem,1.18vw,1.18rem)!important;line-height:2.05!important;margin:0 0 19px!important;font-weight:500!important}
-.partnership-section .partnership-closing{color:#98651e!important;font-family:inherit!important;font-size:clamp(1.28rem,1.85vw,1.75rem)!important;font-weight:800!important;line-height:1.7!important;margin:27px 0 20px!important;padding-inline-end:18px!important;border-inline-end:3px solid rgba(181,126,43,.72)!important}
-.partnership-section .actions{margin-top:18px!important}
-.partnership-section .primary-cta{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:52px!important;padding:11px 28px!important;border-radius:15px!important;background:linear-gradient(145deg,#f0d18f,#c99543)!important;color:#4b321d!important;border:1px solid #a8752d!important;box-shadow:0 7px 14px rgba(91,58,24,.18),inset 0 1px 0 rgba(255,255,255,.7)!important;font-weight:800!important;text-decoration:none!important}
-.partnership-section .secondary-cta{color:#5c4735!important;border-color:#b99a63!important;background:transparent!important}
-.partnership-visual{grid-column:1!important;grid-row:1!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:clamp(12px,2vw,26px)!important;width:100%!important;max-width:570px!important;margin:auto!important;padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
-.partnership-brand{display:block!important;object-fit:contain!important;mix-blend-mode:screen!important;filter:saturate(.82) sepia(.12) drop-shadow(0 5px 5px rgba(93,58,24,.12))!important}
-.partnership-brand-luvva{width:45%!important;max-height:250px!important}
-.partnership-brand-cmt{width:48%!important;max-height:210px!important}
-.partnership-brand-divider{width:1px!important;height:150px!important;background:linear-gradient(transparent,#b8873c 20%,#b8873c 80%,transparent)!important;opacity:.72!important;flex:0 0 1px!important}
-.partnership-ar{display:none!important;text-align:right!important;direction:rtl!important}
-html[lang="ar"] .partnership-en{display:none!important}
-html[lang="ar"] .partnership-ar{display:block!important}
-html[lang="en"] .partnership-en{display:block!important}
-html[lang="en"] .partnership-ar{display:none!important}
+#partnership .partnership-ar{
+  direction:rtl!important;
+  text-align:right!important;
+}
+#partnership .eyebrow{
+  display:block!important;
+  margin:0 0 8px!important;
+  color:#9b691f!important;
+  font-size:clamp(.88rem,1vw,1.03rem)!important;
+  line-height:1.4!important;
+  font-weight:700!important;
+  letter-spacing:0!important;
+}
+#partnership h2{
+  margin:0 0 clamp(22px,2.2vw,34px)!important;
+  color:#5a3820!important;
+  font-family:inherit!important;
+  font-size:clamp(2.25rem,3.35vw,3.85rem)!important;
+  line-height:1.16!important;
+  font-weight:700!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.5)!important;
+}
+#partnership p{
+  margin:0 0 clamp(15px,1.5vw,22px)!important;
+  color:#4d3a2d!important;
+  font-size:clamp(.98rem,1.05vw,1.13rem)!important;
+  line-height:1.92!important;
+  font-weight:500!important;
+}
+#partnership .partnership-closing{
+  margin:clamp(22px,2vw,30px) 0 18px!important;
+  padding:0 18px 0 0!important;
+  border-right:3px solid rgba(174,115,35,.68)!important;
+  border-left:0!important;
+  color:#94631f!important;
+  font-size:clamp(1.25rem,1.5vw,1.62rem)!important;
+  line-height:1.65!important;
+  font-weight:800!important;
+}
+#partnership .actions{
+  display:flex!important;
+  justify-content:flex-start!important;
+  align-items:center!important;
+  gap:12px!important;
+  margin-top:16px!important;
+}
+#partnership .primary-cta{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:50px!important;
+  padding:10px 26px!important;
+  border-radius:14px!important;
+  background:linear-gradient(180deg,#f2d99d 0%,#d3a052 54%,#bd8132 100%)!important;
+  color:#4a301a!important;
+  border:1px solid #9d6a25!important;
+  box-shadow:0 7px 15px rgba(91,58,24,.18),inset 0 1px 0 rgba(255,255,255,.76)!important;
+  font-size:clamp(.93rem,1vw,1.05rem)!important;
+  font-weight:800!important;
+  text-decoration:none!important;
+  white-space:nowrap!important;
+}
+#partnership .partnership-visual{
+  grid-area:visual!important;
+  align-self:center!important;
+  justify-self:center!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:clamp(18px,2vw,30px)!important;
+  width:min(100%,610px)!important;
+  max-width:610px!important;
+  margin:clamp(36px,8vh,96px) auto 0!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  opacity:1!important;
+  visibility:visible!important;
+  transform:none!important;
+}
+#partnership .partnership-brand{
+  display:block!important;
+  height:auto!important;
+  object-fit:contain!important;
+  mix-blend-mode:normal!important;
+  opacity:1!important;
+  visibility:visible!important;
+  filter:drop-shadow(0 5px 7px rgba(102,65,22,.16))!important;
+  background:transparent!important;
+}
+#partnership .partnership-brand-luvva{
+  width:44%!important;
+  max-width:250px!important;
+  max-height:280px!important;
+}
+#partnership .partnership-brand-cmt{
+  width:48%!important;
+  max-width:275px!important;
+  max-height:220px!important;
+}
+#partnership .partnership-brand-divider{
+  display:block!important;
+  width:1px!important;
+  height:165px!important;
+  flex:0 0 1px!important;
+  opacity:.72!important;
+  background:linear-gradient(transparent,#b27a2f 16%,#b27a2f 84%,transparent)!important;
+}
+#partnership .partnership-ar{display:none!important}
+html[lang="ar"] #partnership .partnership-en{display:none!important}
+html[lang="ar"] #partnership .partnership-ar{display:block!important}
+html[lang="en"] #partnership .partnership-en{display:block!important}
+html[lang="en"] #partnership .partnership-ar{display:none!important}
+@media(max-width:1050px){
+  #partnership.partnership-section{
+    grid-template-columns:minmax(270px,39%) minmax(500px,61%)!important;
+    column-gap:26px!important;
+    padding-inline:38px!important;
+  }
+  #partnership .partnership-visual{width:min(100%,480px)!important}
+  #partnership .partnership-brand-divider{height:135px!important}
+}
 @media(max-width:900px){
- .partnership-section{grid-template-columns:1fr!important;padding:64px 24px 72px!important;gap:34px!important}
- .partnership-section .content-card{grid-column:1!important;grid-row:1!important;width:100%!important}
- .partnership-visual{grid-column:1!important;grid-row:2!important;max-width:430px!important}
- .partnership-section h2{font-size:clamp(2rem,9vw,3rem)!important}
+  #partnership.partnership-section{
+    min-height:auto!important;
+    grid-template-columns:1fr!important;
+    grid-template-areas:"copy" "visual"!important;
+    row-gap:30px!important;
+    padding:60px 24px 72px!important;
+  }
+  #partnership .content-card{max-width:760px!important;margin:0 auto!important}
+  #partnership .partnership-visual{margin:10px auto 0!important;width:min(100%,480px)!important}
+  #partnership h2{font-size:clamp(2rem,7.5vw,3rem)!important}
 }
-@media(max-width:560px){.partnership-section{padding-inline:18px!important}.partnership-section p{font-size:.98rem!important;line-height:1.9!important}.partnership-brand-divider{height:105px!important}.partnership-section .primary-cta{width:100%!important}}
+@media(max-width:560px){
+  #partnership.partnership-section{padding-inline:18px!important}
+  #partnership p{font-size:.98rem!important;line-height:1.88!important}
+  #partnership .partnership-closing{font-size:1.2rem!important}
+  #partnership .partnership-visual{gap:12px!important}
+  #partnership .partnership-brand-divider{height:100px!important}
+  #partnership .primary-cta{width:100%!important;white-space:normal!important;text-align:center!important}
+}
 </style>
 
 <script id="luvva013-bilingual-ui">
