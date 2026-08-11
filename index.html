@@ -5029,3 +5029,12 @@ html.luvva-view-partnership #investor-brief{display:none!important;}
   },true);
 })();
 </script>
+
+<style id="luvva037-special-sections-active-only-fix">
+/* Final isolation fix: Partnership and Investor Brief must appear ONLY when their own navigation target is active.
+   This prevents either section from leaking into Contact or any other page, in both English and Arabic. */
+#partnership.partnership-section:not(.active-section),
+#investor-brief.investor-brief-section:not(.active-section){
+  display:none!important;
+}
+</style>
