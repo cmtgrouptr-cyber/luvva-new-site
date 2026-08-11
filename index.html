@@ -4,6 +4,18 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script id="luvva-story-return-prepaint">
+try{
+  if(new URLSearchParams(location.search).get("luvva_story_return")==="1"){
+    document.documentElement.classList.add("luvva-story-return-prepaint");
+  }
+}catch(e){}
+</script>
+<style id="luvva-story-return-prepaint-style">
+html.luvva-story-return-prepaint #luvvaGatewayV3,
+html.luvva-story-return-prepaint #luvvaV3Success,
+html.luvva-story-return-prepaint #luvvaAuthBackdrop{display:none!important;visibility:hidden!important;opacity:0!important}
+</style>
 <meta content="LUVVA — Human-Centered AI. It loves. It protects. It powers. It connects." name="description"/>
 <meta content="#efe0c8" name="theme-color"/>
 <title>LUVVA V4 • Secure Gateway Professional Edition • V4</title>
@@ -2634,6 +2646,26 @@ html[lang="en"] .investor-button{
   text-transform:uppercase!important;
 }
 </style>
+<style id="luvva038-timer-side-fix">
+/* Session timer: English on the left, Arabic on the right, slightly below the header. */
+@media (min-width:901px){
+  .site-header{position:relative!important}
+  html[dir="ltr"] .luvva-investor-stack{
+    position:absolute!important; left:18px!important; right:auto!important;
+    top:calc(100% + 12px)!important; width:142px!important; z-index:30!important;
+  }
+  html[dir="rtl"] .luvva-investor-stack{
+    position:absolute!important; right:18px!important; left:auto!important;
+    top:calc(100% + 12px)!important; width:142px!important; z-index:30!important;
+  }
+  .luvva-investor-stack #luvvaSessionTimer{
+    position:relative!important; top:auto!important; left:auto!important; right:auto!important;
+    transform:none!important; margin:0!important; min-width:142px!important; width:142px!important;
+  }
+  .luvva-investor-stack #luvvaSessionTimer:hover,
+  .luvva-investor-stack #luvvaSessionTimer:active{transform:none!important}
+}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -4131,6 +4163,7 @@ html[lang="en"] .investor-button{
       if (ownerWebsiteBypass) {
         if (storyReturn) {
           try { history.replaceState(null, "", window.location.pathname + "#home"); } catch (_) {}
+          document.documentElement.classList.remove("luvva-story-return-prepaint");
         }
         gateway.hidden=true;
         gateway.setAttribute("aria-hidden","true");
@@ -4158,6 +4191,7 @@ html[lang="en"] .investor-button{
       // Normal visits still return through the secure gateway exactly as before.
       if (storyReturn) {
         try { history.replaceState(null, "", window.location.pathname + "#home"); } catch (_) {}
+          document.documentElement.classList.remove("luvva-story-return-prepaint");
         gateway.hidden=true;
         gateway.setAttribute("aria-hidden","true");
         gateway.classList.remove("is-revealing");
@@ -4454,7 +4488,14 @@ html[lang="en"] .investor-button{
   function drawPreviewQr(label){const c=document.createElement('canvas');c.width=190;c.height=190;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,190,190);const size=29,cell=5,offset=22;let seed=0;for(const ch of label)seed=(seed*31+ch.charCodeAt(0))>>>0;const finder=(r,c0)=>{x.fillStyle='#111';x.fillRect(offset+c0*cell,offset+r*cell,7*cell,7*cell);x.fillStyle='#fff';x.fillRect(offset+(c0+1)*cell,offset+(r+1)*cell,5*cell,5*cell);x.fillStyle='#111';x.fillRect(offset+(c0+2)*cell,offset+(r+2)*cell,3*cell,3*cell)};finder(0,0);finder(0,size-7);finder(size-7,0);const reserved=(r,c0)=>(r<8&&c0<8)||(r<8&&c0>size-9)||(r>size-9&&c0<8);for(let r=0;r<size;r++)for(let c0=0;c0<size;c0++){if(reserved(r,c0))continue;seed=(1664525*seed+1013904223)>>>0;if((seed>>>30)&1){x.fillStyle='#111';x.fillRect(offset+c0*cell,offset+r*cell,cell,cell)}}qr.innerHTML='';qr.appendChild(c)}
   function bindCorner(el,type){let clicks=0,last=0;const hit=ev=>{ev.preventDefault();ev.stopImmediatePropagation();const now=Date.now();clicks=(now-last<=850)?clicks+1:1;last=now;if(clicks>=5){clicks=0;currentType=type;modal.classList.add('open');title.textContent=type==='dashboard'?'Dashboard Access':'Website Access';help.textContent=type==='dashboard'?'Open the dashboard directly.':'Open the website directly.';actions.style.display='flex';qr.classList.remove('is-visible');previewOpen.textContent=type==='dashboard'?'Open Dashboard':'Open Website';previewOpen.style.display='block';count.textContent=''}};el.addEventListener('pointerup',hit,{passive:false,capture:true});['click','dblclick'].forEach(n=>el.addEventListener(n,e=>{e.preventDefault();e.stopImmediatePropagation()},{capture:true}));el.addEventListener('contextmenu',e=>e.preventDefault())}
   async function generateQr(){stop();actions.style.display='none';qr.classList.add('is-visible');qr.innerHTML='<div class="luvva-owner-placeholder">Creating one-time QR…</div>';help.textContent='Secure owner access is ready.';try{if(location.protocol==='file:')throw new Error('LOCAL_PREVIEW');const r=await fetch('/api/owner-challenge-create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:currentType})});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.message||'SERVICE_UNAVAILABLE');qr.innerHTML=`<img src="${j.qr_data_url}" alt="One-time owner access QR">`;let left=Math.max(0,Math.ceil((new Date(j.expires_at)-Date.now())/1000));count.textContent=`Expires in ${left}s`;timer=setInterval(()=>{left--;count.textContent=left>0?`Expires in ${left}s`:'Expired';if(left<=0)clearInterval(timer)},1000)}catch(e){drawPreviewQr(currentType==='dashboard'?'LUVVA DASHBOARD V6.6':'LUVVA WEBSITE OWNER V6.6');count.textContent='Local preview · 60 seconds';help.textContent=currentType==='dashboard'?'Dashboard preview is ready.':'Preview mode: secure website owner access is ready.';if(currentType==='dashboard')previewOpen.style.display='block'}}
-  document.getElementById('luvvaOwnerCancel').addEventListener('click',close);document.getElementById('luvvaOwnerClose').addEventListener('click',close);previewOpen.addEventListener('click',()=>{if(currentType==='dashboard'){sessionStorage.setItem('luvvaDashboardPreview','1');location.href='dashboard.html?preview=1'}else{try{sessionStorage.setItem('luvva_owner_website_bypass','1')}catch(e){}close();const gateway=document.getElementById('luvvaGatewayV3');const success=document.getElementById('luvvaV3Success');const backdrop=document.getElementById('luvvaAuthBackdrop');if(gateway){gateway.hidden=true;gateway.setAttribute('aria-hidden','true');gateway.classList.remove('is-revealing')}if(success){success.classList.remove('show','is-leaving','is-opening','pulse-fading');success.setAttribute('aria-hidden','true')}if(backdrop){backdrop.classList.remove('is-open');backdrop.hidden=true;backdrop.setAttribute('aria-hidden','true')}document.body.classList.remove('luvva-v3-locked','luvva-page-revealing','luvva-page-visible');document.body.style.removeProperty('overflow');document.documentElement.style.removeProperty('overflow');document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0)}});modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});bindCorner(document.getElementById('luvvaOwnerWeb'),'website');bindCorner(document.getElementById('luvvaOwnerDash'),'dashboard');
+  document.getElementById('luvvaOwnerCancel').addEventListener('click',close);document.getElementById('luvvaOwnerClose').addEventListener('click',close);let openClicks=0,openFirstAt=0;
+  previewOpen.addEventListener('click',()=>{
+    const now=Date.now();
+    if(!openFirstAt || now-openFirstAt>5000){openClicks=0;openFirstAt=now}
+    openClicks++;
+    if(openClicks<5){help.textContent=`Press ${5-openClicks} more time${5-openClicks===1?'':'s'} within 5 seconds to open.`;return}
+    openClicks=0;openFirstAt=0;
+    if(currentType==='dashboard'){sessionStorage.setItem('luvvaDashboardPreview','1');location.href='dashboard.html?preview=1'}else{try{sessionStorage.setItem('luvva_owner_website_bypass','1')}catch(e){}close();const gateway=document.getElementById('luvvaGatewayV3');const success=document.getElementById('luvvaV3Success');const backdrop=document.getElementById('luvvaAuthBackdrop');if(gateway){gateway.hidden=true;gateway.setAttribute('aria-hidden','true');gateway.classList.remove('is-revealing')}if(success){success.classList.remove('show','is-leaving','is-opening','pulse-fading');success.setAttribute('aria-hidden','true')}if(backdrop){backdrop.classList.remove('is-open');backdrop.hidden=true;backdrop.setAttribute('aria-hidden','true')}document.body.classList.remove('luvva-v3-locked','luvva-page-revealing','luvva-page-visible');document.body.style.removeProperty('overflow');document.documentElement.style.removeProperty('overflow');document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0)}});modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});bindCorner(document.getElementById('luvvaOwnerWeb'),'website');bindCorner(document.getElementById('luvvaOwnerDash'),'dashboard');
   const select=document.getElementById('luvvaCountryCode'),button=document.getElementById('luvvaCountryButton'),menu=document.getElementById('luvvaCountryMenu'),search=document.getElementById('luvvaCountrySearch'),items=[...document.querySelectorAll('.luvva-country-option')];
   button?.addEventListener('click',e=>{e.stopPropagation();menu.classList.toggle('open');if(menu.classList.contains('open'))setTimeout(()=>search.focus(),0)});items.forEach(it=>it.addEventListener('click',()=>{select.value=it.dataset.value;button.textContent=it.textContent;items.forEach(x=>x.classList.toggle('active',x===it));menu.classList.remove('open');select.dispatchEvent(new Event('change',{bubbles:true}))}));search?.addEventListener('input',()=>{const q=search.value.toLowerCase();items.forEach(it=>it.style.display=it.textContent.toLowerCase().includes(q)?'block':'none')});document.addEventListener('click',e=>{if(!document.getElementById('luvvaCountryPicker')?.contains(e.target))menu?.classList.remove('open')});
 })();
