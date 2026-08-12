@@ -945,19 +945,76 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
 
 /* ===== LUVVA CONTACT EXTENSION — direct contact QR channels ===== */
-.luvva-contact-channels{margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.luvva-contact-channel{display:grid;gap:8px;justify-items:center;padding:12px 10px;border:1px solid rgba(126,91,38,.18);border-radius:16px;background:rgba(255,255,255,.58);box-shadow:0 8px 18px rgba(84,61,28,.08);transition:transform .2s ease,box-shadow .2s ease}
-.luvva-contact-channel .luvva-qr-image{width:min(112px,100%);height:112px;object-fit:contain;border-radius:10px;background:#fff;padding:4px;box-shadow:0 3px 10px rgba(54,43,28,.10)}
-.luvva-contact-channel .luvva-service-logo{width:38px;height:38px;object-fit:contain;display:block}
-.luvva-contact-channel strong{color:#70460a;font:700 10px/1.3 "Montserrat",sans-serif;text-align:center}
+/* ===== LUVVA CONTACT — premium QR + bilingual company labels ===== */
+.luvva-contact-channels{margin-top:22px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.luvva-contact-channel{
+  display:grid;gap:9px;justify-items:center;align-content:start;
+  padding:14px 11px 13px;
+  border:1px solid rgba(126,91,38,.18);
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(244,236,222,.68));
+  box-shadow:0 10px 24px rgba(48,40,31,.10),inset 0 1px 0 rgba(255,255,255,.95);
+  transition:transform .22s ease,box-shadow .22s ease;
+}
+.luvva-contact-channel .luvva-qr-image{
+  width:min(116px,100%);height:116px;
+  object-fit:contain;border-radius:12px;background:#fff;padding:5px;
+  box-shadow:0 4px 12px rgba(35,31,26,.12);
+}
+.luvva-contact-channel .luvva-service-logo{
+  width:44px;height:44px;object-fit:contain;display:block;
+  filter:drop-shadow(0 3px 5px rgba(30,30,30,.13));
+}
+.luvva-contact-channel strong{
+  color:#26384a;
+  font:700 11.5px/1.3 "Montserrat",sans-serif;
+  text-align:center;letter-spacing:.01em;
+}
 .luvva-contact-channel a{color:inherit;text-decoration:none}
 .luvva-contact-channel.is-link{cursor:pointer}
-.luvva-contact-channel:hover{transform:translateY(-2px);box-shadow:0 11px 22px rgba(84,61,28,.13)}
-.luvva-contact-channel.is-link:active{transform:translateY(1px)}
-@media(max-width:880px){.luvva-contact-channels{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.luvva-contact-channel{padding:9px 6px}.luvva-contact-channel .luvva-qr-image{width:92px;height:92px}}
-@media(max-width:560px){.luvva-contact-channels{grid-template-columns:1fr 1fr}.luvva-contact-channel:last-child{grid-column:1/-1;justify-self:center;width:calc(50% - 4px)}}
-html[lang="ar"] .luvva-contact-channel strong{font-family:"Tajawal","Arial",sans-serif;font-size:11px}
+.luvva-contact-channel:hover{transform:translateY(-3px);box-shadow:0 15px 30px rgba(48,40,31,.15),inset 0 1px 0 rgba(255,255,255,.98)}
+.luvva-contact-channel.is-link:active{transform:translateY(0)}
 
+.luvva-company-contact-list p{
+  display:grid;grid-template-columns:92px minmax(0,1fr);gap:14px;
+  margin:0;padding:8px 12px;
+  border-radius:11px;
+  background:rgba(255,255,255,.035);
+  font:500 12.5px/1.55 "Montserrat",sans-serif;
+  color:#745d3e;
+}
+.luvva-company-contact-list strong{
+  color:#30475b;
+  font:800 13px/1.45 "Montserrat",sans-serif;
+  letter-spacing:.01em;
+}
+.luvva-company-contact-list span{color:#80643e;font-weight:600}
+.luvva-company-contact-list a{
+  color:#7c4f0d;text-decoration:none;font-weight:700;overflow-wrap:anywhere;
+  transition:color .18s ease;
+}
+.luvva-company-contact-list a:hover{color:#1683d8}
+html[lang="ar"] .luvva-company-contact-list p{
+  font-family:"Tajawal","Arial",sans-serif;
+  font-size:13px;
+}
+html[lang="ar"] .luvva-company-contact-list strong{
+  color:#30475b;font-family:"Tajawal","Arial",sans-serif;font-size:14px;
+}
+html[lang="ar"] .luvva-contact-channel strong{
+  font-family:"Tajawal","Arial",sans-serif;font-size:12px;
+}
+@media(max-width:880px){
+  .luvva-contact-channels{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .luvva-contact-channel{padding:10px 6px}
+  .luvva-contact-channel .luvva-qr-image{width:94px;height:94px}
+  .luvva-contact-channel .luvva-service-logo{width:40px;height:40px}
+  .luvva-company-contact-list p{grid-template-columns:82px minmax(0,1fr);gap:10px}
+}
+@media(max-width:560px){
+  .luvva-contact-channels{grid-template-columns:1fr 1fr}
+  .luvva-contact-channel:last-child{grid-column:1/-1;justify-self:center;width:calc(50% - 4px)}
+}
 /* ===== LUVVA V33 — stable navigation timer + contact information ===== */
 .site-header .main-nav { min-width: 0; }
 #luvvaSessionTimer {
@@ -2679,6 +2736,80 @@ html[lang="en"] .investor-button{
   .luvva-investor-stack #luvvaSessionTimer:active{transform:none!important}
 }
 </style>
+
+<style id="luvva-contact-labels-final">
+/* Final Contact identity — clear labels, modern typography, visible separators, EN/AR mirrored layout. */
+.luvva-company-contact-list p{
+  display:grid !important;
+  grid-template-columns:minmax(96px,112px) minmax(0,1fr) !important;
+  gap:0 !important;
+  align-items:center !important;
+  direction:ltr !important;
+  padding:8px 12px !important;
+}
+.luvva-company-contact-list p > strong{
+  display:flex !important;
+  align-items:center !important;
+  min-height:28px !important;
+  padding-right:13px !important;
+  border-right:1px solid rgba(126,190,220,.55) !important;
+  color:#8fd0ee !important;
+  font-family:"Montserrat","Segoe UI",Arial,sans-serif !important;
+  font-size:12.5px !important;
+  font-weight:800 !important;
+  letter-spacing:.02em !important;
+  text-shadow:0 1px 4px rgba(0,0,0,.55) !important;
+}
+.luvva-company-contact-list p > span,
+.luvva-company-contact-list p > a{
+  display:block !important;
+  min-width:0 !important;
+  padding-left:14px !important;
+  color:#f0d18a !important;
+  font-family:"Montserrat","Segoe UI",Arial,sans-serif !important;
+  font-size:12.5px !important;
+  font-weight:650 !important;
+  line-height:1.55 !important;
+  text-shadow:0 2px 5px rgba(0,0,0,.58) !important;
+}
+.luvva-company-contact-list p > a[href^="mailto:"]{color:#f0d18a !important;}
+.luvva-company-contact-list p > a[href^="mailto:"]:hover{color:#1683d8 !important;text-shadow:0 0 8px rgba(22,131,216,.20) !important;}
+html[lang="ar"] .luvva-company-contact-list p{
+  grid-template-columns:minmax(96px,112px) minmax(0,1fr) !important;
+  direction:rtl !important;
+}
+html[lang="ar"] .luvva-company-contact-list p > strong{
+  justify-content:flex-start !important;
+  padding-right:0 !important;
+  padding-left:13px !important;
+  border-right:0 !important;
+  border-left:1px solid rgba(126,190,220,.55) !important;
+  color:#8fd0ee !important;
+  font-family:"Tajawal","Arial",sans-serif !important;
+  font-size:13.5px !important;
+  font-weight:800 !important;
+  letter-spacing:0 !important;
+}
+html[lang="ar"] .luvva-company-contact-list p > span,
+html[lang="ar"] .luvva-company-contact-list p > a{
+  padding-left:0 !important;
+  padding-right:14px !important;
+  text-align:right !important;
+  direction:rtl !important;
+  color:#f0d18a !important;
+  font-family:"Tajawal","Arial",sans-serif !important;
+  font-size:13.5px !important;
+  font-weight:650 !important;
+}
+@media(max-width:880px){
+  .luvva-company-contact-list p{grid-template-columns:minmax(84px,96px) minmax(0,1fr) !important;}
+  .luvva-company-contact-list p > strong{font-size:11.5px !important;padding-right:10px !important;}
+  .luvva-company-contact-list p > span,.luvva-company-contact-list p > a{font-size:11.5px !important;padding-left:11px !important;}
+  html[lang="ar"] .luvva-company-contact-list p > strong{font-size:12.5px !important;padding-left:10px !important;}
+  html[lang="ar"] .luvva-company-contact-list p > span,html[lang="ar"] .luvva-company-contact-list p > a{font-size:12.5px !important;padding-right:11px !important;}
+}
+</style>
+
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -3108,17 +3239,17 @@ html[lang="en"] .investor-button{
       <div class="luvva-contact-channels" aria-label="Direct contact channels">
         <div class="luvva-contact-channel">
           <img class="luvva-qr-image" src="whatsapp-qr-clean.png" alt="CMT GROUP WhatsApp QR code">
-          <img class="luvva-service-logo" src="logo-whatsapp.png" alt="WhatsApp logo">
+          <img class="luvva-service-logo" src="logo-whatsapp.svg" alt="WhatsApp logo">
           <strong>WhatsApp</strong>
         </div>
         <div class="luvva-contact-channel">
           <img class="luvva-qr-image" src="wechat-qr-clean.png" alt="CMT GROUP WeChat QR code">
-          <img class="luvva-service-logo" src="logo-wechat.png" alt="WeChat logo">
+          <img class="luvva-service-logo" src="logo-wechat.svg" alt="WeChat logo">
           <strong>WeChat</strong>
         </div>
         <a class="luvva-contact-channel is-link" href="https://maps.app.goo.gl/vCXgF76MMGiAULNP7" target="_blank" rel="noopener" aria-label="Open CMT GROUP location in Google Maps">
           <img class="luvva-qr-image" src="location-qr-clean.png" alt="CMT GROUP location QR code">
-          <img class="luvva-service-logo" src="logo-google-maps.svg" alt="Google Maps logo">
+          <img class="luvva-service-logo" src="logo-maps-professional.svg" alt="Google Maps logo">
           <strong>Company Location</strong>
         </a>
       </div>
@@ -4942,12 +5073,16 @@ html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;
     "Legacy":"الإرث",
     "Core Values":"قيمنا الأساسية",
     "Partnership":"الشراكة",
+    "Company":"الشركة",
+    "Project":"المشروع",
+    "Website":"الموقع الإلكتروني",
     "Primary":"الرئيسي",
     "General":"عام",
     "Partners":"الشراكات",
+    "LinkedIn":"لينكدإن",
     "Company Location":"موقع الشركة",
     "WhatsApp":"واتساب",
-    "WeChat":"ويشات",
+    "WeChat":"وي تشات",
     "Contact":"تواصل معنا",
     "Investor Brief":"ملف المستثمر",
     "About CMT":"عن CMT",
