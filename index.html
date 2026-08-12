@@ -944,6 +944,19 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 }
 
 
+/* ===== LUVVA CONTACT EXTENSION — direct contact QR channels ===== */
+.luvva-contact-channels{margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.luvva-contact-channel{display:grid;gap:8px;justify-items:center;padding:12px 10px;border:1px solid rgba(126,91,38,.18);border-radius:16px;background:rgba(255,255,255,.58);box-shadow:0 8px 18px rgba(84,61,28,.08)}
+.luvva-contact-channel img{width:min(112px,100%);height:112px;object-fit:contain;border-radius:10px;background:#fff;padding:5px;box-shadow:0 3px 10px rgba(54,43,28,.10)}
+.luvva-contact-channel strong{color:#70460a;font:700 10px/1.3 "Montserrat",sans-serif;text-align:center}
+.luvva-contact-channel a{color:inherit;text-decoration:none}
+.luvva-contact-channel.is-link{cursor:pointer}
+.luvva-contact-channel.is-link:hover{transform:translateY(-2px);box-shadow:0 11px 22px rgba(84,61,28,.13)}
+.luvva-contact-channel.is-link:active{transform:translateY(1px)}
+@media(max-width:880px){.luvva-contact-channels{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.luvva-contact-channel{padding:9px 6px}.luvva-contact-channel img{width:92px;height:92px}}
+@media(max-width:560px){.luvva-contact-channels{grid-template-columns:1fr 1fr}.luvva-contact-channel:last-child{grid-column:1/-1;justify-self:center;width:calc(50% - 4px)}}
+html[lang="ar"] .luvva-contact-channel strong{font-family:"Tajawal","Arial",sans-serif;font-size:11px}
+
 /* ===== LUVVA V33 — stable navigation timer + contact information ===== */
 .site-header .main-nav { min-width: 0; }
 #luvvaSessionTimer {
@@ -3086,10 +3099,15 @@ html[lang="en"] .investor-button{
         <p><strong>Company</strong><span>CMT GROUP — Call Mind Technology</span></p>
         <p><strong>Project</strong><span>LUVVA Human-Centered AI</span></p>
         <p><strong>Website</strong><a href="https://luvva.tech" rel="noopener" target="_blank">luvva.tech</a></p>
+        <p><strong>Primary</strong><a href="mailto:cmtgroup.tr@luvva.tech">cmtgroup.tr@luvva.tech</a></p>
         <p><strong>General</strong><a href="mailto:contact@luvva.tech">contact@luvva.tech</a></p>
         <p><strong>Partners</strong><a href="mailto:partnership@luvva.tech">partnership@luvva.tech</a></p>
         <p><strong>LinkedIn</strong><span>CMT GROUP | Call Mind Technology</span></p>
-        <p><strong>WeChat</strong><span>LUVVA Official</span></p>
+      </div>
+      <div class="luvva-contact-channels" aria-label="Direct contact channels">
+        <div class="luvva-contact-channel"><img src="whatsapp-qr.jpg" alt="CMT GROUP WhatsApp QR code"><strong>WhatsApp</strong></div>
+        <div class="luvva-contact-channel"><img src="wechat-qr.jpg" alt="CMT GROUP WeChat QR code"><strong>WeChat</strong></div>
+        <a class="luvva-contact-channel is-link" href="https://maps.app.goo.gl/vCXgF76MMGiAULNP7" target="_blank" rel="noopener" aria-label="Open CMT GROUP location in Google Maps"><img src="location-qr.png" alt="CMT GROUP location QR code"><strong>Company Location</strong></a>
       </div>
     </div>
   </div>
@@ -4282,20 +4300,35 @@ html[lang="en"] .investor-button{
       }
       const data = Object.fromEntries(new FormData(contactForm).entries());
       data.consent = document.getElementById("luvvaContactConsent").checked;
-      data.savedAt = Date.now();
-      try { localStorage.setItem(CONTACT_DETAILS_KEY, JSON.stringify(data)); } catch(_) {}
-      writeAccessPolicy({ usedProviders:[], contactCompleted:true, locked:false, completedAt:Date.now() });
-      refreshProviderAvailability();
-      updateCurrentVisit({ contactCompleted:true, contactDetails:{ fullName:data.fullName||"", company:data.company||"", position:data.position||"", email:data.email||"", phone:data.phone||"", country:data.country||"", interest:data.interest||"" } });
-      if (contactStatus) contactStatus.textContent = "Information saved securely.";
-      const successCard = document.getElementById("luvvaContactSuccess");
-      if (successCard) {
-        successCard.setAttribute("aria-hidden", "false");
-        successCard.classList.add("is-visible");
-        window.setTimeout(() => {
-          successCard.classList.remove("is-visible");
-          successCard.setAttribute("aria-hidden", "true");
-        }, 3000);
+      let verified = null;
+      try { verified = JSON.parse(localStorage.getItem("luvvaVerifiedProviderSubjectV5") || "null"); } catch(_) {}
+      const identityId = verified?.identityId || "";
+      if (!identityId) {
+        if (contactStatus) contactStatus.textContent = "Please verify your identity before sending your contact details.";
+        return;
+      }
+      const submitButton = contactForm.querySelector('button[type="submit"]');
+      if (submitButton) { submitButton.disabled = true; submitButton.textContent = "Sending…"; }
+      if (contactStatus) contactStatus.textContent = "Sending securely…";
+      try {
+        const response = await fetch("/api/contact-submit", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({identity_id:identityId,name:data.fullName||"",email:data.email||"",phone:data.phone||"",company:data.company||"",position:data.position||"",country:data.country||"",interest:data.interest||"",message:data.message||"",consent:!!data.consent})});
+        const result = await response.json().catch(()=>({}));
+        if (!response.ok || !result.ok) throw new Error(result.message || "Unable to send your information securely.");
+        data.savedAt = Date.now();
+        try { localStorage.setItem(CONTACT_DETAILS_KEY, JSON.stringify(data)); } catch(_) {}
+        writeAccessPolicy({ usedProviders:[], contactCompleted:true, locked:false, completedAt:Date.now() });
+        refreshProviderAvailability();
+        updateCurrentVisit({ contactCompleted:true, contactDetails:{ fullName:data.fullName||"", company:data.company||"", position:data.position||"", email:data.email||"", phone:data.phone||"", country:data.country||"", interest:data.interest||"" } });
+        if (contactStatus) contactStatus.textContent = "Information received securely.";
+        const successCard = document.getElementById("luvvaContactSuccess");
+        if (successCard) {
+          successCard.setAttribute("aria-hidden", "false"); successCard.classList.add("is-visible");
+          window.setTimeout(() => { successCard.classList.remove("is-visible"); successCard.setAttribute("aria-hidden", "true"); }, 3000);
+        }
+      } catch (error) {
+        if (contactStatus) contactStatus.textContent = error.message || "Unable to send securely.";
+      } finally {
+        if (submitButton) { submitButton.disabled = false; submitButton.textContent = "Send Securely"; }
       }
     });
   }
@@ -4896,6 +4929,12 @@ html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;
     "Legacy":"الإرث",
     "Core Values":"قيمنا الأساسية",
     "Partnership":"الشراكة",
+    "Primary":"الرئيسي",
+    "General":"عام",
+    "Partners":"الشراكات",
+    "Company Location":"موقع الشركة",
+    "WhatsApp":"واتساب",
+    "WeChat":"ويشات",
     "Contact":"تواصل معنا",
     "Investor Brief":"ملف المستثمر",
     "About CMT":"عن CMT",
