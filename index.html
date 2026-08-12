@@ -946,14 +946,15 @@ body.luvva-page-revealing.luvva-page-visible > footer {
 
 /* ===== LUVVA CONTACT EXTENSION — direct contact QR channels ===== */
 .luvva-contact-channels{margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.luvva-contact-channel{display:grid;gap:8px;justify-items:center;padding:12px 10px;border:1px solid rgba(126,91,38,.18);border-radius:16px;background:rgba(255,255,255,.58);box-shadow:0 8px 18px rgba(84,61,28,.08)}
-.luvva-contact-channel img{width:min(112px,100%);height:112px;object-fit:contain;border-radius:10px;background:#fff;padding:5px;box-shadow:0 3px 10px rgba(54,43,28,.10)}
+.luvva-contact-channel{display:grid;gap:8px;justify-items:center;padding:12px 10px;border:1px solid rgba(126,91,38,.18);border-radius:16px;background:rgba(255,255,255,.58);box-shadow:0 8px 18px rgba(84,61,28,.08);transition:transform .2s ease,box-shadow .2s ease}
+.luvva-contact-channel .luvva-qr-image{width:min(112px,100%);height:112px;object-fit:contain;border-radius:10px;background:#fff;padding:4px;box-shadow:0 3px 10px rgba(54,43,28,.10)}
+.luvva-contact-channel .luvva-service-logo{width:38px;height:38px;object-fit:contain;display:block}
 .luvva-contact-channel strong{color:#70460a;font:700 10px/1.3 "Montserrat",sans-serif;text-align:center}
 .luvva-contact-channel a{color:inherit;text-decoration:none}
 .luvva-contact-channel.is-link{cursor:pointer}
-.luvva-contact-channel.is-link:hover{transform:translateY(-2px);box-shadow:0 11px 22px rgba(84,61,28,.13)}
+.luvva-contact-channel:hover{transform:translateY(-2px);box-shadow:0 11px 22px rgba(84,61,28,.13)}
 .luvva-contact-channel.is-link:active{transform:translateY(1px)}
-@media(max-width:880px){.luvva-contact-channels{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.luvva-contact-channel{padding:9px 6px}.luvva-contact-channel img{width:92px;height:92px}}
+@media(max-width:880px){.luvva-contact-channels{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.luvva-contact-channel{padding:9px 6px}.luvva-contact-channel .luvva-qr-image{width:92px;height:92px}}
 @media(max-width:560px){.luvva-contact-channels{grid-template-columns:1fr 1fr}.luvva-contact-channel:last-child{grid-column:1/-1;justify-self:center;width:calc(50% - 4px)}}
 html[lang="ar"] .luvva-contact-channel strong{font-family:"Tajawal","Arial",sans-serif;font-size:11px}
 
@@ -3105,9 +3106,21 @@ html[lang="en"] .investor-button{
         <p><strong>LinkedIn</strong><span>CMT GROUP | Call Mind Technology</span></p>
       </div>
       <div class="luvva-contact-channels" aria-label="Direct contact channels">
-        <div class="luvva-contact-channel"><img src="whatsapp-qr.jpg" alt="CMT GROUP WhatsApp QR code"><strong>WhatsApp</strong></div>
-        <div class="luvva-contact-channel"><img src="wechat-qr.jpg" alt="CMT GROUP WeChat QR code"><strong>WeChat</strong></div>
-        <a class="luvva-contact-channel is-link" href="https://maps.app.goo.gl/vCXgF76MMGiAULNP7" target="_blank" rel="noopener" aria-label="Open CMT GROUP location in Google Maps"><img src="location-qr.png" alt="CMT GROUP location QR code"><strong>Company Location</strong></a>
+        <div class="luvva-contact-channel">
+          <img class="luvva-qr-image" src="whatsapp-qr-clean.png" alt="CMT GROUP WhatsApp QR code">
+          <img class="luvva-service-logo" src="logo-whatsapp.png" alt="WhatsApp logo">
+          <strong>WhatsApp</strong>
+        </div>
+        <div class="luvva-contact-channel">
+          <img class="luvva-qr-image" src="wechat-qr-clean.png" alt="CMT GROUP WeChat QR code">
+          <img class="luvva-service-logo" src="logo-wechat.png" alt="WeChat logo">
+          <strong>WeChat</strong>
+        </div>
+        <a class="luvva-contact-channel is-link" href="https://maps.app.goo.gl/vCXgF76MMGiAULNP7" target="_blank" rel="noopener" aria-label="Open CMT GROUP location in Google Maps">
+          <img class="luvva-qr-image" src="location-qr-clean.png" alt="CMT GROUP location QR code">
+          <img class="luvva-service-logo" src="logo-google-maps.svg" alt="Google Maps logo">
+          <strong>Company Location</strong>
+        </a>
       </div>
     </div>
   </div>
@@ -5123,5 +5136,23 @@ html.luvva-view-partnership #investor-brief{display:none!important;}
 #partnership.partnership-section:not(.active-section),
 #investor-brief.investor-brief-section:not(.active-section){
   display:none!important;
+}
+</style>
+
+<style id="luvva-contact-email-hover-blue">
+/* LUVVA Contact — email links turn blue on hover only */
+.luvva-company-contact-list a[href^="mailto:"] {
+  transition: color .2s ease, text-shadow .2s ease;
+}
+.luvva-company-contact-list a[href^="mailto:"]:hover {
+  color: #1683d8 !important;
+  text-shadow: 0 0 8px rgba(22,131,216,.18);
+}
+#luvvaAccessLocked .luvva-access-lock-channels a[href^="mailto:"] {
+  transition: color .2s ease, text-shadow .2s ease;
+}
+#luvvaAccessLocked .luvva-access-lock-channels a[href^="mailto:"]:hover {
+  color: #1683d8 !important;
+  text-shadow: 0 0 8px rgba(22,131,216,.18);
 }
 </style>
