@@ -246,7 +246,8 @@
   modal.addEventListener('click',e=>{if(e.target===modal)hideModal();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')hideModal();});
 
-  operationButtons.forEach(button => button.addEventListener('click', () => {
+  function openOperationVideo(button) {
+    if (!button || button.disabled) return;
     operationButtons.forEach(item => {
       item.classList.remove('active');
       item.setAttribute('aria-selected','false');
@@ -267,7 +268,23 @@
     operationsVideo.load();
     operationsVideo.play().catch(() => {});
     document.getElementById('operationsPlayer').scrollIntoView({behavior:'smooth',block:'center'});
-  }));
+  }
+
+  operationButtons.forEach(button => button.addEventListener('click', () => openOperationVideo(button)));
+
+  // The large centered archive/play area is also the visible play key.
+  // Make it open the currently active video in both language pages.
+  operationsPlaceholder.setAttribute('role','button');
+  operationsPlaceholder.setAttribute('tabindex','0');
+  operationsPlaceholder.addEventListener('click', () => {
+    openOperationVideo(operationButtons.find(item => item.classList.contains('active')) || operationButtons[0]);
+  });
+  operationsPlaceholder.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openOperationVideo(operationButtons.find(item => item.classList.contains('active')) || operationButtons[0]);
+    }
+  });
 
   const revealObserver = new IntersectionObserver(entries => entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
