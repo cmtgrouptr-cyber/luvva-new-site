@@ -428,3 +428,12 @@ p,h1,h2,h3,h4,a,button,span{ text-shadow:0 0 .01px currentColor; }
 .operation-video-button.active:hover{transform:translateY(-2px);box-shadow:0 7px 0 #6d4828,0 14px 24px rgba(87,58,32,.26),inset 0 1px 0 rgba(255,255,255,.5);cursor:pointer}
 .operation-video-button.active:active{transform:translateY(2px);box-shadow:0 2px 0 #6d4828,0 5px 12px rgba(87,58,32,.18),inset 0 1px 0 rgba(255,255,255,.35)}
 .operation-video-button.active i,.operation-video-button.active span,.operation-video-button.active b{pointer-events:none}
+
+/* 050 — container-loading visible play key feedback only.
+   Scoped to the archive video placeholder; no navigation, video source,
+   authentication, or other site controls are changed. */
+.operations-player-placeholder{cursor:pointer}
+.operations-player-placeholder .player-icon{cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,filter .2s ease}
+.operations-player-placeholder:hover .player-icon{transform:translateY(-2px);box-shadow:0 10px 0 #b7aa98,0 17px 28px rgba(73,55,39,.22),inset 0 1px 0 #fff;filter:brightness(1.03)}
+.operations-player-placeholder:active .player-icon{transform:translateY(2px);box-shadow:0 4px 0 #b7aa98,0 8px 14px rgba(73,55,39,.16),inset 0 1px 0 #fff}
+.operations-player-placeholder:focus-visible{outline:2px solid #a77945;outline-offset:4px}
