@@ -266,15 +266,11 @@ html[dir="rtl"] .drop-cap::first-letter{float:right;padding:8px 0 0 8px}
     operationsVideo.load();
     operationsVideo.hidden = true;
     operationsPlaceholder.hidden = false;
-    fetch(source, {method:'HEAD'}).then(response => {
-      if (!response.ok) throw new Error('Video not found');
-      operationsVideo.src = source;
-      operationsVideo.hidden = false;
-      operationsPlaceholder.hidden = true;
-      operationsVideo.play().catch(() => {});
-    }).catch(() => {
-      operationsPlaceholder.querySelector('p:last-child').textContent = 'This video has not been added yet. Upload ' + source + ' to activate it.';
-    });
+    operationsVideo.src = source;
+    operationsVideo.hidden = false;
+    operationsPlaceholder.hidden = true;
+    operationsVideo.load();
+    operationsVideo.play().catch(() => {});
     document.getElementById('operationsPlayer').scrollIntoView({behavior:'smooth',block:'center'});
   }));
 
