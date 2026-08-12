@@ -423,3 +423,8 @@ p,h1,h2,h3,h4,a,button,span{ text-shadow:0 0 .01px currentColor; }
 
 .operation-video-button:disabled{opacity:.52;cursor:default;filter:saturate(.55);transform:none!important;box-shadow:0 3px 0 #c7baa6,0 7px 14px rgba(74,55,37,.09),inset 0 1px 0 #fff}
 .operation-video-button:disabled:hover{transform:none;box-shadow:0 3px 0 #c7baa6,0 7px 14px rgba(74,55,37,.09),inset 0 1px 0 #fff}
+
+/* 049 — container-loading key interaction only: restore visible hover/press feedback */
+.operation-video-button.active:hover{transform:translateY(-2px);box-shadow:0 7px 0 #6d4828,0 14px 24px rgba(87,58,32,.26),inset 0 1px 0 rgba(255,255,255,.5);cursor:pointer}
+.operation-video-button.active:active{transform:translateY(2px);box-shadow:0 2px 0 #6d4828,0 5px 12px rgba(87,58,32,.18),inset 0 1px 0 rgba(255,255,255,.35)}
+.operation-video-button.active i,.operation-video-button.active span,.operation-video-button.active b{pointer-events:none}
