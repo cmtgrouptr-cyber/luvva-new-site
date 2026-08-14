@@ -2953,12 +2953,12 @@ document.addEventListener('DOMContentLoaded',function(){
 <span class="luvva-v5-provider-label">Continue with Google</span>
 <span aria-hidden="true" class="luvva-v3-arrow">›</span>
 </button>
-<button class="luvva-provider-frozen" data-luvva-v3-provider="WhatsApp" data-luvva-frozen="true" type="button" disabled aria-disabled="true" title="Temporarily paused">
+<button data-luvva-v3-provider="WhatsApp" type="button" title="Verify your phone by SMS">
 <span aria-hidden="true" class="luvva-v3-provider-icon luvva-v3-whatsapp">
 <svg fill="currentColor" viewbox="0 0 24 24"><path d="M12 3a8.7 8.7 0 0 0-7.5 13.1L3.4 21l5-1.3A8.7 8.7 0 1 0 12 3Zm0 15.8c-1.2 0-2.4-.3-3.5-.9l-.3-.2-3 .8.8-2.9-.2-.3a7 7 0 1 1 6.2 3.5Zm3.9-5.2c-.2-.1-1.3-.6-1.5-.7-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a5.8 5.8 0 0 1-2.8-2.5c-.2-.3 0-.4.1-.5l.5-.6c.1-.2.1-.3.2-.5 0-.1 0-.3-.1-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9 0 1.1.8 2.2.9 2.3.1.2 1.6 2.5 4 3.4.6.2 1 .4 1.3.5.6.2 1.1.2 1.5.1.5-.1 1.3-.5 1.5-1 .2-.5.2-.9.1-1 0-.1-.2-.2-.4-.3Z"></path></svg>
 </span>
 <span class="luvva-v5-provider-label">Continue with WhatsApp</span>
-<small class="luvva-frozen-note" aria-hidden="true">PAUSED</small>
+<small class="luvva-frozen-note" aria-hidden="true">SMS</small>
 <span aria-hidden="true" class="luvva-v3-arrow luvva-arrow-fixed">›</span>
 </button>
 <button class="luvva-provider-frozen" data-luvva-v3-provider="WeChat" data-luvva-frozen="true" type="button" disabled aria-disabled="true" title="Temporarily paused">
@@ -3065,7 +3065,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </div>
 <div hidden="" id="luvvaWhatsappFields" class="luvva-whatsapp-fields">
 <div class="luvva-auth-field">
-<label for="luvvaWhatsappPhone">WhatsApp number</label>
+<label for="luvvaWhatsappPhone">Mobile number</label>
 <div class="luvva-phone-grid">
 <select aria-label="Country code" id="luvvaCountryCode" hidden>
 <option value="+90">Türkiye (+90)</option>
@@ -3587,6 +3587,15 @@ document.addEventListener('DOMContentLoaded',function(){
   const success = document.getElementById("luvvaV3Success");
   const status = document.getElementById("luvvaV3Status");
   const providerButtons = [...document.querySelectorAll("[data-luvva-v3-provider]")];
+  // 059 fix: WhatsApp is an active SMS-verification entrance. Keep only WeChat frozen.
+  const whatsappGatewayButton = providerButtons.find(button => button.dataset.luvvaV3Provider === "WhatsApp");
+  if (whatsappGatewayButton) {
+    whatsappGatewayButton.disabled = false;
+    whatsappGatewayButton.removeAttribute("disabled");
+    whatsappGatewayButton.removeAttribute("data-luvva-frozen");
+    whatsappGatewayButton.setAttribute("aria-disabled", "false");
+    whatsappGatewayButton.classList.remove("luvva-provider-frozen");
+  }
   const backdrop = document.getElementById("luvvaAuthBackdrop");
   const dialog = backdrop.querySelector(".luvva-auth-dialog");
   const form = document.getElementById("luvvaAuthForm");
@@ -4085,7 +4094,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
   providerButtons.forEach(button => button.addEventListener("click", async () => {
     const requestedProvider = button.dataset.luvvaV3Provider || "Business Email";
-    if (button.dataset.luvvaFrozen === "true" || requestedProvider === "WhatsApp" || requestedProvider === "WeChat") {
+    if (button.dataset.luvvaFrozen === "true" || requestedProvider === "WeChat") {
       return;
     }
     const policy = readAccessPolicy();
@@ -4117,7 +4126,7 @@ document.addEventListener('DOMContentLoaded',function(){
     codeRow.classList.remove("is-visible"); whatsappFields.classList.remove("is-code-step");
     errorBox.textContent = "";
     errorBox.classList.remove("is-success");
-    subtitle.textContent = "Enter your WhatsApp number to receive a verification code.";
+    subtitle.textContent = "Enter your mobile number to receive a verification code by SMS.";
     submit.disabled = false;
     submit.textContent = "Send verification code";
     setTimeout(() => phone.focus(), 80);
@@ -4626,13 +4635,13 @@ document.addEventListener('DOMContentLoaded',function(){
     if (isWhatsApp) {
       const cleanPhone = phone.value.replace(/\D/g, "");
       if (cleanPhone.length < 7) {
-        errorBox.textContent = "Please enter a valid WhatsApp number.";
+        errorBox.textContent = "Please enter a valid mobile number.";
         phone.focus();
         submit.disabled = false;
         return;
       }
 
-      // V26: real server-side WhatsApp OTP. No test code is shown and no random number can enter.
+      // Twilio Verify SMS OTP. Server-side only; credentials stay in Vercel environment variables.
       const fullPhone = `${countryCode.value}${cleanPhone}`;
       if (!whatsappCodeSent) {
         submit.disabled = true;
@@ -4640,18 +4649,18 @@ document.addEventListener('DOMContentLoaded',function(){
         try {
           const { response, result } = await fetchJsonWithTimeout("/api/whatsapp-otp-send", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ phone:fullPhone }) });
           if (!response.ok || !result.ok) {
-            console.error("LUVVA WhatsApp verification unavailable:", result);
+            console.error("LUVVA SMS verification unavailable:", result);
             const serverMessage = result && (result.message || result.error || result.code);
-            throw new Error(serverMessage || "Unable to send the WhatsApp verification code.");
+            throw new Error(serverMessage || "Unable to send the SMS verification code.");
           }
           whatsappCodeSent = true;
           startOtpCountdown(60);
           codeRow.classList.add("is-visible"); whatsappFields.classList.add("is-code-step"); code.value="";
-          subtitle.textContent = `A 6-digit verification code was sent by WhatsApp to ${fullPhone}.`;
+          subtitle.textContent = `A 6-digit verification code was sent by SMS to ${fullPhone}.`;
           errorBox.textContent = "✓ Verification code sent. Enter the 6-digit code below."; errorBox.classList.add("is-success");
           submit.textContent = "Verify and continue"; submit.disabled=false; setTimeout(()=>code.focus(),80); return;
         } catch(err) {
-          errorBox.classList.remove("is-success"); errorBox.textContent = err.message || "Unable to send the WhatsApp verification code.";
+          errorBox.classList.remove("is-success"); errorBox.textContent = err.message || "Unable to send the SMS verification code.";
           submit.textContent="Send verification code"; submit.disabled=false; return;
         }
       }
@@ -4866,12 +4875,19 @@ document.addEventListener('DOMContentLoaded',function(){
   if(!logout) return;
   logout.addEventListener('click',function(){
     try{
+      // 059 fix: clear the real visitor session plus every internal-return/bypass flag,
+      // so Logout always returns to the secure gateway instead of reopening Home.
       sessionStorage.removeItem('luvva_gateway_session_v1');
       sessionStorage.removeItem('luvvaDashboardPreview');
       sessionStorage.removeItem('luvva_owner_website_bypass');
+      sessionStorage.removeItem('luvva_cmt_internal_return');
+      sessionStorage.removeItem('luvva_force_home_return');
       localStorage.removeItem('luvva_gateway_session_v1');
+      localStorage.removeItem('luvvaVisitorSessionDU2');
+      localStorage.removeItem('luvvaVisitorIdentityDU2');
+      localStorage.removeItem('luvvaCurrentVisitDU2');
     }catch(e){}
-    window.location.replace('/');
+    window.location.replace(window.location.pathname);
   });
 })();
 </script>
