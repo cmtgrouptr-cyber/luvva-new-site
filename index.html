@@ -2810,6 +2810,27 @@ html[lang="ar"] .luvva-company-contact-list p > a{
 }
 </style>
 
+
+<style id="luvva054-header-retouches">
+/* 054 — requested header retouches only; no gateway/provider/SMS logic changed. */
+html[lang="en"] .main-nav a,
+html[lang="en"] a.cmt-button,
+html[lang="en"] .investor-button{
+  font-weight:650!important;
+}
+html[lang="en"] .cmt-button .cmt-latin-mark{
+  margin-inline-start:.28em!important;
+}
+.main-nav a,
+a.cmt-button,
+.investor-button{
+  position:relative!important;
+  box-shadow:
+    0 4px 0 rgba(75,75,78,.58),
+    0 5px 0 rgba(207,157,54,.95),
+    0 8px 14px rgba(54,54,58,.24)!important;
+}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -3100,7 +3121,7 @@ html[lang="ar"] .luvva-company-contact-list p > a{
 </div>
 </div>
 </div>
-<a class="cmt-button" href="about-cmt.html">About <span class="cmt-latin-mark">CMT</span></a>
+<a class="cmt-button" href="about-cmt.html">About <span class="cmt-latin-mark">CMT</span> Group</a>
 <button aria-controls="mainNav" aria-expanded="false" aria-label="Open menu" class="menu-toggle" id="menuToggle">
 <span></span><span></span><span></span>
 </button>
@@ -4313,6 +4334,8 @@ html[lang="ar"] .luvva-company-contact-list p > a{
       const returnParams = new URLSearchParams(window.location.search);
       const storyReturn = returnParams.get("luvva_story_return") === "1";
       const ownerBypassReturn = returnParams.get("luvva_owner_bypass") === "1";
+      let internalCmtReturn=false;
+      try { internalCmtReturn=storyReturn && sessionStorage.getItem('luvva_cmt_internal_return')==='1'; } catch (_) {}
       let ownerWebsiteBypass=false;
       try {
         // A secret Website Open bypass is valid only for the current in-page owner flow
@@ -4349,9 +4372,32 @@ html[lang="ar"] .luvva-company-contact-list p > a{
         return true;
       }
 
+      // A Return to LUVVA click is accepted only when this same tab entered the CMT story from the website.
+      // This fixes the cream/blank return screen while keeping direct public entry behind the secure gateway.
+      if (internalCmtReturn) {
+        try { sessionStorage.removeItem('luvva_cmt_internal_return'); } catch (_) {}
+        try { history.replaceState(null, "", window.location.pathname + "#home"); } catch (_) {}
+        document.documentElement.classList.remove("luvva-story-return-prepaint");
+        gateway.hidden=true;
+        gateway.setAttribute("aria-hidden","true");
+        gateway.classList.remove("is-revealing");
+        document.body.classList.remove("luvva-v3-locked","luvva-page-revealing","luvva-page-visible");
+        document.body.style.removeProperty("overflow");
+        document.documentElement.style.removeProperty("overflow");
+        document.documentElement.scrollTop=0;
+        document.body.scrollTop=0;
+        window.scrollTo(0,0);
+        setTimeout(function(){ try { showCurrentSection(); } catch (_) {} },0);
+        return true;
+      }
+
       const session=readSession();
       const visitor=JSON.parse(localStorage.getItem(VISITOR_KEY)||"null");
-      if(!session || liveRemaining(session)<=0 || !visitor || !visitor.provider){ if(session)localStorage.removeItem(SESSION_KEY); return false; }
+      if(!session || liveRemaining(session)<=0 || !visitor || !visitor.provider){
+        if(session)localStorage.removeItem(SESSION_KEY);
+        document.documentElement.classList.remove("luvva-story-return-prepaint");
+        return false;
+      }
       // Opening or returning always pauses the credit at the secure gateway.
       if(session.isActive){ session.remainingMs=liveRemaining(session); session.activeElapsedMs=liveActiveElapsed(session); session.isActive=false; session.activeSince=null; writeSession(session); }
       returningSession=true; savedSession=session; savedVisitor=visitor;
@@ -5122,7 +5168,7 @@ html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;
       try { ownerStoryBypass=sessionStorage.getItem('luvva_owner_website_bypass')==='1'; } catch (_) {}
       const cmtBase=arabic?"about-cmt-ar.html":"about-cmt.html";
       cmt.href=cmtBase+(ownerStoryBypass?"?luvva_owner_bypass=1":"");
-      cmt.innerHTML=arabic?'عن <span class="cmt-latin-mark">CMT</span>':'About <span class="cmt-latin-mark">CMT</span>';
+      cmt.innerHTML=arabic?'عن <span class="cmt-latin-mark">CMT</span>':'About <span class="cmt-latin-mark">CMT</span> Group';
     }
 
     /* Arabic artwork: same sections and exact display geometry as English. */
@@ -5142,6 +5188,7 @@ html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;
   document.addEventListener("click",function(e){
     const cmt=e.target.closest&&e.target.closest("a.cmt-button");
     if(!cmt) return;
+    try { sessionStorage.setItem('luvva_cmt_internal_return','1'); } catch (_) {}
     let ownerStoryBypass=false;
     try { ownerStoryBypass=sessionStorage.getItem('luvva_owner_website_bypass')==='1'; } catch (_) {}
     if(ownerStoryBypass){
