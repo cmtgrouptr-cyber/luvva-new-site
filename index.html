@@ -2811,24 +2811,17 @@ html[lang="ar"] .luvva-company-contact-list p > a{
 </style>
 
 
-<style id="luvva054-header-retouches">
-/* 054 — requested header retouches only; no gateway/provider/SMS logic changed. */
+<style id="luvva055-header-retouches">
+/* 055 — requested retouches only. Existing silver/gray button shadows remain untouched. */
 html[lang="en"] .main-nav a,
 html[lang="en"] a.cmt-button,
-html[lang="en"] .investor-button{
-  font-weight:650!important;
-}
-html[lang="en"] .cmt-button .cmt-latin-mark{
-  margin-inline-start:.28em!important;
-}
-.main-nav a,
-a.cmt-button,
-.investor-button{
-  position:relative!important;
-  box-shadow:
-    0 4px 0 rgba(75,75,78,.58),
-    0 5px 0 rgba(207,157,54,.95),
-    0 8px 14px rgba(54,54,58,.24)!important;
+html[lang="en"] .investor-button{font-weight:650!important;}
+html[lang="en"] .cmt-button .cmt-latin-mark{margin-inline-start:.28em!important;}
+.main-nav a,a.cmt-button,.investor-button{position:relative!important;}
+.main-nav a::after,a.cmt-button::after,.investor-button::after{
+  content:"";position:absolute;left:14%;right:14%;bottom:-7px;height:1px;border-radius:999px;
+  background:linear-gradient(90deg,transparent,rgba(211,157,48,.98),transparent);
+  box-shadow:0 1px 3px rgba(150,96,12,.28);pointer-events:none;
 }
 </style>
 </head>
@@ -3121,7 +3114,7 @@ a.cmt-button,
 </div>
 </div>
 </div>
-<a class="cmt-button" href="about-cmt.html">About <span class="cmt-latin-mark">CMT</span> Group</a>
+<a class="cmt-button" href="about-cmt.html">About <span class="cmt-latin-mark">CMT</span></a>
 <button aria-controls="mainNav" aria-expanded="false" aria-label="Open menu" class="menu-toggle" id="menuToggle">
 <span></span><span></span><span></span>
 </button>
@@ -4335,7 +4328,7 @@ a.cmt-button,
       const storyReturn = returnParams.get("luvva_story_return") === "1";
       const ownerBypassReturn = returnParams.get("luvva_owner_bypass") === "1";
       let internalCmtReturn=false;
-      try { internalCmtReturn=storyReturn && sessionStorage.getItem('luvva_cmt_internal_return')==='1'; } catch (_) {}
+      try { internalCmtReturn=sessionStorage.getItem('luvva_cmt_internal_return')==='1'; } catch (_) {}
       let ownerWebsiteBypass=false;
       try {
         // A secret Website Open bypass is valid only for the current in-page owner flow
@@ -5168,7 +5161,7 @@ html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;
       try { ownerStoryBypass=sessionStorage.getItem('luvva_owner_website_bypass')==='1'; } catch (_) {}
       const cmtBase=arabic?"about-cmt-ar.html":"about-cmt.html";
       cmt.href=cmtBase+(ownerStoryBypass?"?luvva_owner_bypass=1":"");
-      cmt.innerHTML=arabic?'عن <span class="cmt-latin-mark">CMT</span>':'About <span class="cmt-latin-mark">CMT</span> Group';
+      cmt.innerHTML=arabic?'عن <span class="cmt-latin-mark">CMT</span>':'About <span class="cmt-latin-mark">CMT</span>';
     }
 
     /* Arabic artwork: same sections and exact display geometry as English. */

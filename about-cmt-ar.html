@@ -315,16 +315,15 @@ html[dir="rtl"] .drop-cap::first-letter{float:right;padding:8px 0 0 8px}
 })();
 </script>
 
-<script id="luvva054-return-home-hardening">
+<script id="luvva055-return-home-fix">
 (function(){
   document.addEventListener('click',function(e){
     var a=e.target.closest&&e.target.closest('a[href^="index.html?luvva_story_return=1"]');
     if(!a) return;
-    try{
-      var u=new URL(a.getAttribute('href'),window.location.href);
-      u.hash='home';
-      a.setAttribute('href',u.pathname+u.search+u.hash);
-    }catch(_){}
+    e.preventDefault();
+    var owner=false;
+    try{ owner=sessionStorage.getItem('luvva_owner_website_bypass')==='1'; }catch(_){}
+    window.location.href=owner?'index.html?luvva_owner_bypass=1#home':'index.html#home';
   },true);
 })();
 </script>
