@@ -25,6 +25,7 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return sendJson(res, 405, {
       ok: false,
+      approved: false,
       message: 'Method not allowed.'
     });
   }
@@ -38,37 +39,56 @@ module.exports = async function handler(req, res) {
   if (!accountSid || !authToken || !verifyServiceSid) {
     return sendJson(res, 503, {
       ok: false,
+      approved: false,
       code: 'OTP_NOT_CONFIGURED',
       message: 'SMS verification is not configured.'
     });
   }
 
-  const { phone } = readBody(req);
-  const normalizedPhone = normalizePhone(phone);
+  const { phone, code } = readBody(req);
 
-  if (!/^\+[1-9]\d{7,14}$/.test(normalizedPhone)) {
+  const normalizedPhone = normalizePhone(phone);
+  const normalizedCode = String(code || '').replace(/\D/g, '');
+
+  if (
+    !/^\+[1-9]\d{7,14}$/.test(normalizedPhone) ||
+    !/^\d{4,10}$/.test(normalizedCode)
+  ) {
     return sendJson(res, 400, {
       ok: false,
-      message: 'Enter a valid international phone number.'
+      approved: false,
+      message: 'Invalid phone number or verification code.'
     });
   }
 
   try {
     const client = twilio(accountSid, authToken);
 
-    const verification = await client.verify.v2
+    const verificationCheck = await client.verify.v2
       .services(verifyServiceSid)
-      .verifications.create({
+      .verificationChecks.create({
         to: normalizedPhone,
-        channel: 'sms'
+        code: normalizedCode
       });
+
+    const approved = verificationCheck.status === 'approved';
+
+    if (!approved) {
+      return sendJson(res, 400, {
+        ok: false,
+        approved: false,
+        message: 'The verification code is incorrect or expired.'
+      });
+    }
 
     return sendJson(res, 200, {
       ok: true,
-      status: verification.status || 'pending'
+      approved: true,
+      phone: normalizedPhone,
+      message: 'Verified.'
     });
   } catch (error) {
-    console.error('LUVVA Twilio Verify SMS send error:', {
+    console.error('LUVVA Twilio Verify check error:', {
       status: error?.status || null,
       code: error?.code || null,
       message: error?.message || null
@@ -79,8 +99,9 @@ module.exports = async function handler(req, res) {
       error?.status >= 400 && error?.status < 600 ? error.status : 502,
       {
         ok: false,
-        code: 'TWILIO_SEND_FAILED',
-        message: 'Unable to send the SMS verification code right now.'
+        approved: false,
+        code: 'TWILIO_VERIFY_FAILED',
+        message: 'Unable to verify the SMS code right now.'
       }
     );
   }
