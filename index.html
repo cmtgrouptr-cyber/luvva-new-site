@@ -18,6 +18,8 @@ try{
     if(q.get('luvva_story_return')==='1' || sessionStorage.getItem('luvva_force_home_return')==='1'){
       sessionStorage.setItem('luvva_force_home_return','1');
       document.documentElement.classList.add('luvva-force-home');
+      /* Resolve Home before the first paint so no previously active section (e.g. Partnership) can flash. */
+      if(location.hash!=='#home') history.replaceState(null,'',location.pathname+location.search+'#home');
     }
   }catch(e){}
 })();
@@ -2834,10 +2836,11 @@ html[lang="en"] .investor-button{font-weight:650!important;}
 html[lang="en"] .cmt-button .cmt-latin-mark{margin-inline-start:.28em!important;}
 .main-nav a,a.cmt-button,.investor-button{position:relative!important;}
 .main-nav a::after,a.cmt-button::after,.investor-button::after{
-  content:""!important;position:absolute!important;left:12%!important;right:12%!important;bottom:-8px!important;height:2px!important;
+  content:""!important;position:absolute!important;z-index:9!important;left:14%!important;right:14%!important;bottom:-4px!important;height:1.5px!important;
   border-radius:999px!important;pointer-events:none!important;
-  background:linear-gradient(90deg,transparent 0%,#7b2934 15%,#c79a36 50%,#7b2934 85%,transparent 100%)!important;
-  box-shadow:0 1px 2px rgba(78,36,39,.28)!important;
+  /* Burgundy accent only; all original grey/silver shadows remain untouched. */
+  background:#7b2934!important;
+  box-shadow:0 1px 2px rgba(78,36,39,.34)!important;
 }
 </style>
 </head>

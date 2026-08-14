@@ -317,7 +317,14 @@
     if(!a)return;
     e.preventDefault();
     try{sessionStorage.setItem('luvva_force_home_return','1');sessionStorage.setItem('luvva_cmt_internal_return','1');}catch(_){}
-    window.location.replace('index.html?luvva_story_return=1#home');
+    var target='index.html?luvva_story_return=1#home';
+    try{
+      var current=new URL(window.location.href);
+      if(current.searchParams.get('luvva_owner_bypass')==='1' || sessionStorage.getItem('luvva_owner_website_bypass')==='1'){
+        target='index.html?luvva_story_return=1&luvva_owner_bypass=1#home';
+      }
+    }catch(_){}
+    window.location.replace(target);
   },true);
 })();
 </script>
