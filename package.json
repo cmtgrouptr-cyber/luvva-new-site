@@ -6,8 +6,11 @@
     "node": ">=20"
   },
   "dependencies": {
-    "qrcode": "^1.5.4",
-    "google-auth-library": "^10.3.0"
+
+  "qrcode": "^1.5.4",
+  "google-auth-library": "^10.3.0",
+  "twilio": "^5.7.2"
+},
   },
   "description": "LUVVA Secure Gateway V7.7.3 full Business Email OTP stabilization and domain typo correction"
 }
