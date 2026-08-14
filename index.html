@@ -4532,7 +4532,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
   if (contactForm) {
     loadContactDetails();
-    contactForm.addEventListener("submit", e => {
+    contactForm.addEventListener("submit", async e => {
       e.preventDefault();
       if (!contactForm.checkValidity()) {
         contactForm.reportValidity();
