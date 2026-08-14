@@ -11,21 +11,6 @@ try{
   }
 }catch(e){}
 </script>
-<script id="luvva056-force-home-early">
-(function(){
-  try{
-    var q=new URLSearchParams(location.search);
-    if(q.get('luvva_story_return')==='1' || sessionStorage.getItem('luvva_force_home_return')==='1'){
-      sessionStorage.setItem('luvva_force_home_return','1');
-      document.documentElement.classList.add('luvva-force-home');
-    }
-  }catch(e){}
-})();
-</script>
-<style id="luvva056-force-home-css">
-html.luvva-force-home #luvvaGatewayV3,html.luvva-force-home #luvvaV3Success,html.luvva-force-home #luvvaAuthBackdrop{display:none!important;visibility:hidden!important;opacity:0!important}
-html.luvva-force-home body.luvva-v3-locked>.site-header,html.luvva-force-home body.luvva-v3-locked>main,html.luvva-force-home body.luvva-v3-locked>footer{visibility:visible!important}
-</style>
 <style id="luvva-story-return-prepaint-style">
 html.luvva-story-return-prepaint #luvvaGatewayV3,
 html.luvva-story-return-prepaint #luvvaV3Success,
@@ -2826,18 +2811,17 @@ html[lang="ar"] .luvva-company-contact-list p > a{
 </style>
 
 
-<style id="luvva056-header-retouches">
-/* 056 — keep ALL existing button shadows exactly as they are; add only a thin luxury accent below them. */
+<style id="luvva055-header-retouches">
+/* 055 — requested retouches only. Existing silver/gray button shadows remain untouched. */
 html[lang="en"] .main-nav a,
 html[lang="en"] a.cmt-button,
 html[lang="en"] .investor-button{font-weight:650!important;}
 html[lang="en"] .cmt-button .cmt-latin-mark{margin-inline-start:.28em!important;}
 .main-nav a,a.cmt-button,.investor-button{position:relative!important;}
 .main-nav a::after,a.cmt-button::after,.investor-button::after{
-  content:""!important;position:absolute!important;left:12%!important;right:12%!important;bottom:-8px!important;height:2px!important;
-  border-radius:999px!important;pointer-events:none!important;
-  background:linear-gradient(90deg,transparent 0%,#7b2934 15%,#c79a36 50%,#7b2934 85%,transparent 100%)!important;
-  box-shadow:0 1px 2px rgba(78,36,39,.28)!important;
+  content:"";position:absolute;left:14%;right:14%;bottom:-7px;height:1px;border-radius:999px;
+  background:linear-gradient(90deg,transparent,rgba(211,157,48,.98),transparent);
+  box-shadow:0 1px 3px rgba(150,96,12,.28);pointer-events:none;
 }
 </style>
 </head>
@@ -3231,7 +3215,7 @@ html[lang="en"] .cmt-button .cmt-latin-mark{margin-inline-start:.28em!important;
 </div>
 <div class="about-cmt-content">
 <span class="eyebrow">
-          About CMT
+          About CMT Group
         </span>
 <h2>
           Technology with purpose. Innovation with a human spirit.
@@ -5197,7 +5181,7 @@ html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;
   document.addEventListener("click",function(e){
     const cmt=e.target.closest&&e.target.closest("a.cmt-button");
     if(!cmt) return;
-    try { sessionStorage.setItem('luvva_cmt_internal_return','1'); sessionStorage.setItem('luvva_force_home_return','1'); } catch (_) {}
+    try { sessionStorage.setItem('luvva_cmt_internal_return','1'); } catch (_) {}
     let ownerStoryBypass=false;
     try { ownerStoryBypass=sessionStorage.getItem('luvva_owner_website_bypass')==='1'; } catch (_) {}
     if(ownerStoryBypass){
@@ -5266,28 +5250,6 @@ html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;
 </script>
 
 
-
-<script id="luvva056-force-home-final">
-(function(){
-  function forceHome(){
-    var force=false;
-    try{force=sessionStorage.getItem('luvva_force_home_return')==='1' || new URLSearchParams(location.search).get('luvva_story_return')==='1';}catch(e){}
-    if(!force)return;
-    var g=document.getElementById('luvvaGatewayV3'),s=document.getElementById('luvvaV3Success'),b=document.getElementById('luvvaAuthBackdrop');
-    if(g){g.hidden=true;g.setAttribute('aria-hidden','true');g.classList.remove('is-revealing');}
-    if(s){s.classList.remove('show','is-leaving','is-opening','pulse-fading');s.setAttribute('aria-hidden','true');}
-    if(b){b.classList.remove('is-open');b.hidden=true;b.setAttribute('aria-hidden','true');}
-    document.body.classList.remove('luvva-v3-locked','luvva-page-revealing','luvva-page-visible');
-    document.body.style.removeProperty('overflow');document.documentElement.style.removeProperty('overflow');
-    document.documentElement.classList.remove('luvva-story-return-prepaint');
-    document.documentElement.classList.add('luvva-force-home');
-    try{history.replaceState(null,'',location.pathname+'#home');}catch(e){}
-    var home=document.getElementById('home'); if(home) home.scrollIntoView({block:'start'}); else window.scrollTo(0,0);
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',forceHome);else forceHome();
-  window.addEventListener('load',function(){forceHome();setTimeout(forceHome,60);setTimeout(forceHome,300);});
-})();
-</script>
 </body>
 </html>
 
