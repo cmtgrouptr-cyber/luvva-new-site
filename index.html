@@ -2839,10 +2839,40 @@ html[lang="en"] .cmt-button .cmt-latin-mark{margin-inline-start:.28em!important;
   content:""!important;position:absolute!important;z-index:9!important;left:14%!important;right:14%!important;bottom:-4px!important;height:1.5px!important;
   border-radius:999px!important;pointer-events:none!important;
   /* Burgundy accent only; all original grey/silver shadows remain untouched. */
-  background:#7b2934!important;
-  box-shadow:0 1px 2px rgba(78,36,39,.34)!important;
+  background:transparent!important;
+  box-shadow:none!important;
 }
 </style>
+
+<style id="luvva058-visible-burgundy-shadow-line">
+/* 058 — independent burgundy line BELOW the existing grey/silver shadows.
+   No existing button background, border or box-shadow is changed. */
+.luvva-shadow-accent-host{position:relative!important;overflow:visible!important;}
+.luvva-burgundy-shadow-line{
+  position:absolute!important;
+  left:16%!important;right:16%!important;
+  bottom:-9px!important;
+  height:2px!important;
+  border-radius:999px!important;
+  background:linear-gradient(90deg,transparent 0%,#641a29 14%,#8b2d3e 50%,#641a29 86%,transparent 100%)!important;
+  box-shadow:0 1px 2px rgba(61,12,24,.42)!important;
+  pointer-events:none!important;
+  z-index:50!important;
+}
+</style>
+<script id="luvva058-visible-burgundy-shadow-line-script">
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.main-nav a, a.cmt-button, .investor-button').forEach(function(el){
+    el.classList.add('luvva-shadow-accent-host');
+    if(!el.querySelector(':scope > .luvva-burgundy-shadow-line')){
+      var line=document.createElement('i');
+      line.className='luvva-burgundy-shadow-line';
+      line.setAttribute('aria-hidden','true');
+      el.appendChild(line);
+    }
+  });
+});
+</script>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
