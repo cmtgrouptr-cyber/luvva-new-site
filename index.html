@@ -5843,3 +5843,100 @@ html.luvva-view-partnership #investor-brief{display:none!important;}
   new MutationObserver(arrange).observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
 })();
 </script>
+
+<!-- 071: strict logical navigation order only; no image/content changes -->
+<style id="luvva071-strict-nav-order">
+@media (min-width:901px){
+  #siteHeader{display:flex!important;align-items:center!important;gap:0!important;}
+  #siteHeader .luvva-lang-logout-wrap{order:0!important;flex:0 0 auto!important;margin:0!important;}
+  #siteHeader #mainNav{order:1!important;flex:1 1 auto!important;display:flex!important;align-items:center!important;flex-wrap:nowrap!important;gap:8px!important;}
+  html[lang="en"] #siteHeader #mainNav{direction:ltr!important;margin-left:15mm!important;margin-right:0!important;}
+  html[lang="ar"] #siteHeader #mainNav{direction:rtl!important;margin-right:15mm!important;margin-left:0!important;}
+}
+</style>
+<script id="luvva071-strict-nav-order-script">
+(function(){
+ function arrange071(){
+  var h=document.getElementById('siteHeader'),nav=document.getElementById('mainNav'); if(!h||!nav)return;
+  var wrap=h.querySelector('.luvva-lang-logout-wrap'), logout=document.getElementById('luvvaSiteLogout'), lang=h.querySelector('.language-menu');
+  if(wrap&&logout&&lang){wrap.appendChild(logout);wrap.appendChild(lang);}
+  var story=h.querySelector('a.cmt-button'), world=h.querySelector('a.luvva-world-button');
+  if(story&&story.parentNode!==nav)nav.appendChild(story); if(world&&world.parentNode!==nav)nav.appendChild(world);
+  function q(sel){return nav.querySelector(sel)}
+  /* DOM sequence after language: Story, Home, Vision, Ecosystem, Who We Serve, Core Values, Partnership, Investor, LUVVA World, Contact. */
+  var seq=[story,q('a[href="#home"]'),q('a[href="#vision"]'),q('a[href="#ecosystem"]'),q('a[href="#human-centered"]'),q('a[href="#legacy"]'),q('a[href="#partnership"]'),q('a[href="#investor-brief"]'),world,q('a[href="#contact"]')].filter(Boolean);
+  seq.forEach(function(a){nav.appendChild(a)});
+  var ar=(document.documentElement.lang||'').toLowerCase().indexOf('ar')===0;
+  h.style.direction=ar?'rtl':'ltr'; nav.style.direction=ar?'rtl':'ltr';
+  if(wrap){wrap.style.direction=ar?'rtl':'ltr'; if(h.firstElementChild!==wrap)h.insertBefore(wrap,h.firstElementChild);}
+ }
+ document.addEventListener('DOMContentLoaded',function(){arrange071();setTimeout(arrange071,120);setTimeout(arrange071,600)});
+ window.addEventListener('load',arrange071);
+ document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('#languageOptions button'))setTimeout(arrange071,50)},true);
+ new MutationObserver(function(){setTimeout(arrange071,0)}).observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
+})();
+</script>
+
+<!-- 072: premium navigation icons — inline SVG only, no image assets -->
+<style id="luvva072-premium-nav-icons">
+@media (min-width:901px){
+  #siteHeader #mainNav>a,
+  #siteHeader .language-button,
+  #siteHeader .luvva-site-logout{
+    min-height:50px!important;
+  }
+  #siteHeader #mainNav>a{
+    display:inline-flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:2px!important;
+    line-height:1.05!important;
+    padding-top:5px!important;
+    padding-bottom:5px!important;
+  }
+  #siteHeader #mainNav>a .luvva-nav-icon{
+    width:17px!important;height:17px!important;display:block!important;flex:0 0 17px!important;
+    color:#8b5a18!important;filter:drop-shadow(0 1px 0 rgba(255,255,255,.95)) drop-shadow(0 1px 1px rgba(84,45,15,.18));
+  }
+  #siteHeader #mainNav>a .luvva-nav-icon svg{width:100%!important;height:100%!important;display:block!important;stroke:currentColor!important;fill:none!important;stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important;}
+  #siteHeader #mainNav>a .luvva-nav-label{display:block!important;white-space:nowrap!important;}
+  #siteHeader #mainNav>a.cmt-button .luvva-nav-icon{color:#7b1f32!important;}
+  #siteHeader #mainNav>a[href="#contact"] .luvva-nav-icon{color:#7b1f32!important;}
+}
+@media (max-width:900px){
+  #siteHeader #mainNav>a .luvva-nav-icon{width:16px;height:16px;display:inline-block;vertical-align:middle;margin-inline-end:7px;color:#8b5a18;}
+  #siteHeader #mainNav>a .luvva-nav-icon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+  #siteHeader #mainNav>a .luvva-nav-label{display:inline;}
+}
+</style>
+<script id="luvva072-premium-nav-icons-script">
+(function(){
+ var icons={
+  'cmt-button':'<svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M8 4v13a3 3 0 0 0 3 3"/><path d="M10 8h6M10 12h6"/></svg>',
+  '#home':'<svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-6h5v6"/></svg>',
+  '#vision':'<svg viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg>',
+  '#ecosystem':'<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="16" r="2"/><circle cx="19" cy="16" r="2"/><path d="M10.7 6.5 6.4 14M13.3 6.5l4.3 7.5M7 16h10"/></svg>',
+  '#human-centered':'<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3.5 19c.5-4 2.5-6 5.5-6s5 2 5.5 6M14 14c3.8-.5 6 1.3 6.5 5"/></svg>',
+  '#legacy':'<svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z"/></svg>',
+  '#partnership':'<svg viewBox="0 0 24 24"><path d="m8.5 8.5 3-3 3 3M3 10l4-4 4 4-4 4zM13 10l4-4 4 4-4 4z"/><path d="m8 13 3 3a2 2 0 0 0 3 0l2-2M6 14l4 4a2 2 0 0 0 3 0l1-1"/></svg>',
+  '#investor-brief':'<svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3"/><path d="M6 20v-3a6 6 0 0 1 12 0v3M9 13l3 3 3-3"/></svg>',
+  'luvva-world-button':'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>',
+  '#contact':'<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>'
+ };
+ function add(){
+  var nav=document.getElementById('mainNav'); if(!nav)return;
+  nav.querySelectorAll('a').forEach(function(a){
+   if(a.querySelector('.luvva-nav-icon'))return;
+   var key=a.classList.contains('cmt-button')?'cmt-button':a.classList.contains('luvva-world-button')?'luvva-world-button':(a.getAttribute('href')||'').toLowerCase();
+   var svg=icons[key]; if(!svg)return;
+   var old=a.innerHTML;
+   a.innerHTML='<span class="luvva-nav-icon" aria-hidden="true">'+svg+'</span><span class="luvva-nav-label">'+old+'</span>';
+  });
+ }
+ document.addEventListener('DOMContentLoaded',function(){add();setTimeout(add,150);setTimeout(add,650)});
+ window.addEventListener('load',add);
+ document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('#languageOptions button'))setTimeout(add,80)},true);
+ new MutationObserver(function(){setTimeout(add,0)}).observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
+})();
+</script>
