@@ -5863,8 +5863,8 @@ html.luvva-view-partnership #investor-brief{display:none!important;}
   var story=h.querySelector('a.cmt-button'), world=h.querySelector('a.luvva-world-button');
   if(story&&story.parentNode!==nav)nav.appendChild(story); if(world&&world.parentNode!==nav)nav.appendChild(world);
   function q(sel){return nav.querySelector(sel)}
-  /* DOM sequence after language: Story, Home, Vision, Ecosystem, Who We Serve, Core Values, Partnership, Investor, LUVVA World, Contact. */
-  var seq=[story,q('a[href="#home"]'),q('a[href="#vision"]'),q('a[href="#ecosystem"]'),q('a[href="#human-centered"]'),q('a[href="#legacy"]'),q('a[href="#partnership"]'),q('a[href="#investor-brief"]'),world,q('a[href="#contact"]')].filter(Boolean);
+  /* Final requested logical order. Arabic displays from the right; English displays from the left. Functions/links are unchanged. */
+  var seq=[q('a[href="#home"]'),q('a[href="#vision"]'),q('a[href="#ecosystem"]'),q('a[href="#human-centered"]'),q('a[href="#legacy"]'),q('a[href="#partnership"]'),q('a[href="#investor-brief"]'),world,story,q('a[href="#contact"]')].filter(Boolean);
   seq.forEach(function(a){nav.appendChild(a)});
   var ar=(document.documentElement.lang||'').toLowerCase().indexOf('ar')===0;
   h.style.direction=ar?'rtl':'ltr'; nav.style.direction=ar?'rtl':'ltr';
