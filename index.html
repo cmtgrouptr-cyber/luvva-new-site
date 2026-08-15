@@ -5470,6 +5470,111 @@ a.cmt-button::after{
 }
 </style>
 
+
+<style id="luvva068-luxury-nav-final">
+/* 068 FINAL NAV — premium layered keys, fixed visual order in both languages. */
+@media (min-width:901px){
+  #siteHeader{
+    display:flex!important;align-items:center!important;gap:12px!important;
+    padding:10px 18px 13px!important;box-sizing:border-box!important;
+  }
+  #siteHeader .luvva-lang-logout-wrap{order:0!important;flex:0 0 auto!important;position:static!important;margin:0 6px 0 0!important}
+  #siteHeader .main-nav{
+    order:1!important;flex:1 1 auto!important;display:flex!important;direction:ltr!important;
+    align-items:center!important;justify-content:space-between!important;gap:8px!important;
+    min-width:0!important;margin:0!important;padding:0!important;
+  }
+  #siteHeader .luvva-investor-stack{order:2!important;flex:0 0 auto!important;position:relative!important}
+
+  /* All main keys share the same sculpted ivory/grey/burgundy depth. */
+  #siteHeader .main-nav>a,
+  #siteHeader>a.cmt-button,
+  #siteHeader>a.luvva-world-button{
+    position:relative!important;inset:auto!important;transform:none!important;float:none!important;
+    display:inline-flex!important;align-items:center!important;justify-content:center!important;
+    flex:0 1 auto!important;min-width:78px!important;height:42px!important;padding:0 clamp(9px,.72vw,16px)!important;
+    margin:0!important;box-sizing:border-box!important;white-space:nowrap!important;text-decoration:none!important;
+    border:1px solid rgba(154,111,52,.62)!important;border-radius:15px 15px 11px 11px!important;
+    background:linear-gradient(180deg,#fffdf7 0%,#f8f1e3 38%,#ead9b9 73%,#d9c099 100%)!important;
+    color:#5f1d2c!important;font-size:clamp(10px,.72vw,12.5px)!important;font-weight:800!important;letter-spacing:.01em!important;
+    box-shadow:
+      0 3px 0 rgba(255,255,255,.98),
+      0 7px 0 rgba(181,184,187,.92),
+      0 10px 0 rgba(119,25,45,.92),
+      0 15px 20px rgba(54,38,32,.22),
+      inset 0 2px 0 rgba(255,255,255,1),
+      inset 0 -2px 0 rgba(139,91,38,.16)!important;
+    text-shadow:0 1px 0 rgba(255,255,255,.92)!important;
+    transition:transform .16s ease,box-shadow .16s ease!important;
+  }
+  #siteHeader .main-nav>a:hover,#siteHeader>a.cmt-button:hover,#siteHeader>a.luvva-world-button:hover{
+    transform:translateY(-2px)!important;
+    box-shadow:0 3px 0 #fff,0 8px 0 rgba(181,184,187,.94),0 12px 0 #7d1f34,0 18px 24px rgba(54,38,32,.26),inset 0 2px 0 #fff,inset 0 -2px 0 rgba(139,91,38,.18)!important;
+  }
+  /* Strong burgundy signature line beneath every navigation key, including language. */
+  #siteHeader .main-nav>a::after,#siteHeader>a.cmt-button::after,#siteHeader>a.luvva-world-button::after,.language-button::after{
+    content:""!important;position:absolute!important;left:18%!important;right:18%!important;bottom:-14px!important;height:3px!important;
+    border-radius:999px!important;background:linear-gradient(90deg,transparent 0%,#671526 13%,#9b3148 50%,#671526 87%,transparent 100%)!important;
+    box-shadow:0 1px 2px rgba(67,12,25,.5)!important;pointer-events:none!important;
+  }
+  .language-button{position:relative!important;overflow:visible!important}
+
+  /* Contact stays the compact far-left key. */
+  #siteHeader .main-nav>a[href="#contact"]{min-width:74px!important;max-width:92px!important;font-size:10px!important;padding:0 8px!important}
+  /* CMT Story is the premium far-right key. */
+  #siteHeader .main-nav>a.cmt-button{min-width:106px!important;box-shadow:0 3px 0 #fff,0 7px 0 #b7b9bc,0 11px 0 #741c31,0 17px 24px rgba(69,24,35,.28),inset 0 2px 0 #fff,inset 0 -2px 0 rgba(139,91,38,.18)!important}
+  #siteHeader .main-nav>a.cmt-button::after{height:4px!important;left:14%!important;right:14%!important}
+  #siteHeader .main-nav>a.luvva-world-button{min-width:104px!important}
+
+  html[lang="ar"] #siteHeader .main-nav>a{
+    font-family:"Tajawal","Segoe UI",Tahoma,Arial,sans-serif!important;font-size:clamp(11.5px,.82vw,14px)!important;font-weight:700!important;
+  }
+  html[lang="ar"] #siteHeader .main-nav>a[href="#contact"]{font-size:10.5px!important}
+  html[lang="ar"] #siteHeader .main-nav>a.cmt-button{font-size:13px!important}
+
+  /* Keep pitch deck comfortably away from both edges in both languages. */
+  #investor-brief .luvva-pitch-deck-media{left:auto!important;right:auto!important;transform:none!important;width:min(1000px,calc(100vw - 120px))!important;margin:28px auto 0!important}
+}
+@media(max-width:900px){
+  #siteHeader .main-nav>a.cmt-button,#siteHeader .main-nav>a.luvva-world-button{display:flex!important}
+  #investor-brief .luvva-pitch-deck-media{left:auto!important;right:auto!important;transform:none!important;width:calc(100vw - 30px)!important;margin:22px auto 0!important}
+}
+</style>
+<script id="luvva068-nav-order-and-labels">
+(function(){
+ function fixNav(){
+   var nav=document.getElementById('mainNav'); if(!nav)return;
+   var cmt=document.querySelector('a.cmt-button');
+   var world=document.querySelector('a.luvva-world-button');
+   var contact=nav.querySelector('a[href="#contact"]');
+   var investor=nav.querySelector('a.investor-button');
+   if(cmt && cmt.parentNode!==nav) nav.appendChild(cmt);
+   if(world && world.parentNode!==nav) nav.appendChild(world);
+   /* Exact visual order, left -> right: Contact ... Investor, LUVVA World ... Home, CMT Story. */
+   var wanted=[
+     contact,
+     nav.querySelector('a[href="#partnership"]'),
+     nav.querySelector('a[href="#legacy"]'),
+     nav.querySelector('a[href="#human-centered"]'),
+     nav.querySelector('a[href="#ecosystem"]'),
+     nav.querySelector('a[href="#vision"]'),
+     investor,
+     world,
+     nav.querySelector('a[href="#home"]'),
+     cmt
+   ];
+   wanted.forEach(function(el){if(el)nav.appendChild(el)});
+   var ar=document.documentElement.lang==='ar';
+   if(cmt)cmt.innerHTML=ar?'قصة <span class="cmt-latin-mark">CMT</span>':'CMT Story';
+   if(world)world.innerHTML=ar?'عالم <span class="cmt-latin-mark">LUVVA</span>':'LUVVA WORLD';
+ }
+ fixNav();
+ document.addEventListener('DOMContentLoaded',fixNav);
+ window.addEventListener('load',function(){fixNav();setTimeout(fixNav,100);setTimeout(fixNav,500)});
+ var mo=new MutationObserver(function(){fixNav()});
+ mo.observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
+})();
+</script>
 </body>
 
 <style id="luvva059-pitch-deck-natural-access">
@@ -5655,59 +5760,3 @@ html.luvva-view-partnership #investor-brief{display:none!important;}
   text-shadow: 0 0 8px rgba(22,131,216,.18);
 }
 </style>
-
-<style id="luvva067-final-key-refinement">
-/* 067 — final key refinement. No media/image changes. */
-@media (min-width:901px){
-  /* Arabic keys: slightly larger, still balanced in one clean row. */
-  html[lang="ar"] #siteHeader .main-nav{gap:clamp(6px,.72vw,13px)!important;}
-  html[lang="ar"] #siteHeader .main-nav>a{
-    min-height:42px!important;
-    padding-left:clamp(8px,.72vw,13px)!important;
-    padding-right:clamp(8px,.72vw,13px)!important;
-    font-size:clamp(11px,.82vw,14px)!important;
-  }
-  /* Contact remains intentionally smaller and slightly separated to the left. */
-  html[lang="ar"] #siteHeader .main-nav a[href="#contact"]{
-    min-height:38px!important;font-size:10.5px!important;
-    padding-left:7px!important;padding-right:7px!important;
-    transform:translateX(-7px)!important;
-  }
-  /* CMT Story / قصة CMT: same premium tactile key language as the main keys. */
-  #siteHeader a.cmt-button{
-    min-width:108px!important;height:42px!important;padding:0 15px!important;
-    border:1px solid rgba(166,119,50,.58)!important;
-    border-radius:11px!important;
-    background:linear-gradient(180deg,#fffaf0 0%,#f1e4ca 66%,#dcc39a 100%)!important;
-    color:#6f2636!important;
-    box-shadow:0 5px 0 rgba(177,181,187,.78),0 9px 15px rgba(66,58,50,.18),inset 0 1px 0 rgba(255,255,255,.96)!important;
-    font-size:11.5px!important;font-weight:700!important;
-  }
-  html[lang="ar"] #siteHeader a.cmt-button{font-size:12.5px!important;min-width:112px!important;}
-}
-/* Strong burgundy signature under CMT Story / قصة CMT. */
-#siteHeader a.cmt-button::after{
-  content:""!important;position:absolute!important;left:14%!important;right:14%!important;bottom:-10px!important;
-  height:2.5px!important;border-radius:999px!important;
-  background:linear-gradient(90deg,transparent 0%,#641a29 12%,#8f263d 50%,#641a29 88%,transparent 100%)!important;
-  box-shadow:0 1px 3px rgba(73,13,29,.52)!important;
-}
-/* Matching burgundy signature under the language key. */
-#siteHeader .language-button{position:relative!important;overflow:visible!important;}
-#siteHeader .language-button::after{
-  content:""!important;position:absolute!important;left:20%!important;right:20%!important;bottom:-9px!important;
-  height:2px!important;border-radius:999px!important;
-  background:linear-gradient(90deg,transparent 0%,#641a29 12%,#8f263d 50%,#641a29 88%,transparent 100%)!important;
-  box-shadow:0 1px 2px rgba(73,13,29,.42)!important;pointer-events:none!important;
-}
-</style>
-<script id="luvva067-cmt-story-label-lock">
-(function(){
- function lockStoryLabels(){
-   document.querySelectorAll('.cmt-story-en').forEach(function(n){n.textContent='CMT Story';});
-   document.querySelectorAll('.cmt-story-ar').forEach(function(n){n.innerHTML='قصة <span class="cmt-latin-mark">CMT</span>';});
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',lockStoryLabels);else lockStoryLabels();
- window.addEventListener('load',lockStoryLabels);
-})();
-</script>
