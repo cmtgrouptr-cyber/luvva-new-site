@@ -5373,6 +5373,53 @@ a.luvva-world-button::after{content:""!important;position:absolute!important;lef
 <script id="luvva064-world-placeholder">
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.luvva-world-button');if(a){e.preventDefault();}});
 </script>
+
+<style id="luvva065-header-pitch-final-polish">
+/* 065 — header geometry + CMT Story identity + Arabic pitch stage only. */
+@media (min-width:901px){
+  /* Keep the two auxiliary keys compact so HOME never gets displaced/overlapped. */
+  a.luvva-world-button,
+  a.cmt-button{
+    flex:0 0 auto!important;
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    min-width:0!important;
+    width:auto!important;
+    height:42px!important;
+    padding:0 15px!important;
+    margin:0 3px!important;
+    box-sizing:border-box!important;
+    white-space:nowrap!important;
+    border-radius:10px!important;
+    text-decoration:none!important;
+  }
+  a.luvva-world-button{max-width:118px!important;font-size:11px!important;}
+  a.cmt-button{max-width:112px!important;font-size:11px!important;}
+  .main-nav{gap:5px!important;flex:1 1 auto!important;justify-content:center!important;}
+  .main-nav a{padding-left:12px!important;padding-right:12px!important;white-space:nowrap!important;}
+  /* Contact is deliberately a little slimmer, especially in Arabic. */
+  html[lang="ar"] .main-nav a[href="#contact"]{padding-left:9px!important;padding-right:9px!important;font-size:.84em!important;}
+  html[lang="ar"] .main-nav a[href="#contact"] .luvva-burgundy-shadow-line{height:1px!important;left:22%!important;right:22%!important;bottom:-8px!important;}
+
+  /* Move ONLY the opened Arabic video stage to the right. The Play/Stop key is untouched. */
+  html[lang="ar"] #investor-brief .luvva-pitch-deck-media{
+    left:50%!important;
+    transform:translateX(calc(-50% + 110px))!important;
+  }
+}
+/* CMT Story / قصة CMT always carries the same thin burgundy signature line. */
+a.cmt-button{position:relative!important;overflow:visible!important;}
+a.cmt-button::after{
+  content:""!important;position:absolute!important;left:17%!important;right:17%!important;bottom:-9px!important;height:1.5px!important;
+  border-radius:999px!important;background:linear-gradient(90deg,transparent 0%,#641a29 14%,#8b2d3e 50%,#641a29 86%,transparent 100%)!important;
+  box-shadow:0 1px 2px rgba(61,12,24,.34)!important;pointer-events:none!important;z-index:55!important;
+}
+@media(max-width:900px){
+  html[lang="ar"] #investor-brief .luvva-pitch-deck-media{left:50%!important;transform:translateX(-50%)!important;}
+}
+</style>
+
 </body>
 
 <style id="luvva059-pitch-deck-natural-access">
