@@ -3163,7 +3163,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </div>
 </div>
 </div>
-<a class="cmt-button" href="about-cmt.html">About <span class="cmt-latin-mark">CMT</span></a>
+<a class="cmt-button" href="about-cmt.html"><span class="cmt-story-en">CMT STORY</span><span class="cmt-story-ar">قصة <span class="cmt-latin-mark">CMT</span></span></a>
 <button aria-controls="mainNav" aria-expanded="false" aria-label="Open menu" class="menu-toggle" id="menuToggle">
 <span></span><span></span><span></span>
 </button>
@@ -3242,7 +3242,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <article><span>03</span><div><h3>Toward a New Global Category</h3><p>The LUVVA Ecosystem is designed to move beyond a single product into a scalable, evolving ecosystem that connects technology with people’s needs and everyday lives.</p></div></article>
     </div>
     <div class="investor-note"><strong>Initial Strategic Information</strong><p>This page provides an initial view of the LUVVA Ecosystem and its strategic opportunity. Executive, technical, commercial, business-model, and project-specific information is shared at a later stage after mutual strategic interest has been established.</p></div>
-    <a class="investor-request" href="mailto:partnership@luvva.tech?subject=LUVVA%20Executive%20Brief%20Request">Request Access to the Executive Brief</a>
+    
   </div>
   <div class="investor-brief-copy investor-brief-ar" lang="ar" dir="rtl">
     <span class="investor-kicker">مقدمة استراتيجية</span>
@@ -3254,9 +3254,15 @@ document.addEventListener('DOMContentLoaded',function(){
       <article><span>03</span><div><h3>نحو فئة عالمية جديدة</h3><p>صُممت منظومة LUVVA لتتجاوز مفهوم المنتج المنفرد، نحو منظومة قابلة للنمو والتوسع، تربط التكنولوجيا باحتياجات الإنسان وحياته اليومية.</p></div></article>
     </div>
     <div class="investor-note"><strong>معلومات استراتيجية أولية</strong><p>هذه الصفحة مخصصة لتقديم نظرة أولية على منظومة LUVVA وفرصتها الاستراتيجية. أما المعلومات التنفيذية والتقنية والتجارية، ونموذج العمل والتفاصيل الخاصة بالمشروع، فتتم مشاركتها في مرحلة لاحقة بعد وجود اهتمام استراتيجي متبادل.</p></div>
-    <a class="investor-request" href="mailto:partnership@luvva.tech?subject=LUVVA%20Executive%20Brief%20Request">طلب الاطلاع على الملف التنفيذي</a>
+    
   </div>
+  <div class="investor-brief-visual-wrap">
   <div class="investor-brief-visual"><img src="investor-brief-cover.jpg" alt="LUVVA Executive Brief — CMT Group"></div>
+  <div class="investor-media-actions">
+    <a class="investor-request investor-request-en" lang="en" href="luvva-media/luvva-executive-brief.pdf" target="_blank" rel="noopener">Request Access to the Executive Brief</a>
+    <a class="investor-request investor-request-ar" lang="ar" dir="rtl" href="luvva-media/luvva-executive-brief.pdf" target="_blank" rel="noopener">طلب الاطلاع على الملف التنفيذي</a>
+  </div>
+</div>
 
   <div class="luvva-pitch-deck-entry" id="pitch-deck-entry">
     <button class="luvva-pitch-deck-key" id="luvvaPitchDeckKey" type="button" aria-expanded="false" aria-controls="luvvaPitchDeckMedia">
@@ -5388,6 +5394,22 @@ html[lang="ar"] #investor-brief .luvva-pitch-deck-key-en{display:none}
 html[lang="en"] #investor-brief .luvva-pitch-deck-key-ar{display:none}
 @media(max-width:560px){#investor-brief .luvva-pitch-deck-entry{margin-top:26px}#investor-brief .luvva-pitch-deck-key{width:100%}}
 </style>
+<style id="luvva061-investor-polish">
+/* 061 — investor controls aligned beneath cover, matching luxury nav key language. */
+#investor-brief .investor-brief-visual-wrap{grid-area:visual;justify-self:center;width:min(100%,430px);display:flex;flex-direction:column;align-items:center;gap:20px}
+#investor-brief .investor-brief-visual-wrap .investor-brief-visual{width:100%;grid-area:auto}
+#investor-brief .investor-media-actions{width:100%;display:flex;justify-content:center}
+#investor-brief .investor-request,#investor-brief .luvva-pitch-deck-key{position:relative;overflow:visible;min-height:54px;border-radius:16px;background:linear-gradient(180deg,#fbf6eb 0%,#efe2c7 64%,#ddc69e 100%);border:1px solid rgba(166,119,50,.58);color:#6f2636;font-weight:800;letter-spacing:.01em;box-shadow:0 8px 0 rgba(181,185,190,.82),0 13px 0 rgba(214,217,220,.82),0 18px 22px rgba(69,64,58,.20),inset 0 1px 0 rgba(255,255,255,.95)}
+#investor-brief .investor-request{margin:0;padding:11px 24px;text-align:center}
+#investor-brief .investor-request::after,#investor-brief .luvva-pitch-deck-key::after{content:"";position:absolute;left:16%;right:16%;bottom:-12px;height:2px;border-radius:999px;background:linear-gradient(90deg,transparent,#641a29 14%,#8b2d3e 50%,#641a29 86%,transparent);box-shadow:0 1px 2px rgba(61,12,24,.42);pointer-events:none}
+#investor-brief .luvva-pitch-deck-entry{grid-column:2;grid-row:1;margin-top:calc(690px + 98px);align-self:start;justify-self:center;width:min(100%,430px);text-align:center}
+html[lang="ar"] #investor-brief .luvva-pitch-deck-entry{grid-column:1}
+#investor-brief .luvva-pitch-deck-key{width:auto;min-width:210px;margin:0 auto}
+#investor-brief .luvva-pitch-deck-media{grid-column:1/-1}
+#investor-brief .investor-request-ar{display:none}html[lang="ar"] #investor-brief .investor-request-en{display:none}html[lang="ar"] #investor-brief .investor-request-ar{display:inline-flex}
+.cmt-story-ar{display:none}html[lang="ar"] .cmt-story-en{display:none}html[lang="ar"] .cmt-story-ar{display:inline}
+@media(max-width:900px){#investor-brief .luvva-pitch-deck-entry{grid-column:1;grid-row:auto;margin-top:0;width:min(82%,390px)}#investor-brief .investor-brief-visual-wrap{width:min(82%,390px)}#investor-brief .investor-request{width:100%}}
+</style>
 <script id="luvva059-pitch-deck-natural-controller">
 (function(){
   function initPitchDeck(){
@@ -5407,6 +5429,13 @@ html[lang="en"] #investor-brief .luvva-pitch-deck-key-ar{display:none}
       }else{
         video.pause();
       }
+    });
+    video.addEventListener('ended',function(){
+      video.pause();
+      try{video.currentTime=0;}catch(e){}
+      media.hidden=true;
+      key.setAttribute('aria-expanded','false');
+      setTimeout(function(){key.scrollIntoView({behavior:'smooth',block:'center'});key.focus({preventScroll:true});},80);
     });
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initPitchDeck);
