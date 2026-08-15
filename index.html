@@ -5940,3 +5940,50 @@ html.luvva-view-partnership #investor-brief{display:none!important;}
  new MutationObserver(function(){setTimeout(add,0)}).observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
 })();
 </script>
+
+<!-- 073: ACTUAL navigation reorder — ordering only; links/functions unchanged -->
+<style id="luvva073-actual-nav-order-only">
+@media (min-width:901px){
+  #siteHeader #mainNav{display:flex!important;align-items:center!important;flex-wrap:nowrap!important;}
+  html[lang="en"] #siteHeader #mainNav{direction:ltr!important;}
+  html[lang="ar"] #siteHeader #mainNav{direction:rtl!important;}
+}
+</style>
+<script id="luvva073-actual-nav-order-only-script">
+(function(){
+  function arrange073(){
+    var h=document.getElementById('siteHeader'), nav=document.getElementById('mainNav');
+    if(!h||!nav)return;
+    var story=h.querySelector('a.cmt-button');
+    var world=h.querySelector('a.luvva-world-button');
+    if(story&&story.parentNode!==nav) nav.appendChild(story);
+    if(world&&world.parentNode!==nav) nav.appendChild(world);
+    function q(sel){ return nav.querySelector(sel); }
+
+    /* Logical sequence requested. Arabic reads this sequence from RIGHT to LEFT;
+       English reads the same sequence from LEFT to RIGHT. No href/function changes. */
+    var seq=[
+      story,
+      q('a[href="#home"]'),
+      q('a[href="#vision"]'),
+      q('a[href="#ecosystem"]'),
+      q('a[href="#human-centered"]'),
+      q('a[href="#legacy"]'),
+      q('a[href="#partnership"]'),
+      q('a[href="#investor-brief"]'),
+      world,
+      q('a[href="#contact"]')
+    ].filter(Boolean);
+    seq.forEach(function(a){ nav.appendChild(a); });
+
+    var ar=(document.documentElement.lang||'').toLowerCase().indexOf('ar')===0;
+    nav.style.setProperty('direction', ar?'rtl':'ltr', 'important');
+  }
+  document.addEventListener('DOMContentLoaded',function(){arrange073();setTimeout(arrange073,100);setTimeout(arrange073,700);});
+  window.addEventListener('load',arrange073);
+  document.addEventListener('click',function(e){
+    if(e.target.closest&&e.target.closest('#languageOptions button')) setTimeout(arrange073,100);
+  },true);
+  new MutationObserver(function(){setTimeout(arrange073,0)}).observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
+})();
+</script>
