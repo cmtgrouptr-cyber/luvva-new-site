@@ -3262,12 +3262,11 @@ document.addEventListener('DOMContentLoaded',function(){
     <a class="investor-request investor-request-en" lang="en" href="executive-brief.html">Request Access to the Executive Brief</a>
     <a class="investor-request investor-request-ar" lang="ar" dir="rtl" href="executive-brief.html">طلب الاطلاع على الملف التنفيذي</a>
   </div>
-</div>
 
   <div class="luvva-pitch-deck-entry" id="pitch-deck-entry">
     <button class="luvva-pitch-deck-key" id="luvvaPitchDeckKey" type="button" aria-expanded="false" aria-controls="luvvaPitchDeckMedia">
-      <span class="luvva-pitch-deck-key-en" lang="en">Pitch Deck</span>
-      <span class="luvva-pitch-deck-key-ar" lang="ar">Pitch Deck</span>
+      <span class="luvva-pitch-deck-key-en" lang="en">Play Pitch Deck</span>
+      <span class="luvva-pitch-deck-key-ar" lang="ar">تشغيل العرض</span>
       <span class="luvva-pitch-deck-arrow" aria-hidden="true">↓</span>
     </button>
     <div class="luvva-pitch-deck-media" id="luvvaPitchDeckMedia" hidden>
@@ -3276,6 +3275,7 @@ document.addEventListener('DOMContentLoaded',function(){
       </video>
     </div>
   </div>
+</div>
 </section>
 <section class="about-cmt-section" id="about-cmt">
 <div class="about-cmt-logo">
@@ -5413,33 +5413,49 @@ html[lang="ar"] #investor-brief .luvva-pitch-deck-entry{grid-column:1}
 #about-cmt .eyebrow{position:relative;display:inline-block}
 #about-cmt .eyebrow::after{content:"";position:absolute;left:10%;right:10%;bottom:-8px;height:2px;border-radius:999px;background:linear-gradient(90deg,transparent,#641a29 14%,#8b2d3e 50%,#641a29 86%,transparent);box-shadow:0 1px 2px rgba(61,12,24,.32)}
 </style>
+<style id="luvva063-final-investor-controls">
+/* 063 — identical investor-control spacing in English and Arabic. */
+#investor-brief .investor-brief-visual-wrap{gap:20px!important}
+#investor-brief .luvva-pitch-deck-entry{grid-column:auto!important;grid-row:auto!important;margin:4px auto 0!important;width:100%!important;align-self:auto!important;justify-self:auto!important;text-align:center}
+#investor-brief .luvva-pitch-deck-media{width:min(92vw,1000px)!important;position:relative;left:50%;transform:translateX(-50%);margin-top:24px!important}
+#investor-brief .luvva-pitch-deck-key{min-width:210px}
+html[lang="ar"] #investor-brief .investor-brief-visual-wrap,html[lang="en"] #investor-brief .investor-brief-visual-wrap{gap:20px!important}
+</style>
 <script id="luvva059-pitch-deck-natural-controller">
 (function(){
   function initPitchDeck(){
     var key=document.getElementById('luvvaPitchDeckKey');
     var media=document.getElementById('luvvaPitchDeckMedia');
     var video=document.getElementById('luvvaPitchDeckVideo');
+    var en=key&&key.querySelector('.luvva-pitch-deck-key-en');
+    var ar=key&&key.querySelector('.luvva-pitch-deck-key-ar');
     if(!key||!media||!video||key.dataset.ready==='1') return;
     key.dataset.ready='1';
-    key.addEventListener('click',function(){
-      var opening=media.hidden;
-      media.hidden=!opening;
-      key.setAttribute('aria-expanded',opening?'true':'false');
-      if(opening){
-        requestAnimationFrame(function(){media.scrollIntoView({behavior:'smooth',block:'center'});});
-        var playPromise=video.play();
-        if(playPromise&&playPromise.catch) playPromise.catch(function(){});
-      }else{
-        video.pause();
-      }
-    });
-    video.addEventListener('ended',function(){
+    function setPlaying(on){
+      key.setAttribute('aria-expanded',on?'true':'false');
+      if(en) en.textContent=on?'Stop Pitch Deck':'Play Pitch Deck';
+      if(ar) ar.textContent=on?'إيقاف العرض':'تشغيل العرض';
+    }
+    function stopAndReset(scrollBack){
       video.pause();
       try{video.currentTime=0;}catch(e){}
       media.hidden=true;
-      key.setAttribute('aria-expanded','false');
-      setTimeout(function(){key.scrollIntoView({behavior:'smooth',block:'center'});key.focus({preventScroll:true});},80);
+      setPlaying(false);
+      if(scrollBack) setTimeout(function(){key.scrollIntoView({behavior:'smooth',block:'center'});key.focus({preventScroll:true});},80);
+    }
+    key.addEventListener('click',function(){
+      var opening=media.hidden;
+      if(opening){
+        media.hidden=false;
+        setPlaying(true);
+        requestAnimationFrame(function(){media.scrollIntoView({behavior:'smooth',block:'center'});});
+        var playPromise=video.play();
+        if(playPromise&&playPromise.catch) playPromise.catch(function(){setPlaying(false);});
+      }else{
+        stopAndReset(false);
+      }
     });
+    video.addEventListener('ended',function(){stopAndReset(true);});
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initPitchDeck);
   else initPitchDeck();
