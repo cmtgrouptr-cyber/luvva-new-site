@@ -5655,3 +5655,59 @@ html.luvva-view-partnership #investor-brief{display:none!important;}
   text-shadow: 0 0 8px rgba(22,131,216,.18);
 }
 </style>
+
+<style id="luvva067-final-key-refinement">
+/* 067 — final key refinement. No media/image changes. */
+@media (min-width:901px){
+  /* Arabic keys: slightly larger, still balanced in one clean row. */
+  html[lang="ar"] #siteHeader .main-nav{gap:clamp(6px,.72vw,13px)!important;}
+  html[lang="ar"] #siteHeader .main-nav>a{
+    min-height:42px!important;
+    padding-left:clamp(8px,.72vw,13px)!important;
+    padding-right:clamp(8px,.72vw,13px)!important;
+    font-size:clamp(11px,.82vw,14px)!important;
+  }
+  /* Contact remains intentionally smaller and slightly separated to the left. */
+  html[lang="ar"] #siteHeader .main-nav a[href="#contact"]{
+    min-height:38px!important;font-size:10.5px!important;
+    padding-left:7px!important;padding-right:7px!important;
+    transform:translateX(-7px)!important;
+  }
+  /* CMT Story / قصة CMT: same premium tactile key language as the main keys. */
+  #siteHeader a.cmt-button{
+    min-width:108px!important;height:42px!important;padding:0 15px!important;
+    border:1px solid rgba(166,119,50,.58)!important;
+    border-radius:11px!important;
+    background:linear-gradient(180deg,#fffaf0 0%,#f1e4ca 66%,#dcc39a 100%)!important;
+    color:#6f2636!important;
+    box-shadow:0 5px 0 rgba(177,181,187,.78),0 9px 15px rgba(66,58,50,.18),inset 0 1px 0 rgba(255,255,255,.96)!important;
+    font-size:11.5px!important;font-weight:700!important;
+  }
+  html[lang="ar"] #siteHeader a.cmt-button{font-size:12.5px!important;min-width:112px!important;}
+}
+/* Strong burgundy signature under CMT Story / قصة CMT. */
+#siteHeader a.cmt-button::after{
+  content:""!important;position:absolute!important;left:14%!important;right:14%!important;bottom:-10px!important;
+  height:2.5px!important;border-radius:999px!important;
+  background:linear-gradient(90deg,transparent 0%,#641a29 12%,#8f263d 50%,#641a29 88%,transparent 100%)!important;
+  box-shadow:0 1px 3px rgba(73,13,29,.52)!important;
+}
+/* Matching burgundy signature under the language key. */
+#siteHeader .language-button{position:relative!important;overflow:visible!important;}
+#siteHeader .language-button::after{
+  content:""!important;position:absolute!important;left:20%!important;right:20%!important;bottom:-9px!important;
+  height:2px!important;border-radius:999px!important;
+  background:linear-gradient(90deg,transparent 0%,#641a29 12%,#8f263d 50%,#641a29 88%,transparent 100%)!important;
+  box-shadow:0 1px 2px rgba(73,13,29,.42)!important;pointer-events:none!important;
+}
+</style>
+<script id="luvva067-cmt-story-label-lock">
+(function(){
+ function lockStoryLabels(){
+   document.querySelectorAll('.cmt-story-en').forEach(function(n){n.textContent='CMT Story';});
+   document.querySelectorAll('.cmt-story-ar').forEach(function(n){n.innerHTML='قصة <span class="cmt-latin-mark">CMT</span>';});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',lockStoryLabels);else lockStoryLabels();
+ window.addEventListener('load',lockStoryLabels);
+})();
+</script>
