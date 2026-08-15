@@ -3163,7 +3163,8 @@ document.addEventListener('DOMContentLoaded',function(){
 </div>
 </div>
 </div>
-<a class="cmt-button" href="about-cmt.html"><span class="cmt-story-en">CMT STORY</span><span class="cmt-story-ar">قصة <span class="cmt-latin-mark">CMT</span></span></a>
+<a class="luvva-world-button" href="#" aria-disabled="true" title="Coming soon"><span class="luvva-world-en">LUVVA WORLD</span><span class="luvva-world-ar">عالم <span class="cmt-latin-mark">LUVVA</span></span></a>
+<a class="cmt-button" href="about-cmt.html"><span class="cmt-story-en">CMT Story</span><span class="cmt-story-ar">قصة <span class="cmt-latin-mark">CMT</span></span></a>
 <button aria-controls="mainNav" aria-expanded="false" aria-label="Open menu" class="menu-toggle" id="menuToggle">
 <span></span><span></span><span></span>
 </button>
@@ -5355,6 +5356,22 @@ html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',forceHome);else forceHome();
   window.addEventListener('load',function(){forceHome();setTimeout(forceHome,60);setTimeout(forceHome,300);});
 })();
+</script>
+
+<style id="luvva064-header-world-and-ar-pitch-alignment">
+/* 064 — polished header keys + Arabic pitch video alignment only. */
+a.luvva-world-button{position:relative!important;overflow:visible!important;white-space:nowrap!important;text-decoration:none!important;cursor:default}
+html[lang="ar"] .luvva-world-en{display:none!important}
+html[lang="en"] .luvva-world-ar{display:none!important}
+html[lang="ar"] a.luvva-world-button{font-family:Tahoma,Arial,sans-serif!important;font-size:.90em!important;font-weight:600!important;letter-spacing:0!important}
+html[lang="en"] a.luvva-world-button{width:max-content!important;min-width:0!important;max-width:none!important;padding-left:18px!important;padding-right:18px!important;box-sizing:border-box!important;white-space:nowrap!important;font-weight:650!important}
+a.luvva-world-button::after{content:""!important;position:absolute!important;left:16%!important;right:16%!important;bottom:-9px!important;height:2px!important;border-radius:999px!important;background:linear-gradient(90deg,transparent 0%,#641a29 14%,#8b2d3e 50%,#641a29 86%,transparent 100%)!important;box-shadow:0 1px 2px rgba(61,12,24,.42)!important;pointer-events:none!important;z-index:50!important}
+/* Shift only the OPEN Arabic pitch-deck video stage to the right; key remains untouched. */
+@media(min-width:901px){html[lang="ar"] #investor-brief .luvva-pitch-deck-media{transform:translateX(calc(-50% + 64px))!important}}
+@media(max-width:900px){html[lang="ar"] #investor-brief .luvva-pitch-deck-media{transform:translateX(-50%)!important}}
+</style>
+<script id="luvva064-world-placeholder">
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.luvva-world-button');if(a){e.preventDefault();}});
 </script>
 </body>
 
