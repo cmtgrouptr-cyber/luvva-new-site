@@ -3257,6 +3257,19 @@ document.addEventListener('DOMContentLoaded',function(){
     <a class="investor-request" href="mailto:partnership@luvva.tech?subject=LUVVA%20Executive%20Brief%20Request">طلب الاطلاع على الملف التنفيذي</a>
   </div>
   <div class="investor-brief-visual"><img src="investor-brief-cover.jpg" alt="LUVVA Executive Brief — CMT Group"></div>
+
+  <div class="luvva-pitch-deck-entry" id="pitch-deck-entry">
+    <button class="luvva-pitch-deck-key" id="luvvaPitchDeckKey" type="button" aria-expanded="false" aria-controls="luvvaPitchDeckMedia">
+      <span class="luvva-pitch-deck-key-en" lang="en">Pitch Deck</span>
+      <span class="luvva-pitch-deck-key-ar" lang="ar">Pitch Deck</span>
+      <span class="luvva-pitch-deck-arrow" aria-hidden="true">↓</span>
+    </button>
+    <div class="luvva-pitch-deck-media" id="luvvaPitchDeckMedia" hidden>
+      <video id="luvvaPitchDeckVideo" controls playsinline preload="metadata" poster="investor-brief-cover.jpg">
+        <source src="luvva-media/luvva-pitch-deck.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
 </section>
 <section class="about-cmt-section" id="about-cmt">
 <div class="about-cmt-logo">
@@ -5338,6 +5351,68 @@ html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;
 })();
 </script>
 </body>
+
+<style id="luvva059-pitch-deck-natural-access">
+/* 059 Pitch Deck — phase 1: visible key + down arrow + unrestricted natural playback. */
+#investor-brief .luvva-pitch-deck-entry{
+  grid-column:1/-1;
+  width:min(100%,1080px);
+  margin:34px auto 0;
+  text-align:center;
+}
+#investor-brief .luvva-pitch-deck-key{
+  appearance:none;
+  border:1px solid #9d6a25;
+  border-radius:13px;
+  min-width:190px;
+  min-height:50px;
+  padding:10px 24px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  cursor:pointer;
+  background:linear-gradient(180deg,#f2d99d,#d3a052 54%,#bd8132);
+  color:#4a301a;
+  font:inherit;
+  font-weight:800;
+  box-shadow:0 7px 15px rgba(91,58,24,.18),inset 0 1px 0 rgba(255,255,255,.76);
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+#investor-brief .luvva-pitch-deck-key:hover{transform:translateY(-1px);box-shadow:0 9px 18px rgba(91,58,24,.22),inset 0 1px 0 rgba(255,255,255,.8)}
+#investor-brief .luvva-pitch-deck-arrow{font-size:1.35em;line-height:1;transition:transform .25s ease}
+#investor-brief .luvva-pitch-deck-key[aria-expanded="true"] .luvva-pitch-deck-arrow{transform:rotate(180deg)}
+#investor-brief .luvva-pitch-deck-media{margin:24px auto 0;width:min(100%,1000px)}
+#investor-brief .luvva-pitch-deck-media video{display:block;width:100%;height:auto;max-height:78vh;background:#000;border-radius:14px;box-shadow:0 16px 38px rgba(62,39,18,.22)}
+html[lang="ar"] #investor-brief .luvva-pitch-deck-key-en{display:none}
+html[lang="en"] #investor-brief .luvva-pitch-deck-key-ar{display:none}
+@media(max-width:560px){#investor-brief .luvva-pitch-deck-entry{margin-top:26px}#investor-brief .luvva-pitch-deck-key{width:100%}}
+</style>
+<script id="luvva059-pitch-deck-natural-controller">
+(function(){
+  function initPitchDeck(){
+    var key=document.getElementById('luvvaPitchDeckKey');
+    var media=document.getElementById('luvvaPitchDeckMedia');
+    var video=document.getElementById('luvvaPitchDeckVideo');
+    if(!key||!media||!video||key.dataset.ready==='1') return;
+    key.dataset.ready='1';
+    key.addEventListener('click',function(){
+      var opening=media.hidden;
+      media.hidden=!opening;
+      key.setAttribute('aria-expanded',opening?'true':'false');
+      if(opening){
+        requestAnimationFrame(function(){media.scrollIntoView({behavior:'smooth',block:'center'});});
+        var playPromise=video.play();
+        if(playPromise&&playPromise.catch) playPromise.catch(function(){});
+      }else{
+        video.pause();
+      }
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initPitchDeck);
+  else initPitchDeck();
+})();
+</script>
 </html>
 
 <style id="luvva105-business-continue-position-final-fix">
