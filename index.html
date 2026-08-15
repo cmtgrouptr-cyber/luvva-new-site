@@ -5575,6 +5575,45 @@ a.cmt-button::after{
  mo.observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
 })();
 </script>
+
+<style id="luvva073-nav-order-fit-fix">
+/* 073 — definitive nav fix: Arabic mirrors English logically; labels stay inside keys. */
+@media (min-width:901px){
+  #siteHeader .main-nav{direction:ltr!important;gap:6px!important;justify-content:space-between!important;}
+  #siteHeader .main-nav>a{
+    flex:1 1 0!important;min-width:0!important;max-width:none!important;
+    padding:0 6px!important;font-size:clamp(8.5px,.67vw,11px)!important;
+    line-height:1.05!important;text-align:center!important;white-space:normal!important;
+    overflow-wrap:normal!important;word-break:normal!important;hyphens:none!important;
+  }
+  html[lang="en"] #siteHeader .main-nav>a{font-size:clamp(8.2px,.64vw,10.5px)!important;}
+  html[lang="ar"] #siteHeader .main-nav>a{font-size:clamp(10px,.72vw,12.5px)!important;white-space:normal!important;}
+  #siteHeader .main-nav>a.cmt-button,#siteHeader .main-nav>a.luvva-world-button{flex:1.08 1 0!important;min-width:0!important;}
+  #siteHeader .main-nav>a[href="#contact"]{min-width:0!important;max-width:none!important;padding:0 5px!important;}
+}
+</style>
+<script id="luvva073-definitive-nav-order">
+(function(){
+ function arrange(){
+  var nav=document.getElementById('mainNav'); if(!nav)return;
+  var get=function(sel){return nav.querySelector(sel)||document.querySelector(sel)};
+  var cmt=get('a.cmt-button'), home=get('a[href="#home"]'), vision=get('a[href="#vision"]'), eco=get('a[href="#ecosystem"]'),
+      serve=get('a[href="#human-centered"]'), core=get('a[href="#legacy"]'), partner=get('a[href="#partnership"]'),
+      investor=get('a.investor-button'), world=get('a.luvva-world-button'), contact=get('a[href="#contact"]');
+  [cmt,world].forEach(function(el){if(el&&el.parentNode!==nav)nav.appendChild(el)});
+  var logical=[cmt,home,vision,eco,serve,core,partner,investor,world,contact].filter(Boolean);
+  var ar=(document.documentElement.lang||'').toLowerCase().startsWith('ar');
+  var domOrder=ar?logical.slice().reverse():logical;
+  domOrder.forEach(function(el){nav.appendChild(el)});
+  if(cmt)cmt.innerHTML=ar?'قصة <span class="cmt-latin-mark">CMT</span>':'CMT STORY';
+  if(world)world.innerHTML=ar?'عالم <span class="cmt-latin-mark">LUVVA</span>':'LUVVA WORLD';
+ }
+ function run(){arrange();setTimeout(arrange,30);}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
+ window.addEventListener('load',run);
+ new MutationObserver(run).observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
+})();
+</script>
 </body>
 
 <style id="luvva059-pitch-deck-natural-access">
@@ -5987,3 +6026,36 @@ html.luvva-view-partnership #investor-brief{display:none!important;}
   new MutationObserver(function(){setTimeout(arrange073,0)}).observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
 })();
 </script>
+
+<style id="luvva075-english-key-label-fit-only">
+/* 075 — ENGLISH ONLY: keep every navigation label centered and contained inside its key. */
+@media (min-width:901px){
+  html[lang="en"] #siteHeader .main-nav{gap:7px!important;}
+  html[lang="en"] #siteHeader .main-nav>a{
+    box-sizing:border-box!important;
+    min-width:0!important;
+    max-width:none!important;
+    padding-left:4px!important;
+    padding-right:4px!important;
+    font-size:clamp(7.6px,.56vw,9.6px)!important;
+    line-height:1.02!important;
+    letter-spacing:-.02em!important;
+    white-space:normal!important;
+    overflow-wrap:normal!important;
+    word-break:keep-all!important;
+    text-align:center!important;
+  }
+  html[lang="en"] #siteHeader .main-nav>a[href="#human-centered"],
+  html[lang="en"] #siteHeader .main-nav>a[href="#legacy"],
+  html[lang="en"] #siteHeader .main-nav>a[href="#partnership"],
+  html[lang="en"] #siteHeader .main-nav>a.investor-button{
+    font-size:clamp(7.2px,.52vw,9px)!important;
+    padding-left:3px!important;
+    padding-right:3px!important;
+  }
+  html[lang="en"] #siteHeader .main-nav>a.cmt-button,
+  html[lang="en"] #siteHeader .main-nav>a.luvva-world-button{
+    font-size:clamp(7.8px,.57vw,9.7px)!important;
+  }
+}
+</style>
