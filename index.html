@@ -5760,3 +5760,86 @@ html.luvva-view-partnership #investor-brief{display:none!important;}
   text-shadow: 0 0 8px rgba(22,131,216,.18);
 }
 </style>
+
+<style id="luvva069-language-fixed-nav-clearance">
+/* 069 — keep the language control anchored; move the complete navigation group away from it by ~1.5 cm in both LTR and RTL. */
+@media (min-width:901px){
+  #siteHeader .luvva-lang-logout-wrap{
+    flex:0 0 auto!important;
+    transform:none!important;
+    position:relative!important;
+    inset:auto!important;
+    margin-inline-end:15mm!important;
+  }
+  #siteHeader .main-nav{
+    margin:0!important;
+    min-width:0!important;
+  }
+}
+</style>
+
+<style id="luvva070-final-nav-logic-glow">
+/* 070 — final logical navigation order + premium illuminated key treatment. */
+@media (min-width:901px){
+  #siteHeader{display:flex!important;align-items:center!important;gap:0!important;}
+  #siteHeader .luvva-lang-logout-wrap{margin:0!important;display:flex!important;align-items:center!important;gap:7px!important;flex:0 0 auto!important;}
+  #siteHeader .main-nav{display:flex!important;align-items:center!important;flex-wrap:nowrap!important;gap:8px!important;margin:0!important;}
+  html[lang="en"] #siteHeader .main-nav{margin-left:15mm!important;}
+  html[lang="ar"] #siteHeader .main-nav{margin-right:15mm!important;}
+}
+/* Premium light: keep the existing ivory/gray/burgundy depth, add a restrained luminous core. */
+#siteHeader .main-nav a,
+#siteHeader .cmt-button,
+#siteHeader .luvva-world-button,
+#siteHeader .language-button{
+  overflow:visible!important;
+  box-shadow:
+    0 2px 0 rgba(255,255,255,.98),
+    0 5px 0 rgba(190,190,188,.78),
+    0 9px 12px rgba(55,42,37,.24),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(126,87,62,.18)!important;
+}
+#siteHeader .main-nav a::after,
+#siteHeader .cmt-button::after,
+#siteHeader .luvva-world-button::after,
+#siteHeader .language-button::after{
+  content:""!important;
+  position:absolute!important;
+  left:18%!important;right:18%!important;bottom:-10px!important;
+  height:4px!important;border-radius:999px!important;
+  background:linear-gradient(90deg,rgba(104,16,34,.35),#7d142b 24%,#ff354e 50%,#7d142b 76%,rgba(104,16,34,.35))!important;
+  box-shadow:0 0 5px rgba(125,20,43,.72),0 0 11px rgba(255,53,78,.34)!important;
+  opacity:.96!important;pointer-events:none!important;
+}
+#siteHeader .main-nav a:hover::after,
+#siteHeader .cmt-button:hover::after,
+#siteHeader .luvva-world-button:hover::after,
+#siteHeader .language-button:hover::after{
+  box-shadow:0 0 7px rgba(125,20,43,.9),0 0 15px rgba(255,53,78,.52)!important;
+}
+</style>
+<script id="luvva070-final-nav-order">
+(function(){
+  function arrange(){
+    var h=document.getElementById('siteHeader'), nav=document.getElementById('mainNav');
+    if(!h||!nav)return;
+    var wrap=h.querySelector('.luvva-lang-logout-wrap');
+    var logout=document.getElementById('luvvaSiteLogout');
+    var lang=h.querySelector('.language-menu');
+    var story=h.querySelector('.cmt-button');
+    var world=h.querySelector('.luvva-world-button');
+    if(wrap&&logout&&lang){ wrap.append(logout,lang); }
+    var links={}; nav.querySelectorAll('a').forEach(function(a){links[(a.getAttribute('href')||'').toLowerCase()]=a;});
+    var seq=[story,links['#home'],links['#vision'],links['#ecosystem'],links['#human-centered'],links['#legacy'],links['#partnership'],links['#investor-brief'],world,links['#contact']].filter(Boolean);
+    seq.forEach(function(x){nav.appendChild(x)});
+    /* DOM order is logical. English reads left→right; Arabic mirrors right→left. */
+    var ar=(document.documentElement.lang||'').toLowerCase().startsWith('ar');
+    h.style.direction=ar?'rtl':'ltr'; nav.style.direction=ar?'rtl':'ltr'; wrap.style.direction=ar?'rtl':'ltr';
+    if(wrap.parentNode===h && h.firstElementChild!==wrap) h.insertBefore(wrap,h.firstElementChild);
+  }
+  document.addEventListener('DOMContentLoaded',function(){arrange();setTimeout(arrange,80)});
+  document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('#languageOptions button'))setTimeout(arrange,30)},true);
+  new MutationObserver(arrange).observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
+})();
+</script>
