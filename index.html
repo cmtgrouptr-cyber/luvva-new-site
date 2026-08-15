@@ -5420,6 +5420,56 @@ a.cmt-button::after{
 }
 </style>
 
+
+<style id="luvva066-final-header-and-pitch">
+/* 066 FINAL: desktop header is one deliberate grid; no overlapping absolute menu keys. */
+@media (min-width:901px){
+  #siteHeader{
+    display:grid!important;
+    grid-template-columns:auto auto minmax(0,1fr) auto auto!important;
+    grid-template-areas:"auth world nav cmt investor"!important;
+    align-items:center!important;
+    column-gap:10px!important;
+    padding-left:18px!important;padding-right:18px!important;
+    box-sizing:border-box!important;
+  }
+  #siteHeader .luvva-lang-logout-wrap{grid-area:auth!important;position:static!important;inset:auto!important;margin:0!important;}
+  #siteHeader .luvva-world-button{grid-area:world!important;}
+  #siteHeader .main-nav{grid-area:nav!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:clamp(5px,.62vw,12px)!important;min-width:0!important;margin:0!important;padding:0!important;}
+  #siteHeader .cmt-button{grid-area:cmt!important;}
+  #siteHeader .luvva-investor-stack{grid-area:investor!important;}
+  #siteHeader .main-nav>a{font-size:clamp(10px,.72vw,13px)!important;padding:0 clamp(5px,.58vw,10px)!important;white-space:nowrap!important;}
+  #siteHeader a.luvva-world-button,#siteHeader a.cmt-button{
+    position:relative!important;inset:auto!important;transform:none!important;float:none!important;
+    display:inline-flex!important;align-items:center!important;justify-content:center!important;
+    width:auto!important;max-width:none!important;min-width:92px!important;height:38px!important;
+    padding:0 12px!important;margin:0!important;box-sizing:border-box!important;white-space:nowrap!important;
+    border:1px solid rgba(166,119,50,.48)!important;border-radius:10px!important;
+    background:linear-gradient(180deg,#fbf6eb 0%,#efe2c7 68%,#ddc69e 100%)!important;
+    color:#6f2636!important;text-decoration:none!important;font-size:10.5px!important;font-weight:700!important;
+    box-shadow:0 4px 0 rgba(181,185,190,.72),0 8px 13px rgba(69,64,58,.14),inset 0 1px 0 rgba(255,255,255,.92)!important;
+  }
+  #siteHeader a.luvva-world-button::after,#siteHeader a.cmt-button::after{bottom:-8px!important;height:1.5px!important;left:18%!important;right:18%!important;}
+  html[lang="ar"] #siteHeader .main-nav{direction:rtl!important;}
+  html[lang="ar"] #siteHeader .main-nav>a,html[lang="ar"] #siteHeader a.cmt-button,html[lang="ar"] #siteHeader a.luvva-world-button{
+    font-family:"Tajawal","Segoe UI",Tahoma,Arial,sans-serif!important;font-weight:600!important;letter-spacing:0!important;
+  }
+  html[lang="ar"] #siteHeader .main-nav>a{font-size:clamp(10.5px,.75vw,13px)!important;}
+  /* Contact: deliberately smaller and slightly left, without colliding with adjacent keys. */
+  html[lang="ar"] #siteHeader .main-nav a[href="#contact"]{font-size:10px!important;padding-left:4px!important;padding-right:4px!important;transform:translateX(-5px)!important;}
+  html[lang="en"] #siteHeader .main-nav a[href="#contact"]{font-size:10px!important;padding-left:5px!important;padding-right:5px!important;}
+  /* Pitch media: centered inside safe side gutters in BOTH languages. */
+  #investor-brief .luvva-pitch-deck-media{
+    position:relative!important;left:auto!important;right:auto!important;transform:none!important;
+    width:min(1040px,calc(100vw - 96px))!important;max-width:1040px!important;margin:26px auto 0!important;box-sizing:border-box!important;
+  }
+  #investor-brief .luvva-pitch-deck-media video{width:100%!important;max-width:100%!important;margin:0 auto!important;}
+}
+@media (max-width:900px){
+ #investor-brief .luvva-pitch-deck-media{left:auto!important;right:auto!important;transform:none!important;width:calc(100vw - 28px)!important;margin:22px auto 0!important;}
+}
+</style>
+
 </body>
 
 <style id="luvva059-pitch-deck-natural-access">
