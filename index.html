@@ -3259,8 +3259,8 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="investor-brief-visual-wrap">
   <div class="investor-brief-visual"><img src="investor-brief-cover.jpg" alt="LUVVA Executive Brief — CMT Group"></div>
   <div class="investor-media-actions">
-    <a class="investor-request investor-request-en" lang="en" href="luvva-media/luvva-executive-brief.pdf" target="_blank" rel="noopener">Request Access to the Executive Brief</a>
-    <a class="investor-request investor-request-ar" lang="ar" dir="rtl" href="luvva-media/luvva-executive-brief.pdf" target="_blank" rel="noopener">طلب الاطلاع على الملف التنفيذي</a>
+    <a class="investor-request investor-request-en" lang="en" href="executive-brief.html">Request Access to the Executive Brief</a>
+    <a class="investor-request investor-request-ar" lang="ar" dir="rtl" href="executive-brief.html">طلب الاطلاع على الملف التنفيذي</a>
   </div>
 </div>
 
@@ -3283,7 +3283,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </div>
 <div class="about-cmt-content">
 <span class="eyebrow">
-          About CMT
+          CMT Story
         </span>
 <h2>
           Technology with purpose. Innovation with a human spirit.
@@ -5208,7 +5208,7 @@ html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;
     "WeChat":"وي تشات",
     "Contact":"تواصل معنا",
     "Investor Brief":"ملف المستثمر",
-    "About CMT":"عن CMT",
+    "CMT Story":"قصة CMT",
     "Logout":"تسجيل الخروج"
   };
   const EN = Object.fromEntries(Object.entries(AR).map(([en,ar])=>[ar,en]));
@@ -5402,13 +5402,16 @@ html[lang="en"] #investor-brief .luvva-pitch-deck-key-ar{display:none}
 #investor-brief .investor-request,#investor-brief .luvva-pitch-deck-key{position:relative;overflow:visible;min-height:54px;border-radius:16px;background:linear-gradient(180deg,#fbf6eb 0%,#efe2c7 64%,#ddc69e 100%);border:1px solid rgba(166,119,50,.58);color:#6f2636;font-weight:800;letter-spacing:.01em;box-shadow:0 8px 0 rgba(181,185,190,.82),0 13px 0 rgba(214,217,220,.82),0 18px 22px rgba(69,64,58,.20),inset 0 1px 0 rgba(255,255,255,.95)}
 #investor-brief .investor-request{margin:0;padding:11px 24px;text-align:center}
 #investor-brief .investor-request::after,#investor-brief .luvva-pitch-deck-key::after{content:"";position:absolute;left:16%;right:16%;bottom:-12px;height:2px;border-radius:999px;background:linear-gradient(90deg,transparent,#641a29 14%,#8b2d3e 50%,#641a29 86%,transparent);box-shadow:0 1px 2px rgba(61,12,24,.42);pointer-events:none}
-#investor-brief .luvva-pitch-deck-entry{grid-column:2;grid-row:1;margin-top:calc(690px + 98px);align-self:start;justify-self:center;width:min(100%,430px);text-align:center}
+#investor-brief .luvva-pitch-deck-entry{grid-column:2;grid-row:1;margin-top:calc(690px + 88px);align-self:start;justify-self:center;width:min(100%,430px);text-align:center}
 html[lang="ar"] #investor-brief .luvva-pitch-deck-entry{grid-column:1}
 #investor-brief .luvva-pitch-deck-key{width:auto;min-width:210px;margin:0 auto}
 #investor-brief .luvva-pitch-deck-media{grid-column:1/-1}
 #investor-brief .investor-request-ar{display:none}html[lang="ar"] #investor-brief .investor-request-en{display:none}html[lang="ar"] #investor-brief .investor-request-ar{display:inline-flex}
 .cmt-story-ar{display:none}html[lang="ar"] .cmt-story-en{display:none}html[lang="ar"] .cmt-story-ar{display:inline}
 @media(max-width:900px){#investor-brief .luvva-pitch-deck-entry{grid-column:1;grid-row:auto;margin-top:0;width:min(82%,390px)}#investor-brief .investor-brief-visual-wrap{width:min(82%,390px)}#investor-brief .investor-request{width:100%}}
+
+#about-cmt .eyebrow{position:relative;display:inline-block}
+#about-cmt .eyebrow::after{content:"";position:absolute;left:10%;right:10%;bottom:-8px;height:2px;border-radius:999px;background:linear-gradient(90deg,transparent,#641a29 14%,#8b2d3e 50%,#641a29 86%,transparent);box-shadow:0 1px 2px rgba(61,12,24,.32)}
 </style>
 <script id="luvva059-pitch-deck-natural-controller">
 (function(){
