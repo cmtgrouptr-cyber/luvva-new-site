@@ -5761,6 +5761,30 @@ html[lang="ar"] #investor-brief .investor-brief-visual-wrap,html[lang="en"] #inv
   else initPitchDeck();
 })();
 </script>
+
+<!-- SMS78 FINAL: Arabic Pitch Deck centering only. English untouched. -->
+<style id="sms78-ar-pitch-final-center-only">
+html[lang="ar"] #investor-brief > .luvva-pitch-deck-media{
+  grid-column:1 / -1!important;
+  justify-self:center!important;
+  position:relative!important;
+  left:auto!important;
+  right:auto!important;
+  transform:none!important;
+  width:min(900px,calc(100% - 64px))!important;
+  max-width:900px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:700px){
+ html[lang="ar"] #investor-brief > .luvva-pitch-deck-media{
+   width:calc(100% - 24px)!important;
+   max-width:calc(100% - 24px)!important;
+ }
+}
+</style>
+
 </html>
 
 <style id="luvva105-business-continue-position-final-fix">
@@ -6187,4 +6211,22 @@ html[lang="en"] #investor-brief .luvva-pitch-deck-stop-ar{display:none!important
     max-width:calc(100vw - 48px)!important;
   }
 }
+</style>
+
+<!-- SMS78 FINAL OVERRIDE: Arabic Pitch Deck centering only; intentionally last. -->
+<style id="sms78-ar-pitch-final-center-last">
+html[lang="ar"] #investor-brief > .luvva-pitch-deck-media{
+  grid-column:1 / -1!important;
+  justify-self:center!important;
+  position:relative!important;
+  left:auto!important;
+  right:auto!important;
+  transform:none!important;
+  width:min(900px,calc(100% - 64px))!important;
+  max-width:900px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:700px){html[lang="ar"] #investor-brief > .luvva-pitch-deck-media{width:calc(100% - 24px)!important;max-width:calc(100% - 24px)!important;}}
 </style>
