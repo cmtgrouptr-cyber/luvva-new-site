@@ -6059,3 +6059,42 @@ html.luvva-view-partnership #investor-brief{display:none!important;}
   }
 }
 </style>
+
+<!-- 076: three surgical fixes only — initial nav order + pitch safe gutters -->
+<style id="luvva076-three-notes-only">
+/* Pitch Deck: center the media on the viewport and keep a real safe gutter on both sides. */
+#investor-brief .luvva-pitch-deck-media{
+  width:min(1000px,calc(100vw - 64px))!important;
+  max-width:calc(100vw - 64px)!important;
+  position:relative!important;
+  left:calc(50vw - 50%)!important;
+  right:auto!important;
+  transform:translateX(-50%)!important;
+  margin:24px 0 0!important;
+  box-sizing:border-box!important;
+}
+#investor-brief .luvva-pitch-deck-media video{width:100%!important;max-width:100%!important;display:block!important;}
+@media(max-width:560px){
+  #investor-brief .luvva-pitch-deck-media{width:calc(100vw - 28px)!important;max-width:calc(100vw - 28px)!important;}
+}
+</style>
+<script id="luvva076-initial-nav-stabilizer">
+(function(){
+ function stabilize(){
+  var h=document.getElementById('siteHeader'),nav=document.getElementById('mainNav'); if(!h||!nav)return;
+  var story=h.querySelector('a.cmt-button'),world=h.querySelector('a.luvva-world-button');
+  if(story&&story.parentNode!==nav)nav.appendChild(story);
+  if(world&&world.parentNode!==nav)nav.appendChild(world);
+  function q(sel){return nav.querySelector(sel)}
+  var seq=[story,q('a[href="#home"]'),q('a[href="#vision"]'),q('a[href="#ecosystem"]'),q('a[href="#human-centered"]'),q('a[href="#legacy"]'),q('a[href="#partnership"]'),q('a[href="#investor-brief"]'),world,q('a[href="#contact"]')].filter(Boolean);
+  seq.forEach(function(a){nav.appendChild(a)});
+  var ar=(document.documentElement.lang||'').toLowerCase().indexOf('ar')===0;
+  nav.style.setProperty('direction',ar?'rtl':'ltr','important');
+ }
+ function settle(){stabilize();requestAnimationFrame(stabilize);setTimeout(stabilize,80);setTimeout(stabilize,300);setTimeout(stabilize,900)}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',settle);else settle();
+ window.addEventListener('load',settle);
+ window.addEventListener('pageshow',settle);
+ new MutationObserver(function(){requestAnimationFrame(stabilize)}).observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
+})();
+</script>
