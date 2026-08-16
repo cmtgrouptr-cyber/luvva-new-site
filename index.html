@@ -3,6 +3,19 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
+<script id="luvva078-language-prepaint">
+/* Apply the saved language before first paint so the old English navigation can never flash. */
+try{
+  var __luvvaSavedLanguage=localStorage.getItem("luvva_language");
+  if(__luvvaSavedLanguage==="Arabic"){
+    document.documentElement.lang="ar";
+    document.documentElement.dir="rtl";
+  }else{
+    document.documentElement.lang="en";
+    document.documentElement.dir="ltr";
+  }
+}catch(e){}
+</script>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script id="luvva-story-return-prepaint">
 try{
@@ -5646,6 +5659,31 @@ a.cmt-button::after{
  }
  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',promote); else promote();
  window.addEventListener('pageshow',promote);
+})();
+</script>
+
+<style id="luvva078-investor-anchor-top">
+/* Keep the first line of Investor Brief below the site header when opened by hash. */
+#investor-brief{scroll-margin-top:110px!important;}
+@media(max-width:900px){#investor-brief{scroll-margin-top:88px!important;}}
+</style>
+<script id="luvva078-investor-anchor-top-js">
+(function(){
+  function placeInvestorAtStart(){
+    if(location.hash!=="#investor-brief") return;
+    var section=document.getElementById("investor-brief");
+    var header=document.getElementById("siteHeader");
+    if(!section) return;
+    var hh=header?header.getBoundingClientRect().height:0;
+    var top=section.getBoundingClientRect().top+window.pageYOffset-hh-8;
+    window.scrollTo(0,Math.max(0,top));
+  }
+  window.addEventListener("load",function(){placeInvestorAtStart();setTimeout(placeInvestorAtStart,80);setTimeout(placeInvestorAtStart,300);});
+  window.addEventListener("hashchange",function(){setTimeout(placeInvestorAtStart,0);});
+  document.addEventListener("click",function(e){
+    var a=e.target.closest&&e.target.closest('a[href="#investor-brief"]');
+    if(a) setTimeout(placeInvestorAtStart,0);
+  });
 })();
 </script>
 </body>
