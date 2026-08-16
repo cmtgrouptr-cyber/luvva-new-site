@@ -5618,6 +5618,36 @@ a.cmt-button::after{
  new MutationObserver(run).observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
 })();
 </script>
+
+<!-- SMS78/Pitch center root-cause fix: media is promoted to the Investor section so centering is relative to the full section, not the 430px visual column. -->
+<style id="sms78-pitch-true-section-center">
+#investor-brief > .luvva-pitch-deck-media{
+  grid-column:1 / -1!important;
+  justify-self:center!important;
+  align-self:start!important;
+  position:relative!important;
+  left:auto!important;right:auto!important;transform:none!important;
+  width:min(900px,calc(100% - 64px))!important;
+  max-width:900px!important;
+  margin:24px auto 0!important;
+  box-sizing:border-box!important;
+}
+#investor-brief > .luvva-pitch-deck-media video{width:100%!important;max-width:100%!important;margin:0!important;display:block!important;}
+@media(max-width:700px){
+ #investor-brief > .luvva-pitch-deck-media{width:calc(100% - 24px)!important;max-width:calc(100% - 24px)!important;}
+}
+</style>
+<script id="sms78-pitch-promote-to-section">
+(function(){
+ function promote(){
+   var section=document.getElementById('investor-brief');
+   var media=document.getElementById('luvvaPitchDeckMedia');
+   if(section&&media&&media.parentNode!==section) section.appendChild(media);
+ }
+ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',promote); else promote();
+ window.addEventListener('pageshow',promote);
+})();
+</script>
 </body>
 
 <style id="luvva059-pitch-deck-natural-access">
