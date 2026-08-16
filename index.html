@@ -4493,9 +4493,32 @@ document.addEventListener('DOMContentLoaded',function(){
         document.documentElement.classList.remove("luvva-story-return-prepaint");
         return false;
       }
-      // Opening or returning always pauses the credit at the secure gateway.
+      // Preserve a verified live session on a browser Refresh and on the controlled
+      // Executive Brief return. These are continuations of the same tab/session,
+      // not new public entries.
+      let isReload=false, briefReturn=false;
+      try {
+        const navEntry=performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+        isReload=!!(navEntry && navEntry.type==="reload");
+        briefReturn=sessionStorage.getItem("luvva_brief_return")==="1";
+        if(briefReturn) sessionStorage.removeItem("luvva_brief_return");
+      } catch(_) {}
       if(session.isActive){ session.remainingMs=liveRemaining(session); session.activeElapsedMs=liveActiveElapsed(session); session.isActive=false; session.activeSince=null; writeSession(session); }
       returningSession=true; savedSession=session; savedVisitor=visitor;
+
+      if (isReload || briefReturn) {
+        gateway.hidden=true;
+        gateway.setAttribute("aria-hidden","true");
+        gateway.classList.remove("is-revealing");
+        document.body.classList.remove("luvva-v3-locked","luvva-page-revealing","luvva-page-visible");
+        document.body.style.removeProperty("overflow");
+        document.documentElement.style.removeProperty("overflow");
+        updateCurrentVisit({status:"active",resumedAt:Date.now()});
+        runSession(session);
+        if(briefReturn && location.hash!=="#investor-brief") history.replaceState(null,"",location.pathname+"#investor-brief");
+        setTimeout(function(){ try { showCurrentSection(); } catch (_) {} },0);
+        return true;
+      }
 
       // Internal return from CMT Story: resume the same valid visit directly on Home.
       // Normal visits still return through the secure gateway exactly as before.
