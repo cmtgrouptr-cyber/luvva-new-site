@@ -3,6 +3,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
+<style id="luvva079-nav-prepaint-css">
+/* 079: prevent legacy/default navigation from painting before saved language + final nav order are applied. */
+html.luvva079-nav-prepaint #siteHeader{visibility:hidden!important;}
+</style>
+<script id="luvva079-nav-prepaint-start">
+try{document.documentElement.classList.add("luvva079-nav-prepaint");}catch(e){}
+</script>
 <script id="luvva078-language-prepaint">
 /* Apply the saved language before first paint so the old English navigation can never flash. */
 try{
@@ -5684,6 +5691,18 @@ a.cmt-button::after{
     var a=e.target.closest&&e.target.closest('a[href="#investor-brief"]');
     if(a) setTimeout(placeInvestorAtStart,0);
   });
+})();
+</script>
+
+<script id="luvva079-nav-prepaint-end">
+(function(){
+  function reveal(){
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
+      document.documentElement.classList.remove("luvva079-nav-prepaint");
+    });});
+  }
+  if(document.readyState==="complete") reveal();
+  else window.addEventListener("load",reveal,{once:true});
 })();
 </script>
 </body>
