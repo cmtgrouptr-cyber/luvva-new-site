@@ -4102,6 +4102,7 @@ document.addEventListener('DOMContentLoaded',function(){
       window.scrollTo(0, 0);
       document.body.classList.remove("luvva-v3-locked", "luvva-page-revealing", "luvva-page-visible");
       document.body.style.removeProperty("overflow");
+      try { sessionStorage.setItem(TAB_AUTH_KEY, "1"); } catch (_) {}
       if (returningSession && savedSession) {
         updateCurrentVisit({ status: "active", resumedAt: Date.now() });
         runSession(savedSession);
@@ -4216,6 +4217,7 @@ document.addEventListener('DOMContentLoaded',function(){
   const SECOND_NOTICE_AFTER_ACTIVE_MS = 20 * 60 * 1000;
   const NOTICE_VISIBLE_MS = 5 * 1000;
   const SESSION_KEY = "luvvaVisitorSessionDU2";
+  const TAB_AUTH_KEY = "luvvaAuthorizedTabV1";
   const VISITOR_KEY = "luvvaVisitorIdentityDU2";
   const VISITOR_LOG_KEY = "luvvaVisitorLogDU2";
   const CURRENT_VISIT_KEY = "luvvaCurrentVisitDU2";
@@ -4493,20 +4495,20 @@ document.addEventListener('DOMContentLoaded',function(){
         document.documentElement.classList.remove("luvva-story-return-prepaint");
         return false;
       }
-      // Preserve a verified live session on a browser Refresh and on the controlled
-      // Executive Brief return. These are continuations of the same tab/session,
-      // not new public entries.
-      let isReload=false, briefReturn=false;
+      // Same-tab continuity: authentication survives a browser Refresh and internal
+      // navigation (Executive Brief / CMT Story), but a newly opened tab still starts
+      // at the secure gateway. sessionStorage is intentionally used for this boundary.
+      let tabAuthorized=false, briefReturn=false;
       try {
-        const navEntry=performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
-        isReload=!!(navEntry && navEntry.type==="reload");
+        tabAuthorized=sessionStorage.getItem(TAB_AUTH_KEY)==="1";
         briefReturn=sessionStorage.getItem("luvva_brief_return")==="1";
         if(briefReturn) sessionStorage.removeItem("luvva_brief_return");
       } catch(_) {}
       if(session.isActive){ session.remainingMs=liveRemaining(session); session.activeElapsedMs=liveActiveElapsed(session); session.isActive=false; session.activeSince=null; writeSession(session); }
       returningSession=true; savedSession=session; savedVisitor=visitor;
 
-      if (isReload || briefReturn) {
+      if (tabAuthorized || briefReturn || storyReturn || internalCmtReturn) {
+        try { sessionStorage.setItem(TAB_AUTH_KEY,"1"); } catch(_) {}
         gateway.hidden=true;
         gateway.setAttribute("aria-hidden","true");
         gateway.classList.remove("is-revealing");
@@ -4516,26 +4518,12 @@ document.addEventListener('DOMContentLoaded',function(){
         updateCurrentVisit({status:"active",resumedAt:Date.now()});
         runSession(session);
         if(briefReturn && location.hash!=="#investor-brief") history.replaceState(null,"",location.pathname+"#investor-brief");
-        setTimeout(function(){ try { showCurrentSection(); } catch (_) {} },0);
-        return true;
-      }
-
-      // Internal return from CMT Story: resume the same valid visit directly on Home.
-      // Normal visits still return through the secure gateway exactly as before.
-      if (storyReturn) {
-        try { history.replaceState(null, "", window.location.pathname + "#home"); } catch (_) {}
-          document.documentElement.classList.remove("luvva-story-return-prepaint");
-        gateway.hidden=true;
-        gateway.setAttribute("aria-hidden","true");
-        gateway.classList.remove("is-revealing");
-        document.body.classList.remove("luvva-v3-locked","luvva-page-revealing","luvva-page-visible");
-        document.body.style.removeProperty("overflow");
-        document.documentElement.style.removeProperty("overflow");
-        updateCurrentVisit({status:"active",resumedAt:Date.now()});
-        runSession(session);
-        document.documentElement.scrollTop=0;
-        document.body.scrollTop=0;
-        window.scrollTo(0,0);
+        if(storyReturn || internalCmtReturn){
+          try { sessionStorage.removeItem('luvva_cmt_internal_return'); sessionStorage.removeItem('luvva_force_home_return'); } catch (_) {}
+          try { history.replaceState(null,"",location.pathname+"#home"); } catch (_) {}
+          document.documentElement.classList.remove("luvva-story-return-prepaint","luvva-force-home");
+        }
+        setTimeout(function(){ try { showCurrentSection(); if(briefReturn){ var sec=document.getElementById('investor-brief'); if(sec) sec.scrollIntoView({block:'start'}); } } catch (_) {} },0);
         return true;
       }
 
@@ -4945,6 +4933,7 @@ document.addEventListener('DOMContentLoaded',function(){
       // 059 fix: clear the real visitor session plus every internal-return/bypass flag,
       // so Logout always returns to the secure gateway instead of reopening Home.
       sessionStorage.removeItem('luvva_gateway_session_v1');
+      sessionStorage.removeItem('luvvaAuthorizedTabV1');
       sessionStorage.removeItem('luvvaDashboardPreview');
       sessionStorage.removeItem('luvva_owner_website_bypass');
       sessionStorage.removeItem('luvva_cmt_internal_return');
@@ -5313,7 +5302,7 @@ html[lang="en"] #investor-brief .investor-brief-en{justify-self:start!important;
   document.addEventListener("click",function(e){
     const cmt=e.target.closest&&e.target.closest("a.cmt-button");
     if(!cmt) return;
-    try { sessionStorage.setItem('luvva_cmt_internal_return','1'); sessionStorage.setItem('luvva_force_home_return','1'); } catch (_) {}
+    try { sessionStorage.setItem('luvva_cmt_internal_return','1'); } catch (_) {}
     let ownerStoryBypass=false;
     try { ownerStoryBypass=sessionStorage.getItem('luvva_owner_website_bypass')==='1'; } catch (_) {}
     if(ownerStoryBypass){
