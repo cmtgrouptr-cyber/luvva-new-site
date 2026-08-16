@@ -3274,6 +3274,10 @@ document.addEventListener('DOMContentLoaded',function(){
       <video id="luvvaPitchDeckVideo" controls playsinline preload="metadata" poster="investor-brief-cover.jpg">
         <source src="luvva-media/luvva-pitch-deck.mp4" type="video/mp4">
       </video>
+      <button class="luvva-pitch-deck-stop" id="luvvaPitchDeckStop" type="button">
+        <span class="luvva-pitch-deck-stop-en" lang="en">Stop Pitch Deck</span>
+        <span class="luvva-pitch-deck-stop-ar" lang="ar" dir="rtl">إيقاف العرض</span>
+      </button>
     </div>
   </div>
 </div>
@@ -5685,35 +5689,43 @@ html[lang="ar"] #investor-brief .investor-brief-visual-wrap,html[lang="en"] #inv
     var key=document.getElementById('luvvaPitchDeckKey');
     var media=document.getElementById('luvvaPitchDeckMedia');
     var video=document.getElementById('luvvaPitchDeckVideo');
-    var en=key&&key.querySelector('.luvva-pitch-deck-key-en');
-    var ar=key&&key.querySelector('.luvva-pitch-deck-key-ar');
-    if(!key||!media||!video||key.dataset.ready==='1') return;
+    var stop=document.getElementById('luvvaPitchDeckStop');
+    if(!key||!media||!video||!stop||key.dataset.ready==='1') return;
     key.dataset.ready='1';
+
     function setPlaying(on){
       key.setAttribute('aria-expanded',on?'true':'false');
-      if(en) en.textContent=on?'Stop Pitch Deck':'Play Pitch Deck';
-      if(ar) ar.textContent=on?'إيقاف العرض':'تشغيل العرض';
+      key.hidden=!!on;
     }
-    function stopAndReset(scrollBack){
+    function leaveFullscreen(){
+      if(document.fullscreenElement && document.exitFullscreen){
+        try{ return document.exitFullscreen(); }catch(e){}
+      }
+      return null;
+    }
+    function stopAndReturn(){
       video.pause();
       try{video.currentTime=0;}catch(e){}
-      media.hidden=true;
-      setPlaying(false);
-      if(scrollBack) setTimeout(function(){key.scrollIntoView({behavior:'smooth',block:'center'});key.focus({preventScroll:true});},80);
+      var done=function(){
+        media.hidden=true;
+        setPlaying(false);
+        var section=document.getElementById('investor-brief');
+        if(section) section.scrollIntoView({behavior:'smooth',block:'start'});
+      };
+      var exit=leaveFullscreen();
+      if(exit&&exit.then) exit.then(done).catch(done); else done();
     }
     key.addEventListener('click',function(){
-      var opening=media.hidden;
-      if(opening){
-        media.hidden=false;
-        setPlaying(true);
-        requestAnimationFrame(function(){media.scrollIntoView({behavior:'smooth',block:'center'});});
-        var playPromise=video.play();
-        if(playPromise&&playPromise.catch) playPromise.catch(function(){setPlaying(false);});
-      }else{
-        stopAndReset(false);
-      }
+      media.hidden=false;
+      setPlaying(true);
+      requestAnimationFrame(function(){media.scrollIntoView({behavior:'smooth',block:'center'});});
+      var playPromise=video.play();
+      if(playPromise&&playPromise.catch) playPromise.catch(function(){
+        media.hidden=true; setPlaying(false);
+      });
     });
-    video.addEventListener('ended',function(){stopAndReset(true);});
+    stop.addEventListener('click',stopAndReturn);
+    video.addEventListener('ended',stopAndReturn);
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initPitchDeck);
   else initPitchDeck();
@@ -6098,3 +6110,30 @@ html.luvva-view-partnership #investor-brief{display:none!important;}
  new MutationObserver(function(){requestAnimationFrame(stabilize)}).observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
 })();
 </script>
+
+<style id="luvva077-pitch-deck-stop-and-center">
+/* 077 — Pitch Deck only: centered safe presentation + compact in-player stop key. */
+#investor-brief .luvva-pitch-deck-media{
+  position:relative!important;
+  width:min(1000px,calc(100vw - 64px))!important;
+  max-width:calc(100vw - 64px)!important;
+  left:calc(50vw - 50%)!important;
+  right:auto!important;
+  transform:translateX(-50%)!important;
+  margin:24px 0 0!important;
+  box-sizing:border-box!important;
+}
+#investor-brief .luvva-pitch-deck-media video{width:100%!important;max-width:100%!important;display:block!important;margin:0!important;}
+#investor-brief .luvva-pitch-deck-stop{
+  position:absolute;z-index:5;left:50%;bottom:14px;transform:translateX(-50%);
+  min-width:0;padding:7px 13px;border-radius:999px;border:1px solid rgba(255,255,255,.5);
+  background:rgba(28,20,16,.76);color:#fff;font:inherit;font-size:12px;font-weight:700;
+  line-height:1.1;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.28);backdrop-filter:blur(5px);
+}
+html[lang="ar"] #investor-brief .luvva-pitch-deck-stop-en{display:none!important}
+html[lang="en"] #investor-brief .luvva-pitch-deck-stop-ar{display:none!important}
+@media(max-width:560px){
+  #investor-brief .luvva-pitch-deck-media{width:calc(100vw - 28px)!important;max-width:calc(100vw - 28px)!important;}
+  #investor-brief .luvva-pitch-deck-stop{bottom:10px;padding:6px 11px;font-size:11px}
+}
+</style>
