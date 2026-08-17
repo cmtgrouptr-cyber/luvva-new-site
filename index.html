@@ -3,19 +3,30 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<style id="luvva0001-refresh-prepaint-css">
-/* 0001 UPDATE SCREEN — decide same-tab session continuity before first paint. */
-html.luvva0001-session-prepaint #luvvaGatewayV3,
-html.luvva0001-session-prepaint #luvvaV3Success,
-html.luvva0001-session-prepaint #luvvaAuthBackdrop{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
-html.luvva0001-session-prepaint body.luvva-v3-locked>.site-header,
-html.luvva0001-session-prepaint body.luvva-v3-locked>main,
-html.luvva0001-session-prepaint body.luvva-v3-locked>footer{visibility:visible!important}
+<style id="luvva-refresh-root-fix-css">
+/* ROOT FIX — hide the secure gateway before first paint when this same tab has a valid active session. */
+html.luvva-refresh-authorized #luvvaGatewayV3,
+html.luvva-refresh-authorized #luvvaV3Success,
+html.luvva-refresh-authorized #luvvaAuthBackdrop{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+html.luvva-refresh-authorized body.luvva-v3-locked>.site-header,
+html.luvva-refresh-authorized body.luvva-v3-locked>main,
+html.luvva-refresh-authorized body.luvva-v3-locked>footer{visibility:visible!important}
 </style>
-<script id="luvva0001-refresh-prepaint-start">
+<script id="luvva-refresh-root-fix-prepaint">
 (function(){
   try{
     var SESSION_KEY='luvvaVisitorSessionDU2', VISITOR_KEY='luvvaVisitorIdentityDU2', TAB_AUTH_KEY='luvvaAuthorizedTabV1';
+    var rawReplace=history.replaceState.bind(history);
+    /* Keep same-tab authorization attached to the current history entry. Several legacy
+       navigation blocks call replaceState(null,...); without this guard they erase the
+       reload marker and the next Refresh falls back to the gateway. */
+    history.replaceState=function(state,title,url){
+      var explicitOff=!!(state&&typeof state==='object'&&state.luvvaAuthorizedTabV1===0);
+      var authorized=!explicitOff&&((history.state&&history.state.luvvaAuthorizedTabV1===1)||sessionStorage.getItem(TAB_AUTH_KEY)==='1');
+      var next=(state&&typeof state==='object')?Object.assign({},state):{};
+      if(authorized) next.luvvaAuthorizedTabV1=1; else if(explicitOff) delete next.luvvaAuthorizedTabV1;
+      return rawReplace(next,title,url);
+    };
     var session=JSON.parse(localStorage.getItem(SESSION_KEY)||'null');
     var visitor=JSON.parse(localStorage.getItem(VISITOR_KEY)||'null');
     var tabAuth=sessionStorage.getItem(TAB_AUTH_KEY)==='1';
@@ -26,10 +37,8 @@ html.luvva0001-session-prepaint body.luvva-v3-locked>footer{visibility:visible!i
       if(session.isActive&&session.activeSince) remaining=Math.max(0,remaining-Math.max(0,Date.now()-Number(session.activeSince||0)));
     }
     if(session&&visitor&&visitor.provider&&remaining>0&&(tabAuth||historyAuth)){
-      /* Repair sessionStorage from the same-tab history marker when a mobile browser
-         restores/reloads the document before sessionStorage is observed reliably. */
       if(!tabAuth&&historyAuth) try{sessionStorage.setItem(TAB_AUTH_KEY,'1');}catch(_){}
-      document.documentElement.classList.add('luvva0001-session-prepaint');
+      document.documentElement.classList.add('luvva-refresh-authorized');
     }
   }catch(e){}
 })();
@@ -54,6 +63,22 @@ try{
   }
 }catch(e){}
 </script>
+<script id="luvva-owner-bypass-prepaint">
+/* Owner Website access belongs to this browser tab. A normal Refresh must not repaint the Gate. */
+try{
+  if(sessionStorage.getItem('luvva_owner_website_bypass')==='1'){
+    document.documentElement.classList.add('luvva-owner-bypass-prepaint');
+  }
+}catch(e){}
+</script>
+<style id="luvva-owner-bypass-prepaint-style">
+html.luvva-owner-bypass-prepaint #luvvaGatewayV3,
+html.luvva-owner-bypass-prepaint #luvvaV3Success,
+html.luvva-owner-bypass-prepaint #luvvaAuthBackdrop{display:none!important;visibility:hidden!important;opacity:0!important}
+html.luvva-owner-bypass-prepaint body.luvva-v3-locked>.site-header,
+html.luvva-owner-bypass-prepaint body.luvva-v3-locked>main,
+html.luvva-owner-bypass-prepaint body.luvva-v3-locked>footer{visibility:visible!important}
+</style>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script id="luvva-story-return-prepaint">
 try{
@@ -3322,7 +3347,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <span class="luvva-pitch-deck-arrow" aria-hidden="true">↓</span>
     </button>
     <div class="luvva-pitch-deck-media" id="luvvaPitchDeckMedia" hidden>
-      <video id="luvvaPitchDeckVideo" controls playsinline preload="metadata" poster="investor-brief-cover.jpg">
+      <video id="luvvaPitchDeckVideo" controls playsinline preload="metadata">
         <source src="luvva-media/luvva-pitch-deck.mp4" type="video/mp4">
       </video>
       <button class="luvva-pitch-deck-stop" id="luvvaPitchDeckStop" type="button">
@@ -4134,7 +4159,6 @@ document.addEventListener('DOMContentLoaded',function(){
       document.body.classList.remove("luvva-v3-locked", "luvva-page-revealing", "luvva-page-visible");
       document.body.style.removeProperty("overflow");
       try { sessionStorage.setItem(TAB_AUTH_KEY, "1"); history.replaceState(Object.assign({},history.state||{},{luvvaAuthorizedTabV1:1}),"",location.href); } catch (_) {}
-      document.documentElement.classList.remove("luvva0001-session-prepaint");
       if (returningSession && savedSession) {
         updateCurrentVisit({ status: "active", resumedAt: Date.now() });
         runSession(savedSession);
@@ -4467,16 +4491,12 @@ document.addEventListener('DOMContentLoaded',function(){
       try { internalCmtReturn=sessionStorage.getItem('luvva_cmt_internal_return')==='1'; } catch (_) {}
       let ownerWebsiteBypass=false;
       try {
-        // A secret Website Open bypass is valid only for the current in-page owner flow
-        // and for an explicit internal CMT return carrying luvva_owner_bypass=1.
-        // Typing/reloading the public URL must always stop at the secure gateway.
-        if (ownerBypassReturn) {
-          sessionStorage.setItem('luvva_owner_website_bypass','1');
-          ownerWebsiteBypass=true;
-        } else {
-          sessionStorage.removeItem('luvva_owner_website_bypass');
-          ownerWebsiteBypass=false;
-        }
+        // Owner Website access is tab-scoped. sessionStorage survives Refresh in this same tab
+        // but is absent in a genuinely new tab/session. Never erase it merely because a Refresh
+        // no longer carries the internal CMT return query parameter.
+        const storedOwnerBypass=sessionStorage.getItem('luvva_owner_website_bypass')==='1';
+        if (ownerBypassReturn) sessionStorage.setItem('luvva_owner_website_bypass','1');
+        ownerWebsiteBypass=ownerBypassReturn || storedOwnerBypass;
       } catch (_) { ownerWebsiteBypass = ownerBypassReturn; }
 
       // Secret owner website access is a true bypass: no gateway, no visitor timer,
@@ -4524,7 +4544,7 @@ document.addEventListener('DOMContentLoaded',function(){
       const visitor=JSON.parse(localStorage.getItem(VISITOR_KEY)||"null");
       if(!session || liveRemaining(session)<=0 || !visitor || !visitor.provider){
         if(session)localStorage.removeItem(SESSION_KEY);
-        document.documentElement.classList.remove("luvva-story-return-prepaint","luvva0001-session-prepaint");
+        document.documentElement.classList.remove("luvva-story-return-prepaint","luvva-refresh-authorized");
         return false;
       }
       // Same-tab continuity: authentication survives a browser Refresh and internal
@@ -4548,7 +4568,7 @@ document.addEventListener('DOMContentLoaded',function(){
         document.body.classList.remove("luvva-v3-locked","luvva-page-revealing","luvva-page-visible");
         document.body.style.removeProperty("overflow");
         document.documentElement.style.removeProperty("overflow");
-        document.documentElement.classList.remove("luvva0001-session-prepaint");
+        document.documentElement.classList.remove("luvva-refresh-authorized");
         try{history.replaceState(Object.assign({},history.state||{},{luvvaAuthorizedTabV1:1}),"",location.href);}catch(_){}
         updateCurrentVisit({status:"active",resumedAt:Date.now()});
         runSession(session);
@@ -4562,7 +4582,7 @@ document.addEventListener('DOMContentLoaded',function(){
         return true;
       }
 
-      document.documentElement.classList.remove("luvva0001-session-prepaint");
+      document.documentElement.classList.remove("luvva-refresh-authorized");
       gateway.hidden=false; gateway.setAttribute("aria-hidden","false");
       document.body.classList.add("luvva-v3-locked"); document.body.style.overflow="hidden";
       sessionTimer.classList.remove("is-visible","is-ending");
@@ -4979,7 +4999,7 @@ document.addEventListener('DOMContentLoaded',function(){
       localStorage.removeItem('luvvaVisitorIdentityDU2');
       localStorage.removeItem('luvvaCurrentVisitDU2');
     }catch(e){}
-    try{history.replaceState({},"",window.location.pathname+window.location.search+window.location.hash);}catch(e){}
+    try{history.replaceState({luvvaAuthorizedTabV1:0},"",window.location.pathname+window.location.search+window.location.hash);}catch(e){}
     window.location.replace(window.location.pathname);
   });
 })();
@@ -5819,6 +5839,10 @@ html[lang="ar"] #investor-brief .luvva-pitch-deck-entry{grid-column:1}
 #investor-brief .luvva-pitch-deck-key{min-width:210px}
 html[lang="ar"] #investor-brief .investor-brief-visual-wrap,html[lang="en"] #investor-brief .investor-brief-visual-wrap{gap:20px!important}
 </style>
+<style id="luvva-pitch-no-cover-flash">
+/* Pitch Deck root fix: remove the Investor/Ecosystem cover synchronously while video is open. */
+#investor-brief.luvva-pitch-playing .investor-brief-visual{display:none!important}
+</style>
 <script id="luvva059-pitch-deck-natural-controller">
 (function(){
   function initPitchDeck(){
@@ -5828,6 +5852,9 @@ html[lang="ar"] #investor-brief .investor-brief-visual-wrap,html[lang="en"] #inv
     var stop=document.getElementById('luvvaPitchDeckStop');
     if(!key||!media||!video||!stop||key.dataset.ready==='1') return;
     key.dataset.ready='1';
+    // Never show the founder/brief cover while the MP4 is preparing its first frame.
+    video.removeAttribute('poster');
+    video.poster='';
 
     function setPlaying(on){
       key.setAttribute('aria-expanded',on?'true':'false');
@@ -5841,6 +5868,8 @@ html[lang="ar"] #investor-brief .investor-brief-visual-wrap,html[lang="en"] #inv
     }
     function stopAndReturn(){
       video.pause();
+      var investorSection=document.getElementById('investor-brief');
+      if(investorSection) investorSection.classList.remove('luvva-pitch-playing');
       try{video.currentTime=0;}catch(e){}
       var done=function(){
         media.hidden=true;
@@ -5852,11 +5881,15 @@ html[lang="ar"] #investor-brief .investor-brief-visual-wrap,html[lang="en"] #inv
       if(exit&&exit.then) exit.then(done).catch(done); else done();
     }
     key.addEventListener('click',function(){
+      var investorSection=document.getElementById('investor-brief');
+      if(investorSection) investorSection.classList.add('luvva-pitch-playing');
+      video.removeAttribute('poster'); video.poster='';
       media.hidden=false;
       setPlaying(true);
       requestAnimationFrame(function(){media.scrollIntoView({behavior:'smooth',block:'center'});});
       var playPromise=video.play();
       if(playPromise&&playPromise.catch) playPromise.catch(function(){
+        if(investorSection) investorSection.classList.remove('luvva-pitch-playing');
         media.hidden=true; setPlaying(false);
       });
     });
