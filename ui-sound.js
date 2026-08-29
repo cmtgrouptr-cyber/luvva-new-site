@@ -1,6 +1,95 @@
 (function () {
   "use strict";
 
+  var mobileQuery = window.matchMedia("(hover: none) and (pointer: coarse) and (max-width: 1200px)");
+  var suppressClickUntil = 0;
+
+  function prepareMobileNav() {
+    if (!mobileQuery.matches) return;
+    var nav = document.getElementById("mainNav");
+    if (!nav) return;
+
+    /* A fixed LTR scrolling axis avoids Android's inconsistent negative
+       scrollLeft behavior in RTL. Arabic remains RTL inside each key. */
+    nav.style.setProperty("direction", "ltr", "important");
+    var arabic = (document.documentElement.lang || "").toLowerCase().indexOf("ar") === 0;
+    nav.querySelectorAll("a").forEach(function (link) {
+      link.style.setProperty("direction", arabic ? "rtl" : "ltr", "important");
+    });
+
+    if (nav.dataset.luvvaDragBound === "1") return;
+    nav.dataset.luvvaDragBound = "1";
+
+    var pointerId = null;
+    var startX = 0;
+    var startScroll = 0;
+    var dragging = false;
+
+    nav.addEventListener("pointerdown", function (event) {
+      if (event.button !== undefined && event.button !== 0) return;
+      pointerId = event.pointerId;
+      startX = event.clientX;
+      startScroll = nav.scrollLeft;
+      dragging = false;
+      try { nav.setPointerCapture(pointerId); } catch (_) {}
+    }, { passive: true });
+
+    nav.addEventListener("pointermove", function (event) {
+      if (pointerId === null || event.pointerId !== pointerId) return;
+      var distance = event.clientX - startX;
+      if (!dragging && Math.abs(distance) < 5) return;
+      dragging = true;
+      nav.scrollLeft = startScroll - distance;
+      event.preventDefault();
+    }, { passive: false });
+
+    function finish(event) {
+      if (pointerId === null || (event.pointerId !== undefined && event.pointerId !== pointerId)) return;
+      if (dragging) suppressClickUntil = Date.now() + 260;
+      var finishedPointerId = pointerId;
+      pointerId = null;
+      dragging = false;
+      try { nav.releasePointerCapture(finishedPointerId); } catch (_) {}
+    }
+
+    nav.addEventListener("pointerup", finish, { passive: true });
+    nav.addEventListener("pointercancel", finish, { passive: true });
+    nav.addEventListener("lostpointercapture", finish, { passive: true });
+    nav.addEventListener("click", function (event) {
+      if (Date.now() < suppressClickUntil) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    }, true);
+  }
+
+  function settleMobileNav() {
+    prepareMobileNav();
+    window.setTimeout(prepareMobileNav, 80);
+    window.setTimeout(prepareMobileNav, 700);
+    window.setTimeout(prepareMobileNav, 1300);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", settleMobileNav);
+  } else {
+    settleMobileNav();
+  }
+  window.addEventListener("load", settleMobileNav);
+  window.addEventListener("pageshow", settleMobileNav);
+  document.addEventListener("click", function (event) {
+    if (event.target.closest && event.target.closest("#languageOptions button")) {
+      window.setTimeout(settleMobileNav, 60);
+    }
+  }, true);
+  new MutationObserver(function () {
+    window.setTimeout(prepareMobileNav, 0);
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang", "dir"] });
+})();
+
+(function () {
+  "use strict";
+
   var AudioCtx = window.AudioContext || window.webkitAudioContext;
   if (!AudioCtx) return;
 
