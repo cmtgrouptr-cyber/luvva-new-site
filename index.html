@@ -230,6 +230,25 @@ html.luvva079-nav-prepaint #siteHeader{visibility:hidden!important;}
   #siteHeader #mainNav{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
 }
 </style>
+<script id="luvva-mobile-rotation-prepaint">
+try{
+  var __luvvaRotationToken=JSON.parse(localStorage.getItem('luvvaMobileRotationAuthV1')||'null');
+  if(__luvvaRotationToken&&Number(__luvvaRotationToken.expiresAt||0)>=Date.now()){
+    document.documentElement.classList.add('luvva-mobile-rotation-prepaint');
+  }
+}catch(e){}
+document.addEventListener('DOMContentLoaded',function(){
+  setTimeout(function(){document.documentElement.classList.remove('luvva-mobile-rotation-prepaint');},0);
+});
+</script>
+<style id="luvva-mobile-rotation-prepaint-style">
+html.luvva-mobile-rotation-prepaint #luvvaGatewayV3,
+html.luvva-mobile-rotation-prepaint #luvvaV3Success,
+html.luvva-mobile-rotation-prepaint #luvvaAuthBackdrop{display:none!important;visibility:hidden!important;opacity:0!important}
+html.luvva-mobile-rotation-prepaint body.luvva-v3-locked>.site-header,
+html.luvva-mobile-rotation-prepaint body.luvva-v3-locked>main,
+html.luvva-mobile-rotation-prepaint body.luvva-v3-locked>footer{visibility:visible!important}
+</style>
 <script id="luvva079-nav-prepaint-start">
 try{document.documentElement.classList.add("luvva079-nav-prepaint");}catch(e){}
 </script>
@@ -300,7 +319,7 @@ html.luvva-story-return-prepaint #luvvaAuthBackdrop{display:none!important;visib
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="style.css?v=20260728-5" rel="stylesheet">
 <link href="mobile-ui.css?v=20260829-2" rel="stylesheet">
-<script defer src="ui-sound.js?v=20260829-2"></script>
+<script defer src="ui-sound.js?v=20260829-3"></script>
 <!-- LUVVA V3 single-file styles -->
 <style id="luvva-v3-styles">
 /* ==========================================================
@@ -4459,6 +4478,7 @@ document.addEventListener('DOMContentLoaded',function(){
   const NOTICE_VISIBLE_MS = 5 * 1000;
   const SESSION_KEY = "luvvaVisitorSessionDU2";
   const TAB_AUTH_KEY = "luvvaAuthorizedTabV1";
+  const MOBILE_ROTATION_AUTH_KEY = "luvvaMobileRotationAuthV1";
   const VISITOR_KEY = "luvvaVisitorIdentityDU2";
   const VISITOR_LOG_KEY = "luvvaVisitorLogDU2";
   const CURRENT_VISIT_KEY = "luvvaCurrentVisitDU2";
@@ -4595,6 +4615,41 @@ document.addEventListener('DOMContentLoaded',function(){
 
   function readSession() { try { return JSON.parse(localStorage.getItem(SESSION_KEY)||"null"); } catch(_) { return null; } }
   function writeSession(session) { try { localStorage.setItem(SESSION_KEY,JSON.stringify(session)); } catch(_){} }
+
+  function isMobileRotationDevice() {
+    try {
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "") ||
+        window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    } catch (_) { return false; }
+  }
+
+  function markMobileRotationContinuity() {
+    if (!isMobileRotationDevice() || !gateway.hidden) return;
+    try {
+      const session=readSession();
+      const visitor=JSON.parse(localStorage.getItem(VISITOR_KEY)||"null");
+      if(!session || liveRemaining(session)<=0 || !visitor || !visitor.provider) return;
+      localStorage.setItem(MOBILE_ROTATION_AUTH_KEY,JSON.stringify({
+        expiresAt:Date.now()+20000,
+        sessionCreatedAt:Number(session.createdAt||0),
+        provider:String(visitor.provider||"")
+      }));
+    } catch (_) {}
+  }
+
+  function consumeMobileRotationContinuity(session,visitor) {
+    if (!isMobileRotationDevice()) return false;
+    try {
+      const token=JSON.parse(localStorage.getItem(MOBILE_ROTATION_AUTH_KEY)||"null");
+      localStorage.removeItem(MOBILE_ROTATION_AUTH_KEY);
+      return !!token && Number(token.expiresAt||0)>=Date.now() &&
+        Number(token.sessionCreatedAt||0)===Number(session.createdAt||0) &&
+        String(token.provider||"")===String(visitor.provider||"");
+    } catch (_) {
+      try { localStorage.removeItem(MOBILE_ROTATION_AUTH_KEY); } catch (__) {}
+      return false;
+    }
+  }
 
   function liveRemaining(session) {
     if (!session) return 0;
@@ -4741,10 +4796,11 @@ document.addEventListener('DOMContentLoaded',function(){
         briefReturn=sessionStorage.getItem("luvva_brief_return")==="1";
         if(briefReturn) sessionStorage.removeItem("luvva_brief_return");
       } catch(_) {}
+      const rotationAuthorized=consumeMobileRotationContinuity(session,visitor);
       if(session.isActive){ session.remainingMs=liveRemaining(session); session.activeElapsedMs=liveActiveElapsed(session); session.isActive=false; session.activeSince=null; writeSession(session); }
       returningSession=true; savedSession=session; savedVisitor=visitor;
 
-      if (tabAuthorized || briefReturn || storyReturn || internalCmtReturn) {
+      if (tabAuthorized || rotationAuthorized || briefReturn || storyReturn || internalCmtReturn) {
         try { sessionStorage.setItem(TAB_AUTH_KEY,"1"); } catch(_) {}
         gateway.hidden=true;
         gateway.setAttribute("aria-hidden","true");
@@ -4773,9 +4829,15 @@ document.addEventListener('DOMContentLoaded',function(){
     } catch(_){return false;}
   }
 
-  window.addEventListener("pagehide",pauseSession);
-  window.addEventListener("beforeunload",pauseSession);
-  document.addEventListener("visibilitychange",()=>{ if(document.hidden && gateway.hidden) pauseSession(); });
+  window.addEventListener("orientationchange",markMobileRotationContinuity,{passive:true});
+  if (screen.orientation && screen.orientation.addEventListener) {
+    screen.orientation.addEventListener("change",markMobileRotationContinuity);
+  }
+  window.addEventListener("pagehide",()=>{markMobileRotationContinuity();pauseSession();});
+  window.addEventListener("beforeunload",()=>{markMobileRotationContinuity();pauseSession();});
+  document.addEventListener("visibilitychange",()=>{
+    if(document.hidden && gateway.hidden){markMobileRotationContinuity();pauseSession();}
+  });
 
   const contactFormPanel = document.getElementById("luvvaContactFormPanel");
   const contactForm = document.getElementById("luvvaContactForm");
@@ -4917,7 +4979,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
     // Returning within the active 25-minute credit: the same verified provider
     // opens the visit again through the gateway without another OTP/password check.
-    if (returningSession && savedSession && savedVisitor && activeProvider === savedVisitor.provider && (savedSession.remainingMs || 0) > 0 && activeProvider !== "Business Email") {
+    if (returningSession && savedSession && savedVisitor && activeProvider === savedVisitor.provider && (savedSession.remainingMs || 0) > 0 && activeProvider !== "Business Email" && activeProvider !== "WhatsApp") {
       submit.disabled = true;
       submit.textContent = "Opening…";
       showWelcome();
@@ -4936,8 +4998,11 @@ document.addEventListener('DOMContentLoaded',function(){
       // Twilio Verify SMS OTP. Server-side only; credentials stay in Vercel environment variables.
       const fullPhone = `${countryCode.value}${cleanPhone}`;
       if (!whatsappCodeSent) {
+        phone.blur();
         submit.disabled = true;
         submit.textContent = "Sending…";
+        errorBox.classList.remove("is-success");
+        errorBox.textContent = "Requesting your SMS verification code…";
         try {
           const { response, result } = await fetchJsonWithTimeout("/api/whatsapp-otp-send", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ phone:fullPhone }) });
           if (!response.ok || !result.ok) {
@@ -5179,6 +5244,7 @@ document.addEventListener('DOMContentLoaded',function(){
       localStorage.removeItem('luvvaVisitorSessionDU2');
       localStorage.removeItem('luvvaVisitorIdentityDU2');
       localStorage.removeItem('luvvaCurrentVisitDU2');
+      localStorage.removeItem('luvvaMobileRotationAuthV1');
     }catch(e){}
     window.location.replace(window.location.pathname);
   });

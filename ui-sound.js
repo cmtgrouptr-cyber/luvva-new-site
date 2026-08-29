@@ -97,6 +97,7 @@
   var ready = false;
   var lastToneAt = 0;
   var lastHoverKey = null;
+  var noiseBuffer = null;
 
   function audio() {
     if (!ctx || ctx.state === "closed") {
@@ -131,6 +132,20 @@
     return box.width && box.height ? key : null;
   }
 
+  function softNoise(current) {
+    if (noiseBuffer && noiseBuffer.sampleRate === current.sampleRate) return noiseBuffer;
+    var length = Math.max(1, Math.floor(current.sampleRate * 0.05));
+    noiseBuffer = current.createBuffer(1, length, current.sampleRate);
+    var data = noiseBuffer.getChannelData(0);
+    for (var i = 0; i < length; i += 1) {
+      /* A quickly fading, deterministic-looking air texture. It reads as a
+         tactile tick rather than a musical note or repeated "doo" tone. */
+      var fade = 1 - (i / length);
+      data[i] = (Math.random() * 2 - 1) * fade * fade;
+    }
+    return noiseBuffer;
+  }
+
   function play(kind) {
     var current = audio();
     if (!ready || current.state !== "running") return;
@@ -141,28 +156,40 @@
     lastToneAt = stamp;
 
     var now = current.currentTime;
-    var duration = kind === "press" ? 0.065 : 0.075;
-    var osc = current.createOscillator();
-    var gain = current.createGain();
-    var filter = current.createBiquadFilter();
+    var press = kind === "press";
 
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(kind === "press" ? 590 : 470, now);
-    osc.frequency.exponentialRampToValueAtTime(kind === "press" ? 420 : 545, now + duration * 0.72);
+    /* Main tactile layer: a tiny filtered breath, deliberately non-tonal. */
+    var air = current.createBufferSource();
+    var airFilter = current.createBiquadFilter();
+    var airGain = current.createGain();
+    air.buffer = softNoise(current);
+    airFilter.type = "bandpass";
+    airFilter.frequency.setValueAtTime(press ? 1450 : 1850, now);
+    airFilter.Q.setValueAtTime(press ? 0.72 : 0.9, now);
+    airGain.gain.setValueAtTime(0.0001, now);
+    airGain.gain.exponentialRampToValueAtTime(press ? 0.0105 : 0.0052, now + 0.0025);
+    airGain.gain.exponentialRampToValueAtTime(0.0001, now + (press ? 0.038 : 0.024));
+    air.connect(airFilter);
+    airFilter.connect(airGain);
+    airGain.connect(current.destination);
+    air.start(now);
+    air.stop(now + (press ? 0.042 : 0.028));
 
-    filter.type = "lowpass";
-    filter.frequency.setValueAtTime(1250, now);
-    filter.Q.setValueAtTime(0.55, now);
-
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(kind === "press" ? 0.014 : 0.009, now + 0.009);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(current.destination);
-    osc.start(now);
-    osc.stop(now + duration + 0.01);
+    /* A very quiet warm body is audible only on an actual press. */
+    if (press) {
+      var body = current.createOscillator();
+      var bodyGain = current.createGain();
+      body.type = "sine";
+      body.frequency.setValueAtTime(168, now);
+      body.frequency.exponentialRampToValueAtTime(122, now + 0.042);
+      bodyGain.gain.setValueAtTime(0.0001, now);
+      bodyGain.gain.exponentialRampToValueAtTime(0.006, now + 0.003);
+      bodyGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.046);
+      body.connect(bodyGain);
+      bodyGain.connect(current.destination);
+      body.start(now);
+      body.stop(now + 0.05);
+    }
   }
 
   function unlockAndPlay(kind) {
