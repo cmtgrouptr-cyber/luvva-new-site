@@ -3,46 +3,6 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<style id="luvva-refresh-root-fix-css">
-/* ROOT FIX — hide the secure gateway before first paint when this same tab has a valid active session. */
-html.luvva-refresh-authorized #luvvaGatewayV3,
-html.luvva-refresh-authorized #luvvaV3Success,
-html.luvva-refresh-authorized #luvvaAuthBackdrop{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
-html.luvva-refresh-authorized body.luvva-v3-locked>.site-header,
-html.luvva-refresh-authorized body.luvva-v3-locked>main,
-html.luvva-refresh-authorized body.luvva-v3-locked>footer{visibility:visible!important}
-</style>
-<script id="luvva-refresh-root-fix-prepaint">
-(function(){
-  try{
-    var SESSION_KEY='luvvaVisitorSessionDU2', VISITOR_KEY='luvvaVisitorIdentityDU2', TAB_AUTH_KEY='luvvaAuthorizedTabV1';
-    var rawReplace=history.replaceState.bind(history);
-    /* Keep same-tab authorization attached to the current history entry. Several legacy
-       navigation blocks call replaceState(null,...); without this guard they erase the
-       reload marker and the next Refresh falls back to the gateway. */
-    history.replaceState=function(state,title,url){
-      var explicitOff=!!(state&&typeof state==='object'&&state.luvvaAuthorizedTabV1===0);
-      var authorized=!explicitOff&&((history.state&&history.state.luvvaAuthorizedTabV1===1)||sessionStorage.getItem(TAB_AUTH_KEY)==='1');
-      var next=(state&&typeof state==='object')?Object.assign({},state):{};
-      if(authorized) next.luvvaAuthorizedTabV1=1; else if(explicitOff) delete next.luvvaAuthorizedTabV1;
-      return rawReplace(next,title,url);
-    };
-    var session=JSON.parse(localStorage.getItem(SESSION_KEY)||'null');
-    var visitor=JSON.parse(localStorage.getItem(VISITOR_KEY)||'null');
-    var tabAuth=sessionStorage.getItem(TAB_AUTH_KEY)==='1';
-    var historyAuth=!!(history.state&&history.state.luvvaAuthorizedTabV1===1);
-    var remaining=0;
-    if(session){
-      remaining=Number(session.remainingMs)||0;
-      if(session.isActive&&session.activeSince) remaining=Math.max(0,remaining-Math.max(0,Date.now()-Number(session.activeSince||0)));
-    }
-    if(session&&visitor&&visitor.provider&&remaining>0&&(tabAuth||historyAuth)){
-      if(!tabAuth&&historyAuth) try{sessionStorage.setItem(TAB_AUTH_KEY,'1');}catch(_){}
-      document.documentElement.classList.add('luvva-refresh-authorized');
-    }
-  }catch(e){}
-})();
-</script>
 <style id="luvva079-nav-prepaint-css">
 /* 079: prevent legacy/default navigation from painting before saved language + final nav order are applied. */
 html.luvva079-nav-prepaint #siteHeader{visibility:hidden!important;}
@@ -79,7 +39,7 @@ html.luvva-owner-bypass-prepaint body.luvva-v3-locked>.site-header,
 html.luvva-owner-bypass-prepaint body.luvva-v3-locked>main,
 html.luvva-owner-bypass-prepaint body.luvva-v3-locked>footer{visibility:visible!important}
 </style>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" name="viewport"/>
 <script id="luvva-story-return-prepaint">
 try{
   if(new URLSearchParams(location.search).get("luvva_story_return")==="1"){
@@ -104,6 +64,7 @@ try{
 html.luvva-force-home #luvvaGatewayV3,html.luvva-force-home #luvvaV3Success,html.luvva-force-home #luvvaAuthBackdrop{display:none!important;visibility:hidden!important;opacity:0!important}
 html.luvva-force-home body.luvva-v3-locked>.site-header,html.luvva-force-home body.luvva-v3-locked>main,html.luvva-force-home body.luvva-v3-locked>footer{visibility:visible!important}
 </style>
+
 <style id="luvva-story-return-prepaint-style">
 html.luvva-story-return-prepaint #luvvaGatewayV3,
 html.luvva-story-return-prepaint #luvvaV3Success,
@@ -4158,7 +4119,7 @@ document.addEventListener('DOMContentLoaded',function(){
       window.scrollTo(0, 0);
       document.body.classList.remove("luvva-v3-locked", "luvva-page-revealing", "luvva-page-visible");
       document.body.style.removeProperty("overflow");
-      try { sessionStorage.setItem(TAB_AUTH_KEY, "1"); history.replaceState(Object.assign({},history.state||{},{luvvaAuthorizedTabV1:1}),"",location.href); } catch (_) {}
+      try { sessionStorage.setItem(TAB_AUTH_KEY, "1"); } catch (_) {}
       if (returningSession && savedSession) {
         updateCurrentVisit({ status: "active", resumedAt: Date.now() });
         runSession(savedSession);
@@ -4544,7 +4505,7 @@ document.addEventListener('DOMContentLoaded',function(){
       const visitor=JSON.parse(localStorage.getItem(VISITOR_KEY)||"null");
       if(!session || liveRemaining(session)<=0 || !visitor || !visitor.provider){
         if(session)localStorage.removeItem(SESSION_KEY);
-        document.documentElement.classList.remove("luvva-story-return-prepaint","luvva-refresh-authorized");
+        document.documentElement.classList.remove("luvva-story-return-prepaint");
         return false;
       }
       // Same-tab continuity: authentication survives a browser Refresh and internal
@@ -4552,8 +4513,7 @@ document.addEventListener('DOMContentLoaded',function(){
       // at the secure gateway. sessionStorage is intentionally used for this boundary.
       let tabAuthorized=false, briefReturn=false;
       try {
-        tabAuthorized=sessionStorage.getItem(TAB_AUTH_KEY)==="1" || !!(history.state&&history.state.luvvaAuthorizedTabV1===1);
-        if(tabAuthorized) sessionStorage.setItem(TAB_AUTH_KEY,"1");
+        tabAuthorized=sessionStorage.getItem(TAB_AUTH_KEY)==="1";
         briefReturn=sessionStorage.getItem("luvva_brief_return")==="1";
         if(briefReturn) sessionStorage.removeItem("luvva_brief_return");
       } catch(_) {}
@@ -4568,8 +4528,6 @@ document.addEventListener('DOMContentLoaded',function(){
         document.body.classList.remove("luvva-v3-locked","luvva-page-revealing","luvva-page-visible");
         document.body.style.removeProperty("overflow");
         document.documentElement.style.removeProperty("overflow");
-        document.documentElement.classList.remove("luvva-refresh-authorized");
-        try{history.replaceState(Object.assign({},history.state||{},{luvvaAuthorizedTabV1:1}),"",location.href);}catch(_){}
         updateCurrentVisit({status:"active",resumedAt:Date.now()});
         runSession(session);
         if(briefReturn && location.hash!=="#investor-brief") history.replaceState(null,"",location.pathname+"#investor-brief");
@@ -4582,7 +4540,6 @@ document.addEventListener('DOMContentLoaded',function(){
         return true;
       }
 
-      document.documentElement.classList.remove("luvva-refresh-authorized");
       gateway.hidden=false; gateway.setAttribute("aria-hidden","false");
       document.body.classList.add("luvva-v3-locked"); document.body.style.overflow="hidden";
       sessionTimer.classList.remove("is-visible","is-ending");
@@ -4999,7 +4956,6 @@ document.addEventListener('DOMContentLoaded',function(){
       localStorage.removeItem('luvvaVisitorIdentityDU2');
       localStorage.removeItem('luvvaCurrentVisitDU2');
     }catch(e){}
-    try{history.replaceState({luvvaAuthorizedTabV1:0},"",window.location.pathname+window.location.search+window.location.hash);}catch(e){}
     window.location.replace(window.location.pathname);
   });
 })();
@@ -5839,10 +5795,6 @@ html[lang="ar"] #investor-brief .luvva-pitch-deck-entry{grid-column:1}
 #investor-brief .luvva-pitch-deck-key{min-width:210px}
 html[lang="ar"] #investor-brief .investor-brief-visual-wrap,html[lang="en"] #investor-brief .investor-brief-visual-wrap{gap:20px!important}
 </style>
-<style id="luvva-pitch-no-cover-flash">
-/* Pitch Deck root fix: remove the Investor/Ecosystem cover synchronously while video is open. */
-#investor-brief.luvva-pitch-playing .investor-brief-visual{display:none!important}
-</style>
 <script id="luvva059-pitch-deck-natural-controller">
 (function(){
   function initPitchDeck(){
@@ -5868,8 +5820,6 @@ html[lang="ar"] #investor-brief .investor-brief-visual-wrap,html[lang="en"] #inv
     }
     function stopAndReturn(){
       video.pause();
-      var investorSection=document.getElementById('investor-brief');
-      if(investorSection) investorSection.classList.remove('luvva-pitch-playing');
       try{video.currentTime=0;}catch(e){}
       var done=function(){
         media.hidden=true;
@@ -5881,15 +5831,11 @@ html[lang="ar"] #investor-brief .investor-brief-visual-wrap,html[lang="en"] #inv
       if(exit&&exit.then) exit.then(done).catch(done); else done();
     }
     key.addEventListener('click',function(){
-      var investorSection=document.getElementById('investor-brief');
-      if(investorSection) investorSection.classList.add('luvva-pitch-playing');
-      video.removeAttribute('poster'); video.poster='';
       media.hidden=false;
       setPlaying(true);
       requestAnimationFrame(function(){media.scrollIntoView({behavior:'smooth',block:'center'});});
       var playPromise=video.play();
       if(playPromise&&playPromise.catch) playPromise.catch(function(){
-        if(investorSection) investorSection.classList.remove('luvva-pitch-playing');
         media.hidden=true; setPlaying(false);
       });
     });
@@ -6368,4 +6314,172 @@ html[lang="ar"] #investor-brief > .luvva-pitch-deck-media{
   box-sizing:border-box!important;
 }
 @media(max-width:700px){html[lang="ar"] #investor-brief > .luvva-pitch-deck-media{width:calc(100% - 24px)!important;max-width:calc(100% - 24px)!important;}}
+</style>
+
+<!-- Mobile cascade lock: intentionally last so legacy visual overrides cannot break phone layout. -->
+<style id="luvva-mobile-safe-keys-cascade-lock">
+@media (max-width: 560px) {
+  #luvvaGatewayV3 {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+  #luvvaGatewayV3 .luvva-v3-shell {
+    width: 100% !important;
+    max-width: 520px !important;
+    margin: auto !important;
+    padding: 18px 12px 72px !important;
+  }
+  #luvvaGatewayV3 .luvva-v3-providers {
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 11px !important;
+  }
+  #luvvaGatewayV3 .luvva-v3-providers > button {
+    display: grid !important;
+    grid-template-columns: 40px minmax(0, 1fr) 68px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 56px !important;
+    margin: 0 !important;
+    padding: 7px 10px !important;
+    column-gap: 4px !important;
+    overflow: hidden !important;
+  }
+  #luvvaGatewayV3 .luvva-v3-provider-icon {
+    width: 32px !important;
+    height: 32px !important;
+    margin: 0 !important;
+    justify-self: start !important;
+  }
+  #luvvaGatewayV3 .luvva-v5-provider-label {
+    min-width: 0 !important;
+    width: 100% !important;
+    padding: 0 4px !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    font-size: clamp(11px, 3.15vw, 12.5px) !important;
+    line-height: 1.25 !important;
+  }
+  #luvvaGatewayV3 .luvva-provider-tail,
+  #luvvaGatewayV3 .luvva-frozen-note,
+  #luvvaGatewayV3 .luvva-v3-providers > button .luvva-v3-arrow,
+  #luvvaGatewayV3 .luvva-v3-providers > button[data-luvva-v3-provider="Google"] > .luvva-v3-arrow,
+  #luvvaGatewayV3 .luvva-v3-providers > button[data-luvva-v3-provider="Business Email"] .luvva-v5-business-stars {
+    position: static !important;
+    inset: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+  }
+  #luvvaGatewayV3 .luvva-provider-tail,
+  #luvvaGatewayV3 .luvva-frozen-note {
+    min-width: 0 !important;
+    max-width: 68px !important;
+    justify-self: end !important;
+  }
+  #luvvaGatewayV3 .luvva-v3-providers > button .luvva-v3-arrow {
+    width: auto !important;
+    height: auto !important;
+    justify-self: end !important;
+  }
+  #luvvaGatewayV3 .luvva-frozen-note {
+    padding: 4px 5px !important;
+    white-space: nowrap !important;
+    font-size: 7px !important;
+  }
+  #luvvaGatewayV3 .luvva-security-panel,
+  #luvvaGatewayV3 .luvva-privacy-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  #luvvaGatewayV3 .luvva-security-title { white-space: normal !important; }
+
+  .luvva-auth-backdrop {
+    align-items: flex-start !important;
+    justify-items: center !important;
+    padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+  .luvva-auth-dialog,
+  .luvva-auth-dialog.provider-business,
+  .luvva-auth-dialog.provider-google,
+  .luvva-auth-dialog.provider-whatsapp,
+  .luvva-auth-dialog.provider-wechat {
+    width: 100% !important;
+    max-width: 480px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: calc(100vh - 16px) !important;
+    max-height: calc(100dvh - 16px) !important;
+    margin: 0 auto !important;
+    padding: 20px 16px 18px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+  .luvva-auth-dialog.provider-google .luvva-auth-brandmark {
+    width: 68px !important;
+    height: 68px !important;
+    margin-bottom: 12px !important;
+  }
+  .luvva-auth-dialog.provider-google .luvva-auth-title {
+    margin-bottom: 16px !important;
+    font-size: 30px !important;
+  }
+  .luvva-auth-input,
+  .luvva-country-button,
+  .luvva-country-search {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    font-size: 16px !important;
+  }
+  .luvva-phone-grid {
+    grid-template-columns: minmax(108px, 39%) minmax(0, 1fr) !important;
+    gap: 8px !important;
+  }
+  .luvva-country-menu {
+    max-width: 100% !important;
+    max-height: min(250px, 46dvh) !important;
+  }
+  .luvva-auth-submit,
+  #luvvaAuthSubmit,
+  .luvva-business-reset,
+  #luvvaBusinessReset,
+  #luvvaWhatsappReset,
+  .luvva-google-back,
+  .luvva-auth-dialog.provider-business #luvvaAuthSubmit,
+  .luvva-auth-dialog.provider-business #luvvaBusinessReset {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    width: min(100%, 320px) !important;
+    max-width: 100% !important;
+    min-height: 48px !important;
+    margin: 8px auto !important;
+    padding: 10px 16px !important;
+    white-space: normal !important;
+    line-height: 1.25 !important;
+  }
+}
+@media (max-width: 380px) {
+  #luvvaGatewayV3 .luvva-v3-shell { padding-inline: 9px !important; }
+  #luvvaGatewayV3 .luvva-v3-providers > button {
+    grid-template-columns: 36px minmax(0, 1fr) 60px !important;
+    padding-inline: 8px !important;
+  }
+  #luvvaGatewayV3 .luvva-v3-provider-icon { width: 29px !important; height: 29px !important; }
+  #luvvaGatewayV3 .luvva-frozen-note { font-size: 6.5px !important; letter-spacing: .08em !important; }
+}
 </style>
