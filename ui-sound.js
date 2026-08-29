@@ -167,7 +167,7 @@
     airFilter.frequency.setValueAtTime(press ? 1450 : 1850, now);
     airFilter.Q.setValueAtTime(press ? 0.72 : 0.9, now);
     airGain.gain.setValueAtTime(0.0001, now);
-    airGain.gain.exponentialRampToValueAtTime(press ? 0.0105 : 0.0052, now + 0.0025);
+    airGain.gain.exponentialRampToValueAtTime(press ? 0.0150 : 0.0072, now + 0.0025);
     airGain.gain.exponentialRampToValueAtTime(0.0001, now + (press ? 0.038 : 0.024));
     air.connect(airFilter);
     airFilter.connect(airGain);
@@ -183,7 +183,7 @@
       body.frequency.setValueAtTime(168, now);
       body.frequency.exponentialRampToValueAtTime(122, now + 0.042);
       bodyGain.gain.setValueAtTime(0.0001, now);
-      bodyGain.gain.exponentialRampToValueAtTime(0.006, now + 0.003);
+      bodyGain.gain.exponentialRampToValueAtTime(0.0085, now + 0.003);
       bodyGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.046);
       body.connect(bodyGain);
       bodyGain.connect(current.destination);

@@ -26,6 +26,7 @@ async function sb(path, { method = 'GET', body, prefer = 'return=representation'
 }
 
 module.exports = async function handler(req, res) {
+  let verifiedFallback = null;
   if (req.method !== 'POST') return json(res, 405, { ok: false, message: 'Method not allowed' });
   const credential = req.body?.credential;
   if (!credential) return json(res, 400, { ok: false, message: 'Missing Google credential' });
@@ -42,6 +43,25 @@ module.exports = async function handler(req, res) {
     const now = new Date();
     const expiresAt = new Date(now.getTime() + SESSION_MINUTES * 60 * 1000).toISOString();
     const normalizedEmail = String(profile.email).trim().toLowerCase();
+    // Once Google itself has verified the identity, optional Dashboard/database
+    // failures must never send the visitor back to the Google button.
+    verifiedFallback = {
+      visitor: {
+        id: `google:${profile.sub}`,
+        identityId: `google:${profile.sub}`,
+        provider: 'Google',
+        subject: profile.sub,
+        email: normalizedEmail,
+        name: profile.name || normalizedEmail,
+        picture: profile.picture || ''
+      },
+      session: {
+        id: randomUUID(),
+        accessState: 'temporary',
+        expiresAt,
+        durationMinutes: SESSION_MINUTES
+      }
+    };
 
     // Google identity verification must not depend on the Dashboard database being configured.
     // Vercel currently has the Google credentials, while Supabase can be connected later.
@@ -71,7 +91,45 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    let identityRows = await sb(`identities?provider=eq.google&provider_subject=eq.${encodeURIComponent(profile.sub)}&select=*,visitors(*)`);
+    let identityRows;
+    try {
+      identityRows = await sb(`identities?provider=eq.google&provider_subject=eq.${encodeURIComponent(profile.sub)}&select=*,visitors(*)`);
+    } catch (dbError) {
+      // Google verification has already succeeded at this point.
+      // If the optional Dashboard schema has not been created yet, do not reject
+      // a valid Google login. Fall back to the same 25-minute verified session
+      // used when Supabase itself is not configured.
+      const message = String(dbError?.message || dbError || '');
+      const dashboardSchemaMissing =
+        /schema cache/i.test(message) ||
+        /could not find the table/i.test(message) ||
+        /relation .* does not exist/i.test(message);
+
+      if (!dashboardSchemaMissing) throw dbError;
+
+      console.warn('LUVVA Google: Dashboard schema unavailable; using verified temporary session:', message);
+      const localIdentityId = `google:${profile.sub}`;
+      return json(res, 200, {
+        ok: true,
+        approved: true,
+        mode: 'verified-temporary-session',
+        visitor: {
+          id: localIdentityId,
+          identityId: localIdentityId,
+          provider: 'Google',
+          subject: profile.sub,
+          email: normalizedEmail,
+          name: profile.name || normalizedEmail,
+          picture: profile.picture || ''
+        },
+        session: {
+          id: randomUUID(),
+          accessState: 'temporary',
+          expiresAt,
+          durationMinutes: SESSION_MINUTES
+        }
+      });
+    }
     let identity = identityRows?.[0];
     let visitor;
 
@@ -187,6 +245,16 @@ module.exports = async function handler(req, res) {
     });
   } catch (error) {
     console.error('LUVVA Google authentication error:', error);
+    if (verifiedFallback) {
+      console.warn('LUVVA Google: identity verified; Dashboard/database write failed, continuing with a temporary session.');
+      return json(res, 200, {
+        ok: true,
+        approved: true,
+        mode: 'verified-temporary-session-db-fallback',
+        visitor: verifiedFallback.visitor,
+        session: verifiedFallback.session
+      });
+    }
     return json(res, 401, { ok: false, message: 'Google verification failed. Please try again.' });
   }
 };
