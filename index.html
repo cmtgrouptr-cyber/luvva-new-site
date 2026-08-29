@@ -14,14 +14,19 @@ html.luvva079-nav-prepaint #siteHeader{visibility:hidden!important;}
   #siteHeader{
     position:relative!important;
     display:flex!important;
+    flex-wrap:wrap!important;
     align-items:center!important;
     justify-content:space-between!important;
     gap:12px!important;
     width:100%!important;
+    height:auto!important;
     min-height:66px!important;
+    max-height:none!important;
     padding:10px 14px 13px!important;
     box-sizing:border-box!important;
     overflow:visible!important;
+    visibility:visible!important;
+    opacity:1!important;
     direction:ltr!important;
     z-index:1000!important;
   }
@@ -80,7 +85,7 @@ html.luvva079-nav-prepaint #siteHeader{visibility:hidden!important;}
     order:2!important;
     position:relative!important;
     inset:auto!important;
-    display:inline-flex!important;
+    display:none!important;
     flex-direction:column!important;
     align-items:center!important;
     justify-content:center!important;
@@ -119,27 +124,35 @@ html.luvva079-nav-prepaint #siteHeader{visibility:hidden!important;}
 
   #siteHeader #mainNav{
     order:3!important;
-    position:absolute!important;
-    top:calc(100% + 9px)!important;
-    left:12px!important;
-    right:12px!important;
-    display:none!important;
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    position:relative!important;
+    top:auto!important;
+    left:auto!important;
+    right:auto!important;
+    display:grid!important;
+    flex:1 0 100%!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
     align-items:stretch!important;
-    gap:12px!important;
-    width:auto!important;
+    gap:10px 8px!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
     max-width:none!important;
-    max-height:min(72vh,560px)!important;
-    padding:16px!important;
+    max-height:none!important;
+    padding:9px 0 5px!important;
     margin:0!important;
-    overflow-y:auto!important;
+    overflow:visible!important;
+    visibility:visible!important;
+    opacity:1!important;
+    pointer-events:auto!important;
     box-sizing:border-box!important;
-    border:1px solid rgba(139,91,38,.34)!important;
-    border-radius:18px!important;
-    background:rgba(250,246,237,.98)!important;
-    box-shadow:0 22px 50px rgba(44,28,25,.30)!important;
-    backdrop-filter:blur(14px)!important;
-    -webkit-backdrop-filter:blur(14px)!important;
+    border:0!important;
+    border-radius:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+    clip-path:none!important;
+    -webkit-clip-path:none!important;
     transform:none!important;
     z-index:1002!important;
   }
@@ -157,16 +170,16 @@ html.luvva079-nav-prepaint #siteHeader{visibility:hidden!important;}
     width:100%!important;
     min-width:0!important;
     max-width:none!important;
-    min-height:48px!important;
+    min-height:42px!important;
     height:auto!important;
-    padding:9px 8px!important;
+    padding:7px 5px!important;
     margin:0!important;
     box-sizing:border-box!important;
     border:1px solid rgba(154,111,52,.50)!important;
     border-radius:13px!important;
     background:linear-gradient(180deg,#fffdf7 0%,#f7efe1 48%,#dec7a0 100%)!important;
     color:#5f1d2c!important;
-    font-size:11px!important;
+    font-size:9.5px!important;
     font-weight:800!important;
     line-height:1.2!important;
     letter-spacing:0!important;
@@ -175,22 +188,25 @@ html.luvva079-nav-prepaint #siteHeader{visibility:hidden!important;}
     white-space:normal!important;
     word-break:normal!important;
     overflow:visible!important;
+    visibility:visible!important;
+    opacity:1!important;
+    pointer-events:auto!important;
     transform:none!important;
     box-shadow:0 2px 0 #fff,0 5px 0 rgba(181,184,187,.86),0 8px 0 #741c31,0 11px 15px rgba(54,38,32,.16)!important;
   }
   #siteHeader #mainNav>a::after{display:none!important;}
   #siteHeader #mainNav>a .luvva-nav-icon{
     display:inline-block!important;
-    flex:0 0 16px!important;
-    width:16px!important;
-    height:16px!important;
+    flex:0 0 14px!important;
+    width:14px!important;
+    height:14px!important;
     margin:0!important;
   }
   #siteHeader #mainNav>a .luvva-nav-label{display:inline!important;white-space:normal!important;}
   html[lang="ar"] #siteHeader #mainNav{direction:rtl!important;}
   html[lang="ar"] #siteHeader #mainNav>a{
     font-family:"Tajawal","Segoe UI",Tahoma,Arial,sans-serif!important;
-    font-size:12px!important;
+    font-size:10.5px!important;
   }
 
   #siteHeader .luvva-investor-stack{display:none!important;}
@@ -198,7 +214,7 @@ html.luvva079-nav-prepaint #siteHeader{visibility:hidden!important;}
 
 @media (min-width:640px) and (max-width:900px),
        (hover:none) and (pointer:coarse) and (min-width:640px) and (max-width:1200px){
-  #siteHeader #mainNav{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
+  #siteHeader #mainNav{grid-template-columns:repeat(5,minmax(0,1fr))!important;}
 }
 
 @media (max-width:390px){
@@ -207,7 +223,11 @@ html.luvva079-nav-prepaint #siteHeader{visibility:hidden!important;}
   #siteHeader #luvvaSiteLogout{min-width:62px!important;padding:0 9px!important;font-size:9px!important;}
   #siteHeader .language-button{min-width:76px!important;padding:0 9px!important;gap:6px!important;}
   #siteHeader #menuToggle{flex-basis:44px!important;width:44px!important;}
-  #siteHeader #mainNav{left:8px!important;right:8px!important;padding:13px!important;gap:10px!important;}
+  #siteHeader #mainNav{padding:9px 0 4px!important;gap:9px 7px!important;}
+}
+
+@media (max-width:359px){
+  #siteHeader #mainNav{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
 }
 </style>
 <script id="luvva079-nav-prepaint-start">
