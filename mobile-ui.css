@@ -267,3 +267,46 @@
     flex-basis: 112px !important;
   }
 }
+
+/* 2026-08-29 V5.1 — Android mobile header clearance + section top reset.
+   Mobile-only. Desktop/Windows is intentionally untouched. */
+@media (hover: none) and (pointer: coarse) and (max-width: 1200px) {
+  #siteHeader {
+    min-height: 0 !important;
+    height: 78px !important;
+    max-height: 78px !important;
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+    align-content: center !important;
+  }
+
+  #siteHeader #mainNav,
+  #siteHeader #mainNav.open {
+    height: 56px !important;
+    min-height: 56px !important;
+    max-height: 56px !important;
+    padding-top: 2px !important;
+    padding-bottom: 10px !important;
+  }
+
+  /* A hidden/absolute utility must never reserve vertical space below the key row. */
+  #siteHeader .luvva-investor-stack {
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  main {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  main > section,
+  main > section.active-section {
+    scroll-margin-top: 0 !important;
+  }
+}
