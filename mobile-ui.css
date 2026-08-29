@@ -1,0 +1,267 @@
+/* LUVVA mobile-only navigation layer.
+   It never runs on ordinary desktop/Windows pointer layouts. */
+
+@media (hover: none) and (pointer: coarse) and (max-width: 1200px) {
+  html,
+  body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-x: none !important;
+  }
+
+  #siteHeader {
+    position: relative !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 66px !important;
+    max-height: none !important;
+    padding: 10px 12px 15px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    direction: ltr !important;
+    transform: none !important;
+    z-index: 1000 !important;
+  }
+
+  #siteHeader .luvva-lang-logout-wrap {
+    order: 1 !important;
+    position: relative !important;
+    inset: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    direction: ltr !important;
+    transform: none !important;
+    z-index: 1003 !important;
+  }
+
+  #siteHeader #luvvaSiteLogout {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
+    min-width: 70px !important;
+    height: 40px !important;
+    padding: 0 12px !important;
+    margin: 0 !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+    transform: none !important;
+  }
+
+  #siteHeader .language-menu {
+    position: relative !important;
+    margin: 0 !important;
+  }
+
+  #siteHeader .language-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: auto !important;
+    min-width: 84px !important;
+    height: 40px !important;
+    padding: 0 12px !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  #siteHeader .language-button::after {
+    bottom: -8px !important;
+  }
+
+  #siteHeader #languageOptions {
+    position: fixed !important;
+    top: 64px !important;
+    left: 12px !important;
+    right: auto !important;
+    width: 170px !important;
+    max-width: calc(100vw - 24px) !important;
+    z-index: 1010 !important;
+  }
+
+  #siteHeader #menuToggle {
+    display: none !important;
+  }
+
+  #siteHeader #mainNav,
+  #siteHeader #mainNav.open {
+    order: 2 !important;
+    position: relative !important;
+    inset: auto !important;
+    display: flex !important;
+    flex: 1 0 100% !important;
+    flex-flow: row nowrap !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+    padding: 3px 3px 11px !important;
+    margin: 2px 0 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    overscroll-behavior-x: contain !important;
+    scroll-behavior: smooth !important;
+    scroll-snap-type: x proximity !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(116, 28, 49, .46) transparent !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-x !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    clip-path: none !important;
+    transform: none !important;
+    z-index: 1002 !important;
+  }
+
+  #siteHeader #mainNav::-webkit-scrollbar {
+    height: 3px !important;
+  }
+
+  #siteHeader #mainNav::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+
+  #siteHeader #mainNav::-webkit-scrollbar-thumb {
+    border-radius: 999px !important;
+    background: rgba(116, 28, 49, .46) !important;
+  }
+
+  #siteHeader #mainNav > a,
+  #siteHeader #mainNav > a.cmt-button,
+  #siteHeader #mainNav > a.luvva-world-button {
+    position: relative !important;
+    inset: auto !important;
+    display: inline-flex !important;
+    flex: 0 0 clamp(116px, 34vw, 148px) !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    padding: 6px 7px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    scroll-snap-align: start !important;
+    border: 1px solid rgba(154, 111, 52, .50) !important;
+    border-radius: 12px !important;
+    background: linear-gradient(180deg, #fffdf7 0%, #f7efe1 48%, #dec7a0 100%) !important;
+    color: #5f1d2c !important;
+    font-size: 9.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    letter-spacing: 0 !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    transform: none !important;
+    box-shadow:
+      0 2px 0 #fff,
+      0 4px 0 rgba(181, 184, 187, .86),
+      0 7px 0 #741c31,
+      0 9px 12px rgba(54, 38, 32, .14) !important;
+  }
+
+  #siteHeader #mainNav > a::after {
+    display: none !important;
+  }
+
+  #siteHeader #mainNav > a .luvva-nav-icon {
+    display: inline-block !important;
+    flex: 0 0 14px !important;
+    width: 14px !important;
+    height: 14px !important;
+    margin: 0 !important;
+  }
+
+  #siteHeader #mainNav > a .luvva-nav-label {
+    display: inline !important;
+    white-space: normal !important;
+  }
+
+  html[lang="en"] #siteHeader #mainNav {
+    direction: ltr !important;
+  }
+
+  html[lang="ar"] #siteHeader #mainNav {
+    direction: rtl !important;
+  }
+
+  html[lang="ar"] #siteHeader #mainNav > a {
+    font-family: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif !important;
+    font-size: 10.5px !important;
+  }
+
+  html[lang="ar"] #siteHeader #languageOptions {
+    left: 12px !important;
+    right: auto !important;
+  }
+
+  #siteHeader .luvva-investor-stack {
+    display: none !important;
+  }
+}
+
+@media (max-width: 390px) {
+  #siteHeader {
+    padding-inline: 9px !important;
+  }
+
+  #siteHeader .luvva-lang-logout-wrap {
+    gap: 6px !important;
+  }
+
+  #siteHeader #luvvaSiteLogout {
+    min-width: 62px !important;
+    padding-inline: 9px !important;
+    font-size: 9px !important;
+  }
+
+  #siteHeader .language-button {
+    min-width: 76px !important;
+    padding-inline: 9px !important;
+    gap: 6px !important;
+  }
+
+  #siteHeader #mainNav > a,
+  #siteHeader #mainNav > a.cmt-button,
+  #siteHeader #mainNav > a.luvva-world-button {
+    flex-basis: 118px !important;
+  }
+}

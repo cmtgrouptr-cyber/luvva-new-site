@@ -9,7 +9,7 @@ html.luvva079-nav-prepaint #siteHeader{visibility:hidden!important;}
 </style>
 
 <!-- 080: definitive mobile header fix — portrait + landscape phones only -->
-<style id="luvva080-mobile-header-final">
+<style id="luvva080-mobile-header-final" media="not all">
 @media (max-width:900px), (hover:none) and (pointer:coarse) and (max-width:1200px){
   #siteHeader{
     position:relative!important;
@@ -299,6 +299,8 @@ html.luvva-story-return-prepaint #luvvaAuthBackdrop{display:none!important;visib
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="style.css?v=20260728-5" rel="stylesheet">
+<link href="mobile-ui.css?v=20260829-1" rel="stylesheet">
+<script defer src="ui-sound.js?v=20260829-1"></script>
 <!-- LUVVA V3 single-file styles -->
 <style id="luvva-v3-styles">
 /* ==========================================================
@@ -6539,7 +6541,7 @@ html[lang="ar"] #investor-brief > .luvva-pitch-deck-media{
 </style>
 
 <!-- 081: soft tactile sound for visible website keys; no external audio asset -->
-<script id="luvva081-site-key-sound">
+<script id="luvva081-site-key-sound" type="application/json">
 (function(){
   "use strict";
 
