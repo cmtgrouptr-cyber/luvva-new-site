@@ -1,0 +1,1 @@
+03_05 built directly on 03_04. Contact delete/read now use the already-established /api/admin-visitors route. No SQL changes required. Existing alerts, NEW/unread, email notification, confirm-delete, and prior fixes are preserved.
