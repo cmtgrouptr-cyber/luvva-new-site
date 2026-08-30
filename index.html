@@ -3153,6 +3153,10 @@ document.addEventListener('DOMContentLoaded',function(){
   });
 });
 </script>
+
+<style id="luvva-super-master-contact-fix">
+.luvva-phone-wrap{display:flex;align-items:center;width:100%;border:1px solid rgba(139,105,58,.22);border-radius:18px;background:rgba(255,255,255,.5);overflow:hidden}.luvva-phone-wrap .luvva-dial-code{padding:0 10px;font-weight:700;color:#8b641f;white-space:nowrap;border-right:1px solid rgba(139,105,58,.18)}.luvva-phone-wrap input{border:0!important;background:transparent!important;box-shadow:none!important;flex:1;min-width:0}.luvva-contact-grid select#luvvaContactCountry{width:100%}
+</style>
 </head>
 <body class="luvva-v3-locked">
 <!-- LUVVA_SECURE_GATEWAY_V38_FINAL_CMT_CONTACT_COLORS_2026-07-31 -->
@@ -3635,8 +3639,41 @@ document.addEventListener('DOMContentLoaded',function(){
         <label>Company / Organization <input autocomplete="organization" id="luvvaContactCompany" name="company" type="text"/></label>
         <label>Position (optional) <input autocomplete="organization-title" id="luvvaContactPosition" name="position" type="text"/></label>
         <label>Email address <input autocomplete="email" id="luvvaContactEmail" name="email" required type="email"/></label>
-        <label>WhatsApp / Phone <input autocomplete="tel" id="luvvaContactPhone" name="phone" type="tel"/></label>
-        <label>Country <input autocomplete="country-name" id="luvvaContactCountry" name="country" type="text"/></label>
+        <label>WhatsApp / Phone <div class="luvva-phone-wrap"><span id="luvvaDialCode" class="luvva-dial-code">+90</span><input autocomplete="tel" id="luvvaContactPhone" name="phone" type="tel" inputmode="tel" placeholder="Phone number"/></div></label>
+        <label>Country
+          <select autocomplete="country-name" id="luvvaContactCountry" name="country">
+            <option value="">Select country</option>
+            <option value="Türkiye" data-dial="+90">Türkiye (+90)</option>
+            <option value="Saudi Arabia" data-dial="+966">Saudi Arabia (+966)</option>
+            <option value="United Arab Emirates" data-dial="+971">United Arab Emirates (+971)</option>
+            <option value="Palestine" data-dial="+970">Palestine (+970)</option>
+            <option value="Jordan" data-dial="+962">Jordan (+962)</option>
+            <option value="Qatar" data-dial="+974">Qatar (+974)</option>
+            <option value="Kuwait" data-dial="+965">Kuwait (+965)</option>
+            <option value="Bahrain" data-dial="+973">Bahrain (+973)</option>
+            <option value="Oman" data-dial="+968">Oman (+968)</option>
+            <option value="Egypt" data-dial="+20">Egypt (+20)</option>
+            <option value="Netherlands" data-dial="+31">Netherlands (+31)</option>
+            <option value="Germany" data-dial="+49">Germany (+49)</option>
+            <option value="United Kingdom" data-dial="+44">United Kingdom (+44)</option>
+            <option value="United States" data-dial="+1">United States (+1)</option>
+            <option value="Canada" data-dial="+1">Canada (+1)</option>
+            <option value="France" data-dial="+33">France (+33)</option>
+            <option value="Italy" data-dial="+39">Italy (+39)</option>
+            <option value="Spain" data-dial="+34">Spain (+34)</option>
+            <option value="Switzerland" data-dial="+41">Switzerland (+41)</option>
+            <option value="Austria" data-dial="+43">Austria (+43)</option>
+            <option value="Belgium" data-dial="+32">Belgium (+32)</option>
+            <option value="Sweden" data-dial="+46">Sweden (+46)</option>
+            <option value="Norway" data-dial="+47">Norway (+47)</option>
+            <option value="Denmark" data-dial="+45">Denmark (+45)</option>
+            <option value="China" data-dial="+86">China (+86)</option>
+            <option value="Japan" data-dial="+81">Japan (+81)</option>
+            <option value="South Korea" data-dial="+82">South Korea (+82)</option>
+            <option value="India" data-dial="+91">India (+91)</option>
+            <option value="Australia" data-dial="+61">Australia (+61)</option>
+          </select>
+        </label>
         <label>Area of interest
           <select id="luvvaContactInterest" name="interest">
             <option value="Strategic partnership">Strategic partnership</option>
@@ -4894,8 +4931,20 @@ document.addEventListener('DOMContentLoaded',function(){
     } catch(_) {}
   }
 
+  const contactCountry = document.getElementById("luvvaContactCountry");
+  const contactPhone = document.getElementById("luvvaContactPhone");
+  const contactDial = document.getElementById("luvvaDialCode");
+  function syncContactDialCode(){
+    if(!contactCountry || !contactDial) return;
+    const option=contactCountry.options[contactCountry.selectedIndex];
+    contactDial.textContent=(option && option.dataset.dial)||"+";
+  }
+  contactCountry?.addEventListener("change", syncContactDialCode);
+  syncContactDialCode();
+
   if (contactForm) {
     loadContactDetails();
+    syncContactDialCode();
     contactForm.addEventListener("submit", async e => {
       e.preventDefault();
       if (!contactForm.checkValidity()) {
@@ -4916,7 +4965,7 @@ document.addEventListener('DOMContentLoaded',function(){
       if (submitButton) { submitButton.disabled = true; submitButton.textContent = "Sending…"; }
       if (contactStatus) contactStatus.textContent = "Sending securely…";
       try {
-        const response = await fetch("/api/contact-submit", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({identity_id:identityId,name:data.fullName||"",email:data.email||"",phone:data.phone||"",company:data.company||"",position:data.position||"",country:data.country||"",interest:data.interest||"",message:data.message||"",consent:!!data.consent})});
+        const response = await fetch("/api/contact-submit", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({identity_id:identityId,provider:verified?.provider||"",provider_subject:verified?.subject||"",name:data.fullName||"",email:data.email||"",phone:((contactDial?.textContent||"") + String(data.phone||"").replace(/^\+|\D/g,"")),company:data.company||"",position:data.position||"",country:data.country||"",interest:data.interest||"",message:data.message||"",consent:!!data.consent})});
         const result = await response.json().catch(()=>({}));
         if (!response.ok || !result.ok) throw new Error(result.message || "Unable to send your information securely.");
         data.savedAt = Date.now();
@@ -5143,7 +5192,7 @@ document.addEventListener('DOMContentLoaded',function(){
     openClicks++;
     if(openClicks<5){help.textContent=`Press ${5-openClicks} more time${5-openClicks===1?'':'s'} within 5 seconds to open.`;return}
     openClicks=0;openFirstAt=0;
-    if(currentType==='dashboard'){sessionStorage.removeItem('luvvaDashboardPreview');location.href='dashboard.html'}else{try{sessionStorage.setItem('luvva_owner_website_bypass','1')}catch(e){}close();const gateway=document.getElementById('luvvaGatewayV3');const success=document.getElementById('luvvaV3Success');const backdrop=document.getElementById('luvvaAuthBackdrop');if(gateway){gateway.hidden=true;gateway.setAttribute('aria-hidden','true');gateway.classList.remove('is-revealing')}if(success){success.classList.remove('show','is-leaving','is-opening','pulse-fading');success.setAttribute('aria-hidden','true')}if(backdrop){backdrop.classList.remove('is-open');backdrop.hidden=true;backdrop.setAttribute('aria-hidden','true')}document.body.classList.remove('luvva-v3-locked','luvva-page-revealing','luvva-page-visible');document.body.style.removeProperty('overflow');document.documentElement.style.removeProperty('overflow');document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0)}});modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});bindCorner(document.getElementById('luvvaOwnerWeb'),'website');bindCorner(document.getElementById('luvvaOwnerDash'),'dashboard');
+    if(currentType==='dashboard'){sessionStorage.setItem('luvvaDashboardPreview','1');location.href='dashboard.html?preview=1&owner=1'}else{try{sessionStorage.setItem('luvva_owner_website_bypass','1')}catch(e){}close();const gateway=document.getElementById('luvvaGatewayV3');const success=document.getElementById('luvvaV3Success');const backdrop=document.getElementById('luvvaAuthBackdrop');if(gateway){gateway.hidden=true;gateway.setAttribute('aria-hidden','true');gateway.classList.remove('is-revealing')}if(success){success.classList.remove('show','is-leaving','is-opening','pulse-fading');success.setAttribute('aria-hidden','true')}if(backdrop){backdrop.classList.remove('is-open');backdrop.hidden=true;backdrop.setAttribute('aria-hidden','true')}document.body.classList.remove('luvva-v3-locked','luvva-page-revealing','luvva-page-visible');document.body.style.removeProperty('overflow');document.documentElement.style.removeProperty('overflow');document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0)}});modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});bindCorner(document.getElementById('luvvaOwnerWeb'),'website');bindCorner(document.getElementById('luvvaOwnerDash'),'dashboard');
   const select=document.getElementById('luvvaCountryCode'),button=document.getElementById('luvvaCountryButton'),menu=document.getElementById('luvvaCountryMenu'),search=document.getElementById('luvvaCountrySearch'),items=[...document.querySelectorAll('.luvva-country-option')];
   button?.addEventListener('click',e=>{e.stopPropagation();menu.classList.toggle('open');if(menu.classList.contains('open'))setTimeout(()=>search.focus(),0)});items.forEach(it=>it.addEventListener('click',()=>{select.value=it.dataset.value;button.textContent=it.textContent;items.forEach(x=>x.classList.toggle('active',x===it));menu.classList.remove('open');select.dispatchEvent(new Event('change',{bubbles:true}))}));search?.addEventListener('input',()=>{const q=search.value.toLowerCase();items.forEach(it=>it.style.display=it.textContent.toLowerCase().includes(q)?'block':'none')});document.addEventListener('click',e=>{if(!document.getElementById('luvvaCountryPicker')?.contains(e.target))menu?.classList.remove('open')});
 })();
