@@ -3155,7 +3155,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 
 <style id="luvva-super-master-contact-fix">
-.luvva-phone-wrap{display:flex;align-items:center;width:100%;border:1px solid rgba(139,105,58,.22);border-radius:18px;background:rgba(255,255,255,.5);overflow:hidden}.luvva-phone-wrap .luvva-dial-code{padding:0 10px;font-weight:700;color:#8b641f;white-space:nowrap;border-right:1px solid rgba(139,105,58,.18)}.luvva-phone-wrap input{border:0!important;background:transparent!important;box-shadow:none!important;flex:1;min-width:0}.luvva-contact-grid select#luvvaContactCountry{width:100%}
+.luvva-phone-wrap{display:flex;align-items:center;width:100%;direction:ltr;unicode-bidi:isolate;border:1px solid rgba(139,105,58,.22);border-radius:18px;background:rgba(255,255,255,.5);overflow:hidden}.luvva-phone-wrap .luvva-dial-code{direction:ltr;unicode-bidi:isolate;padding:0 10px;font-weight:700;color:#8b641f;white-space:nowrap;border-right:1px solid rgba(139,105,58,.18)}.luvva-phone-wrap input{direction:ltr;text-align:left;border:0!important;background:transparent!important;box-shadow:none!important;flex:1;min-width:0}.luvva-contact-grid select#luvvaContactCountry{width:100%}
 </style>
 </head>
 <body class="luvva-v3-locked">
@@ -3639,11 +3639,11 @@ document.addEventListener('DOMContentLoaded',function(){
         <label>Company / Organization <input autocomplete="organization" id="luvvaContactCompany" name="company" type="text"/></label>
         <label>Position (optional) <input autocomplete="organization-title" id="luvvaContactPosition" name="position" type="text"/></label>
         <label>Email address <input autocomplete="email" id="luvvaContactEmail" name="email" required type="email"/></label>
-        <label>WhatsApp / Phone <div class="luvva-phone-wrap"><span id="luvvaDialCode" class="luvva-dial-code">+90</span><input autocomplete="tel" id="luvvaContactPhone" name="phone" type="tel" inputmode="tel" placeholder="Phone number"/></div></label>
+        <label>WhatsApp / Phone <div class="luvva-phone-wrap" dir="ltr"><span id="luvvaDialCode" class="luvva-dial-code" dir="ltr">+90</span><input autocomplete="tel" id="luvvaContactPhone" name="phone" type="tel" inputmode="tel" dir="ltr" placeholder="Phone number"/></div></label>
         <label>Country
           <select autocomplete="country-name" id="luvvaContactCountry" name="country">
             <option value="">Select country</option>
-            <option value="Türkiye" data-dial="+90">Türkiye (+90)</option>
+            <option value="Türkiye" data-dial="+90">Türkiye</option>
             <option value="Saudi Arabia" data-dial="+966">Saudi Arabia (+966)</option>
             <option value="United Arab Emirates" data-dial="+971">United Arab Emirates (+971)</option>
             <option value="Palestine" data-dial="+970">Palestine (+970)</option>
@@ -4965,8 +4965,8 @@ document.addEventListener('DOMContentLoaded',function(){
       if (submitButton) { submitButton.disabled = true; submitButton.textContent = "Sending…"; }
       if (contactStatus) contactStatus.textContent = "Sending securely…";
       try {
-        const response = await fetch("/api/contact-submit", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({identity_id:identityId,provider:verified?.provider||"",provider_subject:verified?.subject||"",name:data.fullName||"",email:data.email||"",phone:((contactDial?.textContent||"") + String(data.phone||"").replace(/^\+|\D/g,"")),company:data.company||"",position:data.position||"",country:data.country||"",interest:data.interest||"",message:data.message||"",consent:!!data.consent})});
-        const result = await response.json().catch(()=>({}));
+        const response = await fetch("/api/contact-submit", {method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({identity_id:identityId,provider:verified?.provider||"",provider_subject:verified?.subject||"",name:data.fullName||"",email:data.email||"",phone:((contactDial?.textContent||"") + String(data.phone||"").replace(/^\+|\D/g,"")),company:data.company||"",position:data.position||"",country:data.country||"",interest:data.interest||"",message:data.message||"",consent:!!data.consent})});
+        const result = await response.json().catch(()=>({message:response.status===404?"Contact service is not deployed yet.":"Unable to send your information securely."}));
         if (!response.ok || !result.ok) throw new Error(result.message || "Unable to send your information securely.");
         data.savedAt = Date.now();
         try { localStorage.setItem(CONTACT_DETAILS_KEY, JSON.stringify(data)); } catch(_) {}
