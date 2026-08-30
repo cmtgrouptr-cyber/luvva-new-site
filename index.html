@@ -4983,7 +4983,10 @@ document.addEventListener('DOMContentLoaded',function(){
         const result = await response.json().catch(()=>({message:response.status===404?"Contact service is not deployed yet.":"Unable to send your information securely."}));
         if (!response.ok || !result.ok) throw new Error(result.message || "Unable to send your information securely.");
         data.savedAt = Date.now();
-        try { localStorage.setItem(CONTACT_DETAILS_KEY, JSON.stringify(data)); } catch(_) {}
+        // A successful submission is complete: do not leave personal data in the form/browser.
+        try { localStorage.removeItem(CONTACT_DETAILS_KEY); } catch(_) {}
+        contactForm.reset();
+        syncContactDialCode();
         writeAccessPolicy({ usedProviders:[], contactCompleted:true, locked:false, completedAt:Date.now() });
         refreshProviderAvailability();
         updateCurrentVisit({ contactCompleted:true, contactDetails:{ fullName:data.fullName||"", company:data.company||"", position:data.position||"", email:data.email||"", phone:data.phone||"", country:data.country||"", interest:data.interest||"" } });
