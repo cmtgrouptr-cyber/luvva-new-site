@@ -6167,6 +6167,61 @@ html[dir="rtl"] .lpe-close{right:auto;left:18px}.lpe-kicker{display:inline-block
 (()=>{const modal=document.getElementById('luvvaPartnershipExperience');if(!modal)return;let selected='';const lang=()=>document.documentElement.lang==='ar'?'ar':'en';const visibleAction=()=>modal.querySelector(lang()==='ar'?'.lpe-lang-ar .lpe-action':'.lpe-lang-en .lpe-action');const visibleHint=()=>modal.querySelector(lang()==='ar'?'.lpe-lang-ar .lpe-hint':'.lpe-lang-en .lpe-hint');const reset=()=>{selected='';modal.querySelectorAll('.lpe-path').forEach(x=>x.classList.remove('is-selected'));modal.querySelectorAll('.lpe-action').forEach(x=>x.classList.remove('is-ready'));};const open=()=>{reset();modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'};const close=()=>{modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');document.body.style.overflow=''};document.querySelectorAll('[data-luvva-partnership-cta]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();open()},true));modal.querySelector('.lpe-close').addEventListener('click',close);modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('is-open'))close()});modal.querySelectorAll('.lpe-path').forEach(btn=>btn.addEventListener('click',()=>{modal.querySelectorAll('.lpe-path').forEach(x=>x.classList.remove('is-selected'));btn.classList.add('is-selected');selected=btn.dataset.path||'';const a=visibleAction(),h=visibleHint();if(a)a.classList.add('is-ready');if(h)h.textContent=selected}));modal.querySelectorAll('.lpe-action').forEach(action=>action.addEventListener('click',()=>{if(!selected)return;close();const interest=document.getElementById('luvvaContactInterest');if(interest)interest.value='Strategic partnership';const message=document.getElementById('luvvaContactMessage');if(message&&!message.value.trim())message.value=(lang()==='ar'?'مسار الشراكة الاستراتيجية: ':'Strategic partnership path: ')+selected;const contact=document.getElementById('contact');if(contact)contact.scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>{const first=document.getElementById('luvvaContactName');if(first)first.focus({preventScroll:true})},700)}))})();
 </script>
 
+
+
+<!-- 03_09: final desktop session counter placement + gold/burgundy finish -->
+<style id="luvva-03-09-session-counter-final">
+@media (min-width:901px){
+  #siteHeader .luvva-lang-logout-wrap{position:relative!important;overflow:visible!important;}
+  #siteHeader .luvva-lang-logout-wrap #luvvaSessionTimer{
+    position:absolute!important;
+    top:calc(100% + 12px)!important;
+    left:0!important;right:auto!important;bottom:auto!important;
+    transform:none!important;
+    width:150px!important;min-width:150px!important;max-width:150px!important;
+    min-height:38px!important;margin:0!important;padding:7px 11px!important;
+    box-sizing:border-box!important;border-radius:14px!important;
+    border:1.5px solid rgba(111,28,48,.78)!important;
+    background:linear-gradient(180deg,#ffe7a0 0%,#f7c94f 42%,#d99b22 100%)!important;
+    color:#6f1c30!important;
+    box-shadow:0 5px 12px rgba(103,67,15,.22),0 0 10px rgba(226,170,45,.28),inset 0 1px 0 rgba(255,250,218,.96),inset 0 -2px 3px rgba(121,71,7,.16)!important;
+    gap:7px!important;justify-content:center!important;z-index:80!important;
+    animation:luvva0309GoldBreath 2.4s ease-in-out infinite!important;
+  }
+  html[lang="ar"] #siteHeader .luvva-lang-logout-wrap #luvvaSessionTimer{right:0!important;left:auto!important;}
+  html[lang="en"] #siteHeader .luvva-lang-logout-wrap #luvvaSessionTimer{left:0!important;right:auto!important;}
+  #siteHeader .luvva-lang-logout-wrap #luvvaSessionTimer:hover,
+  #siteHeader .luvva-lang-logout-wrap #luvvaSessionTimer:active{transform:none!important;}
+}
+#luvvaSessionTimer .luvva-session-dot{
+  background:#7a2035!important;
+  box-shadow:0 0 0 3px rgba(122,32,53,.10),0 0 9px rgba(122,32,53,.50)!important;
+  animation:luvva0309DotPulse 1.5s ease-in-out infinite!important;
+}
+#luvvaSessionTimer .luvva-session-label{color:#6f1c30!important;font-weight:800!important;text-shadow:none!important;}
+#luvvaSessionTimer strong{color:#6f1c30!important;text-shadow:0 0 7px rgba(111,28,48,.22)!important;animation:luvva0309DigitsPulse 1.7s ease-in-out infinite!important;}
+@keyframes luvva0309GoldBreath{0%,100%{filter:brightness(1)}50%{filter:brightness(1.06)}}
+@keyframes luvva0309DotPulse{0%,100%{opacity:.68;transform:scale(.88)}50%{opacity:1;transform:scale(1.08)}}
+@keyframes luvva0309DigitsPulse{0%,100%{opacity:.78}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){#luvvaSessionTimer,#luvvaSessionTimer strong,#luvvaSessionTimer .luvva-session-dot{animation:none!important;}}
+</style>
+<script id="luvva-03-09-session-counter-placement">
+(function(){
+ function place0309(){
+   if(window.innerWidth<901)return;
+   var h=document.getElementById('siteHeader'), t=document.getElementById('luvvaSessionTimer');
+   if(!h||!t)return;
+   var w=h.querySelector('.luvva-lang-logout-wrap');
+   if(w&&t.parentNode!==w)w.appendChild(t);
+ }
+ document.addEventListener('DOMContentLoaded',function(){place0309();setTimeout(place0309,150);setTimeout(place0309,700)});
+ window.addEventListener('load',place0309);
+ window.addEventListener('resize',place0309);
+ document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('#languageOptions button'))setTimeout(place0309,80)},true);
+ new MutationObserver(function(){setTimeout(place0309,0)}).observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
+})();
+</script>
+
 </body>
 
 <style id="luvva059-pitch-deck-natural-access">
