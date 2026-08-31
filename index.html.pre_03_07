@@ -6105,56 +6105,6 @@ a.cmt-button::after{
   else window.addEventListener("load",reveal,{once:true});
 })();
 </script>
-
-<style id="luvva-03-07-timer-partnership-polish">
-/* 03_07 — compact horizontal session counter aligned with the header controls. */
-@media (min-width:901px){
-  html[dir="ltr"] .luvva-investor-stack,html[dir="rtl"] .luvva-investor-stack{
-    position:absolute!important;left:50%!important;right:auto!important;top:50%!important;
-    width:auto!important;transform:translate(-50%,-50%)!important;z-index:31!important;
-  }
-  .luvva-investor-stack #luvvaSessionTimer{
-    position:relative!important;left:auto!important;right:auto!important;top:auto!important;
-    transform:none!important;width:156px!important;min-width:156px!important;max-width:156px!important;
-    min-height:38px!important;padding:6px 12px!important;margin:0!important;border-radius:14px!important;
-    border:1px solid rgba(196,145,55,.72)!important;background:linear-gradient(135deg,rgba(82,48,18,.96),rgba(31,20,11,.96))!important;
-    box-shadow:0 6px 18px rgba(55,31,8,.20),inset 0 1px 0 rgba(255,226,154,.18)!important;
-    gap:7px!important;justify-content:center!important;animation:luvva0307CounterGlow 2.2s ease-in-out infinite!important;
-  }
-  .luvva-investor-stack #luvvaSessionTimer:hover,.luvva-investor-stack #luvvaSessionTimer:active{transform:none!important}
-}
-#luvvaSessionTimer .luvva-session-dot{background:#e4ad42!important;box-shadow:0 0 0 3px rgba(228,173,66,.14),0 0 12px rgba(228,173,66,.9)!important}
-#luvvaSessionTimer .luvva-session-label{color:#f2d79d!important;font-weight:700!important;letter-spacing:.04em!important}
-#luvvaSessionTimer strong{color:#fff0bd!important;text-shadow:0 0 10px rgba(255,194,74,.72)!important}
-@keyframes luvva0307CounterGlow{0%,100%{box-shadow:0 6px 18px rgba(55,31,8,.20),0 0 0 rgba(222,164,55,0)}50%{box-shadow:0 6px 18px rgba(55,31,8,.24),0 0 18px rgba(222,164,55,.42)}}
-@media (prefers-reduced-motion:reduce){.luvva-investor-stack #luvvaSessionTimer{animation:none!important}}
-
-/* 03_07 — premium one-page partnership decision experience. */
-#luvvaPartnershipExperience{position:fixed;inset:0;z-index:10050;display:none;overflow:auto;background:radial-gradient(circle at 50% 0,rgba(124,82,28,.20),transparent 36%),rgba(9,8,6,.96);backdrop-filter:blur(12px);padding:32px 18px}
-#luvvaPartnershipExperience.is-open{display:block}
-.lpe-shell{width:min(1080px,100%);margin:0 auto;background:linear-gradient(145deg,#fffaf0,#f1e4c8);color:#342717;border:1px solid rgba(166,116,39,.42);border-radius:28px;box-shadow:0 32px 90px #0009;overflow:hidden}
-.lpe-head{position:relative;padding:38px 42px 24px;text-align:center;border-bottom:1px solid rgba(143,101,39,.18)}
-.lpe-close{position:absolute;top:16px;right:18px;border:1px solid rgba(113,77,27,.3);background:#fff8e9;color:#6c4b1d;border-radius:999px;width:38px;height:38px;font-size:22px;cursor:pointer}
-html[dir="rtl"] .lpe-close{right:auto;left:18px}.lpe-kicker{display:inline-block;color:#9a6b22;font-weight:800;letter-spacing:.13em;text-transform:uppercase;font-size:12px}.lpe-head h2{font-family:Georgia,serif;font-size:clamp(30px,4vw,48px);margin:10px 0;color:#4b3214}.lpe-head p{max-width:760px;margin:0 auto;line-height:1.8;color:#6d5a3f}
-.lpe-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:28px 30px 18px}.lpe-path{appearance:none;text-align:left;border:1px solid rgba(140,98,35,.24);background:rgba(255,255,255,.62);border-radius:20px;padding:22px 18px;min-height:180px;cursor:pointer;transition:.2s;color:#3d2d19}.lpe-path:hover{transform:translateY(-3px);border-color:#b98531;box-shadow:0 12px 28px rgba(99,66,18,.12)}.lpe-path.is-selected{border-color:#a9701f;background:#fff7e5;box-shadow:0 0 0 2px rgba(169,112,31,.16),0 14px 30px rgba(99,66,18,.14)}html[dir="rtl"] .lpe-path{text-align:right}.lpe-icon{font-size:27px;display:block;margin-bottom:13px}.lpe-path b{display:block;font-size:16px;margin-bottom:8px;color:#593b15}.lpe-path span{font-size:13px;line-height:1.65;color:#766248}.lpe-foot{padding:14px 30px 32px;text-align:center}.lpe-quote{font-family:Georgia,serif;font-size:18px;line-height:1.7;color:#60431d;margin:0 auto 18px;max-width:800px}.lpe-action{border:0;border-radius:999px;padding:14px 24px;background:linear-gradient(135deg,#d5ad62,#9c6a20);color:#1f160a;font-weight:800;cursor:pointer;box-shadow:0 10px 24px rgba(118,77,19,.25);opacity:.45;pointer-events:none}.lpe-action.is-ready{opacity:1;pointer-events:auto}.lpe-hint{font-size:12px;color:#8a7659;margin-top:10px}
-@media(max-width:850px){#luvvaPartnershipExperience{padding:14px 10px}.lpe-head{padding:34px 20px 20px}.lpe-grid{grid-template-columns:1fr 1fr;padding:20px 16px 12px}.lpe-path{min-height:160px;padding:17px 14px}.lpe-foot{padding:12px 18px 26px}}@media(max-width:520px){.lpe-grid{grid-template-columns:1fr}.lpe-path{min-height:auto}}
-</style>
-<div id="luvvaPartnershipExperience" aria-hidden="true">
- <div class="lpe-shell" role="dialog" aria-modal="true" aria-labelledby="lpeTitle">
-  <div class="lpe-head"><button class="lpe-close" type="button" aria-label="Close">×</button><span class="lpe-kicker">Strategic Partnership · الشراكة الاستراتيجية</span><h2 id="lpeTitle">Choose where we can build together</h2><p>Explore the partnership path where your capabilities can create the greatest shared value with LUVVA. اختر المسار الذي يمكن أن نصنع فيه أكبر قيمة مشتركة مع لوفا.</p></div>
-  <div class="lpe-grid">
-   <button class="lpe-path" type="button" data-path="Technology & AI"><span class="lpe-icon">✦</span><b>Technology & AI · التقنية والذكاء</b><span>AI, software, platforms, research and advanced product development.</span></button>
-   <button class="lpe-path" type="button" data-path="Manufacturing & Product"><span class="lpe-icon">◇</span><b>Manufacturing · التصنيع</b><span>Engineering, supply chain, production, quality and product realization.</span></button>
-   <button class="lpe-path" type="button" data-path="Markets & Distribution"><span class="lpe-icon">◎</span><b>Markets · الأسواق</b><span>Market access, distribution, institutional relationships and global expansion.</span></button>
-   <button class="lpe-path" type="button" data-path="Investment & Strategic Growth"><span class="lpe-icon">↗</span><b>Strategic Growth · النمو الاستراتيجي</b><span>Investment, strategic guidance, scaling and long-term ecosystem growth.</span></button>
-  </div>
-  <div class="lpe-foot"><p class="lpe-quote">“We are not looking for a partner for one stage, but for a partner who helps build the journey and the future.”</p><button id="lpeAction" class="lpe-action" type="button">Request a Strategic Conversation · طلب محادثة استراتيجية</button><div class="lpe-hint">Select one partnership path to continue.</div></div>
- </div>
-</div>
-<script id="luvva-03-07-partnership-behavior">
-(()=>{const modal=document.getElementById('luvvaPartnershipExperience'),action=document.getElementById('lpeAction');if(!modal||!action)return;let selected='';const open=()=>{modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'};const close=()=>{modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');document.body.style.overflow=''};document.querySelectorAll('[data-luvva-partnership-cta]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();open()},true));modal.querySelector('.lpe-close').addEventListener('click',close);modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('is-open'))close()});modal.querySelectorAll('.lpe-path').forEach(btn=>btn.addEventListener('click',()=>{modal.querySelectorAll('.lpe-path').forEach(x=>x.classList.remove('is-selected'));btn.classList.add('is-selected');selected=btn.dataset.path||'';action.classList.add('is-ready');modal.querySelector('.lpe-hint').textContent=selected}));action.addEventListener('click',()=>{if(!selected)return;close();const interest=document.getElementById('luvvaContactInterest');if(interest)interest.value='Strategic partnership';const message=document.getElementById('luvvaContactMessage');if(message&&!message.value.trim())message.value='Strategic partnership path: '+selected;const contact=document.getElementById('contact');if(contact)contact.scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>{const first=document.getElementById('luvvaContactName');if(first)first.focus({preventScroll:true})},700)})})();
-</script>
-
 </body>
 
 <style id="luvva059-pitch-deck-natural-access">
